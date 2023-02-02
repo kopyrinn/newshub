@@ -1,0 +1,10 @@
+table {
+    table-layout: fixed;
+    width:100%
+}
+td {
+    word-wrap:break-word;
+}
+.table td {
+    max-width: 150px !important;
+}

@@ -1,0 +1,344 @@
+<svg xmlns:mapsvg="http://mapsvg.com"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   mapsvg:geoViewBox="46.489440 55.432742 87.315881 40.549293"
+   width="792.54694"
+   height="434.92221"
+   viewBox="0 0 792 434"
+   preserveAspectRatio="xMidYMin meet"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="kazkhstan.svg">
+
+<defs id="defs5">
+
+    
+ <style
+       type="text/css"
+       id="style5">
+        .area {
+          fill: #edf5fd;
+          fill-opacity: 1;
+          fill-rule: evenodd;
+          stroke: #52c8f6;
+          stroke-width: 2px;
+          stroke-linecap: butt;
+          stroke-linejoin: miter;
+          stroke-opacity: 1;
+        }
+
+        .water {
+        fill: #3b5998;
+        }
+        .city {
+          opacity: 1;
+          fill: #ffffff;
+          fill-opacity: 1;
+          fill-rule: evenodd;
+          stroke: #000000;
+          stroke-width: 1.70000005;
+          stroke-linecap: butt;
+          stroke-linejoin: miter;
+          marker: none;
+          marker-start: none;
+          marker-mid: none;
+          marker-end: none;
+          stroke-miterlimit: 4;
+          stroke-dasharray: none;
+          stroke-dashoffset: 0;
+          stroke-opacity: 1;
+          display: inline;
+          overflow: visible;
+          enable-background: accumulate;
+        }
+        .titleline {
+          fill: none;
+          fill-rule: evenodd;
+          stroke: #000000;
+          stroke-width: 1px;
+          stroke-linecap: butt;
+          stroke-linejoin: miter;
+          stroke-opacity: 1;
+        }
+        .titlebox {
+          opacity:1;
+          fill: #ffffff;
+          fill-opacity: 1;
+          fill-rule: evenodd;
+          stroke: #000000;
+          stroke-width: 1.22483253;
+          stroke-linecap: butt;
+          stroke-linejoin: miter;
+          marker: none;
+          marker-start: none;
+          marker-mid: none;
+          marker-end: none;
+          stroke-miterlimit: 4;
+          stroke-dasharray: none;
+          stroke-dashoffset: 0;
+          stroke-opacity: 1;
+          visibility: visible;
+          display: inline;
+          overflow: visible;
+          enable-background: accumulate;
+        }
+        .citytitle {
+          font-size: 13px;
+          font-style: normal;
+          font-variant: normal;
+          font-weight: normal;
+          font-stretch: normal;
+          text-align: center;
+          line-height: 100%;
+          writing-mode: lr-tb;
+          text-anchor: middle;
+          fill: #000000;
+          fill-opacity: 1;
+          stroke: none;
+          stroke-width: 1px;
+          stroke-linecap: butt;
+          stroke-linejoin: miter;
+          stroke-opacity: 1;
+          font-family: Arial;
+          -inkscape-font-specification: Arial;
+        }
+        .areatitle {
+          font-size: 13px;
+          font-style: normal;
+          font-variant: normal;
+          font-weight: normal;
+          font-stretch: normal;
+          text-align: center;
+          line-height: 100%;
+          writing-mode: lr-tb;
+          text-anchor: middle;
+          fill: #000000;
+          fill-opacity: 1;
+          stroke: none;
+          stroke-width: 1px;
+          stroke-linecap: butt;
+          stroke-linejoin: miter;
+          stroke-opacity: 1;
+          font-family: Arial;
+          -inkscape-font-specification: Arial;
+        }
+
+        .area:hover, .area.highlight {
+          fill: #115b8c;
+        }
+        .city:hover, .city.highlight {
+          fill: yellow;
+          stroke: red;
+        }
+
+        .selected {
+          fill: #CCCCFF;
+        }
+
+        .hidden {
+          visibility: hidden;
+        }
+
+        text.areavals {
+          font-size: 20px;
+          font-style: normal;
+          font-weight: normal;
+          line-height: 125%;
+          letter-spacing: 0px;
+          word-spacing: 0px;
+          fill: #000000;
+          fill-opacity: 1;
+          stroke: none;
+          font-family: sans;
+        }
+    </style>
+  </defs>
+
+<path d="M603 149L625.5 131H626L640.5 155L645 151V147.5L645.5 147L654.5 143.5L660.5 146L668 153L660 195L670.5 202.5L681.5 212L695 219L703 234L704.5 243L705.5 246L707 257L708 257.5L702 279V293.5L696 291L693 289L686 283L680 274H677L668.5 271.5L651.5 265L642 267.5L641 267L636 263L618 256.5L609 257.5L600.5 259.5L589 261L587 257.5V256.5L588.5 251L591 240L594.5 236V235L586 228.5L591 217L590 209L589.5 208L587 205V204L591 198.5V192L586.5 183.5L593 178.5L595 173L614 180.5L619 172V171L613.5 160L603 149Z" title="Abay-OBL" id="pathKZ-ABAY" class="area"/>
+
+<path d="M388 209L382 201.5V201V200.5L376 211L370 217.5L364 219L357 224.5L345 223H344.5L343 229L341.5 236L340.5 238L332 245L331 245.5L333 251.5L309 273.5V274L354 293.5L359 298.5L360 299L368 299.5L373 300L380 300.5L382 301L391 304.5H392L429 300.5L430 300H430.5L466 296.5L476 295.5L486 294.5L496 293.5L501 293L509 292L521 290.5H523L538 279L556 276.5L562 275.5H572.5L573 276H573.5H575L588 276.5H593L601.5 275L600.5 259.5L589 261L587 257.5V256.5L589 249L591 240L581 239.5L570.5 237L562.5 234L550 235L545 232.5L534 218L515.5 220L506 221L492 224.5L481 225.5L478 225L461 223.5L457.5 229L444 237L442 237.5L432 240.5H430.5L417 235.5L405 227L402 225.5L394.5 223L394 222.5L388 209Z" title="Ylutay-OBL" id="pathKZ-YLYTAU" class="area"/>
+
+<path d="M588 276.5L575 276H573L577 295L577.5 296L589.5 302.5L591 317L595.5 332L604 342L616.5 348L630 350L640 347L670 351L664.5 331L666.5 322L666 321.5L660 316.5L687 311.5H688L697.5 315.5L699 316H707L708 315.5L711.5 301.5L702 293.5L696 291L693 289L686 283L680 274H677L668.5 271.5L651.5 265L642 267.5L641 267L636 263L618 256.5L609 257.5L600.5 259.5L601.5 275L593 276.5H588Z" title="Zhetisy-OBL" id="pathKZ-ZHETISY" class="area"/>
+
+<path d="M234.5 319.5L231.5 315L230.5 314L258.5 278.5L259.5 278L269.5 280L270 279.5L282 254.5H293L293.5 255L302 270.5L308.5 274L354 293.5L359 298.5L360 299L368 299.5L373 300L380 300.5L382 301L391 304.5V321L393.5 327L394.5 330.5L395.5 333L399.5 341L400 343L400.5 346L401 348L402 351L403.5 354.5L404.5 356.5V359L402 366L400 369.5L391 382.5L390.5 383L367 397V392L351 369L340.5 373L321 369L290 374.5H289L266.5 341L235 320L234.5 319.5Z" title="Qyzylorda oblysy" id="pathKZ-KZY" class="area"/>
+
+<path d="M39.5 243.5L25 218.5L24 217L37 213L51 214L63 214.5H66L70 212L75.5 208L86.5 202.5L95 200.5L116.5 210L117.5 207L118 204V203V202V200.5L118.5 199.5L119 199L120 198.5H124L131 197L137.5 191.5H138L141.5 201L145 208L147 211L158.5 218.5L162 229L162.5 260L166.5 270L176 275.5L189 284L190 290.5L182 287L178.5 285L176 284.5L171.5 283L167.76 281.5H166.5L162.5 283H158.5H148L120.5 277L121.5 274.5L122 265L121.5 264L118 260L108.5 261.5L89.5 251.5L79.5 254.5L75.5 261L54 269L53.5 268.5L38.5 257.5L32 251L33 245.5L33.5 245L39 244L39.5 243.5Z" title="Atyraū oblysy" id="pathKZ-ATY" class="area"/>
+
+<path d="M215 143L211 147.5L201 140.5L183.5 145L180.5 151L176.5 153.5L159 138L156 136.5H155V167.5L154.5 168.5L152 177V183H142.5L138 191V191.5L141.5 201L145 208L147 211L158.5 218.5L162 229L162.5 260L166.5 270L167.5 270.5L176 275.5L182 279.5L189 284L190 290.5L192 303.5L193.5 311.5L194.5 320V321.5H195L230.5 314L258.5 278.5L259.5 278L269.5 280L270 279.5L282 254.5H293L293.5 255L302 270.5L309 274L333 251.5L331 245.5L325.5 236L311 227L302 213.5L298 201.5V200.5L307.5 187.5V187L301 169.5L298 157.5L297.5 156.5L282 147.5L281 148L277 159L276.5 159.5L265.5 161.5L262.5 157.5L256 154.5L250 161.5L234.5 155.5L234 154.5L231 145.5L215 143Z" title="Aqtöbe oblysy" id="pathKZ-AKT" class="area"/>
+
+<path d="M148 131L155 136V167.5L154.5 168.5L152 177V183H151.5H142.5L137.5 191.5L131 197L129.5 197.5L124 198.5H119.5L118.5 199.5L118 200.5V203V204.5L117.5 207L116.5 210L95 200.5L86.5 202.5L75.5 208L70 212L66 214.5H63L51 214L37 213L24 217L16.5 215L12 216L4 203.5L0.5 188V173L6 166.5L5.5 166L3 159.5L5 149.5L15 139.5L16.5 130L26.5 128L35 138L37.8423 148.5H41.5L39 126.5H47.5L54.5 124L56.5 117.5L65.5 116L74 112L79 108.5L84 101H89.5L91.5 102.5L99 106L102 111L105.5 106H118L121 115L138 117.5L145 128.5L148 131Z" title="Batys Qazaqstan oblysy" id="pathKZ-ZAP" class="area"/>
+
+<path d="M115.5 287.5L120 277.5L120.5 277H121L148 283H162.5L166.5 281.5H167.5L169 282L171.5 283L176 284.5L178.5 285L182 287L190 290.5L191 297L192 304L193 309L193.5 312L194 316L194.5 320V321V321.5H193L190 322L183 323.5L182 324L181.5 416L181 416.5H169L168.5 416L142 384L133 373H132.5L125 376L114.5 382.5L112 384H111.5L107 375L110 362.5L89.5 352L83 341.5L80.5 329L80 327V325L79 324L75.5 321L65 314L71 305H83.5V304.5V298L84 297.5L90 291L91 290L97 287.5L99 286.5H99.5L115 288L115.5 287.5Z" title="Mangghystaū oblysy" id="pathKZ-MAN" class="area"/>
+
+<path d="M340.5 238L332 245L331 245.5L325.5 236L311 227L302 213.5L298 201.5V200.5L307.5 187L301 169.5L297.5 156.5L282 147.5H280.5L260 134L251 124.5L252 120L252.5 117.5L253 116.5H254H257L261 116L262.5 115.5L263 115L270 111L265 96L265.5 95L276 86L282.5 85L275 80.5L274.5 78L274 73L271 69L270.5 68V62L271 57V56L275 50.5L285 48.5H286.5L292 49.5L299 51H300.5L307.5 49L316 46.5L325.5 43L334 40.5L342 38L349 33L353 32.5L359 31.5L365.5 30.5L366.5 42L368 52L365 56L366.5 67L368.5 79L369 86L366.5 90L365 102L364 110.5L344.5 117.5L347.5 130L349 140.5L348.5 154L346.5 159L356 159.5L361 160.5L367 161.5L372 162.5L383 167L386 168L403 173L404.5 173.5L404 174L390.5 184.5L390 186L389 190L381.5 201L376 211L370 217.5L364 219L357 224.5L345.5 223H344.5L343 229L341.5 236L340.5 238Z" title="Qostanay oblysy" id="pathKZ-KUS" class="area"/>
+
+<path d="M429 300.5L392 304.5H391V321L393.5 327L394.5 330.5L395.5 333L399.5 341L400 343L400.5 346L401 348L402 351L403.5 354.5L404.5 356.5V359L402 366L400 369.5L393.5 379L390.5 383L367 397L366.5 398.5V408L372.5 413.5L373.5 414.5L380.5 423L387.5 429.5L405 434L414 441H426V435L432 428L435.5 425L457.5 407L467 400L451 386L447 376L437 371V363L437.5 362L442.5 351V340L438 321.5L429 300.5Z" title="Ongtüstik Qazaqstan oblysy" id="pathKZ-YUZ" class="area"/>
+
+<path d="M461 297L430 300L429 300.5L438 321.5L442.5 340V351L437 363V371L447 376L451 386L467 400L474 392.5L482 387.5H483H484L507 390L514 391.5L518 392L522.5 387L520.5 382V381L523 373L537 370L538 370.5L546 374L559 380H571.5V379L570 373L568.5 369L567 366L558.5 358L558 356.5V354V353L560 349V346L558.5 340.5L557.5 340L541.5 332L526 313.5L522 304V292V290.5H521L501 293L461 297Z" title="Zhambyl oblysy" id="pathKZ-ZHA" class="area"/>
+
+<path d="M538 279L523 290.5H522V304L526 313.5L541.5 332L558.5 340.5L560 346V349L558 353V356.5L558.5 358L567 366L568.5 369L570 373L570.5 375L571.5 379V380H572.5L584 380.5L593 381L609 382L617 382.5L622.5 383L624 383.5L632.5 385.5L638.5 392L639.5 392.5L649 396L656.5 402L661.5 400.5V400V388.5L671 372L672 365V363V360L670 351L640 347L630 350L616.5 348L604 342L595.5 332L591 317L589.5 302.5L577.5 296L577 295L573 275.5H562L556 276.5L549 277.5L538 279Z" title="Almaty oblysy" id="pathKZ-ALM" class="area"/>
+
+<path d="M371 112L366 110.5H364.5V109.5L366 94L366.5 90L369 86L368.5 79L366.5 67L365 56L368 52L366.5 42L365.5 31V30.5L374 28L381 26L387 24L395 20.5L398 19.5L398.5 19L399 12L399.5 10L400 9.5L408 6L415 1H415.5L427.5 3.5L435 8.5L445.5 3H446L453 9.5L454 22L454.5 22.5L458.5 25L459 29V31L456.5 43L457 43.5H462V43L467.5 28L468 27.5L486.5 34.5L493 39.5H506.5L507 49L500 52L499.5 53L497.5 57V58L499 59V60L505 73V74L502.5 77V77.5L509.5 82L509 89V90V91L490 84L488 83.5H485L483.5 84L481 92L480 94L471.5 101H470.5L464 99.5H462H460.5L455.5 102L452 109L448 104L440.5 99H439.5L432 106.5L427 108H426L423 102.5L414 97H413L401 106.5L399 113L398 114L392 112.5L390 112L388.5 114.5H387H384L382 114L379 113.5L375 113L371 112Z" title="Soltüstik Qazaqstan oblysy" id="pathKZ-SEV" class="area"/>
+
+<path d="M415 165L405 173L404.5 173.5L386 168L383 167L372 162.5L367 161.5L361 160.5L356 159.5L346.5 159L348.5 154L349 140.5L347.5 130L344.5 117.5L364 110.5H366L375 113L379 113.5L382 114L384 114.5H388.5L390 112L398 114L399 113L401 106.5L413 97H414L423 102.5L426 108H427L432 106.5L439.5 99H440.5L448 104L452 109L455.5 102L460.5 99.5H464L470.5 101H471.5L480 94L481 92L483.5 84L485 83.5H488L490 84L509 91L513 98.5L514.5 101V102L514 107L513 116.5L515 121L517.5 126.5L517 127L516 128L509 132.5L508 133.5L507 135L503 139L500 140.5L487 146L470 158L445 181.5L443.5 182.5L441 181H434L433 180.5L416 165.5L415 165Z" title="Aqmola oblysy" id="pathKZ-AKM" class="area"/>
+
+
+<path d="M514.5 139.5L508 136L507 135L503 139L500 140.5L487 146L470 158L445 181.5L443.5 182.5L441 181H434L433 180.5L416 165.5L415 165L405 173L404 174L390.5 184.5L390 186L389 190L383.5 198L382 200.5V201V201.5L388 209L394 222.5L394.5 223L402 225.5L405 227L417 235.5L430.5 240.5H432L444 237L457.5 229L461 223.5L478 225L481 225.5L492 224.5L506 221L534 218L545 232.5L550 235L562.5 234L570.5 237L581 239.5L591 240L594.5 236V235L586 228.5L591 217L590 209L589.5 208L587 205V204L591 198.5V192L586.5 183.5L593 178.5L595 173L592 165.5L581 162L576.5 167.5L569 172L567 173H550L546 173.5H541H540L537 166L536 165.5L515 156V140L514.5 139.5Z" title="Qaraghandy oblysy" id="pathKZ-KAR" class="area"/>
+
+<path d="M597.5 82L625.5 129.5L626 130.5L625.5 131L603 149L613.5 160L619 171V172L614 180.5L595 173L592 165.5L581 162L576.5 167.5L569 172L567 173H550L546 173.5H540L537 166L515 156V140L514.5 139.5L508 136L507 135L507.5 134.5L509 132.5L516 128L517.5 126.5L513 116.5L514.5 102V101L509 91V90.5L509.5 82L502.5 77.5V77L505 74V73L499 60V59.5L502 56H518L523 54L529 53L535 52L539.5 46L555 41H572.5L575.5 48.5L570 55.5L597.5 82Z" title="Pavlodar oblysy" id="pathKZ-PAV" class="area"/>
+
+<path d="M682.5 157.5L668.5 153.5L668 153L660 195L670.5 202.5L681.5 212L695 219L703 234L704.5 243L705.5 246L707 257L708 257.5H713L723 258.5L736 260.5L749.5 252L748.5 239V223.5L761 216L764 205V192.5L761.5 188L760.5 182.5L755 180L746.5 187.5L743 188L735.5 188.5L732.5 180.5L729 175.5L719.5 170L718 162.5L703 152H695L683.5 157.5H682.5Z" title="Shyghys Qazaqstan oblysy" id="pathKZ-VOS" class="area"/>
+
+<circle cx="598.5" cy="365.5" r="12" title="Almaty" id="pathKZ-ALMATY" class="area"/>
+			
+<circle cx="462.5" cy="143.5" r="12" title="Astana" id="pathKZ-ASTANA" class="area"/>
+<circle cx="435.5" cy="405.5" r="12" title="Shymkent" id="pathKZ-SHY" class="area"/>
+
+<text
+     xml:space="preserve"
+     class="areavals"
+     x="440"
+     y="125"
+     id="textKZ-AKM"
+     sodipodi:linespacing="125%"></text>
+   <text
+     xml:space="preserve"
+     class="areavals"
+     x="457"
+     y="150"
+     id="textKZ-ASTANA"
+     sodipodi:linespacing="125%"></text>
+  <text
+     xml:space="preserve"
+     class="areavals"
+     x="230"
+     y="220"
+     id="textKZ-AKT"
+     sodipodi:linespacing="125%"></text>
+  <text
+     xml:space="preserve"
+     class="areavals"
+     x="560"
+     y="330"
+     id="textKZ-ALM"
+     sodipodi:linespacing="125%"></text>
+  <text
+     xml:space="preserve"
+     class="areavals"
+     x="106"
+     y="250"
+     id="textKZ-ATY"
+     sodipodi:linespacing="125%"></text>
+  <text
+     xml:space="preserve"
+     class="areavals"
+     x="480"
+     y="200"
+     id="textKZ-KAR"
+     sodipodi:linespacing="125%"></text>
+   <text
+     xml:space="preserve"
+     class="areavals"
+     x="440"
+     y="270"
+     id="textKZ-YLYTAU"
+     sodipodi:linespacing="125%"></text>
+  <text
+     xml:space="preserve"
+     class="areavals"
+     x="320"
+     y="125"
+     id="textKZ-KUS"
+     sodipodi:linespacing="125%"></text>
+  <text
+     xml:space="preserve"
+     class="areavals"
+     x="320"
+     y="320"
+     id="textKZ-KZY"
+     sodipodi:linespacing="125%"></text>
+  <text
+     xml:space="preserve"
+     class="areavals"
+     x="130"
+     y="340"
+     id="textKZ-MAN"
+     sodipodi:linespacing="125%"></text>
+  <text
+     xml:space="preserve"
+     class="areavals"
+     x="560"
+     y="120"
+     id="textKZ-PAV"
+     sodipodi:linespacing="125%"></text>
+  <text
+     xml:space="preserve"
+     class="areavals"
+     x="410"
+     y="50"
+     id="textKZ-SEV"
+     sodipodi:linespacing="125%"></text>
+  <text
+     xml:space="preserve"
+     class="areavals"
+     x="715"
+     y="220"
+     id="textKZ-VOS"
+     sodipodi:linespacing="125%"></text>
+  <text
+     xml:space="preserve"
+     class="areavals"
+     x="410"
+     y="395"
+     id="textKZ-YUZ"
+     sodipodi:linespacing="125%"></text>
+   <text
+     xml:space="preserve"
+     class="areavals"
+     x="430"
+     y="412"
+     id="textKZ-SHY"
+     sodipodi:linespacing="125%"></text>
+  <text
+     xml:space="preserve"
+     class="areavals"
+     x="70"
+     y="180"
+     id="textKZ-ZAP"
+     sodipodi:linespacing="125%"></text>
+  <text
+     xml:space="preserve"
+     class="areavals"
+     x="480"
+     y="340"
+     id="textKZ-ZHA"
+     sodipodi:linespacing="125%"></text>
+   <text
+     xml:space="preserve"
+     class="areavals"
+     x="588"
+     y="370"
+     id="textKZ-ALMATY"
+     sodipodi:linespacing="125%"></text>
+   <text
+     xml:space="preserve"
+     class="areavals"
+     x="620"
+     y="320"
+     id="textKZ-ZHETISY"
+     sodipodi:linespacing="125%"></text>
+
+   <text
+     xml:space="preserve"
+     class="areavals"
+     x="620"
+     y="220"
+     id="textKZ-ABAY"
+     sodipodi:linespacing="125%"></text>
+
+
+</svg>

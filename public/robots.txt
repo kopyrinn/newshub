@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /login
+Disallow: /register
+Disallow: /page/terms-conditions
+Disallow: /password/reset
+Disallow: /search
+Disallow: /journalists
+Disallow: /users
+Disallow: /user
+
+Sitemap: https://newshub.kz/sitemap.xml

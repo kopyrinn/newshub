@@ -1,0 +1,1 @@
+<span class="font-black">NewsHub Dashboard</span>

@@ -1,0 +1,12 @@
+.table td {
+    /*max-width: 120px !important;*/
+    font-size: 14px;
+    
+}
+.whitespace-no-wrap {
+    white-space: normal;
+}
+
+.text-left {
+    white-space: pre;
+}
