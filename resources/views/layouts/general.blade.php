@@ -820,12 +820,12 @@ function getMoneyList(jQuery){
     });
 </script>
     <script>
-        /* eslint-disable no-undef */
-        importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js');
-        importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging.js');
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js";
+        import { getMessaging, onMessage } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging.js";
 
         // Your web app's Firebase configuration
-        firebase.initializeApp({
+        const firebaseApp = initializeApp({
             apiKey: "AIzaSyD3JY3UVos0Xk1sk6VlTExFjpBXbsFNbW0",
             authDomain: "webpushkz.firebaseapp.com",
             projectId: "webpushkz",
@@ -836,7 +836,7 @@ function getMoneyList(jQuery){
 
 
         if ('Notification' in window) {
-            var messaging = firebase.messaging();
+            const messaging = getMessaging(firebaseApp);
             if (Notification.permission === 'default') {
                 initFirebaseMessagingRegistration();
             }
