@@ -29,6 +29,9 @@ Route::group([
 ], function() {
     Route::middleware(['approved'])->group(function () {
         Route::get('/', [HomeController::class, 'index'])->name('home');
+        Route::post('/save-token', [HomeController::class, 'saveToken'])->name('save-token');
+        Route::post('/send-notification', [HomeController::class, 'sendNotification'])->name('send.notification');
+
         Route::get('/money-list', [HomeController::class, 'getMoneyList'])->name('getMoneyList');
 
         Route::get('search', [HomeController::class, 'search'])->name('search');

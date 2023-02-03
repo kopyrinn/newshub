@@ -607,6 +607,67 @@
             });
         });
     </script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase.js"></script>
+    <script>
+
+        var firebaseConfig = {
+            apiKey: "AIzaSyD3JY3UVos0Xk1sk6VlTExFjpBXbsFNbW0",
+            authDomain: "webpushkz.firebaseapp.com",
+            projectId: "webpushkz",
+            storageBucket: "webpushkz.appspot.com",
+            messagingSenderId: "72631381469",
+            appId: "1:72631381469:web:3c299d5e35e39fdac19a34"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const messaging = firebase.messaging();
+
+        function initFirebaseMessagingRegistration() {
+            messaging
+                .requestPermission()
+                .then(function () {
+                    return messaging.getToken()
+                })
+                .then(function(token) {
+                    console.log(token);
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        url: '{{ route("save-token") }}',
+                        type: 'POST',
+                        data: {
+                            token: token
+                        },
+                        dataType: 'JSON',
+                        success: function (response) {
+                            alert('Token saved successfully.');
+                        },
+                        error: function (err) {
+                            console.log('User Chat Token Error'+ err);
+                        },
+                    });
+
+                }).catch(function (err) {
+                console.log('User Chat Token Error'+ err);
+            });
+        }
+
+        messaging.onMessage(function(payload) {
+            const noteTitle = payload.notification.title;
+            const noteOptions = {
+                body: payload.notification.body,
+                icon: payload.notification.icon,
+            };
+            new Notification(noteTitle, noteOptions);
+        });
+
+    </script>
 @endpush
 
 
