@@ -607,8 +607,6 @@
             });
         });
     </script>
-
-    <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase.js" async></script>
     <script>
 
         var firebaseConfig = {
