@@ -609,16 +609,7 @@
     </script>
     <script>
 
-        var firebaseConfig = {
-            apiKey: "AIzaSyD3JY3UVos0Xk1sk6VlTExFjpBXbsFNbW0",
-            authDomain: "webpushkz.firebaseapp.com",
-            projectId: "webpushkz",
-            storageBucket: "webpushkz.appspot.com",
-            messagingSenderId: "72631381469",
-            appId: "1:72631381469:web:3c299d5e35e39fdac19a34"
-        };
 
-        firebase.initializeApp(firebaseConfig);
 
         if ('Notification' in window) {
             var messaging = firebase.messaging();
