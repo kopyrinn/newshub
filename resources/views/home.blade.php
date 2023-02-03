@@ -1,7 +1,9 @@
 @extends('layouts.full')
 
 @section('content')
+    @if(!auth()->guest())
     <button id="btn-nft-enable" onclick="initFirebaseMessagingRegistration()" class="btn btn-danger btn-xs btn-flat">Allow for Notification</button>
+    @endif
 <div class="content overflow-hidden pt-3 px-0 px-sm-4">
     @include('blocks.alerts')
 </div>
