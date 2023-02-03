@@ -820,7 +820,7 @@ function getMoneyList(jQuery){
     });
 </script>
 
-    <script defer src="https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
 
     <script defer>
 
