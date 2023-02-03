@@ -126,20 +126,6 @@
 
     </style>
 
-    <script>
-        const manifestPusher = {
-            send_id:"741646979006",
-            url:"https://3.lebid.pro/api/save-token",
-            token_site:"49034e20086ae109a9d087c959eb5350"
-        };
-
-        const firebaseConfigPusher = {
-            messagingSenderId:manifestPusher.send_id
-        };
-
-        firebase.initializeApp(firebaseConfigPusher);
-    </script>
-
     @stack('style')
     @stack('header')
     @yield('head')
