@@ -822,7 +822,7 @@ function getMoneyList(jQuery){
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js'
-        import { getMessaging } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-messaging.js'
+        import { getMessaging, getToken } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-messaging.js'
 
         const app = initializeApp({
             apiKey: "AIzaSyD3JY3UVos0Xk1sk6VlTExFjpBXbsFNbW0",
@@ -836,6 +836,21 @@ function getMoneyList(jQuery){
 
         // Initialize Firebase Cloud Messaging and get a reference to the service
         const messaging = getMessaging(app);
+
+        getToken(messaging, {vapidKey: 'BHZo1WgosZmyIphpVrJDFtCxW3x8_Ozxwwa-rf_iEAXSMUcLiWydBvP3OIqF--BCLjwYcv1zCl7xhMQzXGuchsU'}).then((currentToken) => {
+            if (currentToken) {
+                console.log(currentToken);
+                // Send the token to your server and update the UI if necessary
+                // ...
+            } else {
+                // Show permission request UI
+                console.log('No registration token available. Request permission to generate one.');
+                // ...
+            }
+        }).catch((err) => {
+            console.log('An error occurred while retrieving token. ', err);
+            // ...
+        });
     </script>
 
 {{--    <script defer src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>--}}
