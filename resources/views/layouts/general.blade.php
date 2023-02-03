@@ -819,28 +819,19 @@ function getMoneyList(jQuery){
         getMoneyList();
     });
 </script>
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-
-
-        import "https://www.gstatic.com/firebasejs/9.17.0/firebase-app.js";
-        import "https://www.gstatic.com/firebasejs/9.17.0/firebase-messaging.js";
-
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
+    <script>
+        importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js');
+        importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging.js');
 
         // Your web app's Firebase configuration
-        const firebaseConfig = {
+        firebase.initializeApp({
             apiKey: "AIzaSyD3JY3UVos0Xk1sk6VlTExFjpBXbsFNbW0",
             authDomain: "webpushkz.firebaseapp.com",
             projectId: "webpushkz",
             storageBucket: "webpushkz.appspot.com",
             messagingSenderId: "72631381469",
             appId: "1:72631381469:web:3c299d5e35e39fdac19a34"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+        });
 
 
         if ('Notification' in window) {
