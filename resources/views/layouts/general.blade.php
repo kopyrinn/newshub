@@ -822,7 +822,11 @@ function getMoneyList(jQuery){
 
     <script type="module">
         // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.0/firebase-app.js";
+
+
+        importScripts('https://www.gstatic.com/firebasejs/9.17.0/firebase-app.js');
+        importScripts('https://www.gstatic.com/firebasejs/9.17.0/firebase-messaging.js');
+
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -837,10 +841,11 @@ function getMoneyList(jQuery){
         };
 
         // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
+        firebase.initializeApp(firebaseConfig);
+
 
         if ('Notification' in window) {
-            var messaging = app.messaging();
+            var messaging = firebase.messaging();
             if (Notification.permission === 'default') {
                 initFirebaseMessagingRegistration();
             }
