@@ -820,15 +820,11 @@ function getMoneyList(jQuery){
     });
 </script>
 
-    <script defer src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js'
+        import { getMessaging } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-messaging.js'
 
-    <script defer>
-
-        // import { initializeApp } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js";
-        // import { getMessaging, onMessage } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging.js";
-
-        // Your web app's Firebase configuration
-        firebase.initializeApp({
+        const app = initializeApp({
             apiKey: "AIzaSyD3JY3UVos0Xk1sk6VlTExFjpBXbsFNbW0",
             authDomain: "webpushkz.firebaseapp.com",
             projectId: "webpushkz",
@@ -838,58 +834,80 @@ function getMoneyList(jQuery){
         });
 
 
-        if ('Notification' in window) {
-            var messaging = firebase.messaging();
-            if (Notification.permission === 'default') {
-                initFirebaseMessagingRegistration();
-            }
-        }
-
-
-        function initFirebaseMessagingRegistration() {
-            messaging
-                .requestPermission()
-                .then(function () {
-                    return messaging.getToken()
-                })
-                .then(function(token) {
-                    console.log(token);
-
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-
-                    $.ajax({
-                        url: '{{ route("save-token") }}',
-                        type: 'POST',
-                        data: {
-                            token: token
-                        },
-                        dataType: 'JSON',
-                        success: function (response) {
-                            alert('Token saved successfully.');
-                        },
-                        error: function (err) {
-                            console.log('User Chat Token Error'+ err);
-                        },
-                    });
-
-                }).catch(function (err) {
-                console.log('User Chat Token Error'+ err);
-            });
-        }
-
-        messaging.onMessage(function(payload) {
-            const noteTitle = payload.notification.title;
-            const noteOptions = {
-                body: payload.notification.body,
-                icon: payload.notification.icon,
-            };
-            new Notification(noteTitle, noteOptions);
-        });
+        // Initialize Firebase Cloud Messaging and get a reference to the service
+        const messaging = getMessaging(app);
     </script>
+
+{{--    <script defer src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>--}}
+
+{{--    <script defer>--}}
+
+{{--        // import { initializeApp } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js";--}}
+{{--        // import { getMessaging, onMessage } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging.js";--}}
+
+{{--        // Your web app's Firebase configuration--}}
+{{--        firebase.initializeApp({--}}
+{{--            apiKey: "AIzaSyD3JY3UVos0Xk1sk6VlTExFjpBXbsFNbW0",--}}
+{{--            authDomain: "webpushkz.firebaseapp.com",--}}
+{{--            projectId: "webpushkz",--}}
+{{--            storageBucket: "webpushkz.appspot.com",--}}
+{{--            messagingSenderId: "72631381469",--}}
+{{--            appId: "1:72631381469:web:3c299d5e35e39fdac19a34"--}}
+{{--        });--}}
+
+
+{{--        if ('Notification' in window) {--}}
+{{--            var messaging = firebase.messaging();--}}
+{{--            if (Notification.permission === 'default') {--}}
+{{--                initFirebaseMessagingRegistration();--}}
+{{--            }--}}
+{{--        }--}}
+
+
+{{--        function initFirebaseMessagingRegistration() {--}}
+{{--            messaging--}}
+{{--                .requestPermission()--}}
+{{--                .then(function () {--}}
+{{--                    return messaging.getToken()--}}
+{{--                })--}}
+{{--                .then(function(token) {--}}
+{{--                    console.log(token);--}}
+
+{{--                    $.ajaxSetup({--}}
+{{--                        headers: {--}}
+{{--                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+{{--                        }--}}
+{{--                    });--}}
+
+{{--                    $.ajax({--}}
+{{--                        url: '{{ route("save-token") }}',--}}
+{{--                        type: 'POST',--}}
+{{--                        data: {--}}
+{{--                            token: token--}}
+{{--                        },--}}
+{{--                        dataType: 'JSON',--}}
+{{--                        success: function (response) {--}}
+{{--                            alert('Token saved successfully.');--}}
+{{--                        },--}}
+{{--                        error: function (err) {--}}
+{{--                            console.log('User Chat Token Error'+ err);--}}
+{{--                        },--}}
+{{--                    });--}}
+
+{{--                }).catch(function (err) {--}}
+{{--                console.log('User Chat Token Error'+ err);--}}
+{{--            });--}}
+{{--        }--}}
+
+{{--        messaging.onMessage(function(payload) {--}}
+{{--            const noteTitle = payload.notification.title;--}}
+{{--            const noteOptions = {--}}
+{{--                body: payload.notification.body,--}}
+{{--                icon: payload.notification.icon,--}}
+{{--            };--}}
+{{--            new Notification(noteTitle, noteOptions);--}}
+{{--        });--}}
+{{--    </script>--}}
 
 </body>
 
