@@ -13,3 +13,5 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+/public/assets/rates_all.xml
+/public/sitemap.xml
