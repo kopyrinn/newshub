@@ -838,57 +838,62 @@ function getMoneyList(jQuery){
 
 
         if ('Notification' in window) {
-            getMessaging(app);
+            var messaging = getMessaging(app);
             if (Notification.permission === 'default') {
                 initFirebaseMessagingRegistration();
             }
         }
 
         function initFirebaseMessagingRegistration() {
-            messaging
-                .requestPermission()
-                .then(function () {
-                    return getToken(messaging, {vapidKey: 'BHZo1WgosZmyIphpVrJDFtCxW3x8_Ozxwwa-rf_iEAXSMUcLiWydBvP3OIqF--BCLjwYcv1zCl7xhMQzXGuchsU'}).then((currentToken) => {
-                        if (currentToken) {
-                            // Send the token to your server and update the UI if necessary
-                            // ...
-                        } else {
-                            // Show permission request UI
-                            console.log('No registration token available. Request permission to generate one.');
-                            // ...
-                        }
-                    }).catch((err) => {
-                        console.log('An error occurred while retrieving token. ', err);
-                        // ...
-                    });
-                })
-                .then(function(token) {
-                    console.log(token);
-
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-
-                    $.ajax({
-                        url: '{{ route("save-token") }}',
-                        type: 'POST',
-                        data: {
-                            token: token
-                        },
-                        dataType: 'JSON',
-                        success: function (response) {
-                            alert('Token saved successfully.');
-                        },
-                        error: function (err) {
-                            console.log('User Chat Token Error'+ err);
-                        },
-                    });
-
-                }).catch(function (err) {
-                console.log('User Chat Token Error'+ err);
+            Notification.requestPermission().then((permission) => {
+                if (permission === 'granted') {
+                    console.log('Notification.requestPermission()');
+                }
             });
+            {{--messaging--}}
+            {{--    .requestPermission()--}}
+            {{--    .then(function () {--}}
+            {{--        return getToken(messaging, {vapidKey: 'BHZo1WgosZmyIphpVrJDFtCxW3x8_Ozxwwa-rf_iEAXSMUcLiWydBvP3OIqF--BCLjwYcv1zCl7xhMQzXGuchsU'}).then((currentToken) => {--}}
+            {{--            if (currentToken) {--}}
+            {{--                // Send the token to your server and update the UI if necessary--}}
+            {{--                // ...--}}
+            {{--            } else {--}}
+            {{--                // Show permission request UI--}}
+            {{--                console.log('No registration token available. Request permission to generate one.');--}}
+            {{--                // ...--}}
+            {{--            }--}}
+            {{--        }).catch((err) => {--}}
+            {{--            console.log('An error occurred while retrieving token. ', err);--}}
+            {{--            // ...--}}
+            {{--        });--}}
+            {{--    })--}}
+            {{--    .then(function(token) {--}}
+            {{--        console.log(token);--}}
+
+            {{--        $.ajaxSetup({--}}
+            {{--            headers: {--}}
+            {{--                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+            {{--            }--}}
+            {{--        });--}}
+
+            {{--        $.ajax({--}}
+            {{--            url: '{{ route("save-token") }}',--}}
+            {{--            type: 'POST',--}}
+            {{--            data: {--}}
+            {{--                token: token--}}
+            {{--            },--}}
+            {{--            dataType: 'JSON',--}}
+            {{--            success: function (response) {--}}
+            {{--                alert('Token saved successfully.');--}}
+            {{--            },--}}
+            {{--            error: function (err) {--}}
+            {{--                console.log('User Chat Token Error'+ err);--}}
+            {{--            },--}}
+            {{--        });--}}
+
+            {{--    }).catch(function (err) {--}}
+            {{--    console.log('User Chat Token Error'+ err);--}}
+            {{--});--}}
         }
 
         onMessage(function(payload) {
