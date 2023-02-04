@@ -477,6 +477,14 @@
                                     <span class="nav-main-link-name">{{ __("Vacancies") }}</span>
                                 </a>
                             </li>
+                            @if (!auth()->guest())
+                            <li class="nav-main-item">
+                                <a class="nav-main-link px-3" aria-haspopup="true"
+                                    aria-expanded="false" href="{{ url('polls') }}">
+                                    <span class="nav-main-link-name">{{ __("Polls") }}</span>
+                                </a>
+                            </li>
+                            @endif
                              @if (!auth()->guest() && auth()->user()->isUser())
                                 <li class="nav-main-item">
                                     <a class="nav-main-link px-3" href="{{ url('/feed') }}">

@@ -6,6 +6,9 @@ use App\Models\Category;
 use App\Models\City;
 use App\Models\Draft;
 use App\Models\Package;
+use App\Models\Poll;
+use App\Models\PollRequest;
+use App\Models\PollVote;
 use App\Models\Post;
 use App\Models\Region;
 use App\Models\User;
@@ -14,6 +17,7 @@ use App\Notifications\AdminNotice;
 use App\Notifications\ChannelNotification;
 use App\Notifications\NewPost;
 use App\Notifications\NewPress;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -911,5 +915,101 @@ class ProfileController extends Controller
             'regions' => $regions,
             'cities' => $cities,
         ]);
+    }
+
+    public function polls(Request $request)
+    {
+        $polls = Poll::where('is_active', 1)
+            ->where('expired_at', '>', Carbon::now())
+            ->paginate(6);
+
+        return view('polls', [
+            'polls' => $polls
+        ]);
+    }
+
+    public function poll(Request $request, $slug)
+    {
+        $poll = Poll::whereSlug($slug)->first();
+        abort_if(!$poll, 404);
+
+        $poll->participants = $poll->requests()
+            ->select('poll_requests.*')
+            ->selectRaw('(SELECT COUNT(*) FROM poll_votes WHERE poll_votes.poll_request_id = poll_requests.id AND poll_votes.poll_id = poll_requests.poll_id) as votes_count')
+            ->where('status', 'done')
+            ->get();
+
+        $poll->total_votes = $poll->participants->count()? $poll->participants->sum('votes_count'): 0;
+
+        return view('poll', [
+            'poll' => $poll
+        ]);
+    }
+
+    public function pollRequest(Request $request, $slug)
+    {
+        $request->validate([
+            'name' => 'required',
+            'position' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'photo' => 'required',
+        ]);
+
+        $poll = Poll::whereSlug($slug)->first();
+
+        if (!$poll) {
+            return response()->json([
+                'ok' => false,
+                'message' => __('Not found.')
+            ]);
+        }
+        
+        if ($poll->requests()->where('user_id', auth()->user()->id)->exists()) {
+            return response()->json([
+                'ok' => false,
+                'message' => __('You have already submitted a request.')
+            ]);
+        }
+
+        $participant = new PollRequest;
+        $participant->user_id = auth()->user()->id;
+        $participant->name = $request->name;
+        $participant->position = $request->position;
+        $participant->phone = $request->phone;
+        $participant->email = $request->email;
+        $participant->photo = ltrim(str_replace(url('storage'), '', $request->photo), '/');
+        $poll->requests()->save($participant);
+
+        return response()->json([
+            'ok' => true,
+        ]);
+    }
+
+    public function pollVote(Request $request, $slug)
+    {
+        $request->validate([
+            'participant' => 'required|numeric',
+        ]);
+
+        $poll = Poll::whereSlug($slug)->first();
+        abort_if(!$poll, 404);
+
+        if ($poll->votes()->where('user_id', auth()->user()->id)->exists()) {
+            return redirect()->back()->with('warning', __("You have already voted."));
+        }
+
+        $participant = $poll->requests()->where('id', $request->participant)->first();
+        if (!$participant) {
+            return redirect()->back()->with('warning', __("Unknown participant."));
+        }
+
+        $vote = new PollVote;
+        $vote->user_id = auth()->user()->id;
+        $vote->poll_request_id = $participant->id;
+        $vote->ip = $request->ip();
+        $poll->votes()->save($vote);
+
+        return redirect()->back()->with('success', __("You voted successfully."));
     }
 }
