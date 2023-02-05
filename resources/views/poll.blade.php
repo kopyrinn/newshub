@@ -8,7 +8,7 @@
     <div class="col-lg-8">
         <h3 class="mb-4">
             {{ __("Poll") }} &laquo;{{ $poll->question }}&raquo;
-        </h4>
+        </h3>
 
         @if ($poll->image)
             <div class="mb-4 d-flex justify-content-center">
@@ -89,15 +89,17 @@
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('Submit a request for participation') }}</h3>
                     <div class="block-options">
+                        @if (!auth()->guest() && auth()->user()->isPress())
                         <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
                             <i class="fa fa-fw fa-times"></i>
                         </button>
+                        @endif
                     </div>
                 </div>
                 <div class="block-content block-content-full fs-sm">
                     <div class="mb-3">
-                        <label class="form-label" for="request-name">{{ __('Name') }}</label>
-                        <input id="request-name" type="text" class="form-control form-control-alt w-100 mb-3" placeholder="{{ __('Name') }}">
+                        <label class="form-label" for="request-name">{{ __('Full name') }}</label>
+                        <input id="request-name" type="text" class="form-control form-control-alt w-100 mb-3" placeholder="{{ __('Full name') }}">
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="request-position">{{ __('Position') }}</label>

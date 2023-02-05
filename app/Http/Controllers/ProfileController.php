@@ -15,6 +15,7 @@ use App\Models\User;
 use App\Models\Vacancy;
 use App\Notifications\AdminNotice;
 use App\Notifications\ChannelNotification;
+use App\Notifications\NewPollRequest;
 use App\Notifications\NewPost;
 use App\Notifications\NewPress;
 use Carbon\Carbon;
@@ -981,6 +982,16 @@ class ProfileController extends Controller
         $participant->photo = ltrim(str_replace(url('storage'), '', $request->photo), '/');
         $poll->requests()->save($participant);
 
+        $admins = User::select('users.*')
+            ->join('role_user', 'role_user.user_id', 'users.id')
+            ->join('roles', 'role_user.role_id', 'roles.id')
+            ->where('roles.slug', 'admin')
+            ->get();
+
+        foreach ($admins as $admin) {
+            $admin->notify(new NewPollRequest($participant));
+        }
+
         return response()->json([
             'ok' => true,
         ]);
@@ -991,6 +1002,8 @@ class ProfileController extends Controller
         $request->validate([
             'participant' => 'required|numeric',
         ]);
+
+        abort_if(!auth()->user()->isUser(), 403);
 
         $poll = Poll::whereSlug($slug)->first();
         abort_if(!$poll, 404);

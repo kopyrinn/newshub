@@ -894,5 +894,17 @@
     "Newslist": "Лента новостей",
     "Follow News": "Следите за новостями:",
     "Error in the text? Please let us know. Highlight the error and press Ctrl + Enter": "Ошибка в тексте? Сообщите нам. Выделите ошибку и нажмите Ctrl + Enter",
-    "Advertising": "Реклама"
+    "Advertising": "Реклама",
+    "Poll": "Конкурс",
+    "Polls": "Конкурсы",
+    "Participants": "Участники",
+    "Vote": "Голосовать",
+    "Votes": "Голосов",
+    "Request for participation": "Заявка на участие",
+    "Position": "Должность",
+    "Submit a request for participation": "Заявка на участие",
+    "You voted successfully.": "Вы успешно проголосовали.",
+    "position": "должность",
+    "Your request has been successfully submitted for moderation.": "Ваша заявка успешно отправлена на модерацию."
+    
 }

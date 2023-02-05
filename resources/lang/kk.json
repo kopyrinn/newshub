@@ -850,5 +850,17 @@
     "Newslist": "Жаңалықтар тізбегі",
     "Follow News": "Жаңалықты бізбен бақылаңыз:",
     "Error in the text? Please let us know. Highlight the error and press Ctrl + Enter": "Мәтінде қате бар ма? Бізге хабарлауыңызды өтінеміз. Қатені бөлектеп, Ctrl + Enter пернелерін басыңыз",
-    "Advertising": "Жарнама"
+    "Advertising": "Жарнама",
+    "Poll": "Байқау",
+    "Polls": "Байқау",
+    "Participants": "Қатысушылар",
+    "Vote": "Дауыс беру",
+    "Votes": "Дауыс",
+    "Request for participation": " Қатысуға өтініш беру",
+    "Position": "Қызметі",
+    "Submit a request for participation": " Қатысуға өтініш беру ",
+    "You voted successfully.": "Сіз сәтті дауыс бердіңіз",
+    "position": "должность",
+    "Send": "Жіберу",
+    "Your request has been successfully submitted for moderation.": "Сіздің өтініміңіз модерацияға сәтті жіберілді."
 }
