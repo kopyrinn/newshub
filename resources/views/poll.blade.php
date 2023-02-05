@@ -24,7 +24,9 @@
             <div class="mb-4 d-flex align-items-center justify-content-between">
                 <h4 class="mb-0 d-flex align-items-center">{{ __('Participants') }} <span class="badge bg-secondary rounded-3 fs-xs ms-2">{{ $poll->participants->count() }}</span></h4>
                 {{-- @if (!$poll->participants->where('user_id', auth()->user()->id)) --}}
+                @if (!auth()->guest() && auth()->user()->isPress())
                     <button type="button" class="btn btn-sm fs-xs btn-primary" data-bs-toggle="modal" data-bs-target="#modal-request">{{ __('Request for participation') }}</button>
+                @endif
                 {{-- @endif --}}
             </div>
 
@@ -89,11 +91,11 @@
                 <div class="block-header block-header-default">
                     <h3 class="block-title">{{ __('Submit a request for participation') }}</h3>
                     <div class="block-options">
-                        @if (!auth()->guest() && auth()->user()->isPress())
+                        
                         <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
                             <i class="fa fa-fw fa-times"></i>
                         </button>
-                        @endif
+
                     </div>
                 </div>
                 <div class="block-content block-content-full fs-sm">
