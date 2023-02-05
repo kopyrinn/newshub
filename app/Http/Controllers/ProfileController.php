@@ -918,34 +918,6 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function polls(Request $request)
-    {
-        $polls = Poll::where('is_active', 1)
-            ->where('expired_at', '>', Carbon::now())
-            ->paginate(6);
-
-        return view('polls', [
-            'polls' => $polls
-        ]);
-    }
-
-    public function poll(Request $request, $slug)
-    {
-        $poll = Poll::whereSlug($slug)->first();
-        abort_if(!$poll, 404);
-
-        $poll->participants = $poll->requests()
-            ->select('poll_requests.*')
-            ->selectRaw('(SELECT COUNT(*) FROM poll_votes WHERE poll_votes.poll_request_id = poll_requests.id AND poll_votes.poll_id = poll_requests.poll_id) as votes_count')
-            ->where('status', 'done')
-            ->get();
-
-        $poll->total_votes = $poll->participants->count()? $poll->participants->sum('votes_count'): 0;
-
-        return view('poll', [
-            'poll' => $poll
-        ]);
-    }
 
     public function pollRequest(Request $request, $slug)
     {

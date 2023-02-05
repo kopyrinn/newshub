@@ -24,7 +24,7 @@
                             <span class="d-none" itemprop="datePublished">{{ $poll->created_at }}</span>{{ Format::date($poll->created_at) }}
                         </p>
                         <p class="fs-sm" itemprop="description">
-                            {{ Str::limit($poll->description, 150) }}
+                            {{ Str::limit(strip_tags($poll->description), 150) }}
                         </p>
                     </div>
                 @endforeach

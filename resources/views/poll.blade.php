@@ -7,7 +7,7 @@
 <div class="row mb-4">
     <div class="col-lg-8">
         <h3 class="mb-4">
-            {{ __("Poll") }} &laquo;{{ $poll->question }}&raquo;
+            {{ $poll->question }}
         </h3>
         
 
@@ -34,8 +34,8 @@
             </div>
         @endif
 
-        <div class="mb-4">
-            {{ $poll->description }}
+        <div class="mw-100 overflow-hidden d-print-inline" id="post-content">
+            {!! $poll->description !!}
         </div>
 
         <div class="mb-4">
@@ -48,7 +48,7 @@
                 {{-- @endif --}}
             </div>
 
-            @if ($poll->votes()->where('user_id', auth()->user()->id)->exists())
+            @if (!auth()->guest() && $poll->votes()->where('user_id', auth()->user()->id)->exists())
                 @foreach($poll->participants as $participant)
                     <div class="d-flex justify-content-between mb-2">
                         <div class="d-flex align-items-center">

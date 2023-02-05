@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Emilianotisato\NovaTinyMCE\NovaTinyMCE;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
@@ -87,9 +88,13 @@ class Poll extends Resource
                 ->from('question')
                 ->sortable()
             ,
-            Textarea::make(__('Описание'), 'description')
-                ->hideFromIndex()
-                ->sortable()
+            NovaTinyMCE::make(__('Описание'), 'description')
+                    // ->rules('required_lang:ru')
+                    ->options([
+                        'height' => '400'
+                    ])
+                    ->hideFromIndex()
+                    ->sortable()
             ,
             DateTime::make(__('Дата завершения'), 'expired_at')
                 ->sortable()
