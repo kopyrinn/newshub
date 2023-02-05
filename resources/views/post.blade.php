@@ -43,19 +43,19 @@
             <div class="row">   
             <div class="col-lg-1">
             <div class="bg-body-light d-inline-block rounded px-2 py-1 me-2 mb-2 social">
-                    <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #3b5998;">
+                    <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u={{ LaravelLocalization::getLocalizedURL(app()->getLocale()) }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #3b5998;">
                         <i class="fab fa-facebook"></i>
                     </button>
-                    <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('https://twitter.com/share?url={{ url()->current() }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #55acee;">
+                    <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('https://twitter.com/share?url={{ LaravelLocalization::getLocalizedURL(app()->getLocale()) }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #55acee;">
                         <i class="fab fa-twitter"></i>
                     </button>
-                    <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('http://vk.com/share.php?url={{ url()->current() }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #4D76A1;">
+                    <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('http://vk.com/share.php?url={{ LaravelLocalization::getLocalizedURL(app()->getLocale()) }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #4D76A1;">
                         <i class="fab fa-vk"></i>
                     </button>
-                    <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('https://t.me/share/url?url={{ url()->current() }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #08c;">
+                    <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('https://t.me/share/url?url={{ LaravelLocalization::getLocalizedURL(app()->getLocale()) }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #08c;">
                         <i class="fab fa-telegram"></i>
                     </button>
-                    <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('https://api.whatsapp.com/send?text={{ url()->current() }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #3EBE2B;"><i class="fab fa-whatsapp"></i>
+                    <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('https://api.whatsapp.com/send?text={{ LaravelLocalization::getLocalizedURL(app()->getLocale()) }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #3EBE2B;"><i class="fab fa-whatsapp"></i>
                     </button>
                 </div>
             </div>

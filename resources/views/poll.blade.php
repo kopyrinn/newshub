@@ -9,7 +9,25 @@
         <h3 class="mb-4">
             {{ __("Poll") }} &laquo;{{ $poll->question }}&raquo;
         </h3>
+        
 
+        <div class="mb-4">
+            <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #3b5998;">
+                        <i class="fab fa-facebook"></i>
+                    </button>
+                    <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('https://twitter.com/share?url={{ url()->current() }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #55acee;">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+                    <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('http://vk.com/share.php?url={{ url()->current() }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #4D76A1;">
+                        <i class="fab fa-vk"></i>
+                    </button>
+                    <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('https://t.me/share/url?url={{ url()->current() }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #08c;">
+                        <i class="fab fa-telegram"></i>
+                    </button>
+                    <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('https://api.whatsapp.com/send?text={{ url()->current() }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #3EBE2B;"><i class="fab fa-whatsapp"></i>
+                    </button>
+        </div>
+        
         @if ($poll->image)
             <div class="mb-4 d-flex justify-content-center">
                 <div class="w-100 rounded-3 bg-image bg-image-center" style="background-image: url({{ Storage::url($poll->image) }}); height: 400px;"></div>
