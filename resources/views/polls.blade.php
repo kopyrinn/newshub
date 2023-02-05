@@ -13,20 +13,28 @@
         <div class="row">
             @if ($polls->count())
                 @foreach ($polls as $poll)
-                    <div class="col-md-4">
-                        <a class="" href="{{ url('polls/' . $poll->slug) }}">
-                            <div class="bg-image mb-1 rounded lazy" itemprop="image" data-bg="{{ Storage::url($poll->image) }}" style="height: 217px;"></div>
-                        </a>
-                        <h4 class="mb-1">
-                            <a class="text-truncate d-block" href="{{ url('polls/' . $poll->slug) }}" itemprop="headline name">{{ $poll->question }}</a>
-                        </h4>
-                        <p class="fs-sm fw-medium mb-2">
-                            <span class="d-none" itemprop="datePublished">{{ $poll->created_at }}</span>{{ Format::date($poll->created_at) }}
-                        </p>
-                        <p class="fs-sm" itemprop="description">
-                            {{ Str::limit(strip_tags($poll->description), 150) }}
-                        </p>
+        <div class="col-12">
+            <div class="row g-0 rounded-2">
+                <div class="col-md-4 col-sm-5">
+                    <a class="img-link img-link-simple" href="{{ url('polls/' . $poll->slug) }}">
+                        <img itemprop="image" class="rounded mw-100 mb-2 mb-sm-0 lazy w-100" src="{{ Storage::url($poll->image) }}" alt="{{ $poll->question }}" loading="lazy">
+                    </a>
+                </div>
+                <div class="col-md-8 col-sm-7 ps-0 ps-sm-3">
+                    <h4  class="mb-1">
+                        <a class="text-dark" href="{{ url('polls/' . $poll->slug) }}">{{ $poll->question }}</a>
+                    </h4>
+                    <div class="fs-sm fw-semibold mb-1">
+                        · <span class="d-none" itemprop="datePublished">{{ $poll->created_at}}</span> {{ Format::date($poll->created_at) }} 
                     </div>
+                    <p itemprop="description" class="fs-sm fw-medium mb-2">
+                        {{ Str::limit(strip_tags($poll->description), 320) }}
+                        
+                    </p>
+                </div>
+            </div>
+        </div>
+
                 @endforeach
             @else
                 <p>{{ __("No Results Found.") }}</p>
