@@ -10,6 +10,7 @@ class Poll extends Model
     use HasFactory;
 
     protected $casts = [
+        'start_at' => 'datetime',
         'expired_at' => 'datetime',
     ];
 

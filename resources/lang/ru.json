@@ -905,6 +905,7 @@
     "Submit a request for participation": "Заявка на участие",
     "You voted successfully.": "Вы успешно проголосовали.",
     "position": "должность",
-    "Your request has been successfully submitted for moderation.": "Ваша заявка успешно отправлена на модерацию."
+    "Your request has been successfully submitted for moderation.": "Ваша заявка успешно отправлена на модерацию.",
+    "You have already voted.": "Вы уже проголосвали"
     
 }

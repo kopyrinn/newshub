@@ -96,6 +96,9 @@ class Poll extends Resource
                     ->hideFromIndex()
                     ->sortable()
             ,
+            DateTime::make(__('Дата начала'), 'start_at')
+                ->sortable()
+            ,
             DateTime::make(__('Дата завершения'), 'expired_at')
                 ->sortable()
             ,

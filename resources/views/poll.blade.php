@@ -42,19 +42,19 @@
             <div class="mb-4 d-flex align-items-center justify-content-between">
                 <h4 class="mb-0 d-flex align-items-center">{{ __('Participants') }} <span class="badge bg-secondary rounded-3 fs-xs ms-2">{{ $poll->participants->count() }}</span></h4>
                 {{-- @if (!$poll->participants->where('user_id', auth()->user()->id)) --}}
-                @if (!auth()->guest() && auth()->user()->isPress())
-                    <button type="button" class="btn btn-sm fs-xs btn-primary" data-bs-toggle="modal" data-bs-target="#modal-request">{{ __('Request for participation') }}</button>
-                @endif
+                    @if (!auth()->guest() && auth()->user()->isPress())
+                        <button type="button" class="btn btn-sm fs-xs btn-primary" data-bs-toggle="modal" data-bs-target="#modal-request">{{ __('Request for participation') }}</button>
+                    @endif
                 {{-- @endif --}}
             </div>
 
-            @if (!auth()->guest() && $poll->votes()->where('user_id', auth()->user()->id)->exists())
+            @if (auth()->guest() || ($poll->start_at && $poll->start_at >= \Carbon\Carbon::now()) || !auth()->user()->isUser() || $poll->votes()->where('user_id', auth()->user()->id)->exists())
                 @foreach($poll->participants as $participant)
                     <div class="d-flex justify-content-between mb-2">
                         <div class="d-flex align-items-center">
-                            <img class="img-avatar img-avatar48" src="{{ Storage::url($participant->photo) }}" alt="">
+                            <img class="img-avatar img-avatar128" src="{{ Storage::url($participant->photo) }}" alt="">
                             <span class="ms-2">
-                                <span class="fw-bold">{{ $participant->name }} @if ($poll->votes()->where('user_id', auth()->user()->id)->where('poll_request_id', $participant->id)->exists())<i class="fa text-primary ms-1 fa-check fs-sm"></i>@endif</span>
+                                <span class="fw-bold">{{ $participant->name }} @if (!auth()->guest() && $poll->votes()->where('user_id', auth()->user()->id)->where('poll_request_id', $participant->id)->exists())<i class="fa text-primary ms-1 fa-check fs-sm"></i>@endif</span>
                                 <span class="d-block fs-sm text-muted">{{ $participant->position }}</span>
                             </span>
                         </div>
@@ -63,10 +63,13 @@
                         </div>
                     </div>
                     <div class="progress push" style="height: 10px;">
-                        <div class="progress-bar" role="progressbar" style="width: {{ round($participant->votes_count / $poll->total_votes * 100, 2) }}%;" aria-valuenow="{{ round($participant->votes_count / $poll->total_votes * 100, 2) }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar" style="width: {{ $poll->total_votes && $participant->votes_count? round($participant->votes_count / $poll->total_votes * 100, 2): 0 }}%;" aria-valuenow="{{ $poll->total_votes && $participant->votes_count? round($participant->votes_count / $poll->total_votes * 100, 2): 0 }}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 @endforeach
-                <p class="fw-bold">{{ __('Votes') }}: {{ $poll->total_votes }}</p>
+
+                @if (!$poll->start_at || $poll->start_at <= \Carbon\Carbon::now())
+                    <p class="fw-bold">{{ __('Votes') }}: {{ $poll->total_votes }}</p>
+                @endif
             @else
                 <form class="form" method="POST" action="{{ route('polls.vote', ['slug' => $poll->slug]) }}">
                     @csrf
@@ -78,7 +81,7 @@
                             </div>
                             <label class="form-check-label" for="participant{{ $participant->id }}">
                                 <span class="d-flex align-items-center">
-                                    <img class="img-avatar img-avatar48" src="{{ Storage::url($participant->photo) }}" alt="">
+                                    <img class="img-avatar img-avatar128" src="{{ Storage::url($participant->photo) }}" alt="">
                                     <span class="ms-2">
                                         <span class="fw-bold">{{ $participant->name }}</span>
                                         <span class="d-block fs-sm text-muted">{{ $participant->position }}</span>
