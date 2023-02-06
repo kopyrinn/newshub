@@ -55,12 +55,12 @@ Route::group([
         Route::get('more-posts/{offset}', [HomeController::class, 'morePosts'])->name('post.more');
         Route::get('polls', [HomeController::class, 'polls'])->name('polls');
         Route::get('polls/{slug}', [HomeController::class, 'poll'])->name('polls.view');
+        Route::post('polls/{slug}/request', [ProfileController::class, 'pollRequest'])->name('polls.request');
         Route::post('post/grammar', [HomeController::class, 'postGrammar'])->name('post.grammar');
 
         Route::middleware(['verified'])->group(function () {
             Route::get('user/{id}/follow', [ProfileController::class, 'userFollow'])->name('user.follow');
             Route::get('user/{id}/unfollow', [ProfileController::class, 'userUnfollow'])->name('user.unfollow');
-            Route::post('polls/{slug}/request', [ProfileController::class, 'pollRequest'])->name('polls.request');
             Route::post('polls/{slug}/vote', [ProfileController::class, 'pollVote'])->name('polls.vote');
             Route::get('package/{slug}', [ProfileController::class, 'packagesPay'])->name('packages.pay');
             Route::post('package/{slug}', [ProfileController::class, 'packagesPay']);

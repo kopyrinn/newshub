@@ -862,5 +862,7 @@
     "You voted successfully.": "Сіз сәтті дауыс бердіңіз",
     "position": "должность",
     "Send": "Жіберу",
-    "Your request has been successfully submitted for moderation.": "Сіздің өтініміңіз модерацияға сәтті жіберілді."
+    "Your request has been successfully submitted for moderation.": "Сіздің өтініміңіз модерацияға сәтті жіберілді.",
+    "You have already voted.": "Сіз дауыс беріп қойғансыз.",
+    "Please confirm your email.": "Электрондық поштаңызды растаңыз."
 }

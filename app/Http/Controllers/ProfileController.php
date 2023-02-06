@@ -937,8 +937,17 @@ class ProfileController extends Controller
                 'message' => __('Not found.')
             ]);
         }
-        
-        if ($poll->requests()->where('user_id', auth()->user()->id)->exists()) {
+
+        $user = auth()->user();
+
+        if (!$user->email_verified_at) {
+            return response()->json([
+                'ok' => false,
+                'message' => __('Please confirm your email.')
+            ]);
+        }
+
+        if ($poll->requests()->where('user_id', $user->id)->exists()) {
             return response()->json([
                 'ok' => false,
                 'message' => __('You have already submitted a request.')
@@ -946,7 +955,7 @@ class ProfileController extends Controller
         }
 
         $participant = new PollRequest;
-        $participant->user_id = auth()->user()->id;
+        $participant->user_id = $user->id;
         $participant->name = $request->name;
         $participant->position = $request->position;
         $participant->phone = $request->phone;
