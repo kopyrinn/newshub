@@ -855,15 +855,14 @@ function getMoneyList(jQuery){
             messaging.requestPermission().then(function () {
                 return messaging.getToken()
             }).then(function(token) {
-                console.log(token);
-                {{--axios.post("{{ route('fcm.token') }}",{--}}
-                {{--    _method:"PATCH",--}}
-                {{--    token--}}
-                {{--}).then(({data})=>{--}}
-                {{--    console.log(data)--}}
-                {{--}).catch(({response:{data}})=>{--}}
-                {{--    console.error(data)--}}
-                {{--})--}}
+                axios.post("{{ route('fcm.token') }}",{
+                    _method:"PATCH",
+                    token
+                }).then(({data})=>{
+                    console.log(data)
+                }).catch(({response:{data}})=>{
+                    console.error(data)
+                })
 
             }).catch(function (err) {
                 console.log(`Token Error :: ${err}`);
