@@ -6,6 +6,7 @@ use App\Http\Controllers\MobileHomeController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\FcmController;
 
 
 /*
@@ -29,8 +30,7 @@ Route::group([
 ], function() {
     Route::middleware(['approved'])->group(function () {
         Route::get('/', [HomeController::class, 'index'])->name('home');
-        Route::post('/save-token', [HomeController::class, 'saveToken'])->name('save-token');
-        Route::post('/send-notification', [HomeController::class, 'sendNotification'])->name('send.notification');
+        Route::patch('/fcm-token', [FcmController::class, 'token'])->name('fcm.token');
 
         Route::get('/money-list', [HomeController::class, 'getMoneyList'])->name('getMoneyList');
 
