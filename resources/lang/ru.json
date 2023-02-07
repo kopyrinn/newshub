@@ -836,6 +836,7 @@
     "Total Posts": "Всего публикаций",
     "Send WebPush Notifications To Fcm": "Отправить WEBPUSH-уведомление",
     "Send Notifications To Fcm": "Отправить PUSH-уведомление",
+    "Web Notification info": "PUSH уведомление в браузеры.",
     "Notification info": "PUSH уведомление в мобильное приложение.",
     "Send Notifications To Telegram": "Отправить в Telegram канал",
     "Views": "Просмотров",

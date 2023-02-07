@@ -254,7 +254,7 @@
                                 <div class="mb-3">
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="send-webpush-notifications" name="to_fcm_webpush" value="1">
-                                        <label class="form-check-label font-w400" for="send-webpush-notifications">{{ __("Send WebPush Notifications To Fcm") }}<span class="bg-primary rounded px-2 py-1 text-white fs-xs fw-semibold ms-2">{{ __("Notification info") }}</span></label>
+                                        <label class="form-check-label font-w400" for="send-webpush-notifications">{{ __("Send WebPush Notifications To Fcm") }}<span class="bg-primary rounded px-2 py-1 text-white fs-xs fw-semibold ms-2">{{ __("Web Notification info") }}</span></label>
                                     </div>
                                 </div>
                                 <div class="mb-3">
