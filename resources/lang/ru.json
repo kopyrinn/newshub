@@ -841,6 +841,7 @@
     "Views": "Просмотров",
     "Downloads": "Скачиваний",
     "To Fcm": "Отправить PUSH-уведомление",
+    "To Fcm WebPush": "Отправить WEBPUSH-уведомление",
     "To Telegram": "Отправить в Telegram канал",
     "Related News": "Последние новости",
     "Scheduled Post": "Запланировать публикацию",
