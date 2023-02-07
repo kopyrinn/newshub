@@ -834,6 +834,7 @@
     "Statistic": "Статистика",
     "Total Post Views": "Всего просмотров",
     "Total Posts": "Всего публикаций",
+    "Send WebPush Notifications To Fcm": "Отправить WEBPUSH-уведомление",
     "Send Notifications To Fcm": "Отправить PUSH-уведомление",
     "Notification info": "PUSH уведомление в мобильное приложение.",
     "Send Notifications To Telegram": "Отправить в Telegram канал",
