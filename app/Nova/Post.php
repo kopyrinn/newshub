@@ -180,6 +180,10 @@ class Post extends Resource
                 ->path('files')
                 ->hideFromIndex()
             ,
+            Boolean::make(__('To Fcm WebPush'), 'to_fcm_webpush')
+                ->default(0)
+                ->hideFromIndex()
+            ,
             Boolean::make(__('To Fcm'), 'to_fcm')
                 ->default(0)
                 ->hideFromIndex()
