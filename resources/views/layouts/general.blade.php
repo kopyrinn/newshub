@@ -2,7 +2,7 @@
     $currentLocale = app()->getLocale();
 @endphp
 <!doctype html>
-<html lang="ru">
+<html lang="ru" prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# profile: http://ogp.me/ns/profile# fb: http://ogp.me/ns/fb#">
 <head>
 <title>@yield('title', nova_get_setting('title'))@hasSection('title') | {{ nova_get_setting('title') }}@endif</title>
 

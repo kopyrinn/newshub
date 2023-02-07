@@ -66,8 +66,8 @@
                         </h2>
                         <div class="d-flex justify-content-between">
                             <div class="fs-xs fw-semibold d-print-none">
-                                <div class="bg-body-light d-inline-block rounded text-nowrap px-2 py-1 me-2 mb-2"><a href="{{ url("user/{$post->user_id}") }}">{{ $post->user->name }}</a></div>
-                                <div class="bg-body-light d-inline-block rounded text-nowrap px-2 py-1 me-2 mb-2">{{ Format::date($post->created_at) }}</div>
+                                <div itemprop="author" class="bg-body-light d-inline-block rounded text-nowrap px-2 py-1 me-2 mb-2"><a itemprop="url" href="{{ url("user/{$post->user_id}") }}">{{ $post->user->name }}</a></div>
+                                <div itemprop="datePublished" content="{{ ($post->created_at) }}" class="bg-body-light d-inline-block rounded text-nowrap px-2 py-1 me-2 mb-2">{{ Format::date($post->created_at) }}</div>
                                 
                                 @if ($post->categories()->exists() && $post->rubrics()->exists())
                                     <div class="bg-body-light d-inline-block rounded text-nowrap px-2 py-1 me-2 mb-2"><i class="fa fa-folder-open fa-fw me-1"></i>
@@ -95,20 +95,20 @@
                             </div>
                         </div>
                         
-                        <p class="fs-normal d-print-inline" itemprop="articleBody">
+                        <p class="fs-normal d-print-inline">
                             {!! nl2br($post->getSummary()) !!}
                         </p>
 
                         @if ($post->image)
                             <div class="mb-4 d-flex justify-content-center flex-column">
-                                <img class="rounded m-auto mw-100" src="{{ asset("storage/{$post->image}") }}" alt="" importance"high">
+                                <img itemprop="image" class="rounded m-auto mw-100" src="{{ asset("storage/{$post->image}") }}" alt="" importance"high">
                                 @if ($post->image_caption)
                                     <p class="mb-0 text-muted">Фото: {{ $post->image_caption }}</p>
                                 @endif
                             </div>
                         @endif
 
-                        <div class="mw-100 overflow-hidden d-print-inline" id="post-content">
+                        <div class="mw-100 overflow-hidden d-print-inline" id="post-content" itemprop="articleBody">
                             {!! str_replace('<p>&nbsp;</p>', '', trim($post->content)) !!}
                         </div>
                         
