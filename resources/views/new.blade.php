@@ -270,13 +270,6 @@
                         @if (auth()->user()->packageActive() && in_array(auth()->user()->package->slug, ['standart-plus', 'standart-maximum']))
                             <div class="mb-2">
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="send-webpush-notifications" name="to_fcm_webpush" value="1">
-                                    <label class="form-check-label font-w400" for="send-webpush-notifications">{{ __("Send WebPush Notifications To Fcm") }}<span class="bg-primary rounded px-2 py-1 text-white fs-xs fw-semibold text-nowrap d-block">{{ __("Web Notification info") }}</span></label>
-                                </div>
-                            </div>
-
-                            <div class="mb-2">
-                                <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="send-notifications" name="to_fcm" value="1">
                                     <label class="form-check-label font-w400" for="send-notifications">{{ __("Send Notifications To Fcm") }}<span class="bg-primary rounded px-2 py-1 text-white fs-xs fw-semibold text-nowrap d-block">{{ __("Notification info") }}</span></label>
                                 </div>
