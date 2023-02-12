@@ -69,7 +69,11 @@
                         @endif
 
                         <div class="mb-3">
+                            @if ($user->isPress())
+                            <label class="form-label">{{ __("Organization logo") }}
+                            @else
                             <label class="form-label">{{ __("Avatar") }}
+                            @endif
                                 <label for="uploadAvatar" id="uploadAvatarLabel" class="ms-2 btn btn-sm btn-primary text-white">
                                     <i class="far fa-image"></i> {{ __("Choose") }}
                                 </label>

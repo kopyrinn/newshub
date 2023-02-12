@@ -1,13 +1,20 @@
 @extends('layouts.app')
 
 @section('title', __("Poll") . ': ' . $poll->question)
-@section('description', $poll->description)
+@section('description', $poll->question)
+@section('image', $poll->image)
+
 
 @section('content')
+<style>
+    .block-content .block, .block-content .items-push>div, .block-content .push, .block-content p {
+        margin-bottom: 0.3rem !important;
+    }
+</style>
 <div class="row mb-4">
     <div class="col-lg-8">
         <h3 class="mb-4">
-            {{ $poll->question }}
+            {!! str_replace('<p>&nbsp;</p>', '', trim($poll->question)) !!}
         </h3>
         
 
@@ -27,15 +34,16 @@
                     <button type="button" class="btn text-white me-1 mb-3" onclick="window.open('https://api.whatsapp.com/send?text={{ url()->current() }}', 'Share This Post', 'width=640,height=450');return false" style="background-color: #3EBE2B;"><i class="fab fa-whatsapp"></i>
                     </button>
         </div>
-        
         @if ($poll->image)
-            <div class="mb-4 d-flex justify-content-center">
-                <div class="w-100 rounded-3 bg-image bg-image-center" style="background-image: url({{ Storage::url($poll->image) }}); height: 400px;"></div>
-            </div>
-        @endif
+        <div class="mb-4 d-flex justify-content-center flex-column">
+                                <img itemprop="image" class="rounded m-auto mw-100" src="{{ Storage::url($poll->image) }}" alt="" importance"high">
+                            </div>
+        @endif                    
+        
+        
 
         <div class="mw-100 overflow-hidden d-print-inline" id="post-content">
-            {!! $poll->description !!}
+            {!! str_replace('<p>&nbsp;</p>', '', trim($poll->description)) !!}
         </div>
 
         <div class="mb-4">

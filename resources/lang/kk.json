@@ -751,6 +751,7 @@
     "Subscriptions": "Жазылымдар",
     "Followers": "Жазылушылар",
     "Avatar": "Профиль фотосуреті",
+    "Organization logo": "Мекеме логотипi",
     "Category": "Санат",
     "Title": "Басты тақырып",
     "Summary": "Қысқаша сипаттамасы",
@@ -793,7 +794,7 @@
     "Journalists": "Журналистер",
     "Follow Us": "Бізге еріңіздер",
     "Requisites": "Деректемелер",
-    "Organization Name": " Ұйым атауы",
+    "Organization Name": " Мекеме атауы",
     "Basic profile settings are required.": "Профильдің негізгі параметрлерін толтыру қажет.",
     "Popular Posts": "Танымал жаңалықтар",
     "This week": "Осы аптада",
@@ -864,5 +865,6 @@
     "Send": "Жіберу",
     "Your request has been successfully submitted for moderation.": "Сіздің өтініміңіз модерацияға сәтті жіберілді.",
     "You have already voted.": "Сіз дауыс беріп қойғансыз.",
-    "Please confirm your email.": "Электрондық поштаңызды растаңыз."
+    "Please confirm your email.": "Электрондық поштаңызды растаңыз.",
+    "To publish, you need to purchase a subscription": "Для размещения события, Вам необходимо купить соответствующую подписку."
 }

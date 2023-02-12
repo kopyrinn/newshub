@@ -752,6 +752,7 @@
     "Subscriptions": "Подписки",
     "Followers": "Подписчики",
     "Avatar": "Фото профиля",
+    "Organization logo": "Логотип организации",
     "Category": "Категория",
     "Title": "Заголовок",
     "Summary": "Краткое описание",
@@ -910,6 +911,7 @@
     "position": "должность",
     "Your request has been successfully submitted for moderation.": "Ваша заявка успешно отправлена на модерацию.",
     "You have already voted.": "Вы уже проголосвали",
-    "Please confirm your email.": "Пожалуйста подтвердите свою электронную почту."
+    "Please confirm your email.": "Пожалуйста подтвердите свою электронную почту.",
+    "To publish, you need to purchase a subscription": "Для размещения события, Вам необходимо купить соответствующую подписку."
     
 }

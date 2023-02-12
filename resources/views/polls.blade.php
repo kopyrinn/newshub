@@ -4,15 +4,15 @@
 @section('description', __("Polls"))
 
 @section('content')
+
 <div class="row mb-4">
     <div class="col-lg-8">
-        <h3 class="mb-4">
-            {{ __("Polls") }}
-        </h4>
+        <h5 class="mb-2"> {{ __("Polls") }}</h5>
 
-        <div class="row">
+        <div class="mt-4">
             @if ($polls->count())
                 @foreach ($polls as $poll)
+        <div class="row push">
         <div class="col-12">
             <div class="row g-0 rounded-2">
                 <div class="col-md-4 col-sm-5">
@@ -28,11 +28,12 @@
                         · <span class="d-none" itemprop="datePublished">{{ $poll->created_at}}</span> {{ Format::date($poll->created_at) }} 
                     </div>
                     <p itemprop="description" class="fs-sm fw-medium mb-2">
-                        {{ Str::limit(strip_tags($poll->description), 320) }}
+                        {{ Str::limit(strip_tags($poll->description), 180) }}
                         
                     </p>
                 </div>
             </div>
+        </div>
         </div>
 
                 @endforeach

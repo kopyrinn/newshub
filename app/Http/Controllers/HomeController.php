@@ -65,6 +65,8 @@ class HomeController extends Controller
     {
         $polls = Poll::where('is_active', 1)
             ->where('expired_at', '>', Carbon::now())
+            ->latest('created_at')
+            ->groupBy('id')
             ->paginate(6);
 
         return view('polls', [
