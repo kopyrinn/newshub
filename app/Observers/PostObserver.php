@@ -54,9 +54,9 @@ class PostObserver
             unset($post->selected_rubrics);
         }
 
-        if (auth()->user()->isModerator()) {
+        if ($post->user->isModerator()) {
             $post->user_id = 1;
-            $post->author_id = auth()->user()->id;
+            $post->author_id = $post->user->id;
             $post->update();
         }
 

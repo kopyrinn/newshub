@@ -1,0 +1,17 @@
+{
+	"include": [
+		"resources/js/**/*.js",
+		"resources/js/**/*.vue"
+	],
+	"exclude": [
+		"node_modules"
+	],
+	"compilerOptions": {
+		"module": "es6",
+		"target": "es6",
+		"types": [
+			"vite-plugin-pwa/client",
+			"vite/client"
+		]
+	}
+}

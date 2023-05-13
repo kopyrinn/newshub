@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Silvanite\Brandenburg\Traits\HasRoles;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements MustVerifyEmail, JWTSubject
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -94,6 +93,11 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function pollVotes()
+    {
+        return $this->hasMany(PollVote::class);
     }
 
     public function vacancies()
@@ -239,5 +243,18 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
         $action->type = $type;
         $action->content = $content;
         $this->actions()->save($action);
+    }
+
+    public function withInfo()
+    {
+        $this->notifications_count = $this->unreadNotifications()->count();
+
+        $this->allowed_categories = Category::select('categories.id', 'categories.name')
+            ->join('category_role', 'category_role.category_id', '=', 'categories.id')
+            ->whereIn('category_role.role_id', $this->roles()->pluck('id'))
+            ->groupBy('categories.id')
+            ->pluck('name', 'id');
+
+        return $this;
     }
 }

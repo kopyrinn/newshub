@@ -18,10 +18,10 @@ class AuthenticationException extends BaseAuthenticationException
         if ($request->expectsJson()) {
             return response()->json(['message' => $this->getMessage()], 401);
         } elseif ($request->is('nova-api/*') || $request->is('nova-vendor/*')) {
-            return redirect()->to($this->location());
+            return redirect()->to('/');
         }
 
-        return redirect()->guest($this->location());
+        return redirect()->guest('/');
     }
 
     /**

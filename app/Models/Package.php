@@ -16,10 +16,20 @@ class Package extends Model
      */
     protected $table = 'packages';
 
-    protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+    protected $hidden = [
+        'id',
+        'created_at',
+        'updated_at',
     ];
+
+    protected $casts = [
+        'features' => 'array',
+    ];
+
+    public function packageFeatures()
+    {
+        return $this->hasMany(PackageFeature::class);
+    }
 
     public function getNameAttribute($value)
     {

@@ -167,6 +167,7 @@ class User extends Resource
             HasMany::make(__('Balances'), 'balances', Balance::class),
             HasMany::make(__('Posts'), 'posts', Post::class),
             HasMany::make(__('Vacancies'), 'vacancies', Vacancy::class),
+            HasMany::make(__('PollVote'), 'pollVotes', PollVote::class),
         ];
     }
 

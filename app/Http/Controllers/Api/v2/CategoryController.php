@@ -1,0 +1,110 @@
+<?php
+
+namespace App\Http\Controllers\Api\v2;
+
+use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\Rubric;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+
+class CategoryController extends Controller
+{
+
+    public function category(Request $request)
+    {
+        $request->validate([
+            'slug' => 'required',
+        ]);
+
+        $category = Category::select('id')->where('slug', $request->slug)->first();
+        abort_if(!$category, 404);
+
+        $query = Post::select(
+                'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.summary', 'posts.created_at', 'users.name', 'users.avatar',
+            )
+            // ->join('category_post', 'category_post.post_id', 'posts.id')
+            ->join('users', 'users.id', 'posts.user_id')
+            ->where('posts.status', 1)
+            ->where('posts.created_at', '<', Carbon::now())
+            ->whereExists((function($query) use ($category) {
+                $query->select(\DB::raw(1))
+                    ->from('category_post')
+                    ->whereColumn('category_post.post_id', 'posts.id')
+                    ->where('category_post.category_id', $category->id);
+            }));
+
+        if ($request->rubric) {
+            $rubric = Rubric::select('id')->where('slug', $request->rubric)->first();
+            abort_if(!$rubric, 404);
+
+            $query->whereExists((function($query) use ($rubric) {
+                $query->select(\DB::raw(1))
+                    ->from('post_rubric')
+                    ->whereColumn('post_rubric.post_id', 'posts.id')
+                    ->where('post_rubric.rubric_id', $rubric->id);
+            }));
+            // $query->join("post_rubric", "posts.id", "=", "post_rubric.post_id")
+            //     // ->join("rubrics", "rubrics.id", "=", "post_rubric.rubric_id")
+            //     ->where("post_rubric.rubric_id", $rubric->id);
+        }
+
+        // $query->dd();
+
+        $posts = $query
+            ->orderByDesc('posts.id')
+            ->cursorPaginate(10);
+
+        return response()->json([
+            'ok' => true,
+            'posts' => $posts,
+        ]);
+    }
+
+    public function tag(Request $request, $tag)
+    {
+        $query = Post::where('status', 1)
+            ->where('created_at', '<', Carbon::now());
+
+        $query->where('keywords', 'like', "%{$tag}%");
+
+        $posts = $query->latest('created_at')
+            ->groupBy('id')
+            ->cursorPaginate(10);
+
+        return response()->json([
+            'ok' => true,
+            'tag' => $tag,
+            'posts' => $posts,
+        ]);
+    }
+
+    public function rubric(Request $request, $slug, $rubricSlug)
+    {
+        $category = Category::where('slug', $slug)
+            ->first();
+        abort_if(!$category, 404);
+
+        $rubric = Rubric::where('slug', $rubricSlug)->first();
+        abort_if(!$rubric, 404);
+
+        $posts = $category->posts()
+            ->select(
+                'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.summary', 'posts.created_at', 'users.name', 'users.avatar',
+            )
+            ->join("post_rubric", "posts.id", "=", "post_rubric.post_id")
+            ->join("rubrics", "rubrics.id", "=", "post_rubric.rubric_id")
+            ->where("rubrics.slug", $rubricSlug)
+            ->where('posts.status', 1)
+            ->where('posts.created_at', '<', Carbon::now())
+            ->latest('posts.created_at')
+            ->cursorPaginate(10);
+
+        return response()->json([
+            'ok' => true,
+            'posts' => $posts,
+        ]);
+    }
+
+}

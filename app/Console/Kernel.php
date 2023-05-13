@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('sitemap:generate')->daily();
         $schedule->command('package:month:notify')->daily()->at('00:00');
         $schedule->command('new:post:notify')->everyMinute();
+        $schedule->command('update:ticker')->hourly();
     }
 
     /**

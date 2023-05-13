@@ -18,17 +18,22 @@ class Post extends Model
     public $selected_categories;
     public $selected_rubrics;
 
-    /**
-     * @var  string
-     */
     protected $table = 'posts';
 
     protected $casts = [
-        // 'updated_at' => 'datetime',
-        // 'created_at' => 'datetime',
         'event_date' => 'datetime',
         'content'    => CleanHtml::class,
     ];
+
+    protected $appends = [
+        'read_mins',
+    ];
+
+    public function getReadMinsAttribute()
+    {
+        $length = substr_count(strip_tags(html_entity_decode($this->content)), ' ');
+        return ceil($length / 190);
+    }
 
     public function category()
     {
@@ -147,8 +152,8 @@ class Post extends Model
      * @param  \DateTimeInterface  $date
      * @return string
      */
-    protected function serializeDate(DateTimeInterface $date)
-    {
-        return $date->toIso8601String(); // 2019-02-01T03:45:27+00:00
-    }
+    // protected function serializeDate(DateTimeInterface $date)
+    // {
+    //     return $date->toIso8601String(); // 2019-02-01T03:45:27+00:00
+    // }
 }

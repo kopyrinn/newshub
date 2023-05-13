@@ -9,6 +9,12 @@ class Action extends Model
 {
     use HasFactory;
 
+    protected $hidden = [
+        'content',
+        'type',
+        'id',
+    ];
+
     protected $casts = [
         'content' => 'array',
     ];

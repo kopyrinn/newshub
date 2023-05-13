@@ -88,16 +88,16 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-            new \Tightenco\NovaGoogleAnalytics\PageViewsMetric,
-            new \Tightenco\NovaGoogleAnalytics\VisitorsMetric,
-            new \Tightenco\NovaGoogleAnalytics\OneDayActiveUsersMetric,
-            new \Tightenco\NovaGoogleAnalytics\SevenDayActiveUsersMetric,
-            new \Tightenco\NovaGoogleAnalytics\FourteenDayActiveUsersMetric,
-            new \Tightenco\NovaGoogleAnalytics\TwentyEightDayActiveUsersMetric,
-            new \Tightenco\NovaGoogleAnalytics\SessionsByDeviceMetric,
-            new \Tightenco\NovaGoogleAnalytics\SessionsByCountryMetric,
-            new \Tightenco\NovaGoogleAnalytics\ReferrersList,
-            new \Tightenco\NovaGoogleAnalytics\MostVisitedPagesCard,
+            // new \Tightenco\NovaGoogleAnalytics\PageViewsMetric,
+            // new \Tightenco\NovaGoogleAnalytics\VisitorsMetric,
+            // new \Tightenco\NovaGoogleAnalytics\OneDayActiveUsersMetric,
+            // new \Tightenco\NovaGoogleAnalytics\SevenDayActiveUsersMetric,
+            // new \Tightenco\NovaGoogleAnalytics\FourteenDayActiveUsersMetric,
+            // new \Tightenco\NovaGoogleAnalytics\TwentyEightDayActiveUsersMetric,
+            // new \Tightenco\NovaGoogleAnalytics\SessionsByDeviceMetric,
+            // new \Tightenco\NovaGoogleAnalytics\SessionsByCountryMetric,
+            // new \Tightenco\NovaGoogleAnalytics\ReferrersList,
+            // new \Tightenco\NovaGoogleAnalytics\MostVisitedPagesCard,
         ];
     }
 
@@ -109,7 +109,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function dashboards()
     {
         return [
-            new \Appstract\NovaHorizon\Dashboard,
+            // new \Appstract\NovaHorizon\Dashboard,
         ];
     }
 
@@ -128,9 +128,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             (new \OptimistDigital\NovaSettings\NovaSettings())->canSee(function ($request) {
                 return auth()->user()->isAdmin();
             }),
-            (new NovaTranslation())->canSee(function ($request) {
-                return auth()->user()->isAdmin();
-            }),
+            // (new NovaTranslation())->canSee(function ($request) {
+            //     return auth()->user()->isAdmin();
+            // }),
             (new \Infinety\Filemanager\FilemanagerTool())->canSee(function ($request) {
                 return auth()->user()->isAdmin();
             }),

@@ -1,0 +1,226 @@
+import { createRouter, createWebHistory, createMemoryHistory } from "vue-router"
+
+const routes = [
+    {
+        path: "/:locale(en|kk)?",
+        name: "locale",
+        children: [
+            {
+                path: "",
+                name: "index",
+                component: () => import("@/views/Index.vue"),
+                meta: {
+                    title: 'Home',
+                    toolbar: false,
+                    animate: true,
+                },
+            },
+            {
+                path: "feed",
+                name: "feed",
+                component: () => import("@/views/Posts/Feed.vue"),
+                meta: {
+                    noSsr: true,
+                    title: 'My Feed',
+                    toolbar: true,
+                    animate: true,
+                },
+            },
+            {
+                path: "login",
+                name: "login",
+                component: () => import("@/views/Auth/Auth.vue"),
+                meta: {
+                    title: 'Login',
+                    toolbar: false,
+                    animate: true,
+                },
+            },
+            {
+                path: "map",
+                name: "map",
+                component: () => import("@/views/Map.vue"),
+                meta: {
+                    noSsr: true,
+                    title: 'Media Map',
+                    toolbar: true,
+                    animate: true,
+                },
+            },
+            {
+                path: "packages/:slug?",
+                name: "packages",
+                component: () => import("@/views/Packages.vue"),
+                meta: {
+                    title: 'Packages',
+                    toolbar: true,
+                    animate: false,
+                },
+            },
+            {
+                path: "polls",
+                name: "polls",
+                component: () => import("@/views/Polls/Polls.vue"),
+                meta: {
+                    title: 'Polls',
+                    toolbar: true,
+                    animate: true,
+                },
+            },
+            {
+                path: "polls/:slug",
+                name: "poll",
+                component: () => import("@/views/Polls/Poll.vue"),
+                meta: {
+                    title: 'Polls',
+                    toolbar: false,
+                    animate: true,
+                },
+            },
+            {
+                path: "users",
+                name: "users",
+                component: () => import("@/views/Users/Users.vue"),
+                meta: {
+                    title: 'Press Center',
+                    toolbar: true,
+                    animate: true,
+                },
+            },
+            {
+                path: "users/:slug",
+                name: "user-category",
+                component: () => import("@/views/Users/Category.vue"),
+                meta: {
+                    toolbar: true,
+                    animate: true,
+                },
+            },
+            {
+                path: "user/:slug",
+                component: () => import("@/views/Users/User.vue"),
+                meta: {
+                    toolbar: false,
+                    animate: true,
+                },
+                children: [
+                    {
+                        path: "",
+                        name: "user",
+                        component: () => import("@/views/Users/Account/Overview.vue"),
+                        meta: {
+                            toolbar: false,
+                            animate: false,
+                        },
+                    },
+                    {
+                        path: "settings",
+                        name: "user-settings",
+                        component: () => import("@/views/Users/Account/Settings.vue"),
+                        meta: {
+                            noSsr: true,
+                            toolbar: false,
+                            animate: false,
+                        },
+                    },
+                    {
+                        path: "workspace",
+                        name: "user-workspace",
+                        component: () => import("@/views/Users/Account/Workspace.vue"),
+                        meta: {
+                            noSsr: true,
+                            toolbar: false,
+                            animate: false,
+                        },
+                    },
+                    {
+                        path: "actions",
+                        name: "user-actions",
+                        component: () => import("@/views/Users/Account/Actions.vue"),
+                        meta: {
+                            noSsr: true,
+                            toolbar: false,
+                            animate: false,
+                        },
+                    },
+                    {
+                        path: "notifications",
+                        name: "user-notifications",
+                        component: () => import("@/views/Users/Account/Notifications.vue"),
+                        meta: {
+                            noSsr: true,
+                            toolbar: false,
+                            animate: false,
+                        },
+                    },
+                ],
+            },
+            {
+                path: "vacancies",
+                name: "vacancies",
+                component: () => import("@/views/Vacancies/Vacancies.vue"),
+                meta: {
+                    title: 'Vacancies',
+                    toolbar: true,
+                    animate: true,
+                },
+            },
+            {
+                path: "vacancies/:slug",
+                name: "vacancy",
+                component: () => import("@/views/Vacancies/Vacancy.vue"),
+                meta: {
+                    toolbar: false,
+                    animate: true,
+                },
+            },
+            {
+                path: "category/:slug/:rubric?",
+                name: "category",
+                component: () => import("@/views/Posts/Category.vue"),
+                meta: {
+                    toolbar: true,
+                    animate: true,
+                },
+            },
+            {
+                path: "post/:slug",
+                name: "post",
+                component: () => import("@/views/Posts/Post.vue"),
+                meta: {
+                    toolbar: false,
+                    animate: true,
+                },
+            },
+            {
+                path: "page/:slug",
+                name: "page",
+                component: () => import("@/views/Page.vue"),
+                meta: {
+                    toolbar: true,
+                    animate: true,
+                },
+            },
+        ]
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        component: () => import("@/views/404.vue"),
+    },
+];
+
+const history = import.meta.env.SSR ? createMemoryHistory() : createWebHistory()
+
+const router = createRouter({
+    history,
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        } else {
+            return { top: 0 }
+        }
+    },
+})
+
+export default router

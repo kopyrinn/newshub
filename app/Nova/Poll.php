@@ -102,6 +102,12 @@ class Poll extends Resource
             DateTime::make(__('Дата завершения'), 'expired_at')
                 ->sortable()
             ,
+            Boolean::make(__('Скрыть после завершения'), 'is_hide_after_expired')
+                ->default(0)
+                ->hideFromIndex()
+                ->help('Скрыть участников (кроме победителя) после завершения голосования')
+                ->sortable()
+            ,
             HasMany::make(__('Участники'), 'requests', PollRequest::class),
             HasMany::make(__('Голоса'), 'votes', PollVote::class)
         ];

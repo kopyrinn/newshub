@@ -1,9 +1,11 @@
 /node_modules
 /public/hot
 /public/storage
+/public/.well-known
 /storage/*.key
 /vendor
 .env
+.user.ini
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
@@ -15,3 +17,6 @@ yarn-error.log
 /.vscode
 /public/assets/rates_all.xml
 /public/sitemap.xml
+/dist/client
+/dist/server
+/dist/sw.js

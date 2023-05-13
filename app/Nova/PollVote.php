@@ -31,7 +31,7 @@ class PollVote extends Resource
      * @var  array
      */
     public static $search = [
-        '',
+        ' ',
     ];
 
     /**
@@ -68,15 +68,19 @@ class PollVote extends Resource
                 ->sortable()
             ,
             BelongsTo::make(__('Опрос'), 'poll', Poll::class)
+                ->sortable()
                 ->searchable()
             ,
             BelongsTo::make(__('Участник'), 'pollRequest', PollRequest::class)
+                ->sortable()
                 ->searchable()
             ,
             BelongsTo::make(__('Пользователь'), 'user', User::class)
+                ->sortable()
                 ->searchable()
             ,
             Text::make(__('ip'), 'ip')
+                ->sortable()
             ,
         ];
     }

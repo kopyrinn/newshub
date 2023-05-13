@@ -14,6 +14,16 @@ class Poll extends Model
         'expired_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'read_mins',
+    ];
+
+    public function getReadMinsAttribute()
+    {
+        $length = substr_count(strip_tags(html_entity_decode($this->description)), ' ');
+        return ceil($length / 190);
+    }
+
     public function requests()
     {
         return $this->hasMany(PollRequest::class);
@@ -22,5 +32,11 @@ class Poll extends Model
     public function votes()
     {
         return $this->hasMany(PollVote::class);
+    }
+
+    public function getSummary($length = 200)
+    {
+        $summary = $this->summary? strip_tags(html_entity_decode($this->summary)): strip_tags(html_entity_decode($this->description));
+        return \Str::limit($summary, $length);
     }
 }

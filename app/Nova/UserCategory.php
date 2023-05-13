@@ -11,6 +11,7 @@ use Laravel\Nova\Fields\Text;
 use Kongulov\NovaTabTranslatable\NovaTabTranslatable;
 use Kongulov\NovaTabTranslatable\TranslatableTabToRowTrait;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Image;
 
 class UserCategory extends Resource
 {
@@ -84,9 +85,8 @@ class UserCategory extends Resource
                 ->rules('required')
                 ->sortable()
             ,
-            FilemanagerField::make(__('Image'), 'image')
-                ->folder('user_categories')
-                ->displayAsImage()
+            Image::make(__('Image'), 'image')
+                ->path('user_categories')
             ,
             HasMany::make(__('Users'), 'users', User::class),
         ];

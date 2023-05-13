@@ -19,7 +19,7 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Artisan::command('test', function () {
-
+    dd(\Carbon\Carbon::now());
     $category = \App\Models\Category::where('slug', 'sobitiya')
         ->first();
 

@@ -8,13 +8,13 @@ class Format
 {
     public static function thumb($image, $w, $h)
     {
-        try {
-            $thumb = \Thumbnail::src("/{$image}", 'public')->crop($w, $h)->url(true);
-            return $thumb;
-        } catch (\Exception $e) {
-            // return asset("uploads/image/img_placeholder.svg");
-            return asset("storage/{$image}");
-        }
+        // try {
+        //     // $thumb = \Thumbnail::src("/{$image}", 'public')->crop($w, $h)->url(true);
+        //     // return $thumb;
+        // } catch (\Exception $e) {
+        //     // return asset("uploads/image/img_placeholder.svg");
+        // }
+        return asset("storage/{$image}");
     }
 
     public static function num(int $number)

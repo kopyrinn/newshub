@@ -2,9 +2,10 @@
 
 namespace App\Traits;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-use Spatie\Translatable\Events\TranslationHasBeenSet;
+use Spatie\Translatable\Events\TranslationHasBeenSetEvent;
 use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 trait HasTranslations
@@ -109,7 +110,7 @@ trait HasTranslations
 
         $this->attributes[$key] = json_encode($translations, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
-        event(new TranslationHasBeenSet($this, $key, $locale, $oldValue, $value));
+        event(new TranslationHasBeenSetEvent($this, $key, $locale, $oldValue, $value));
 
         return $this;
     }
@@ -238,5 +239,20 @@ trait HasTranslations
             parent::getCasts(),
             array_fill_keys($this->getTranslatableAttributes(), 'array')
         );
+    }
+
+    public function toArray(): array
+    {
+        $array = parent::toArray();
+
+        $attributes = $this->getTranslatableAttributes();
+    
+        foreach ($attributes as $attribute) {
+            if (!isset($array[$attribute])) continue;
+
+            $array[$attribute] = $this->getTranslation($attribute, App::getLocale());
+        }
+
+        return $array;
     }
 }
