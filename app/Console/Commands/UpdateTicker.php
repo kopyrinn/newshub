@@ -31,7 +31,7 @@ class UpdateTicker extends Command
         $rates = [];
 
         try {
-            $url = "https://newshub.kz/assets/rates_all.xml";
+            $url = "https://nationalbank.kz/rss/rates_all.xml";
             $dataObj = simplexml_load_file($url);
 
             if (!$dataObj) return;
