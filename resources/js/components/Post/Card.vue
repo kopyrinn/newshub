@@ -1,5 +1,5 @@
 <template>
-    <div class="card card-flush mb-6">
+    <div class="card card-flush mb-6 overflow-hidden">
         <div class="card-header px-6 pt-0 pb-0">
             <div class="d-flex align-items-center text-truncate">
                 <div class="symbol symbol-40px me-5">
