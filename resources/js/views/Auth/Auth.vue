@@ -192,7 +192,7 @@
                                         <span class="d-block fw-semibold text-start">
                                             <span class="text-dark fw-bold d-block fs-3">{{ $t('Journalist') }}</span>
                                             <span class="text-muted fw-semibold fs-6">
-                                                {{ $t('Journalist role.') }}
+                                                {{ $t('Journalist role') }}
                                             </span>
                                         </span>
                                     </label>
@@ -203,7 +203,7 @@
 
                                         <span class="d-block fw-semibold text-start">
                                             <span class="text-dark fw-bold d-block fs-3">{{ $t('Press Center') }}</span>
-                                            <span class="text-muted fw-semibold fs-6">{{ $t('Press center role.') }}</span>
+                                            <span class="text-muted fw-semibold fs-6">{{ $t('Press center role') }}</span>
                                         </span>
                                     </label>
                                 </div>
@@ -470,11 +470,15 @@ export default defineComponent({
             })
         },
         register() {
+            this.loading = true
+
             this.$api('register', false, {
                 method: 'post',
                 data: this.form
             })
             .then(({data}) => {
+                this.loading = false
+
                 if (data.ok) {
                     this.$store.commit('setToken', data.token)
                     this.$store.commit('setUser', data.user)
@@ -485,17 +489,20 @@ export default defineComponent({
                 }
             })
             .catch(({response}) => {
-                // if (response.status === 200) {
-                    this.errors = {...response.data.errors}
-                // }
+                this.loading = false
+                this.errors = {...response.data.errors}
             })
         },
         reset() {
+            this.loading = true
+
             this.$api('reset', false, {
                 method: 'post',
                 data: this.form
             })
             .then(({data}) => {
+                this.loading = false
+
                 if (data.ok) {
                     this.message = "Мы отправили на ваш Email новые доступы к аккаунту"
                 } else {
@@ -503,6 +510,8 @@ export default defineComponent({
                 }
             })
             .catch(({response}) => {
+                this.loading = false
+
                 // if (response.status === 200) {
                     this.errors = {...response.data.errors}
                 // }

@@ -4,7 +4,7 @@
             <div v-if="loading && !users.length">
                 <CardSkeleton v-for="n in 8"/>
             </div>
-            <div v-else>
+            <div v-else-if="users.length">
                 <div v-for="item in users" class="card border-hover-primary mb-6">
                     <div class="card-body p-5">
                         <div class="d-flex overflow-hidden">
@@ -30,6 +30,18 @@
                                 </button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div v-else class="card mb-5">
+                <div class="card-body text-center">
+                    <!--begin::Icon-->
+                    <div class="pt-10 pb-10">
+                        <i class="ki-duotone ki-search-list fs-4x opacity-50"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                    </div>
+                    <div class="pb-15 fw-semibold">
+                        <h3 class="text-gray-600 fs-5 mb-2">{{ $t('Not found results')}}</h3>
+                        <div class="text-muted fs-7">{{ $t('Please try again with a different query') }}</div>
                     </div>
                 </div>
             </div>
@@ -83,7 +95,7 @@ export default defineComponent({
 
             this.$api(`users/${this.slug}`)
             .then(({data}) => {
-                // this.loading = false
+                this.loading = false
 
                 if (!data.ok) return
 

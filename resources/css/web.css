@@ -99273,13 +99273,18 @@ body {
 .object-position-center {
   object-position: 50% 50%;
 }
-.article img,
 .article iframe,
 .article video,
-.article picture {
+.article picture,
+.article img {
   max-width: 100%;
   border-radius: 0.475rem !important;
   object-fit: contain;
+  margin: 0 auto;
+  display: block;
+}
+.article picture,
+.article img {
   height: auto;
 }
 .el-notification__content {

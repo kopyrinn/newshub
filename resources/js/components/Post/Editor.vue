@@ -253,6 +253,26 @@ export default defineComponent({
         Popper,
     },
     data() {
+        const postTemplate = {
+            title: {
+                en: '',
+                ru: '',
+                kk: '',
+            },
+            summary: {
+                en: '',
+                ru: '',
+                kk: '',
+            },
+            content: {
+                en: '',
+                ru: '',
+                kk: '',
+            },
+            files: [],
+            category_id: '',
+        }
+
         return {
             editor: null,
             photoEditorUploading: false,
@@ -262,25 +282,8 @@ export default defineComponent({
             loading: true,
             inited: false,
             locale: this.$root.locale,
-            post: {
-                title: {
-                    en: '',
-                    ru: '',
-                    kk: '',
-                },
-                summary: {
-                    en: '',
-                    ru: '',
-                    kk: '',
-                },
-                content: {
-                    en: '',
-                    ru: '',
-                    kk: '',
-                },
-                files: [],
-                category_id: '',
-            },
+            post: {...postTemplate},
+            postTemplate: {...postTemplate},
         }
     },
     computed: {
@@ -292,6 +295,8 @@ export default defineComponent({
         if (this.$root.post) {
             this.fetchData()
         } else {
+            this.post = {...this.postTemplate}
+
             if (this.$root.postEditorEvent) {
                 this.post.category_id = 8
                 this.$root.postEditorEvent = false

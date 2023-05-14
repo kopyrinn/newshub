@@ -30,7 +30,7 @@
                                 <template #content="{ close }">
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 mw-225px min-w-200px w-100 show">
                                         <div class="menu-item px-5">
-                                            <a href="" @click.prevent="openModal('post-editor'), close()" class="menu-link px-3">
+                                            <a href="" @click.prevent="post = null, openModal('post-editor'), close()" class="menu-link px-3">
                                                 <span class="menu-icon">
                                                     <i class="ki-duotone fs-2 ki-subtitle"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i></i>
                                                 </span>
@@ -38,7 +38,7 @@
                                             </a>
                                         </div>
                                         <div class="menu-item px-5">
-                                            <a href="" @click.prevent="postEditorEvent = true, openModal('post-editor'), close()" class="menu-link px-3">
+                                            <a href="" @click.prevent="post = null, postEditorEvent = true, openModal('post-editor'), close()" class="menu-link px-3">
                                                 <span class="menu-icon">
                                                     <i class="ki-duotone fs-2 ki-calendar-tick"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i><i class="path6"></i></i>
                                                 </span>
@@ -46,7 +46,7 @@
                                             </a>
                                         </div>
                                         <div class="menu-item px-5">
-                                            <a href="" @click.prevent="openModal('vacancy-editor'), close()" class="menu-link px-3">
+                                            <a href="" @click.prevent="vacancy = null, openModal('vacancy-editor'), close()" class="menu-link px-3">
                                                 <span class="menu-icon">
                                                     <i class="ki-duotone ki-brifecase-timer fs-2"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
                                                 </span>
@@ -196,7 +196,7 @@
 
                             <template #content="{ close }">
                                 <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-2 fs-7 mw-150px min-w-150px w-100 show">
-                                    <div class="px-5 fw-bold fs-6 py-2">{{ $t('System language') }}:</div>
+                                    <div class="px-5 fw-bold text-gray-700 fs-6 py-2">{{ $t('System language') }}</div>
                                     <div v-for="(lang, key) in languages" class="menu-item py-0">
                                         <a href="" @click.prevent="setLocale(key)" class="menu-link rounded-0 px-5">
                                             <span class="menu-title">{{ lang.name }}</span>

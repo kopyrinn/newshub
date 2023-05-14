@@ -37,7 +37,7 @@
                             </div>
                             <!--end::Info-->
                         </div>
-                        <div class="fs-5 fw-semibold">
+                        <div class="fs-5 fw-semibold article">
                             <p class="mb-8" v-html="content"></p>
                         </div>
                         <!--end::Wrapper-->

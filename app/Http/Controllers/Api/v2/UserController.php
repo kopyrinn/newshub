@@ -138,7 +138,7 @@ class UserController extends Controller
     public function workspace(Request $request)
     {
         $user = auth('sanctum')->user();
-        abort_if(!$user->isPress(), 403);
+        abort_if(!$user || !$user->isPress(), 403);
 
         $query = $user->posts()->select('id', 'title', 'slug', 'created_at');
 
@@ -170,7 +170,7 @@ class UserController extends Controller
     public function postDelete(Request $request, $slug)
     {
         $user = auth('sanctum')->user();
-        abort_if(!$user->isPress(), 403);
+        abort_if(!$user || !$user->isPress(), 403);
 
         $post = $user->posts()->where('slug', $slug)->first();
         abort_if(!$post, 404);
@@ -185,7 +185,7 @@ class UserController extends Controller
     public function postUpdate(Request $request, $slug)
     {
         $user = auth('sanctum')->user();
-        abort_if(!$user->isPress(), 403);
+        abort_if(!$user || !$user->isPress(), 403);
 
         $post = $user->posts()->where('slug', $slug)->first();
         abort_if(!$post, 404);

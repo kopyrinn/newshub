@@ -22,7 +22,7 @@
                         {{ $t('3 Month') }}
                     </button>
                     <button class="btn btn-color-gray-400 btn-active btn-active-secondary px-6 py-3 me-2" @click="period = 6" :class="{'active': period === 6}">
-                        {{ $t('3 Month') }}
+                        {{ $t('6 Month') }}
                     </button>
                     <button class="btn btn-color-gray-400 btn-active btn-active-secondary px-6 py-3" @click="period = 12" :class="{'active': period === 12}">
                         {{ $t('Annual') }}
@@ -214,6 +214,8 @@ export default defineComponent({
             })
         },
         choosePackage(item) {
+            if (!this.$root.user) return this.$router.push({name: 'login', params: {locale: this.$root.locale == 'ru'? '': this.$root.locale}})
+
             this.plan = item
             this.slug = item.slug
             this.$router.push({name: 'packages', params: {slug: item.slug}})

@@ -93,15 +93,16 @@ class Post extends Resource
                 ->sortable()
             ,
             Image::make(__('Image'), 'image')
-                ->rules('required')
-                ->path("posts/" . date('Y-m-d'))
+                ->creationRules('required')
+                ->path('img/large')
+                ->nullable()
             ,
             // FilemanagerField::make(__('Image'), 'image')
             //     ->folder('posts')
             //     ->displayAsImage()
             // ,
             Text::make(__('Image Caption'), 'image_caption')
-                ->rules('required')
+                // ->creationRules('required')
                 ->hideFromIndex()
             ,
             NovaTabTranslatable::make([

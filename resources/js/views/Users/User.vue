@@ -36,7 +36,7 @@
                                 </div>
                             </div>
 
-                            <div v-if="!isOwner" class="d-flex my-4">
+                            <div v-if="!isOwner && $root.user" class="d-flex my-4">
                                 <button @click="$root.follow($root.feeds.includes(user.id)? 0: 1, user.id)" class="btn btn-sm btn-light" :class="{'btn-active-light-success': !$root.feeds.includes(user.id), 'btn-active-light-danger': $root.feeds.includes(user.id)}">
                                     <i class="ki-duotone ki-check fs-4" :class="{'d-none': !$root.feeds.includes(user.id)}"></i>{{ !$root.feeds.includes(user.id)? $t('Follow'): $t('Unfollow') }}
                                 </button>

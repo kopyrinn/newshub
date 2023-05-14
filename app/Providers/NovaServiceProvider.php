@@ -2,18 +2,12 @@
 
 namespace App\Providers;
 
-use App\Models\Post;
-use App\Observers\PostObserver;
-use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Panel;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Silvanite\NovaToolPermissions\NovaToolPermissions;
-use Joedixon\NovaTranslation\NovaTranslation;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
-use DigitalCreative\NovaDashboard\NovaDashboard;
-use NovaBi\NovaDashboardManager\DashboardManager;
 use Laravel\Nova\Fields\Image;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -128,9 +122,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             (new \OptimistDigital\NovaSettings\NovaSettings())->canSee(function ($request) {
                 return auth()->user()->isAdmin();
             }),
-            // (new NovaTranslation())->canSee(function ($request) {
-            //     return auth()->user()->isAdmin();
-            // }),
             (new \Infinety\Filemanager\FilemanagerTool())->canSee(function ($request) {
                 return auth()->user()->isAdmin();
             }),

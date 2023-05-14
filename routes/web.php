@@ -1,13 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MobileHomeController;
-use App\Http\Controllers\UploadController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\FcmController;
-use Illuminate\Support\Facades\App;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +18,5 @@ use Illuminate\Support\Facades\App;
 Route::domain('m.newshub.kz')->group(function () {
     Route::get('/', [MobileHomeController::class, 'index'])->name('mobile.home');
 });
+
+Auth::routes(['verify' => true]);

@@ -12,6 +12,7 @@
         "digital-creative/conditional-container": "^1.4",
         "emilianotisato/nova-tinymce": "^1.2",
         "google/recaptcha": "^1.2",
+        "gregoriohc/laravel-nova-theme-responsive": "^0.8.1",
         "guzzlehttp/guzzle": "^7.2",
         "gwd/seo-meta-nova-field": "^1.2",
         "halimtuhu/array-files": "^1.0",

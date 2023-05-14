@@ -184,8 +184,6 @@ return [
         'app',
         'bootstrap',
         'config',
-        'database',
-        'public/**/*.php',
         'resources/**/*.php',
         'routes',
         'composer.lock',

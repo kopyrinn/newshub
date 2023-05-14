@@ -55,7 +55,7 @@ export default defineComponent({
                     sortable: false,
                 },
                 {
-                    name: this.$t('time'),
+                    name: this.$t('Time'),
                     key: "created_at",
                     sortable: false,
                 },

@@ -258,6 +258,8 @@ class AuthController extends Controller
 
         $token = $user->createToken($request->ip() . ':' . $request->userAgent());
 
+        $user->sendEmailVerificationNotification();
+
         return response()->json([
             'ok' => true,
             'user' => $user->withInfo(),

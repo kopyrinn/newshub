@@ -6,7 +6,8 @@
                     <div class="card-title">
                         <div class="d-flex align-items-center position-relative my-1">
                         <span class="svg-icon svg-icon-1 position-absolute ms-6">
-                            <inline-svg src="/assets/media/icons/duotune/general/gen021.svg" />
+                            <i class="ki-duotone ki-magnifier fs-2"><i class="path1"></i><i class="path2"></i></i>
+                            <!-- <inline-svg src="/assets/media/icons/duotune/general/gen021.svg" /> -->
                         </span>
                         <input
                             type="text"
@@ -92,19 +93,13 @@
                                 @click="$root.post = item.slug, $root.openModal('post-editor')"
                                 class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"
                             >
-                                <span class="svg-icon svg-icon-3">
-                                <inline-svg src="/assets/media/icons/duotune/art/art005.svg" />
-                                </span>
+                                <i class="ki-duotone ki-notepad-edit fs-2"><i class="path1"></i><i class="path2"></i></i>
                             </button>
 
                             <a
                                 class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm"
                             >
-                                <span class="svg-icon svg-icon-3">
-                                <inline-svg
-                                    src="/assets/media/icons/duotune/general/gen027.svg"
-                                />
-                                </span>
+                                <i class="ki-duotone ki-trash-square fs-2"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i></i>
                             </a>
                         </template>
                     </VTable>
