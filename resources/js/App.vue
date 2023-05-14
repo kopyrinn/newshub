@@ -68,7 +68,7 @@
 
                                 <template #content="{ close }">
                                     <div class="menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-375px show">
-                                        <div class="d-flex flex-column bgi-no-repeat rounded-top" style="background-image:url('/assets/media/patterns/menu-header-bg.jpg')">
+                                        <div class="d-flex flex-column bgi-no-repeat rounded-top" :style="{backgroundImage: 'url(' + $media('patterns/menu-header-bg.jpg') + ')'}">
                                             <h3 class="text-white d-flex align-items-center fw-semibold px-9 mt-10 mb-9">
                                                 {{ $t('Notifications') }} <span v-if="user.notifications_count" class="fs-8 badge badge-danger  opacity-75 ms-3">{{ user.notifications_count }}</span>
                                             </h3>
@@ -185,23 +185,20 @@
                 <div class="app-sidebar-header d-flex flex-column px-10 pt-8">
                     <!--begin::Brand-->
                     <div class="d-flex flex-stack mb-5">
-                        <!-- <img src="/assets/logo.png" class="mw-200px mw-lg-225px"/> -->
                         <app-link to="/" class="fs-2">
                             <span class="bg-primary text-white fw-bolder me-1 p-1 rounded">NEWS</span><span class="fw-bolder text-primary">HUB.KZ</span>
                         </app-link>
 
                         <Popper placement="bottom-end" hover class="d-block">
                             <button type="button" class="btn btn-sm text-gray-700 fs-8 py-2 px-3 btn-active-light-secondary btn-active-color-primary d-flex align-items-center">
-                                {{ languages[locale].name }}<img class="w-15px h-15px rounded-1 ms-2" :src="icons[locale]" alt="">
+                                {{ languages[locale].name }}
                             </button>
 
                             <template #content="{ close }">
-                                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-2 fs-7 mw-125px min-w-125px w-100 show">
+                                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-2 fs-7 mw-150px min-w-150px w-100 show">
+                                    <div class="px-5 fw-bold fs-6 py-2">{{ $t('System language') }}:</div>
                                     <div v-for="(lang, key) in languages" class="menu-item py-0">
-                                        <a href="" @click.prevent="setLocale(key)" class="menu-link rounded-0 px-3">
-                                            <span class="menu-icon">
-                                                <img class="w-15px h-15px rounded-1" :src="icons[key]" alt="">
-                                            </span>
+                                        <a href="" @click.prevent="setLocale(key)" class="menu-link rounded-0 px-5">
                                             <span class="menu-title">{{ lang.name }}</span>
                                         </a>
                                     </div>
@@ -498,10 +495,10 @@ export default defineComponent({
     data() {
         return {
             icons: {
-                eu: '/assets/media/flags/european-union.svg',
-                ru: '/assets/media/flags/russia.svg',
-                en: '/assets/media/flags/united-states.svg',
-                kk: '/assets/media/flags/kazakhstan.svg',
+                eu: this.$media('flags/european-union.svg'),
+                ru: this.$media('flags/russia.svg'),
+                en: this.$media('flags/united-states.svg'),
+                kk: this.$media('flags/kazakhstan.svg'),
             },
             isMobile: window.innerWidth < 576,
             isTab: window.innerWidth < 768,
@@ -520,14 +517,14 @@ export default defineComponent({
             sideOpen: false,
             langMenu: false,
             languages: {
-                en: {
-                    name: 'English',
-                },
                 ru: {
                     name: 'Русский',
                 },
                 kk: {
                     name: 'Қазақ Тілі',
+                },
+                en: {
+                    name: 'English',
                 },
             },
             post: '',
@@ -902,15 +899,6 @@ export default defineComponent({
             this.$store.commit('setUser', false)
             this.$store.commit('setToken', false)
         },
-        kNum(num) {
-            return Math.abs(num) >= 800 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k' : Math.sign(num)*Math.abs(num)
-        },
-        openLogin() {
-            this.openModal('login')
-        },
-        login(type = 'extension') {
-            if (!this.agree) return
-        },
         copyText(text) {
             if (this.$clipboard) {
                 const writeToClipboard = async () => {
@@ -966,14 +954,27 @@ export default defineComponent({
             };
 
             if (!import.meta.env.SSR) {
-                window.addEventListener('focus', onWindowFocusChange);
-                window.addEventListener('blur', onWindowFocusChange);
-                window.addEventListener('pageshow', onWindowFocusChange);
-                window.addEventListener('pagehide', onWindowFocusChange);
+                window.addEventListener('focus', onWindowFocusChange)
+                window.addEventListener('blur', onWindowFocusChange)
+                window.addEventListener('pageshow', onWindowFocusChange)
+                window.addEventListener('pagehide', onWindowFocusChange)
             }
         },
-        capitalize(s) {
-            return s && s[0].toUpperCase() + s.slice(1)
+        shareWith(net, url, title, summary) {
+            url = encodeURI(url)
+
+            if (title) title = encodeURI(title)
+            if (summary) summary = encodeURI(summary)
+
+            if (net == 'fb') {
+                return `https://www.facebook.com/sharer/sharer.php?u=${url}`
+            } else if (net == 'vk') {
+                return `http://vk.com/share.php?url=${url}`
+            } else if (net == 'tg') {
+                return `https://t.me/share/url?url=${url}`
+            } else if (net == 'tw') {
+                return `http://twitter.com/share?url=${url}`
+            }
         },
     }
 });

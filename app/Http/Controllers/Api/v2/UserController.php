@@ -47,7 +47,7 @@ class UserController extends Controller
         $user = User::find($id);
         abort_if(!$user, 404);
 
-        $user->role_names = $user->roles()->select('name')->pluck('name');
+        $user->role_names = $user->roles()->select('name')->where('slug', '!=', 'admin')->pluck('name');
 
         return response()->json([
             'ok' => true,

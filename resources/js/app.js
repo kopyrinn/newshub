@@ -10,7 +10,7 @@ store.commit('setTitle', '')
 
 router.beforeEach((to, from, next) => {
     if (to.meta.title) {
-        store.commit('setTitle', to.meta.title)
+        store.commit('setTitle', app.config.globalProperties.$t(to.meta.title))
     }
 
     next()

@@ -42,7 +42,7 @@
 
                                                 <div class="me-6 flex-shrink-0">
                                                     <div class="symbol symbol-50px w-50px symbol-sm-100px w-sm-100px bg-light rounded-3">
-                                                        <img :src="$url('/storage/' + participant.avatar)" class="object-fit-cover rounded-3" alt=""> 
+                                                        <img :src="$url('/storage/' + participant.photo)" class="object-fit-cover rounded-3" alt=""> 
                                                     </div>
                                                 </div>
                                                 
@@ -51,7 +51,7 @@
                                                         {{ participant.name }}
                                                     </h2>
                                                     <div class="fw-semibold opacity-50" v-snip="{lines: $root.isMobile? 2: 3}">
-                                                        {{ participant.description }}
+                                                        {{ participant.position }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -75,7 +75,7 @@
                                             <div class="d-flex flex-stack text-start mb-5">
                                                 <div class="me-6 flex-shrink-0">
                                                     <app-link :to="{name: 'user', params: {slug: participant.uid}}" class="symbol symbol-50px w-50px symbol-sm-100px w-sm-100px bg-light rounded-3">
-                                                        <img :src="$url('/storage/' + participant.avatar)" class="object-fit-cover rounded-3" alt=""> 
+                                                        <img :src="$url('/storage/' + participant.photo)" class="object-fit-cover rounded-3" alt=""> 
                                                     </app-link>
                                                 </div>
                                                 
@@ -84,7 +84,7 @@
                                                         {{ participant.name }}
                                                     </app-link>
                                                     <div class="fw-semibold text-gray-800" v-snip="{lines: $root.isMobile? 2: 3}">
-                                                        {{ participant.description }}
+                                                        {{ participant.position }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -104,54 +104,18 @@
                             </div>
 
                             <div class="d-flex flex-center">
-                                <!--begin::Icon-->
-                                <a href="#" class="mx-4">
-                                    <img src="/assets/media/svg/brand-logos/facebook-4.svg" class="h-20px my-2"
-                                        alt="">
+                                <a :href="$root.shareWith('tg', $base($route.fullPath))" class="mx-4">
+                                    <img :src="$media('svg/brand-logos/telegram.svg')" class="h-20px my-2" alt="">
                                 </a>
-                                <!--end::Icon-->
-
-                                <!--begin::Icon-->
-                                <a href="#" class="mx-4">
-                                    <img src="/assets/media/svg/brand-logos/instagram-2-1.svg"
-                                        class="h-20px my-2" alt="">
+                                <a :href="$root.shareWith('vk', $base($route.fullPath))" class="mx-4">
+                                    <img :src="$media('svg/brand-logos/vk.svg')" class="h-20px my-2" alt="">
                                 </a>
-                                <!--end::Icon-->
-
-                                <!--begin::Icon-->
-                                <a href="#" class="mx-4">
-                                    <img src="/assets/media/svg/brand-logos/github.svg" class="h-20px my-2"
-                                        alt="">
+                                <a :href="$root.shareWith('tw', $base($route.fullPath))" class="mx-4">
+                                    <img :src="$media('svg/brand-logos/twitter.svg')" class="h-20px my-2" alt="">
                                 </a>
-                                <!--end::Icon-->
-
-                                <!--begin::Icon-->
-                                <a href="#" class="mx-4">
-                                    <img src="/assets/media/svg/brand-logos/behance.svg" class="h-20px my-2"
-                                        alt="">
+                                <a :href="$root.shareWith('fb', $base($route.fullPath))" class="mx-4">
+                                    <img :src="$media('svg/brand-logos/facebook-4.svg')" class="h-20px my-2" alt="">
                                 </a>
-                                <!--end::Icon-->
-
-                                <!--begin::Icon-->
-                                <a href="#" class="mx-4">
-                                    <img src="/assets/media/svg/brand-logos/pinterest-p.svg" class="h-20px my-2"
-                                        alt="">
-                                </a>
-                                <!--end::Icon-->
-
-                                <!--begin::Icon-->
-                                <a href="#" class="mx-4">
-                                    <img src="/assets/media/svg/brand-logos/twitter.svg" class="h-20px my-2"
-                                        alt="">
-                                </a>
-                                <!--end::Icon-->
-
-                                <!--begin::Icon-->
-                                <a href="#" class="mx-4">
-                                    <img src="/assets/media/svg/brand-logos/dribbble-icon-1.svg"
-                                        class="h-20px my-2" alt="">
-                                </a>
-                                <!--end::Icon-->
                             </div>
                         </div>
                     </div>
@@ -193,13 +157,6 @@
 
             <template #footer>
                 <div class="m-0 d-flex align-items-center">
-                    <!-- <div class="form-check form-switch form-check-custom form-check-solid me-4">
-                        <input class="form-check-input h-25px w-40px" type="checkbox" value="" id="flexSwitch20x30"/>
-                        <label class="form-check-label text-gray-700 fw-bold" for="flexSwitch20x30">
-                            {{ $t('Save draft') }}
-                        </label>
-                    </div> -->
-                    <!-- <button type="button" class="btn btn-sm rounded-2 btn-light-danger py-1 px-2 fs-8" @click="">{{ $t('Clear draft') }}</button> -->
                 </div>
                 <div>
                     <button :disabled="isSend" type="button" class="btn rounded-2 btn-light me-2" @click="$root.closeModal('poll-request')">{{ $t('Close') }}</button>
@@ -245,7 +202,29 @@ export default defineComponent({
     },
     head() {
         return {
-            title: this.$root.meta.title
+            title: this.$root.meta.title,
+            meta: [
+                {
+                    name: 'description',
+                    content: this.$root.meta.description,
+                },
+                {
+                    name: 'og:title',
+                    content: this.$root.meta.title,
+                },
+                {
+                    name: 'og:description',
+                    content: this.$root.meta.ogDescription,
+                },
+                {
+                    name: 'og:image',
+                    content: this.$root.meta.ogImage,
+                },
+                {
+                    name: 'twitterCard',
+                    content: this.$root.meta.twitterCard,
+                },
+            ]
         }
     },
     async serverPrefetch() {
@@ -255,7 +234,15 @@ export default defineComponent({
             if (!data.ok) return
 
             this.poll = data.poll
-            this.$store.commit('setTitle', this.poll.question)
+
+            this.$store.commit('setMeta', {
+                title: this.poll.question,
+                ogTitle: this.poll.question,
+                description: this.poll.summary,
+                ogDescription: this.poll.summary,
+                ogImage: this.poll.image? this.$url('/storage/' + this.poll.image): '',
+                twitterCard: 'summary_large_image',
+            })
         })
     },
     created() {
@@ -279,7 +266,15 @@ export default defineComponent({
                 if (!data.ok) return
 
                 this.poll = data.poll
-                this.$store.commit('setTitle', this.poll.question)
+
+                this.$store.commit('setMeta', {
+                    title: this.poll.question,
+                    ogTitle: this.poll.question,
+                    description: this.poll.summary,
+                    ogDescription: this.poll.summary,
+                    ogImage: this.poll.image? this.$url('/storage/' + this.poll.image): '',
+                    twitterCard: 'summary_large_image',
+                })
             })
         },
         reset() {

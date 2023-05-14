@@ -59,12 +59,10 @@ export async function render(url, manifest = null) {
     app.config.globalProperties.$locale = getCurrentLocale
     app.config.globalProperties.$bus = emitter
     app.config.globalProperties.$dayjs = dayjs
-    app.config.globalProperties.$url = (path) => {
-      return import.meta.env.VITE_APP_URL + path
-    }
-    app.config.globalProperties.$decimal = (num, digits = 2) => {
-      return Number(num).toLocaleString(getLongLocale(), { maximumFractionDigits: digits, minimumFractionDigits: digits })
-    }
+    app.config.globalProperties.$base = (path) => import.meta.env.VITE_ORIGIN_URL + path
+    app.config.globalProperties.$url = (path) => import.meta.env.VITE_APP_URL + path
+    app.config.globalProperties.$media = (path) => import.meta.env.VITE_ORIGIN_URL + '/assets/media/' + path
+    app.config.globalProperties.$decimal = (num, digits = 2) => Number(num).toLocaleString(getLongLocale(), { maximumFractionDigits: digits, minimumFractionDigits: digits })
     app.config.globalProperties.$math = function() {
       if (Number.EPSILON === undefined) {
           Number.EPSILON = Math.pow(2, -52);
@@ -151,7 +149,7 @@ export async function render(url, manifest = null) {
     }).catch((e) => {})
 
     if (app.config.globalProperties.$route.meta.title) {
-        store.commit('setTitle', app.config.globalProperties.$route.meta.title)
+        store.commit('setTitle', app.config.globalProperties.$t(app.config.globalProperties.$route.meta.title))
     } else {
         store.commit('setTitle', '')
     }

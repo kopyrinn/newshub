@@ -339,7 +339,7 @@
               @click="passwordFormDisplay = !passwordFormDisplay"
               class="btn btn-light fw-boldest"
             >
-              {{ $t('Reset password') }}
+              {{ $t('Reset Password') }}
             </button>
           </div>
         </div>

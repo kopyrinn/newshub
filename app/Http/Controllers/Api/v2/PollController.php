@@ -55,7 +55,7 @@ class PollController extends Controller
         $poll->can_vote = $user && $poll->start_at <= Carbon::now() && !$is_expired && !$poll->is_voted;
 
         $query = $poll->requests()
-            ->select('poll_requests.id', 'poll_requests.photo', 'users.name', 'users.description', 'users.avatar', 'users.id as uid')
+            ->select('poll_requests.id', 'poll_requests.photo', 'poll_requests.name', 'poll_requests.position', 'users.id as uid')
             ->selectRaw('(SELECT COUNT(*) FROM poll_votes WHERE poll_votes.poll_request_id = poll_requests.id AND poll_votes.poll_id = poll_requests.poll_id) as votes_count')
             ->join('users', 'users.id', 'poll_requests.user_id')
             ->where('poll_requests.status', 'done')

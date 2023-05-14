@@ -109,7 +109,7 @@
                 <div class="notice d-flex bg-light-primary rounded border-primary border border-dashed rounded-3 p-6 mb-7">
                     <div class="d-flex flex-stack flex-grow-1 ">
                         <div class=" fw-semibold">
-                            <h4 class="text-gray-900 fw-bold">{{ $t('This is a very important privacy notice!') }}</h4>
+                            <h4 class="text-gray-900 fw-bold">{{ $t('This is a very important notice!') }}</h4>
                             <div class="fs-6 text-gray-700 ">{{ $t('If you continue, the amount will be debited from your balance and an automatic subscription will be activated.') }}</div> 
                         </div>
                     </div>

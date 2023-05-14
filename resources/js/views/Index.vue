@@ -120,9 +120,21 @@ export default defineComponent({
     },
     head() {
         return {
-            title: this.$root.meta.title
+            title: this.$root.meta.title,
+            meta: [
+                {name: 'og:type', content: 'website'},
+                {name: 'og:title', content: this.$root.meta.title},
+                {name: 'og:site_name', content: 'Newshub.kz'},
+                {name: 'og:image', content: this.$base('/android-chrome-512x512.png')},
+                {name: 'og:image:width', content: '512px'},
+                {name: 'og:image:height', content: '512px'},
+                {name: 'og:image:type', content: 'image/png'},
+                {name: 'description', content: 'Информационный хаб NewsHub.kz  — ? это интернет-площадка для эффективного взаимодействия пресс-служб организаций со средствами массовой информации.'},
+                {name: 'og:description', content: 'Информационный хаб NewsHub.kz  — ? это интернет-площадка для эффективного взаимодействия пресс-служб организаций со средствами массовой информации.'},
+            ]
         }
     },
+
     async serverPrefetch() {
         this.loading = false
 

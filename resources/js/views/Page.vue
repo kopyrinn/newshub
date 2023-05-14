@@ -71,21 +71,43 @@ export default defineComponent({
     },
     head() {
         return {
-            title: this.$root.meta.title
+            title: this.$root.meta.title,
+            meta: [
+                {
+                    name: 'description',
+                    content: this.$root.meta.description,
+                },
+                {
+                    name: 'og:title',
+                    content: this.$root.meta.title,
+                },
+                {
+                    name: 'og:description',
+                    content: this.$root.meta.ogDescription,
+                },
+            ]
         }
     },
     async serverPrefetch() {
         await this.$api(`page/${this.$route.params.slug}`, false).then(({data}) => {
             if (!data.ok) return
 
-            this.$store.commit('setTitle', data.page.title)
             this.title = data.page.title
             this.content = data.page.page_content
             this.updated_at = data.page.updated_at
+
+            this.$store.commit('setMeta', {
+                description: data.page.description,
+                ogDescription: data.page.task,
+                title: data.page.title,
+                ogTitle: data.page.title,
+            })
         }).catch((e) => {})
     },
     created() {
-        this.getPage()
+        if (!import.meta.env.SSR) {
+            this.getPage()
+        }
     },
     watch:{
         $route (to, from) {
@@ -104,10 +126,16 @@ export default defineComponent({
             .then(({data}) => {
                 if (!data.ok) return
 
-                this.$store.commit('setTitle', data.page.title)
                 this.title = data.page.title
                 this.content = data.page.page_content
                 this.updated_at = data.page.updated_at
+
+                this.$store.commit('setMeta', {
+                    description: data.page.description,
+                    ogDescription: data.page.task,
+                    title: data.page.title,
+                    ogTitle: data.page.title,
+                })
 
                 this.loading = false
             }).catch((e) => {})

@@ -91,7 +91,29 @@ export default defineComponent({
     },
     head() {
         return {
-            title: this.$root.meta.title
+            title: this.$root.meta.title,
+            meta: [
+                {
+                    name: 'description',
+                    content: this.$root.meta.description,
+                },
+                {
+                    name: 'og:title',
+                    content: this.$root.meta.title,
+                },
+                {
+                    name: 'og:description',
+                    content: this.$root.meta.ogDescription,
+                },
+                {
+                    name: 'og:image',
+                    content: this.$root.meta.ogImage,
+                },
+                {
+                    name: 'twitterCard',
+                    content: this.$root.meta.twitterCard,
+                },
+            ]
         }
     },
     async serverPrefetch() {
@@ -101,11 +123,21 @@ export default defineComponent({
             if (!data.ok) return
 
             this.user = data.user
-            this.$store.commit('setTitle', this.user.name)
+
+            this.$store.commit('setMeta', {
+                title: this.user.name,
+                ogTitle: this.user.name,
+                description: this.user.description,
+                ogDescription: this.user.description,
+                ogImage: this.user.avatar? this.$url('/storage/' + this.user.avatar): '',
+                twitterCard: 'summary_large_image',
+            })
         })
     },
     created() {
-        this.fetchData()
+        if (!import.meta.env.SSR) {
+            this.fetchData()
+        }
     },
     watch: {
         $route(from, to) {
@@ -126,7 +158,15 @@ export default defineComponent({
                 if (!data.ok) return
 
                 this.user = data.user
-                this.$store.commit('setTitle', this.user.name)
+
+                this.$store.commit('setMeta', {
+                    title: this.user.name,
+                    ogTitle: this.user.name,
+                    description: this.user.description,
+                    ogDescription: this.user.description,
+                    ogImage: this.user.avatar? this.$url('/storage/' + this.user.avatar): '',
+                    twitterCard: 'summary_large_image',
+                })
             })
         },
         reset() {

@@ -16,6 +16,7 @@
     "Action Target": "Цель",
     "Actions": "Действия",
     "Add": "Добавить",
+    "Change": "Изменить",
     "Add a new team member to your team, allowing them to collaborate with you.": "Добавьте нового члена в свою команду для совместной работы с ним.",
     "Add additional security to your account using two factor authentication.": "Защитите свой аккаунт используя двухфакторную аутентификацию.",
     "Add row": "Добавить строку",
@@ -915,6 +916,22 @@
     "To publish, you need to purchase a subscription": "Для размещения события, Вам необходимо купить соответствующую подписку.",
     "Role-desc": "КАБИНЕТЫ «ПРЕСС-ЦЕНТРА» МОГУТ РЕГИСТРИРОВАТЬ ИСКЛЮЧИТЕЛЬНО ПРЕСС-СЛУЖБЫ!",
     "Subscribe to the Press-center": "Подпишитесь на пресс службы",
-    "Account": "Безопасность"
+    "This is a very important notice!": "Это очень важное уведомление!",
+    "If you continue, the amount will be debited from your balance and an automatic subscription will be activated.": "Если вы продолжите, сумма будет списана с вашего баланса и подписка активируется автоматически.",
+    "Unused services are not carried over to the next month.": "Неиспользованные услуги не переносятся на следующий месяц.",
+    "Account": "Безопасность",
+    "Notification": "Уведомление",
+    "Read more": "Подробнее",
+    "Buy": "Купить",
+    "Period": "Период",
+    "Month": "Месяц",
+    "Post": "Запись",
+    "Event": "Мероприятие",
+    "Vacancy": "Вакансия",
+    "Please, wait": "Пожалуйста, подождите",
+    "Annual": "1 год",
+    "Yesterday": "Вчера",
+    "Participant(s)": "Участник(и)",
+    "Vote(s)": "Голос(ов)"
     
 }

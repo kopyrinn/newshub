@@ -10,7 +10,7 @@ const routes = [
                 name: "index",
                 component: () => import("@/views/Index.vue"),
                 meta: {
-                    title: 'Home',
+                    title: 'NewsHub.kz - Информационный хаб',
                     toolbar: false,
                     animate: true,
                 },

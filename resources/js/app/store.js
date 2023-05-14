@@ -84,6 +84,9 @@ export const store = createStore({
     setTitle (state, payload) {
       state.meta.title = payload
     },
+    setMeta (state, payload) {
+      state.meta = payload
+    },
     setRef (state, payload) {
       state.ref = payload
     },

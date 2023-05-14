@@ -69,54 +69,18 @@
                         </div>
 
                         <div class="d-flex flex-center">
-                            <!--begin::Icon-->
-                            <a href="#" class="mx-4">
-                                <img src="/assets/media/svg/brand-logos/facebook-4.svg" class="h-20px my-2"
-                                    alt="">
+                            <a :href="$root.shareWith('tg', $base($route.fullPath))" class="mx-4">
+                                <img :src="$media('svg/brand-logos/telegram.svg')" class="h-20px my-2" alt="">
                             </a>
-                            <!--end::Icon-->
-
-                            <!--begin::Icon-->
-                            <a href="#" class="mx-4">
-                                <img src="/assets/media/svg/brand-logos/instagram-2-1.svg"
-                                    class="h-20px my-2" alt="">
+                            <a :href="$root.shareWith('vk', $base($route.fullPath))" class="mx-4">
+                                <img :src="$media('svg/brand-logos/vk.svg')" class="h-20px my-2" alt="">
                             </a>
-                            <!--end::Icon-->
-
-                            <!--begin::Icon-->
-                            <a href="#" class="mx-4">
-                                <img src="/assets/media/svg/brand-logos/github.svg" class="h-20px my-2"
-                                    alt="">
+                            <a :href="$root.shareWith('tw', $base($route.fullPath))" class="mx-4">
+                                <img :src="$media('svg/brand-logos/twitter.svg')" class="h-20px my-2" alt="">
                             </a>
-                            <!--end::Icon-->
-
-                            <!--begin::Icon-->
-                            <a href="#" class="mx-4">
-                                <img src="/assets/media/svg/brand-logos/behance.svg" class="h-20px my-2"
-                                    alt="">
+                            <a :href="$root.shareWith('fb', $base($route.fullPath))" class="mx-4">
+                                <img :src="$media('svg/brand-logos/facebook-4.svg')" class="h-20px my-2" alt="">
                             </a>
-                            <!--end::Icon-->
-
-                            <!--begin::Icon-->
-                            <a href="#" class="mx-4">
-                                <img src="/assets/media/svg/brand-logos/pinterest-p.svg" class="h-20px my-2"
-                                    alt="">
-                            </a>
-                            <!--end::Icon-->
-
-                            <!--begin::Icon-->
-                            <a href="#" class="mx-4">
-                                <img src="/assets/media/svg/brand-logos/twitter.svg" class="h-20px my-2"
-                                    alt="">
-                            </a>
-                            <!--end::Icon-->
-
-                            <!--begin::Icon-->
-                            <a href="#" class="mx-4">
-                                <img src="/assets/media/svg/brand-logos/dribbble-icon-1.svg"
-                                    class="h-20px my-2" alt="">
-                            </a>
-                            <!--end::Icon-->
                         </div>
                     </div>
                 </div>
@@ -147,7 +111,29 @@ export default defineComponent({
     },
     head() {
         return {
-            title: this.$root.meta.title
+            title: this.$root.meta.title,
+            meta: [
+                {
+                    name: 'description',
+                    content: this.$root.meta.description,
+                },
+                {
+                    name: 'og:title',
+                    content: this.$root.meta.title,
+                },
+                {
+                    name: 'og:description',
+                    content: this.$root.meta.ogDescription,
+                },
+                {
+                    name: 'og:image',
+                    content: this.$root.meta.ogImage,
+                },
+                {
+                    name: 'twitterCard',
+                    content: this.$root.meta.twitterCard,
+                },
+            ]
         }
     },
     async serverPrefetch() {
@@ -157,11 +143,21 @@ export default defineComponent({
             if (!data.ok) return
 
             this.post = data.post
-            this.$store.commit('setTitle', this.post.title)
+
+            this.$store.commit('setMeta', {
+                title: this.post.title,
+                description: this.post.summary,
+                ogDescription: this.post.summary,
+                ogTitle: this.post.title,
+                ogImage: this.post.image? this.$url('/storage/' + this.post.image): '',
+                twitterCard: 'summary_large_image',
+            })
         })
     },
     created() {
-        this.fetchData()
+        if (!import.meta.env.SSR) {
+            this.fetchData()
+        }
     },
     watch: {
         $route(from, to) {
@@ -181,7 +177,15 @@ export default defineComponent({
                 if (!data.ok) return
 
                 this.post = data.post
-                this.$store.commit('setTitle', this.post.title)
+
+                this.$store.commit('setMeta', {
+                    title: this.post.title,
+                    description: this.post.summary,
+                    ogDescription: this.post.summary,
+                    ogTitle: this.post.title,
+                    ogImage: this.post.image? this.$url('/storage/' + this.post.image): '',
+                    twitterCard: 'summary_large_image',
+                })
             })
         },
         reset() {

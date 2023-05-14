@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            <div class="card" dir="ltr">
+            <!-- <div class="card" dir="ltr">
                 <div class="card-body d-flex flex-column flex-center py-15">
                     <div class="mb-2">
                         <h1 class="fw-semibold text-gray-800 text-center lh-lg">           
@@ -47,7 +47,7 @@
                         <a class="btn btn-sm btn-light" href="">Learn more</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>

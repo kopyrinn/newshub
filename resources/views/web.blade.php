@@ -38,8 +38,6 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        @vite(['resources/css/app.scss', 'resources/js/app.js'])
-
         <script>
             (function() {
                 var defaultThemeMode = "system";
@@ -62,7 +60,7 @@
             })()
         </script>
     </head>
-    <body id="kt_app_body" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" class="app-default hover-scroll-overlay-y" ontouchstart>
+    <body id="kt_app_body" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" class="app-default hover-scroll-overlay-y">
         <div class="d-flex flex-column flex-root app-root" id="kt_app_root"></div>
     </body>
 </html>

@@ -20,7 +20,7 @@
             </app-link>
         </div>
 
-        <div class="card-footer px-6 py-0">
+        <!-- <div class="card-footer px-6 py-0">
             <ul class="nav py-3">
                 <li class="nav-item">
                     <a class="nav-link btn btn-sm btn-color-gray-600 btn-active-color-primary btn-active-light-primary fw-bold px-4 me-1">
@@ -33,7 +33,7 @@
                     </a>
                 </li>
             </ul>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
