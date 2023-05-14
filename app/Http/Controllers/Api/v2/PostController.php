@@ -154,6 +154,10 @@ class PostController extends Controller
         $post->categories = $post->categories()->select('slug', 'name')->groupBy('slug')->get();
         $post->rubrics = $post->rubrics()->select('slug', 'name')->groupBy('slug')->get();
 
+        $post->content = preg_replace_callback('@<img src="/storage/([^\"]+)"@Usi', function($match) {
+            return '<img src="' . asset('/storage/' . $match[1]) . '"';
+        }, $post->content);
+
         return response()->json([
             'ok' => true,
             'post' => $post,

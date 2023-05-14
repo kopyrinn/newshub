@@ -99279,6 +99279,8 @@ body {
 .article picture {
   max-width: 100%;
   border-radius: 0.475rem !important;
+  object-fit: contain;
+  height: auto;
 }
 .el-notification__content {
   color: var(--bs-gray-700);
