@@ -54,9 +54,11 @@ class PostObserver
             unset($post->selected_rubrics);
         }
 
-        if ($post->user->isModerator()) {
+        $user = auth('sanctum')->user();
+
+        if ($user && $user->isModerator()) {
             $post->user_id = 1;
-            $post->author_id = $post->user->id;
+            $post->author_id = $user->id;
             $post->update();
         }
 
