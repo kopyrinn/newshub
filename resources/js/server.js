@@ -85,7 +85,7 @@ async function start() {
                 .replace(`<!--preload-links-->`, preloadLinks)
                 .replace('<!--app-html-->', appHtml)
                 .replace(`{LOCALE}`, locale)
-                .replaceAll(`{URL}`, 'htpps://newshub.kz/')
+                .replaceAll(`{URL}`, 'https://newshub.kz/')
 
             res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
         } catch (e) {

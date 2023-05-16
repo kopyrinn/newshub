@@ -1,11 +1,11 @@
 <template>
     <div class="row">
         <div class="col-lg-7">
-            <div class="card">
+            <div class="card" itemscope itemtype="http://schema.org/Article">
                 <div class="card-body p-5 p-lg-10 pb-lg-0">
                     <ViewSkeleton v-if="loading"/>
                     <div v-else class="mb-17">
-                        <div class="mb-8">
+                        <div class="mb-8" itemprop="headline">
                             <h1 class="text-dark fs-1 fw-bold">
                                 {{ post.title }}
 
@@ -15,7 +15,7 @@
                                 <div class="me-5 my-1 d-flex align-items-center">
                                     <i class="ki-duotone ki-element-11 fs-2 me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
 
-                                    <span class="fw-bold text-gray-400"><VDate :datetime="new Date(post.created_at)"/></span>
+                                    <span class="fw-bold text-gray-400" itemprop="datePublished" datetime="2019-04-22"><VDate :datetime="new Date(post.created_at)"/></span>
                                 </div>
                                 <div v-if="post.categories.length" class="me-5 my-1 d-flex align-items-center">
                                     <i class="ki-duotone ki-briefcase fs-2 me-2"><span
@@ -34,11 +34,11 @@
                                 </div> -->
                             </div>
                             <div v-if="post.image" class="mt-6">
-                                <img :src="$url('/storage/' + post.image)" class="object-fit-cover h-350px w-100 rounded"/>
+                                <img :src="$url('/storage/' + post.image)" itemprop="image" class="object-fit-cover h-350px w-100 rounded"/>
                             </div>
                         </div>
 
-                        <div class="fs-5 fw-medium text-gray-900 mb-10 article" v-html="post.content"></div>
+                        <div class="fs-5 fw-medium text-gray-900 mb-10 article" itemprop="articleBody" v-html="post.content"></div>
 
                         <div class="card card-dashed border-hover-primary mb-6">
                             <div class="card-body p-5">
@@ -51,7 +51,7 @@
                                         </div>
                                         <div class="flex-grow-1">
                                             <div class="d-flex align-items-start justify-content-between">
-                                                <div class="fs-3 fw-bold text-dark me-5">{{ post.name }}</div>
+                                                <div class="fs-3 fw-bold text-dark me-5" itemprop="author">{{ post.name }}</div>
                                             </div>
                                             <div class="text-gray-400 fw-semibold fs-5 mt-1 mb-0">{{ post.description }}</div>
                                         </div>
