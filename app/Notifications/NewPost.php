@@ -57,7 +57,7 @@ class NewPost extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject(__('New Post') . ': ' . $this->post->title)
-            ->action(__('Show'), url("post/{$this->post->slug}"));
+            ->action(__('Show'), config('app.origin') . "/post/{$this->post->slug}");
     }
 
     /**

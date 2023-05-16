@@ -46,7 +46,7 @@ class NewPress extends Notification implements ShouldQueue
         return (new MailMessage)
             ->subject('Зарегистрировался новый Пресс-центр')
             ->line('Зарегистрировался новый Пресс-центр')
-            ->action('Просмотр профиля', url("user/{$this->user->id}"));
+            ->action('Просмотр профиля', config('app.origin') . "/user/{$this->user->id}");
     }
 
     /**

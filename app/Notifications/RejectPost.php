@@ -51,7 +51,7 @@ class RejectPost extends Notification
         return (new MailMessage)
             ->subject(__('Rejected') . ': ' . $this->post->title)
             ->line(__('Reason') . ': ' . $this->post->reason)
-            ->action(__('Show'), url("workspace"));
+            ->action(__('Show'), config('app.origin') . "/user/{$this->post->user->id}/workspace");
     }
 
     /**

@@ -68,7 +68,7 @@ class ChannelNotification extends Notification implements ShouldQueue
                 ->content("*{$this->post->title}*");
         }
 
-        $message->button('Читать далее ...', url("post/{$this->post->slug}"));
+        $message->button('Читать далее ...', config('app.origin') . "/post/{$this->post->slug}");
         return $message;
     }
 
