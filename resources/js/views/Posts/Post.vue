@@ -95,6 +95,7 @@
 import { defineComponent } from "vue";
 import Sidebar from "@/components/Sidebar.vue"
 import ViewSkeleton from "@/components/Post/ViewSkeleton.vue"
+import { ElNotification } from 'element-plus'
 
 export default defineComponent({
     name: "Post",
@@ -157,6 +158,37 @@ export default defineComponent({
     created() {
         if (!import.meta.env.SSR) {
             this.fetchData()
+
+            if (this.$root.user && this.$route.params.action && this.$route.params.action == 'resolve') {
+                this.$api(`resolve/post/${this.slug}`, true).then(({data}) => {
+                    if (!data.ok) {
+                        ElNotification({
+                            type: 'error',
+                            title: this.$t('Notification'),
+                            message: data.message,
+                            duration: 2000,
+                        })
+                    } else {
+                        ElNotification({
+                            type: 'success',
+                            title: this.$t('Notification'),
+                            message: data.message,
+                            duration: 2000,
+                        })
+                    }
+
+                    this.$router.replace({name: 'post', params: {locale: (this.$root.locale != 'ru'? this.$root.locale: ''), slug: this.slug}})
+                }).catch((e) => {
+                    ElNotification({
+                        type: 'error',
+                        title: this.$t('Notification'),
+                        message: data.message,
+                        duration: 2000,
+                    })
+
+                    this.$router.replace({name: 'post', params: {locale: (this.$root.locale != 'ru'? this.$root.locale: ''), slug: this.slug}})
+                })
+            }
         }
     },
     watch: {

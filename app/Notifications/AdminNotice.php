@@ -67,7 +67,7 @@ class AdminNotice extends Notification implements ShouldQueue
                 ->content("Пользователь: {$user}\nРоль: {$role}\nКонтент: \n{$content}");
         }
 
-        $message->button('Опубликовать', config('app.origin') . "/resolve/post/{$this->post->uuid}")
+        $message->button('Опубликовать', config('app.origin') . "/post/{$this->post->slug}/resolve")
             ->button('Подробнее', url("admin/resources/posts/{$this->post->id}"));
 
         return $message;

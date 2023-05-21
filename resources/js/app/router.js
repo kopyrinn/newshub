@@ -184,7 +184,7 @@ const routes = [
                 },
             },
             {
-                path: "post/:slug",
+                path: "post/:slug/:action(resolve)?",
                 name: "post",
                 component: () => import("@/views/Posts/Post.vue"),
                 meta: {

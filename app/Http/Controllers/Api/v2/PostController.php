@@ -758,17 +758,23 @@ class PostController extends Controller
         $user = auth('sanctum')->user();
         abort_if(!$user->isAdmin() && !$user->isModerator(), 403);
 
-        $post = Post::whereUuid($uuid)->first();
+        $post = Post::select('id', 'status')->whereSlug($uuid)->first();
         if (!$post) {
-            return redirect(route('home'))->with('warning', __('Post not found.'));
+            return response()->json([
+                'ok' => false,
+                'message' => __('Post not found'),
+            ]);
         }
 
         $post->status = 1;
         $post->update();
 
-        $post->notify(new ChannelNotification($post));
-        $post->notify(new NewPost($post));
+        // $post->notify(new ChannelNotification($post));
+        // $post->notify(new NewPost($post));
 
-        return redirect(url("post/{$post->slug}"))->with('success', __('Post published.'));
+        return response()->json([
+            'ok' => true,
+            'message' => __('Post published'),
+        ]);
     }
 }
