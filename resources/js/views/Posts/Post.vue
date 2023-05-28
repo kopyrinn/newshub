@@ -34,7 +34,7 @@
                                 </div> -->
                             </div>
                             <div v-if="post.image" class="mt-6">
-                                <img :src="$url('/storage/' + post.image)" itemprop="image" class="object-fit-cover h-350px w-100 rounded"/>
+                                <img :src="$storage(post.image)" itemprop="image" class="object-fit-contain bg-light mh-450px w-100 rounded"/>
                             </div>
                         </div>
 
