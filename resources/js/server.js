@@ -70,7 +70,7 @@ async function start() {
 
             let route = locale == 'ru'? url.slice(1): url.slice(4)
 
-            if (route.startsWith('feed') || route.endsWith('notifications') || route.endsWith('actions') || route.endsWith('workspace')) {
+            if (route.startsWith('feed') || route.endsWith('notifications') || route.endsWith('actions') || route.endsWith('workspace') || route.endsWith('login') || route.startsWith('verify')) {
                 const html = template.replace(`{LOCALE}`, locale)
                 return res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
             }
