@@ -18,7 +18,7 @@
                             <div class="d-flex flex-column">
                                 <div class="d-flex align-items-center mb-2">
                                     <span class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">{{ user.name }}</span>
-                                    <a href="#"><i class="ki-duotone ki-verify fs-1 text-primary"><span class="path1"></span><span class="path2"></span></i></a>
+                                    <i class="ki-duotone ki-verify fs-1 text-primary"><span class="path1"></span><span class="path2"></span></i>
                                 </div>
 
                                 <div class="d-flex flex-wrap fw-semibold fs-6 pe-2">

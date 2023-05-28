@@ -58,6 +58,7 @@
         "hammerjs": "^2.0.8",
         "image-minify-client": "^1.0.1",
         "jquery": "^3.6.4",
+        "maska": "^2.1.9",
         "mobile-device-detect": "^0.4.3",
         "pinia": "^2.0.36",
         "qr-code-styling": "^1.6.0-rc.1",

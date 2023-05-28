@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\v2;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Notifications\VerifyEmail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -50,25 +52,29 @@ class AccountController extends Controller
 
     public function settings(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-        ]);
-
         $user = auth('sanctum')->user();
+        abort_if(!$user, 403);
 
-        // $isNew = !$user->org && $request->org? true: false;
+        $rules = [
+            'name' => 'required',
+            'phone' => 'required',
+        ];
+
+        if ($request->role == 'journalist') {
+            $rules['city_id'] = 'required';
+            $rules['lastname'] = 'required';
+        } else {
+            $rules['user_category_id'] = 'required';
+        }
+
+        $request->validate($rules);
 
         $user->name = $request->name;
-        // if ($request->org) {
-        //     $user->org = $request->org;
-        // }
-        // $user->image_id = (int) $request->avaId?: null;
-        // $user->newsletter = $request->newsletter? 1: 0;
+        $user->avatar = $request->avatar;
+        $user->phone = $request->phone;
+        $user->city_id = $request->city_id;
+        $user->user_category_id = $request->user_category_id;
         $user->update();
-
-        // if ($isNew && $user->org && !$user->is_active) {
-        //     Helper::notify("Новая заявка на регистрацию от пользвоателя {$user->name}");
-        // }
 
         return response()->json([
             'status' => true,
@@ -97,6 +103,53 @@ class AccountController extends Controller
         return response()->json([
             'status' => true,
             'user' => $user->withInfo(),
+        ]);
+    }
+
+    public function verify(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+        ]);
+
+        $user = User::where('email_verify_token', $request->token)->first();
+
+        if (!$user) {
+            return response()->json([
+                'ok' => false,
+                'message' => __('Invalid verification link'),
+            ]);
+        } else if ($user->email_verified_at) {
+            return response()->json([
+                'ok' => false,
+                'message' => __('Email already verified'),
+            ]);
+        }
+
+        $user->email_verified_at = Carbon::now();
+        $user->update();
+
+        return response()->json([
+            'ok' => true,
+            'message' => __('Email successfully verified'),
+        ]);
+    }
+
+    public function resendVerificationLink(Request $request)
+    {
+        $user = auth('sanctum')->user();
+        abort_if(!$user, 403);
+
+        if (!$user->email_verify_token) {
+            $user->email_verify_token = \Str::uuid()->toString();
+            $user->update();
+        }
+
+        $user->notify(new VerifyEmail($user));
+
+        return response()->json([
+            'ok' => true,
+            'message' => __('Confirmation link sent to email'),
         ]);
     }
 

@@ -18,23 +18,26 @@ class CategoryController extends Controller
             'slug' => 'required',
         ]);
 
-        $category = Category::select('id')->where('slug', $request->slug)->first();
-        abort_if(!$category, 404);
-
         $query = Post::select(
                 'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.summary', 'posts.created_at', 'users.name', 'users.avatar',
             )
             // ->join('category_post', 'category_post.post_id', 'posts.id')
             ->join('users', 'users.id', 'posts.user_id')
             ->where('posts.status', 1)
-            ->where('posts.created_at', '<', Carbon::now())
-            ->whereExists((function($query) use ($category) {
+            ->where('posts.created_at', '<', Carbon::now());
+
+        if ($request->from != 'index') {
+            $category = Category::select('id')->where('slug', $request->slug)->first();
+            abort_if(!$category, 404);
+    
+            $query->whereExists((function($query) use ($category) {
                 $query->select(\DB::raw(1))
                     ->from('category_post')
                     ->whereColumn('category_post.post_id', 'posts.id')
                     ->where('category_post.category_id', $category->id);
             }));
-
+        }
+    
         if ($request->rubric) {
             $rubric = Rubric::select('id')->where('slug', $request->rubric)->first();
             abort_if(!$rubric, 404);

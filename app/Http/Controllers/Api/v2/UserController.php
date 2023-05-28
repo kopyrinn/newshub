@@ -167,7 +167,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function postDelete(Request $request, $slug)
+    public function postDelete(Request $request, $id, $slug)
     {
         $user = auth('sanctum')->user();
         abort_if(!$user || !$user->isPress(), 403);
@@ -179,97 +179,9 @@ class UserController extends Controller
 
         $user->addAction('delete_post');
 
-        return redirect()->back()->with('success', trans("The :resource was deleted!", ['resource' => "«{$post->title}»"]));
-    }
-
-    public function postUpdate(Request $request, $slug)
-    {
-        $user = auth('sanctum')->user();
-        abort_if(!$user || !$user->isPress(), 403);
-
-        $post = $user->posts()->where('slug', $slug)->first();
-        abort_if(!$post, 404);
-
-        // ~r($post->getTranslations('title'));
-
-        if ($request->method() == 'POST') {
-            $category = Category::find($request->category_id);
-            $post->image = ltrim(str_replace(url('storage'), '', $request->image), '/');
-            $post->keywords = $request->keywords;
-            $post->image_caption = $request->image_caption;
-            $post->created_at = $request->created_at?: date('Y-m-d H:i:s');
-            $post->is_breaking = 0;
-
-            foreach ($request->title as $locale => $value) {
-                $post->setTranslation('title', $locale, $value);
-            }
-
-            foreach ($request->summary as $locale => $value) {
-                $post->setTranslation('summary', $locale, $value);
-            }
-
-            foreach ($request->content as $locale => $value) {
-                $post->setTranslation('content', $locale, clean($value));
-            }
-
-            if ($request->get('files')) {
-                $files = [];
-
-                foreach ($request->get('files') as $file) {
-                    $file = '/' . ltrim(str_replace(url('/'), '', $file), '/');
-                    $files[] = [
-                        "url" => $file,
-                        "name" => basename($file),
-                        "originalName" => basename($file)
-                    ];
-                }
-
-                $post->files = json_encode($files, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-            }
-
-            if (
-                $request->add_to_slider &&
-                (
-                    ($request->add_to_slider == "big" && !$post->is_slider) ||
-                    ($request->add_to_slider == "small" && !$post->is_featured)
-                )
-            ) {
-                $price = nova_get_setting("{$request->add_to_slider}_slider_price");
-                if ($user->balance < $price) {
-                    return redirect()->back()->with('error', __("Insufficient funds on the balance sheet. Top up the balance in your account and try again."));
-                }
-
-                $user->subBalance($price, "Оплата публикации записи в слайдер");
-                $user->update();
-
-                if ($request->add_to_slider == "big") {
-                    $post->is_slider = 1;
-                } else if ($request->add_to_slider = "small") {
-                    $post->is_featured = 1;
-                }
-            }
-
-            $post->update();
-
-            $post->categories()->attach($category->id);
-
-            $user->addAction('update_post', [
-                'post_id' => $post->id
-            ]);
-
-            return redirect()->back()->with("success", __("Saved."));
-        }
-
-        // $categories = Category::select('categories.*')
-        //     ->join('category_role', 'category_role.category_id', '=', 'categories.id')
-        //     ->whereIn('category_role.role_id', $user->roles()->pluck('id'))
-        //     ->groupBy('categories.id')
-        //     ->get();
-
         return response()->json([
             'ok' => true,
-            'post' => $post,
-            // 'categories' => $categories,
+            'message' => trans("The :resource was deleted!", ['resource' => "«{$post->title}»"]),
         ]);
     }
 }

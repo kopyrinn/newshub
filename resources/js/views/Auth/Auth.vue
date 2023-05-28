@@ -104,15 +104,11 @@
                     <!--begin::Wrapper-->
                     <div v-else-if="action == 'register'" class="d-flex justify-content-between flex-column-fluid flex-column w-100 mw-450px">
                         <!--begin::Header-->
-                        <div class="d-flex flex-stack py-2">
+                        <div class="d-flex flex-stack py-2 mb-4">
                             <!--begin::Back link-->
                             <div class="me-2">
                                 <a href="" @click.prevent="setAction('login')" class="btn btn-icon bg-light rounded-circle">
-                                    <!--begin::Svg Icon | path: -->
-                                    <span class="svg-icon svg-icon-2 svg-icon-gray-800">
-                                        <inline-svg width="24" height="24" src="/assets/media/icons/duotune/arrows/arr002.svg"/>
-                                    </span>
-                                    <!--end::Svg Icon-->
+                                    <i class="ki-duotone ki-arrow-left fs-2x"><i class="path1"></i><i class="path2"></i></i>
                                 </a>
                             </div>
                             <!--end::Back link-->
@@ -137,36 +133,92 @@
                                     <div class="text-gray-400 fw-semibold fs-6" data-kt-translate="general-desc"></div>
                                     <!--end::Link-->
                                 </div>
+                                <div class="mb-6">
+                                    <label class="form-label">{{ $t('Account type') }}</label>
+
+                                    <div class="row g-5">
+                                        <div class="col-12 col-sm-6 col-lg-12 col-xxl-6">
+                                            <input type="radio" class="btn-check" v-model="form.role" value="journalist" id="role-journalist"/>
+                                            <label class="btn btn-outline btn-outline-dashed btn-active-light-primary px-4 py-3 d-flex align-items-center mb-0" for="role-journalist">
+                                                <i class="ki-duotone ki-user-tick fs-3x me-1"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
+
+                                                <span class="d-block fw-semibold text-start">
+                                                    <span class="text-dark fw-bold d-block fs-3">{{ $t('Journalist') }}</span>
+                                                    <span class="text-muted fw-semibold fs-6">
+                                                        {{ $t('Journalist role') }}
+                                                    </span>
+                                                </span>
+                                            </label>
+                                        </div>
+
+                                        <div class="col-12 col-sm-6 col-lg-12 col-xxl-6">
+                                            <input type="radio" class="btn-check" v-model="form.role" value="press" id="role-press"/>
+                                            <label class="btn btn-outline btn-outline-dashed btn-active-light-primary px-4 py-3 d-flex align-items-center mb-0" for="role-press">
+                                                <i class="ki-duotone ki-security-user fs-3x me-1"><i class="path1"></i><i class="path2"></i></i>
+
+                                                <span class="d-block fw-semibold text-start">
+                                                    <span class="text-dark fw-bold d-block fs-3">{{ $t('Press Center') }}</span>
+                                                    <span class="text-muted fw-semibold fs-6">{{ $t('Press center role') }}</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-floating mb-6">
-                                    <input class="form-control form-control-lg form-control-solid" type="text" :placeholder="$t('Name')" v-model="form.name" @keyup.enter="register" autocomplete="off" />
-                                    <label class="form-label required">{{ $t('Name') }}</label>
+                                    <input class="form-control form-control-lg form-control-solid" type="text" :placeholder="form.role == 'journalist'? $t('Name'): $t('Organization name')" v-model="form.name" @keyup.enter="register" autocomplete="off" />
+                                    <label class="form-label required">{{ form.role == 'journalist'? $t('Name'): $t('Organization name') }}</label>
                                     <div v-if="errors.name && errors.name.length" class="fv-plugins-message-container invalid-feedback d-block">
                                         <span v-for="(error, index) in errors.name" v-bind:key="index">{{ error }}</span>
                                     </div>
                                 </div>
-                                <div class="form-floating mb-6">
-                                    <input class="form-control form-control-lg form-control-solid" type="text" :placeholder="$t('Phone')" v-model="form.phone" @keyup.enter="register" autocomplete="off" />
-                                    <label class="form-label required">{{ $t('Phone') }}</label>
-                                    <div v-if="errors.phone && errors.phone.length" class="fv-plugins-message-container invalid-feedback d-block">
-                                        <span v-for="(error, index) in errors.phone" v-bind:key="index">{{ error }}</span>
+                                <div v-if="form.role == 'journalist'" class="form-floating mb-6">
+                                    <input class="form-control form-control-lg form-control-solid" type="text" :placeholder="$t('Last Name')" v-model="form.lastname" @keyup.enter="register" autocomplete="off" />
+                                    <label class="form-label required">{{ $t('Last Name') }}</label>
+                                    <div v-if="errors.lastname && errors.lastname.length" class="fv-plugins-message-container invalid-feedback d-block">
+                                        <span v-for="(error, index) in errors.lastname" v-bind:key="index">{{ error }}</span>
                                     </div>
                                 </div>
-                                <div class="form-floating mb-6">
-                                    <input class="form-control form-control-lg form-control-solid" type="email" placeholder="Email" v-model="form.email" @keyup.enter="register" autocomplete="off" data-kt-translate="sign-up-input-email" />
-                                    <label class="form-label required">Email</label>
-                                    <div v-if="errors.email && errors.email.length" class="fv-plugins-message-container invalid-feedback d-block">
-                                        <span v-for="(error, index) in errors.email" v-bind:key="index">{{ error }}</span>
+                                <div class="row gx-3">
+                                    <div class="col-12 col-sm-6 col-lg-12 col-xxl-6">
+                                        <div class="form-floating mb-6">
+                                            <input class="form-control form-control-lg form-control-solid" type="text" :placeholder="$t('Phone')" v-model="form.phone" @keyup.enter="register" autocomplete="off" v-maska:[phoneMask]/>
+                                            <label class="form-label required">{{ $t('Phone') }}</label>
+                                            <div v-if="errors.phone && errors.phone.length" class="fv-plugins-message-container invalid-feedback d-block">
+                                                <span v-for="(error, index) in errors.phone" v-bind:key="index">{{ error }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-lg-12 col-xxl-6">
+                                        <div class="form-floating mb-6">
+                                            <input class="form-control form-control-lg form-control-solid" type="email" placeholder="Email" v-model="form.email" @keyup.enter="register" autocomplete="off" data-kt-translate="sign-up-input-email" />
+                                            <label class="form-label required">Email</label>
+                                            <div v-if="errors.email && errors.email.length" class="fv-plugins-message-container invalid-feedback d-block">
+                                                <span v-for="(error, index) in errors.email" v-bind:key="index">{{ error }}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="fv-row mb-6" data-kt-password-meter="true">
                                     <div class="mb-1">
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control form-control-lg form-control-solid" type="password" :placeholder="$t('Password')"  v-model="form.password" @keyup.enter="register"/>
-                                            <label class="form-label required">{{ $t('Password') }}</label>
-                                            <div v-if="errors.password && errors.password.length" class="fv-plugins-message-container invalid-feedback d-block">
-                                                <span v-for="(error, index) in errors.password" v-bind:key="index">{{ error }}</span>
+                                        <div class="row gx-3">
+                                            <div class="col-12 col-sm-6 col-lg-12 col-xxl-6">
+                                                <div class="form-floating mb-3">
+                                                    <input class="form-control form-control-lg form-control-solid" type="password" :placeholder="$t('Password')"  v-model="form.password" @keyup.enter="register"/>
+                                                    <label class="form-label required">{{ $t('Password') }}</label>
+                                                    <div v-if="errors.password && errors.password.length" class="fv-plugins-message-container invalid-feedback d-block">
+                                                        <span v-for="(error, index) in errors.password" v-bind:key="index">{{ error }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-sm-6 col-lg-12 col-xxl-6">
+                                                <div class="form-floating mb-3">
+                                                    <input class="form-control form-control-lg form-control-solid" type="password" :placeholder="$t('Password confirmation')" v-model="form.password_confirmation" @keyup.enter="register" autocomplete="off" />
+                                                    <label class="form-label required">{{ $t('Password confirmation') }}</label>
+                                                </div>
                                             </div>
                                         </div>
+
                                         <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
                                             <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2" :class="{'active': strength > 0}"></div>
                                             <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2" :class="{'active': strength > 1}"></div>
@@ -177,38 +229,43 @@
                                     <div class="text-muted" data-kt-translate="sign-up-hint">{{ $t('Use 8 or more characters with letters, numbers, and symbols') }}</div>
                                 </div>
                                 
-                                <div class="form-floating mb-6">
-                                    <input class="form-control form-control-lg form-control-solid" type="password" :placeholder="$t('Password confirmation')" v-model="form.password_confirmation" @keyup.enter="register" autocomplete="off" />
-                                    <label class="form-label required">{{ $t('Password confirmation') }}</label>
+                                <div v-if="form.role == 'journalist'" class="form-floating mb-6">
+                                    <select class="form-control form-control-lg form-control-solid" :placeholder="$t('City')" v-model="form.city_id">
+                                        <option value="">{{ $t('Select city') }}</option>
+                                        <option v-for="city in cities" :value="city.id">{{ city['city_name_' + $root.locale] }}</option>
+                                    </select>
+                                    <label class="form-label required">{{ $t('City') }}</label>
+                                    <div v-if="errors.city_id && errors.city_id.length" class="fv-plugins-message-container invalid-feedback d-block">
+                                        <span v-for="(error, index) in errors.city_id" v-bind:key="index">{{ error }}</span>
+                                    </div>
+                                </div>
+                                <div v-else class="form-floating mb-6">
+                                    <select class="form-control form-control-lg form-control-solid" :placeholder="$t('Category')" v-model="form.user_category_id">
+                                        <option value="">{{ $t('Select category') }}</option>
+                                        <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
+                                    </select>
+                                    <label class="form-label required">{{ $t('Category') }}</label>
+                                    <div v-if="errors.user_category_id && errors.user_category_id.length" class="fv-plugins-message-container invalid-feedback d-block">
+                                        <span v-for="(error, index) in errors.user_category_id" v-bind:key="index">{{ error }}</span>
+                                    </div>
                                 </div>
 
                                 <div class="mb-6">
-                                    <label class="form-label">{{ $t('Account type') }}</label>
-
-                                    <input type="radio" class="btn-check" v-model="form.role" value="journalist" checked="checked"  id="role-journalist"/>
-                                    <label class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center mb-5" for="role-journalist">
-                                        <i class="ki-duotone ki-user-tick fs-4x me-4"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
-
-                                        <span class="d-block fw-semibold text-start">
-                                            <span class="text-dark fw-bold d-block fs-3">{{ $t('Journalist') }}</span>
-                                            <span class="text-muted fw-semibold fs-6">
-                                                {{ $t('Journalist role') }}
-                                            </span>
-                                        </span>
-                                    </label>
-
-                                    <input type="radio" class="btn-check" v-model="form.role" value="press" id="role-press"/>
-                                    <label class="btn btn-outline btn-outline-dashed btn-active-light-primary p-7 d-flex align-items-center" for="role-press">
-                                        <i class="ki-duotone ki-security-user fs-4x me-4"><i class="path1"></i><i class="path2"></i></i>
-
-                                        <span class="d-block fw-semibold text-start">
-                                            <span class="text-dark fw-bold d-block fs-3">{{ $t('Press Center') }}</span>
-                                            <span class="text-muted fw-semibold fs-6">{{ $t('Press center role') }}</span>
-                                        </span>
-                                    </label>
+                                    <vue-recaptcha v-show="action == 'register'" sitekey="6LcHEUkmAAAAAEtBo4xx-MSNyfwc9L5qOkkdngsZ"
+                                        size="normal" 
+                                        :theme="$root.isDark? 'dark': 'light'"
+                                        :hl="$root.locale"
+                                        @verify="recaptchaVerified"
+                                        @expire="recaptchaExpired"
+                                        @fail="recaptchaFailed"
+                                        ref="vueRecaptcha"/>
+                                    <div v-if="errors.recaptcha && errors.recaptcha.length" class="fv-plugins-message-container invalid-feedback d-block">
+                                        <span v-for="(error, index) in errors.recaptcha" v-bind:key="index">{{ error }}</span>
+                                    </div>
                                 </div>
+
                                 <div class="d-flex flex-stack">
-                                    <button @click="register" type="button" class="btn btn-primary rounded-4" :data-kt-indicator="loading" :disabled="loading">
+                                    <button @click="register" type="button" class="btn btn-primary rounded-4" :data-kt-indicator="loading" :disabled="loading || !form.recaptcha">
                                         <span class="indicator-label">{{ $t('Send') }}</span>
                                         <span class="indicator-progress">{{ $t('Please, wait') }}...
                                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
@@ -222,9 +279,7 @@
                         <div class="d-flex flex-stack py-2">
                             <div class="me-2">
                                 <a href="" @click.prevent="setAction('login')" class="btn btn-icon bg-light rounded-circle">
-                                    <span class="svg-icon svg-icon-2 svg-icon-gray-800">
-                                        <inline-svg width="24" height="24" src="/assets/media/icons/duotune/arrows/arr002.svg"/>
-                                    </span>
+                                    <i class="ki-duotone ki-arrow-left fs-2x"><i class="path1"></i><i class="path2"></i></i>
                                 </a>
                             </div>
                             <div class="m-0">
@@ -290,55 +345,68 @@
                     </div>
                 </div>
                 <!--end::Aside-->
-                <!--begin::Body-->
-                <div class="d-flex flex-column flex-center pb-0 pb-lg-10 p-10 w-100"> 
-                    <!--begin::Image-->                
-                    <img class="theme-light-show mx-auto mw-100 w-150px w-lg-300px mb-6 mb-lg-20" src="/assets/media/illustrations/sketchy-1/1.png" alt="">    
-                    <img class="theme-dark-show mx-auto mw-100 w-150px w-lg-300px mb-6 mb-lg-20" src="/assets/media/illustrations/sketchy-1/1.png" alt="">                 
-                    <!--end::Image-->
 
-                    <!--begin::Title-->
+                <div class="d-flex flex-column flex-center pb-0 pb-lg-10 p-10 w-100"> 
+                    <img class="mx-auto mw-100 w-150px w-lg-300px mb-6 mb-lg-20" :src="$media('illustrations/sketchy-1/1.png')" alt="">
+
                     <h1 class="text-gray-800 fs-2qx fw-bold text-center mb-6"> 
                         {{ $t('Fast and efficient') }}
-                    </h1>  
-                    <!--end::Title-->
-
-                    <!--begin::Text-->
+                    </h1>
                     <div class="text-gray-600 fs-base text-center fw-semibold mb-20 mb-lg-0">
                         {{ $t('NewsHub.kz allows you to use media resources quickly and efficiently') }}
                     </div>
-                    <!--end::Text-->
                 </div>
-                <!-- <div class="d-none d-lg-flex flex-lg-row-fluid w-50 bgi-size-cover bgi-position-y-center bgi-position-x-start bgi-no-repeat" style="background-image: url(/assets/media/illustrations/sketchy-1/1.png)"></div> -->
-                <!--begin::Body-->
             </div>
         </div>
     </div>
 </template>
 <script>
 import { defineComponent } from "vue"
+import vueRecaptcha from 'vue3-recaptcha2';
 
 export default defineComponent({
     name: 'Auth',
+    components: {
+        vueRecaptcha,
+    },
+    computed: {
+        siteKey() {
+
+        }
+    },
     data() {
         return {
             action: 'login',
             loading: false,
+            phoneMask: {
+                mask: '+7-###-###-##-##',
+                eager: true,
+            },
             form: {
                 name: '',
+                lastname: '',
                 email: '',
                 phone: '',
                 role: 'journalist',
+                city_id: '',
+                user_category_id: '',
                 password: '',
                 password_confirmation: '',
+                recaptcha: '',
             },
             errors: {
                 name: [],
+                lastname: [],
+                city_id: [],
+                user_category_id: [],
                 phone: [],
                 email: [],
                 password: [],
+                recaptcha: [],
             },
             strength: 0,
+            categories: [],
+            cities: [],
         }
     },
     created() {
@@ -346,20 +414,21 @@ export default defineComponent({
             this.$router.push({name: 'index'})
             return
         }
-        // document.body.classList.remove('app-default')
-        // document.body.classList.add('app-blank')
+
+        this.fetchData()
     },
     mounted() {
-        // this.telegramAuth()
-    },
-    beforeUnmount() {
-        // document.body.classList.remove('app-blank')
-        // document.body.classList.add('app-default')
+        
     },
     watch: {
         'form.name': function() {
             if (this.errors.name && this.errors.name.length) {
                 this.errors.name = []
+            }
+        },
+        'form.lastname': function() {
+            if (this.errors.lastname && this.errors.lastname.length) {
+                this.errors.lastname = []
             }
         },
         'form.email': function() {
@@ -370,6 +439,21 @@ export default defineComponent({
         'form.phone': function() {
             if (this.errors.phone && this.errors.phone.length) {
                 this.errors.phone = []
+            }
+        },
+        'form.city_id': function() {
+            if (this.errors.city_id && this.errors.city_id.length) {
+                this.errors.city_id = []
+            }
+        },
+        'form.user_category_id': function() {
+            if (this.errors.user_category_id && this.errors.user_category_id.length) {
+                this.errors.user_category_id = []
+            }
+        },
+        'form.recaptcha': function() {
+            if (this.errors.recaptcha && this.errors.recaptcha.length) {
+                this.errors.recaptcha = []
             }
         },
         'form.password': function(value) {
@@ -470,6 +554,8 @@ export default defineComponent({
             })
         },
         register() {
+            if (!this.form.recaptcha) return
+
             this.loading = true
 
             this.$api('register', false, {
@@ -492,6 +578,22 @@ export default defineComponent({
                 this.loading = false
                 this.errors = {...response.data.errors}
             })
+        },
+        fetchData() {
+            this.$get('fields').then(({data}) => {
+                this.categories = data.categories
+                this.cities = data.cities
+            }).catch((e) => {})
+        },
+        recaptchaVerified(response) {
+            this.form.recaptcha = response
+        },
+        recaptchaExpired() {
+            this.form.recaptcha = ''
+            this.$refs.vueRecaptcha.reset();
+        },
+        recaptchaFailed(e) {
+            this.form.recaptcha = ''
         },
         reset() {
             this.loading = true

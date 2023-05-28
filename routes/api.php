@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\v2\VacancyController;
 
 Route::prefix('v2')->group(function () {
     Route::get('user', [V2AuthController::class, 'user']);
+    Route::get('fields', [V2AuthController::class, 'fields']);
     Route::post('forgot', [V2AuthController::class, 'forgot']);
     Route::post('reset', [V2AuthController::class, 'reset']);
     Route::post('telegram', [V2AuthController::class, 'telegram']);
@@ -52,6 +53,7 @@ Route::prefix('v2')->group(function () {
     Route::get('feed', [PostController::class, 'feed'])->name('feed');
     Route::get('new/{step?}/{id?}', [PostController::class, 'new'])->name('new');
     Route::post('post/save', [PostController::class, 'save'])->name('post.save');
+    Route::post('post/update', [PostController::class, 'update'])->name('post.update');
     Route::post('draft-save', [PostController::class, 'draftSave'])->name('draft.save');
     Route::get('resolve/post/{uuid}', [PostController::class, 'postResolve'])->name('post.resolve');
 
@@ -65,7 +67,6 @@ Route::prefix('v2')->group(function () {
     Route::get('user/{id}/posts', [UserController::class, 'posts'])->name('user.posts');
     Route::get('user/{id}/actions', [UserController::class, 'actions'])->name('user.actions');
     Route::get('user/{id}/workspace', [UserController::class, 'workspace'])->name('user.workspace');
-    Route::any('user/{id}/workspace/post/{slug}', [UserController::class, 'postUpdate'])->name('user.workspace.post');
     Route::get('user/{id}/workspace/delete/{slug}', [UserController::class, 'postDelete'])->name('user.workspace.delete');
     Route::post('user/{id}/follow', [UserController::class, 'follow'])->name('user.follow');
 
@@ -73,6 +74,8 @@ Route::prefix('v2')->group(function () {
     Route::get('account/subscriptions', [AccountController::class, 'subscriptions'])->name('account.subscriptions');
     Route::post('account/settings', [AccountController::class, 'settings'])->name('account.settings');
     Route::post('account/email', [AccountController::class, 'email'])->name('account.email');
+    Route::post('account/verify-resend', [AccountController::class, 'resendVerificationLink'])->name('account.verify.resend');
+    Route::post('account/verify', [AccountController::class, 'verify'])->name('account.verify');
     Route::post('account/password', [AccountController::class, 'password'])->name('account.password');
     Route::post('account/delete', [AccountController::class, 'delete'])->name('account.delete');
 

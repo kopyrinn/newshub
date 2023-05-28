@@ -24,7 +24,7 @@
                             class="d-flex justify-content-end"
                             data-kt-customer-table-toolbar="base"
                         >
-                        <button type="button" @click="$root.openModal('post-editor')" class="btn btn-primary">
+                        <button type="button" @click="$root.post = null, $root.openModal('post-editor')" class="btn btn-primary">
                             {{ $t('Create') }}
                         </button>
                         </div>
@@ -96,11 +96,13 @@
                                 <i class="ki-duotone ki-notepad-edit fs-2"><i class="path1"></i><i class="path2"></i></i>
                             </button>
 
-                            <a
+                            <button
+                                type="button"
+                                @click="deletePost(item)"
                                 class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm"
                             >
                                 <i class="ki-duotone ki-trash-square fs-2"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i></i>
-                            </a>
+                            </button>
                         </template>
                     </VTable>
                 </div>
@@ -209,6 +211,29 @@ export default defineComponent({
             this.table.sort = sort.columnName
             this.table.order = sort.order
             this.fetchData();
+        },
+        deletePost(item) {
+            this.$root.confirm({
+                title: this.$t('Confirmation'),
+                message: this.$t('Are you sure you want to delete the post?'),
+                ok: this.$t('Yes'),
+                timer: 0,
+            }).then((value) => {
+                if (!value) return
+
+                this.$get(`user/${this.$root.user.id}/workspace/delete/${item.slug}`, {}, true).then(({data}) => {
+                    if (!data.ok) return
+
+                    ElNotification({
+                        type: 'success',
+                        title: this.$t('Notification'),
+                        message: data.message,
+                        duration: 2000,
+                    })
+
+                    this.fetchData()
+                })
+            })
         }
     },
 });

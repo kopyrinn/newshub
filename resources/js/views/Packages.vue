@@ -182,7 +182,6 @@ export default defineComponent({
             })
         },
         buy() {
-
             this.$api(`package/${this.slug}`, true, {
                 method: 'post',
                 data: {
@@ -199,6 +198,7 @@ export default defineComponent({
                     })
 
                     this.$root.getUser()
+                    this.$router.push({name: 'index'})
                 } else {
                     ElNotification({
                         type: 'error',

@@ -239,5 +239,6 @@ return [
     ],
 
     'domain' => env('APP_DOMAIN', null),
+    'recaptcha_secret' => env('RECAPTCHA_SECRET', null),
     
 ];

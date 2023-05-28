@@ -142,6 +142,7 @@ export default defineComponent({
             method: 'post',
             data: {
                 slug: this.tab,
+                from: 'index',
                 cursor: this.cursor
             }
         })
@@ -168,6 +169,7 @@ export default defineComponent({
                 method: 'post',
                 data: {
                     slug: this.tab,
+                    from: 'index',
                     cursor: this.cursor
                 }
             })

@@ -193,6 +193,15 @@ const routes = [
                 },
             },
             {
+                path: "verify/:slug",
+                name: "verify",
+                component: () => import("@/views/Auth/Verify.vue"),
+                meta: {
+                    toolbar: false,
+                    animate: true,
+                },
+            },
+            {
                 path: "page/:slug",
                 name: "page",
                 component: () => import("@/views/Page.vue"),

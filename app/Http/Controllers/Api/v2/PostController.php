@@ -400,180 +400,6 @@ class PostController extends Controller
         ]);
     }
 
-    public function draftSave(Request $request)
-    {
-        $user = auth('sanctum')->user();
-
-        if ($request->id) {
-            $draft = Draft::find($request->id);
-        } else {
-            $draft = new Draft;
-        }
-
-        if ($request->step == 2) {
-            $request->validate([
-                'category_id' => 'required',
-                'title' => 'required',
-                'image' => 'required',
-            ]);
-
-            $category = Category::find($request->category_id);
-
-            if ($category->slug == 'sobitiya') {
-                $request->validate([
-                    'event_date' => 'required',
-                ]);
-            }
-        } else if ($request->step == 3) {
-            $request->validate([
-                'content' => 'required',
-            ]);
-        }
-
-        $content = json_decode($draft->content, true)?: [];
-        $content = array_merge($content, $request->except(['id', '_token', 'step']));
-        $draft->content = json_encode($content, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-
-        $user->drafts()->save($draft);
-
-        // ~r($content);
-        if ($request->step == 4) {
-            $post = new Post;
-            $post->status = 0;
-            $post->image = ltrim(str_replace(url('storage'), '', Arr::get($content, 'image')), '/');
-            $post->image_caption = Arr::get($content, 'image_caption');
-            $post->user_id = $user->id;
-            $post->author_id = $user->id;
-            $post->event_date = Arr::get($content, 'event_date');
-            $post->created_at = Arr::get($content, 'created_at')?: date('Y-m-d H:i:s');
-            $post->is_breaking = 0;
-
-            $post->setTranslation('title', Arr::get($content, 'locale'), Arr::get($content, 'title'));
-            $post->slug = \Str::slug(Arr::get($content, 'title'), '-') . '-'. time();
-
-            $post->setTranslation('summary', Arr::get($content, 'locale'), Arr::get($content, 'summary'));
-
-            foreach (Arr::get($content, 'content') as $locale => $value) {
-                $post->setTranslation('content', $locale, clean($value));
-            }
-
-            if ($user->isModerator() || $user->isAdmin() || ($user->packageActive() && in_array($user->package->slug, ['standart-plus', 'standart-maximum']))) {
-                $post->to_fcm = Arr::get($content, 'to_fcm')? 1: 0;
-                $post->to_telegram = Arr::get($content, 'to_telegram')? 1: 0;
-            }
-
-            if (Arr::get($content, 'files', [])) {
-                $files = [];
-
-                foreach (Arr::get($content, 'files', []) as $file) {
-                    $file = '/' . ltrim(str_replace(url('/'), '', $file), '/');
-                    $files[] = [
-                        "url" => $file,
-                        "name" => basename($file),
-                        "originalName" => basename($file)
-                    ];
-                }
-
-                $post->files = json_encode($files, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-            }
-
-            // if (Arr::get($content, 'is_styled', 0) && $user->packageActive() && $user->package_styles) {
-            //     $user->package_styles -= 1;
-            //     $user->update();
-
-            //     $post->is_styled = 1;
-            //     $post->style_color = Arr::get($content, 'color');
-            // }
-
-            $category = Category::find(Arr::get($content, 'category_id'));
-
-            if ($user->isModerator() || $user->isAdmin()) {
-                $post->status = 1;
-                $post->save();
-
-                $message = __("Your news has been published");
-            } else if ($user->packageActive() && $user->package_press && $category->slug == 'press-release-3') {
-                $user->package_press -= 1;
-                $user->update();
-
-                $post->save();
-
-                $message = __("Your news has been sent for moderation");
-            } else if ($user->packageActive() && $user->package_events && $category->slug == 'sobitiya') {
-                $user->package_events -= 1;
-                $user->update();
-
-                $post->save();
-
-                $message = __("Your news has been sent for moderation");
-            } else if ($user->packageActive() && $category->slug == 'intervyu') {
-                $post->save();
-
-                $message = __("Your news has been sent for moderation");
-            } else {
-                return redirect()->back()->with('error', __("To publish, you need to purchase a subscription"));
-            }
-
-            $is_styled = Arr::get($content, 'is_styled', 0);
-            if ($is_styled) {
-                $price = nova_get_setting("style_card_price");
-                if ($user->balance < $price) {
-                    return redirect()->back()->with('error', __("Insufficient funds on the balance sheet. Top up the balance in your account and try again."));
-                }
-
-                $user->subBalance($price, "Оплата цветной карточки поста");
-                $user->update();
-
-                $post->is_styled = 1;
-                $post->style_color = Arr::get($content, 'color');
-
-                $post->update();
-            }
-
-            $add_to_slider = Arr::get($content, 'add_to_slider');
-            if ($add_to_slider) {
-                $price = nova_get_setting("{$add_to_slider}_slider_price");
-                if ($user->balance < $price) {
-                    return redirect()->back()->with('error', __("Insufficient funds on the balance sheet. Top up the balance in your account and try again."));
-                }
-
-                $user->subBalance($price, "Оплата публикации записи в слайдер");
-                $user->update();
-
-                if ($add_to_slider == "big") {
-                    $post->is_slider = 1;
-                } else if ($add_to_slider = "small") {
-                    $post->is_featured = 1;
-                }
-
-                $post->update();
-            }
-
-            $post->categories()->attach($category->id);
-
-            if ($post->created_at <= \Carbon\Carbon::now()) {
-                try {
-                    $post->is_notified = 1;
-                    $post->update();
-
-                    if ($user->followers()->exists()) {
-                        foreach ($user->followers()->select('id')->get() as $follower) {
-                            $follower->notify(new NewPost($post));
-                        }
-                    }
-                } catch (\Exception $e) {
-                    
-                }
-            }
-
-            $draft->delete();
-
-            return redirect("post/{$post->slug}")->with('success', $message);
-        }
-
-        return redirect()->route("new", ["step" => $request->step + 1, "id" => $draft->id]);
-    }
-
     public function save(Request $request)
     {
         $request->validate([
@@ -750,6 +576,103 @@ class PostController extends Controller
             'ok' => true,
             'slug' => $post->slug,
             'message' => $message,
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'category_id' => 'required',
+            'title' => 'required',
+            'image' => 'required',
+            'content' => 'required',
+        ]);
+
+        $user = auth('sanctum')->user();
+        abort_if(!$user || !$user->isPress(), 403);
+
+        $post = $user->posts()->where('slug', $request->slug)->first();
+        abort_if(!$post, 404);
+
+        $category = Category::find($request->category_id);
+
+        if ($request->image) {
+            $image = strtr($request->image, [
+                'https://newshub.kz/storage/' => '',
+                'http://newshub.kz/storage/' => '',
+            ]);
+            $image = ltrim($image, '/');
+            $post->image = $image;
+        }
+
+        $post->keywords = $request->keywords;
+        $post->image_caption = $request->image_caption;
+        $post->created_at = $request->created_at?: date('Y-m-d H:i:s');
+        $post->is_breaking = 0;
+
+        foreach ($request->title as $locale => $value) {
+            $post->setTranslation('title', $locale, $value);
+        }
+
+        foreach ($request->summary as $locale => $value) {
+            $post->setTranslation('summary', $locale, $value);
+        }
+
+        foreach ($request->content as $locale => $value) {
+            $post->setTranslation('content', $locale, clean($value));
+        }
+
+        // if ($request->get('files')) {
+        //     $files = [];
+
+        //     foreach ($request->get('files') as $file) {
+        //         $file = '/' . ltrim(str_replace(url('/'), '', $file), '/');
+        //         $files[] = [
+        //             "url" => $file,
+        //             "name" => basename($file),
+        //             "originalName" => basename($file)
+        //         ];
+        //     }
+
+        //     $post->files = json_encode($files, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        // }
+
+        if (
+            $request->add_to_slider &&
+            (
+                ($request->add_to_slider == "big" && !$post->is_slider) ||
+                ($request->add_to_slider == "small" && !$post->is_featured)
+            )
+        ) {
+            $price = nova_get_setting("{$request->add_to_slider}_slider_price");
+            if ($user->balance < $price) {
+                return response()->json([
+                    'ok' => false,
+                    'message' => __("Insufficient funds on the balance sheet. Top up the balance in your account and try again."),
+                ]);
+            }
+
+            $user->subBalance($price, "Оплата публикации записи в слайдер");
+            $user->update();
+
+            if ($request->add_to_slider == "big") {
+                $post->is_slider = 1;
+            } else if ($request->add_to_slider = "small") {
+                $post->is_featured = 1;
+            }
+        }
+
+        $post->update();
+
+        $post->categories()->attach($category->id);
+
+        $user->addAction('update_post', [
+            'post_id' => $post->id
+        ]);
+
+        return response()->json([
+            'ok' => true,
+            'message' => __("Saved."),
         ]);
     }
 

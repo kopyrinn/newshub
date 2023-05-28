@@ -4,6 +4,12 @@ import { api, upload } from '@/app/api'
 app.config.globalProperties.$isApp = false
 app.config.globalProperties.$isWeb = true
 app.config.globalProperties.$api = api
+app.config.globalProperties.$get = (url, params = {}, isAuth = false) => {
+    return api(url, isAuth, {params})
+}
+app.config.globalProperties.$post = (url, data = {}, isAuth = false) => {
+    return api(url, isAuth, {method: 'POST', data})
+}
 app.config.globalProperties.$upload = upload
 
 store.commit('setTitle', '')

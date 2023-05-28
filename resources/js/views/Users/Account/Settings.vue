@@ -27,13 +27,13 @@
               <div
                 class="image-input"
                 data-kt-image-input="true"
-                v-bind:style="{ backgroundImage: 'url(' + $url('/storage/' + blankImage) + ')' }"
+                v-bind:style="{ backgroundImage: 'url(' + $storage(blankImage) + ')' }"
               >
                 <div
                   id="previewAvatar"
                   class="image-input-wrapper w-125px h-125px"
                   v-bind:style="{
-                    backgroundImage: 'url(' + $url('/storage/' + $root.user.avatar) + ')',
+                    backgroundImage: 'url(' + $storage(user.avatar) + ')',
                     zIndex: 1,
                   }"
                 ></div>
@@ -62,14 +62,14 @@
             </div>
           </div>
           <div class="row mb-6">
-            <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $t('Name') }}</label>
+            <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $root.user.is_journalist? $t('Name'):  $t('Organization name') }}</label>
             <div class="col-lg-8">
               <Field
                 type="text"
                 name="name"
                 class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
-                :placeholder="$t('Name')"
-                v-model="$root.user.name"
+                :placeholder="$root.user.is_journalist? $t('Name'):  $t('Organization name')"
+                v-model="user.name"
               />
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
@@ -78,20 +78,92 @@
               </div>
             </div>
           </div>
-          <div class="row mb-0">
+          <div v-if="$root.user.is_journalist" class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $t('Last Name') }}</label>
+            <div class="col-lg-8">
+              <Field
+                type="text"
+                name="lastname"
+                class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                :placeholder="$t('Last Name')"
+                v-model="user.lastname"
+              />
+              <div class="fv-plugins-message-container">
+                <div class="fv-help-block">
+                  <ErrorMessage name="lastname" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $t('Phone') }}</label>
+            <div class="col-lg-8">
+              <Field
+                type="text"
+                name="phone"
+                class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                :placeholder="$t('Phone')"
+                v-model="user.phone"
+              />
+              <div class="fv-plugins-message-container">
+                <div class="fv-help-block">
+                  <ErrorMessage name="phone" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div v-if="user.is_journalist" class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $t('City') }}</label>
+            <div class="col-lg-8">
+              <select class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" :placeholder="$t('City')" v-model="user.city_id">
+                  <option value="">{{ $t('Select city') }}</option>
+                  <option v-for="city in cities" :value="city.id">{{ city['city_name_' + $root.locale] }}</option>
+              </select>
+            </div>
+          </div>
+          <div v-else class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $t('Category') }}</label>
+            <div class="col-lg-8">
+              <select class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" :placeholder="$t('City')" v-model="user.user_category_id">
+                  <option value="">{{ $t('Select category') }}</option>
+                  <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
+              </select>
+            </div>
+          </div>
+<!-- 
+          <div  class="form-floating mb-6">
+              <label class="form-label required">{{ $t('City') }}</label>
+              <div v-if="errors.city_id && errors.city_id.length" class="fv-plugins-message-container invalid-feedback d-block">
+                  <span v-for="(error, index) in errors.city_id" v-bind:key="index">{{ error }}</span>
+              </div>
+          </div>
+          <div class="form-floating mb-6">
+              <select class="form-control form-control-lg form-control-solid" :placeholder="$t('Category')" v-model="form.user_category_id">
+                  <option value="">{{ $t('') }}</option>
+                  <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
+              </select>
+              <label class="form-label required">{{ $t('Category') }}</label>
+              <div v-if="errors.user_category_id && errors.user_category_id.length" class="fv-plugins-message-container invalid-feedback d-block">
+                  <span v-for="(error, index) in errors.user_category_id" v-bind:key="index">{{ error }}</span>
+              </div>
+          </div> -->
+
+          <!-- <div class="row mb-0">
             <label class="col-lg-4 col-form-label fw-bold fs-6">{{ $t('Allow email newsletter') }}</label>
             <div class="col-lg-8 d-flex align-items-center">
               <div class="form-check form-check-solid form-switch fv-row">
                 <input
                   class="form-check-input w-45px h-30px"
                   type="checkbox"
-                  v-model="$root.user.newsletter"
+                  v-model="user.newsletter"
                   id="newsletter"
                 />
                 <label class="form-check-label" for="newsletter"></label>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="card-footer d-flex justify-content-end py-6 px-9">
           <button
@@ -126,7 +198,7 @@
         <div class="d-flex flex-wrap align-items-center mb-8">
           <div id="kt_signin_email" :class="{ 'd-none': emailFormDisplay }">
             <div class="fs-4 fw-boldest mb-1">Email</div>
-            <div class="fs-6 fw-bold text-gray-600">{{ $root.user.email }}</div>
+            <div class="fs-6 fw-bold text-gray-600">{{ user.email }}</div>
           </div>
 
           <div
@@ -154,7 +226,7 @@
                       placeholder="Email"
                       name="emailaddress"
                       autocomplete="off"
-                      v-model="$root.user.email"
+                      v-model="user.email"
                     />
                     <div class="fv-plugins-message-container">
                       <div class="fv-help-block">
@@ -453,10 +525,18 @@ export default defineComponent({
       changeEmail: null,
       changePassword: null,
       blankImage: "avatar.jpg",
+      user: {...this.$root.user},
+      categories: [],
+      cities: [],
     }
   },
   created() {
     if (this.$route.meta.noSsr && import.meta.env.SSR) return false
+
+    this.$get('fields').then(({data}) => {
+        this.categories = data.categories
+        this.cities = data.cities
+    }).catch((e) => {})
 
     this.profileDetailsValidator = Yup.object().shape({
       name: Yup.string().required().label("Имя"),
@@ -481,15 +561,15 @@ export default defineComponent({
     saveChanges() {
       if (this.$refs.submitButton1) {
         this.$refs.submitButton1.setAttribute("data-kt-indicator", "true");
-        const {name, avatar, newsletter} = this.$root.user;
-        const params = {name, avatar, newsletter};
+        const {name, avatar, lastname, phone, city_id, user_category_id} = this.user;
 
         this.$api("account/settings", true, {
           method: 'POST',
-          data: params
+          data: {name, avatar, lastname, phone, city_id, user_category_id}
         })
         .then(({ data }) => {
           this.$store.commit('setUser', data.user)
+          this.user = {...data.user}
 
           ElNotification({
             type: 'success',
@@ -533,10 +613,11 @@ export default defineComponent({
 
         this.$api("account/email", true, {
           method: 'POST',
-          data: { email: this.$root.user.email, password: this.confirmEmailPassword }
+          data: { email: this.user.email, password: this.confirmEmailPassword }
         })
           .then(({ data }) => {
               this.$store.commit('setUser', data.user)
+              this.user = {...data.user}
 
             ElNotification({
               type: 'success',
@@ -581,7 +662,7 @@ export default defineComponent({
       }
     },
     removeImage() {
-      this.$root.user.avatar = this.blankImage;
+      this.user.avatar = this.blankImage;
     },
     pickFile(e) {
       if (e.target.files.length) {
@@ -592,13 +673,16 @@ export default defineComponent({
         let formData = new FormData();
         formData.append('image', e.target.files[0]);
 
-        this.$api("upload/rectangle", true, {
+        this.$api("image/rectangle", true, {
           method: 'POST',
           data: formData
         })
           .then(({ data }) => {
-            this.$root.user.avatar = data.image;
             loadingInstance.close()
+
+            if (!data.ok) return false
+
+            this.user.avatar = data.images.lg;
           })
           .catch(({ response }) => {
             showErrors(response);

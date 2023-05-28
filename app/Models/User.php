@@ -36,6 +36,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
+        'email_verify_token',
     ];
 
     /**
@@ -47,7 +48,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'package_expired_at' => 'datetime',
     ];
-
 
     public function getJWTIdentifier()
     {
@@ -247,6 +247,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function withInfo()
     {
+        $this->is_journalist = $this->isUser();
         $this->notifications_count = $this->unreadNotifications()->count();
 
         $this->allowed_categories = Category::select('categories.id', 'categories.name')

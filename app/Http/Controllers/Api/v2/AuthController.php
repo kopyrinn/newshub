@@ -4,13 +4,19 @@ namespace App\Http\Controllers\Api\v2;
 
 use App\Helpers\Upload;
 use App\Http\Controllers\Controller;
+use App\Models\City;
+use App\Models\Region;
 use App\Models\User;
+use App\Models\UserCategory;
+use App\Notifications\NewPress;
+use App\Notifications\VerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Azate\LaravelTelegramLoginAuth\TelegramLoginAuth;
+use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
 {
@@ -21,6 +27,18 @@ class AuthController extends Controller
         return response()->json([
             'ok' => true,
             'user' => $user->withInfo(),
+        ]);
+    }
+
+    public function fields()
+    {
+        $categories = UserCategory::all();
+        $cities = City::all();
+
+        return response()->json([
+            'ok' => true,
+            'categories' => $categories,
+            'cities' => $cities,
         ]);
     }
 
@@ -230,19 +248,53 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $request->validate([
+        $rules = [
             'email' => 'required|email|unique:users',
             'name' => 'required',
             'phone' => 'required',
             'role' => 'required',
+            'recaptcha' => 'required',
             'password' => 'required|string|confirmed|min:6|max:50',
+        ];
+
+        if ($request->role == 'journalist') {
+            $rules['city_id'] = 'required';
+            $rules['lastname'] = 'required';
+        } else {
+            $rules['user_category_id'] = 'required';
+        }
+
+        $request->validate($rules);
+
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => config('app.recaptcha_secret'),
+            'response' => $request->recaptcha,
+            'remoteip' => $request->ip()
         ]);
+
+        $validate = $response->json();
+
+        if (empty($validate['success']) || !$validate['success']) {
+            return response()->json([
+                'ok' => false,
+                'message' => __('Invalid reCaptcha')
+            ]);
+        }
 
         $user = new User;
         $user->email = $request->email;
         $user->name = $request->name;
         $user->phone = $request->phone;
         $user->password = Hash::make($request->password);
+        $user->email_verify_token = \Str::uuid()->toString();
+
+        if ($request->role == 'journalist') {
+            $user->lastname = $request->lastname;
+            $user->city_id = $request->city_id;
+        } else {
+            $user->user_category_id = $request->user_category_id;
+        }
+
         $user->save();
         $user->refresh();
 
@@ -256,9 +308,25 @@ class AuthController extends Controller
             $user->assignRole('journalist');
         }
 
+        if ($request->role == 'press') {
+            $user->balance = 125000;
+            $user->update();
+
+            $admins = User::select('users.*')
+                ->join('role_user', 'role_user.user_id', 'users.id')
+                ->join('roles', 'role_user.role_id', 'roles.id')
+                ->where('roles.slug', 'admin')
+                ->get();
+
+            foreach ($admins as $admin) {
+                $admin->notify(new NewPress($user));
+            }
+        }
+
         $token = $user->createToken($request->ip() . ':' . $request->userAgent());
 
-        $user->sendEmailVerificationNotification();
+        $user->notify(new VerifyEmail($user));
+        // $user->sendEmailVerificationNotification();
 
         return response()->json([
             'ok' => true,

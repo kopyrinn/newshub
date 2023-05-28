@@ -22,6 +22,7 @@ import AppLink from '@/components/AppLink.vue';
 // import VueApexCharts from "vue3-apexcharts"
 import { Skeletor } from 'vue-skeletor';
 import { createHead, VueHeadMixin } from "@unhead/vue"
+import { vMaska } from "maska"
 
 // import * as Sentry from "@sentry/vue";
 // import { BrowserTracing } from "@sentry/tracing";
@@ -50,6 +51,13 @@ app.config.globalProperties.$bus = emitter
 app.config.globalProperties.$dayjs = dayjs
 app.config.globalProperties.$base = (path) => import.meta.env.VITE_ORIGIN_URL + path
 app.config.globalProperties.$url = (path) => import.meta.env.VITE_APP_URL + path
+app.config.globalProperties.$storage = (path) => {
+    if (path && path.startsWith('/storage')) {
+        path = path.replace('/storage', '')
+    }
+
+    return import.meta.env.VITE_APP_URL + '/storage/' + path
+}
 app.config.globalProperties.$media = (path) => import.meta.env.VITE_ORIGIN_URL + '/assets/media/' + path
 app.config.globalProperties.$decimal = (num, digits = 2) => Number(num).toLocaleString(getLongLocale(), { maximumFractionDigits: digits, minimumFractionDigits: digits })
 app.config.globalProperties.$math = function() {
@@ -153,6 +161,7 @@ app
     .use(VueSnip)
     .use(router)
     .use(store)
+    .directive("maska", vMaska)
     .component("inline-svg", InlineSvg)
     .component("app-link", AppLink)
     .component("VDate", VDate)

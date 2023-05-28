@@ -22,7 +22,7 @@
 
                     <div class="d-flex justify-content-end align-items-center flex-lg-row-fluid">
                         <div class="app-navbar-item align-items-stretch ms-1 ms-md-3">
-                            <Popper v-if="token" placement="bottom-end"  class="d-block">
+                            <Popper v-if="token && user && user.email_verified_at" placement="bottom-end"  class="d-block">
                                 <button class="btn btn-custom px-3 btn-color-gray-700 btn-active-light-primary btn-active-color-primary d-flex flex-center h-30px h-lg-40px">
                                     <i class="ki-duotone ki-plus-square fs-2"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>{{ $t('Create') }}
                                 </button>
@@ -420,9 +420,24 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="d-flex flex-column flex-column-fluid">
                     <div v-if="$route.name != 'index'" class="app-content flex-column-fluid">
                         <div class="app-container container-xxl">
+                            <div v-if="user && !user.email_verified_at" class="alert alert-dismissible bg-light-danger border-dashed border-danger d-flex flex-column flex-sm-row p-5 mb-10">
+                                <i class="ki-duotone ki-notification-bing fs-2hx text-danger me-4 mb-5 mb-sm-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                <div class="d-flex flex-column pe-0 pe-sm-10">
+                                    <h5 class="mb-1">{{ $t('Please verify your email') }}</h5>
+                                    <span class="fw-semibold">{{ $t('To get the full functionality of the platform, you need to confirm your Email. If the letter was not received, check the spam directory or send the letter again by clicking on the "resend" button') }}</span>
+                                </div>
+
+                                <div class="d-flex align-items-center">
+                                    <button type="button" class="position-absolute position-sm-relative mt-3 me-3 mt-sm-0 me-sm-0 top-0 end-0 btn btn-sm btn-light-danger ms-sm-auto" @click="resendVerificationEmail" :disabled="resending">
+                                        {{ $t('Resend') }}
+                                    </button>
+                                </div>
+                            </div>
+
                             <router-view v-slot="{ Component }">
                                 <transition name="fade" mode="out-in" appear>
                                     <component :is="Component" :key="$route.meta.animate? $route.path: ''"/>
@@ -459,7 +474,9 @@
         </div>
         <!--end::Wrapper-->
     </div>
+    <Confirm ref="confirm"/>
     <div v-if="sideOpen" style="z-index: 105;" class="drawer-overlay"></div>
+    <div v-show="confirmation" class="modal-backdrop show"></div>
     <div v-show="modal" class="modal-backdrop show"></div>
     <PostEditor v-if="modalType == 'post-editor'"/>
     <VacancyEditor v-if="modalType == 'vacancy-editor'"/>
@@ -473,6 +490,7 @@ import { ElNotification } from "element-plus"
 // import Swal from "sweetalert2/dist/sweetalert2.js"
 import showErrors from "@/helpers/notify"
 import Search from "@/components/Search.vue"
+import Confirm from "@/components/Confirm.vue"
 import window from 'global'
 // import ruIcon from "@/media/flags/russia.svg"
 // import kkIcon from "@/media/flags/kazakhstan.svg"
@@ -485,6 +503,7 @@ export default defineComponent({
         Popper,
         OnClickOutside,
         Search,
+        Confirm,
         [!import.meta.env.VITE_SSR && 'PostEditor']: defineAsyncComponent(() =>
             import('@/components/Post/Editor.vue')
         ),
@@ -757,6 +776,16 @@ export default defineComponent({
                         this.logout()
                     }
                 })
+        },
+        resendVerificationEmail() {
+            this.$post('account/verify-resend', {}, true).then(({data}) => {
+                ElNotification({
+                    type: 'success',
+                    title: this.$t('Notification'),
+                    message: data.message,
+                    duration: 2000,
+                })
+            }).catch((e) => {})
         },
         onResize() {
             if (!import.meta.env.SSR) {

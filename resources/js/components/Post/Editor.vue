@@ -239,6 +239,7 @@ import { TipTapCustomImage } from '@/plugins/tiptap/Image'
 import VImageUpload from '@/components/VImageUpload.vue'
 import Popper from "vue3-popper"
 import showErrors from "@/helpers/notify"
+import { ElNotification} from 'element-plus'
 
 export default defineComponent({
     name: 'Editor',
@@ -384,8 +385,8 @@ export default defineComponent({
         },
         save() {
             this.isSend = true
-
-            this.$api("post/save", true, {
+            console.log(this.post.uuid)
+            this.$api(this.post.uuid? 'post/update': 'post/save', true, {
                 method: 'post',
                 data: { ...this.post }
             })
@@ -396,7 +397,17 @@ export default defineComponent({
                     this.saveError = false
 
                     this.$root.closeModal('post-editor')
-                    this.$router.push({name: 'post', params: {slug: data.slug}})
+
+                    ElNotification({
+                        type: 'success',
+                        title: this.$t('Notification'),
+                        message: data.message,
+                        duration: 2000,
+                    })
+
+                    if (!this.post.uuid) {
+                        this.$router.push({name: 'post', params: {slug: data.slug}})
+                    }
                 } else {
                     this.saveError = this.$t(data.message)
                 }

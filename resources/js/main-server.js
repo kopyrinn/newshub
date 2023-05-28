@@ -61,6 +61,13 @@ export async function render(url, manifest = null) {
     app.config.globalProperties.$dayjs = dayjs
     app.config.globalProperties.$base = (path) => import.meta.env.VITE_ORIGIN_URL + path
     app.config.globalProperties.$url = (path) => import.meta.env.VITE_APP_URL + path
+    app.config.globalProperties.$storage = (path) => {
+        if (path && path.startsWith('/storage')) {
+            path = path.replace('/storage', '')
+        }
+    
+        return import.meta.env.VITE_APP_URL + '/storage/' + path
+    }
     app.config.globalProperties.$media = (path) => import.meta.env.VITE_ORIGIN_URL + '/assets/media/' + path
     app.config.globalProperties.$decimal = (num, digits = 2) => Number(num).toLocaleString(getLongLocale(), { maximumFractionDigits: digits, minimumFractionDigits: digits })
     app.config.globalProperties.$math = function() {
@@ -115,6 +122,12 @@ export async function render(url, manifest = null) {
     app.config.globalProperties.$isApp = false
     app.config.globalProperties.$isWeb = true
     app.config.globalProperties.$api = api
+    app.config.globalProperties.$get = (url, params = {}, isAuth = false) => {
+        return api(url, isAuth, {params})
+    }
+    app.config.globalProperties.$post = (url, data = {}, isAuth = false) => {
+        return api(url, isAuth, {method: 'POST', data})
+    }
     app.config.globalProperties.$upload = upload
 
     const i18n = createI18n({
