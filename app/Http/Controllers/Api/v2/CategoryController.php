@@ -26,10 +26,10 @@ class CategoryController extends Controller
             ->where('posts.status', 1)
             ->where('posts.created_at', '<', Carbon::now());
 
-        if ($request->from != 'index') {
-            $category = Category::select('id')->where('slug', $request->slug)->first();
-            abort_if(!$category, 404);
+        $category = Category::select('id')->where('slug', $request->slug)->first();
+        abort_if(!$category, 404);
     
+        if ($request->from != 'index' && $category->slug != 'news') {
             $query->whereExists((function($query) use ($category) {
                 $query->select(\DB::raw(1))
                     ->from('category_post')
@@ -37,7 +37,7 @@ class CategoryController extends Controller
                     ->where('category_post.category_id', $category->id);
             }));
         }
-    
+
         if ($request->rubric) {
             $rubric = Rubric::select('id')->where('slug', $request->rubric)->first();
             abort_if(!$rubric, 404);
