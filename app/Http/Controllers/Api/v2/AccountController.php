@@ -60,7 +60,7 @@ class AccountController extends Controller
             'phone' => 'required',
         ];
 
-        if ($request->role == 'journalist') {
+        if ($user->isUser()) {
             $rules['city_id'] = 'required';
             $rules['lastname'] = 'required';
         } else {
@@ -70,10 +70,17 @@ class AccountController extends Controller
         $request->validate($rules);
 
         $user->name = $request->name;
+        if ($request->lastname) {
+            $user->lastname = $request->lastname;
+        }
         $user->avatar = $request->avatar;
         $user->phone = $request->phone;
-        $user->city_id = $request->city_id;
-        $user->user_category_id = $request->user_category_id;
+        if ($request->city_id) {
+            $user->city_id = $request->city_id;
+        }
+        if ($request->user_category_id) {
+            $user->user_category_id = $request->user_category_id;
+        }
         $user->update();
 
         return response()->json([
