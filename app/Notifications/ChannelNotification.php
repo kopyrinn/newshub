@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notification;
 use NotificationChannels\Telegram\TelegramFile;
 use NotificationChannels\Telegram\TelegramMessage;
 use App\Channels\FcmChannel;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 
 class ChannelNotification extends Notification implements ShouldQueue
@@ -57,11 +58,13 @@ class ChannelNotification extends Notification implements ShouldQueue
 
     public function toTelegram($notifiable)
     {
+        App::setLocale('ru');
+
         if ($this->post->image && $this->post->image != 'news.jpg') {
             $message = TelegramFile::create()
                 ->to(-1001343246474)
                 ->content("*{$this->post->title}*\n\n{$this->post->summary}")
-                ->photo(Storage::disk('public')->url($this->post->image));
+                ->file(Storage::disk('public')->path($this->post->image), 'photo');
         } else {
             $message = TelegramMessage::create()
                 ->to(-1001343246474)
