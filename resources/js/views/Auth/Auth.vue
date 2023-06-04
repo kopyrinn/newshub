@@ -275,7 +275,7 @@
                                 </div>
 
                                 <div class="d-flex flex-stack">
-                                    <button @click="register" type="button" class="btn btn-primary rounded-4" :data-kt-indicator="loading" :disabled="loading || !form.recaptcha">
+                                    <button @click="register" type="button" class="btn btn-primary rounded-4" :data-kt-indicator="loading" :disabled="loading || !form.recaptcha || !agree">
                                         <span class="indicator-label">{{ $t('Send') }}</span>
                                         <span class="indicator-progress">{{ $t('Please, wait') }}...
                                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
@@ -579,7 +579,7 @@ export default defineComponent({
             })
         },
         register() {
-            if (!this.form.recaptcha) return
+            if (!this.form.recaptcha || !this.agree) return
 
             this.loading = true
 
