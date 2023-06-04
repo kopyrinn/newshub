@@ -36,6 +36,7 @@
                             <div v-if="post.image" class="mt-6">
                                 <img :src="$storage(post.image)" itemprop="image" class="object-fit-contain bg-light mh-450px w-100 rounded"/>
                             </div>
+                            <div class="fw-semibold mt-1 text-gray-700 fs-6">{{ post.image_caption }}</div>
                         </div>
 
                         <div class="fs-5 fw-medium text-gray-900 mb-10 article" itemprop="articleBody" v-html="post.content"></div>
