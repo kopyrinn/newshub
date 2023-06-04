@@ -692,8 +692,8 @@ class PostController extends Controller
         $post->status = 1;
         $post->update();
 
-        // $post->notify(new ChannelNotification($post));
-        // $post->notify(new NewPost($post));
+        $post->notify(new ChannelNotification($post));
+        $post->notify(new NewPost($post));
 
         return response()->json([
             'ok' => true,
