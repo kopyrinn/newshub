@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\GrammaticalError;
 use App\Models\Post;
 use App\Models\Widget;
+use App\Notifications\ChannelNotification;
 use App\Notifications\NewPost;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
