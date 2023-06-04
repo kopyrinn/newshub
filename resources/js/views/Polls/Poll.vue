@@ -343,7 +343,7 @@ export default defineComponent({
             })
             .catch((e) => {
                 this.isSend = false
-                showErrors(e)
+                showErrors(e.response)
             })
         },
         setImages(urls) {
