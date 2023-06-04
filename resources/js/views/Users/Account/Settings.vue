@@ -146,12 +146,31 @@
             </div>
           </div>
 
+          <!-- <div class="form-floating mb-6">
+              <select class="form-control form-control-lg" :placeholder="$t('Region')" v-model="form.region_id" @change="form.city_id = ''">
+                  <option value="">{{ $t('') }}</option>
+                  <option v-for="region in regions" :value="region.id">{{ region['region_name_' + $root.locale] }}</option>
+              </select>
+              <label class="form-label required">{{ $t('Region') }}</label>
+              <div v-if="errors.region_id && errors.region_id.length" class="fv-plugins-message-container invalid-feedback d-block">
+                  <span v-for="(error, index) in errors.region_id" v-bind:key="index">{{ error }}</span>
+              </div>
+          </div> -->
+          <div v-if="user.is_journalist" class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $t('Region') }}</label>
+            <div class="col-lg-8">
+              <select class="form-control form-control-lg mb-3 mb-lg-0" :placeholder="$t('Region')" v-model="user.region_id" @change="user.city_id = ''">
+                  <option value="">{{ $t('Select region') }}</option>
+                  <option v-for="region in regions" :value="region.id">{{ region['region_name_' + $root.locale] }}</option>
+              </select>
+            </div>
+          </div>
           <div v-if="user.is_journalist" class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $t('City') }}</label>
             <div class="col-lg-8">
               <select class="form-control form-control-lg mb-3 mb-lg-0" :placeholder="$t('City')" v-model="user.city_id">
                   <option value="">{{ $t('Select city') }}</option>
-                  <option v-for="city in cities" :value="city.id">{{ city['city_name_' + $root.locale] }}</option>
+                  <option v-for="city in citiesByRegion" :value="city.id">{{ city['city_name_' + $root.locale] }}</option>
               </select>
             </div>
           </div>
@@ -561,6 +580,7 @@ export default defineComponent({
       user: {...this.$root.user},
       categories: [],
       cities: [],
+      regions: [],
     }
   },
   created() {
@@ -569,6 +589,7 @@ export default defineComponent({
     this.$get('fields').then(({data}) => {
         this.categories = data.categories
         this.cities = data.cities
+        this.regions = data.regions
     }).catch((e) => {})
 
     this.profileDetailsValidator = Yup.object().shape({
@@ -589,6 +610,15 @@ export default defineComponent({
         .oneOf([Yup.ref("newpassword"), null], "Пароли должны совпадать")
         .label("Подтверждение пароля"),
     });
+  },
+  computed: {
+      citiesByRegion() {
+          if (!this.user.region_id) return []
+
+          return this.cities.filter((item) => {
+              return item.region_id == this.user.region_id
+          })
+      }
   },
   methods: {
     saveChanges() {

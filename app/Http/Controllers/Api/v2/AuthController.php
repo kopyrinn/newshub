@@ -35,11 +35,13 @@ class AuthController extends Controller
     {
         $categories = UserCategory::all();
         $cities = City::all();
+        $regions = Region::all();
 
         return response()->json([
             'ok' => true,
             'categories' => $categories,
             'cities' => $cities,
+            'regions' => $regions,
         ]);
     }
 

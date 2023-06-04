@@ -229,14 +229,26 @@
                                     <div class="text-muted" data-kt-translate="sign-up-hint">{{ $t('Use 8 or more characters with letters, numbers, and symbols') }}</div>
                                 </div>
                                 
-                                <div v-if="form.role == 'journalist'" class="form-floating mb-6">
-                                    <select class="form-control form-control-lg" :placeholder="$t('City')" v-model="form.city_id">
-                                        <option value="">{{ $t('Select city') }}</option>
-                                        <option v-for="city in cities" :value="city.id">{{ city['city_name_' + $root.locale] }}</option>
-                                    </select>
-                                    <label class="form-label required">{{ $t('City') }}</label>
-                                    <div v-if="errors.city_id && errors.city_id.length" class="fv-plugins-message-container invalid-feedback d-block">
-                                        <span v-for="(error, index) in errors.city_id" v-bind:key="index">{{ error }}</span>
+                                <div v-if="form.role == 'journalist'">
+                                    <div class="form-floating mb-6">
+                                        <select class="form-control form-control-lg" :placeholder="$t('Region')" v-model="form.region_id" @change="form.city_id = ''">
+                                            <option value="">{{ $t('Select region') }}</option>
+                                            <option v-for="region in regions" :value="region.id">{{ region['region_name_' + $root.locale] }}</option>
+                                        </select>
+                                        <label class="form-label required">{{ $t('Region') }}</label>
+                                        <div v-if="errors.region_id && errors.region_id.length" class="fv-plugins-message-container invalid-feedback d-block">
+                                            <span v-for="(error, index) in errors.region_id" v-bind:key="index">{{ error }}</span>
+                                        </div>
+                                    </div>
+                                    <div v-if="form.region_id" class="form-floating mb-6">
+                                        <select class="form-control form-control-lg" :placeholder="$t('City')" v-model="form.city_id">
+                                            <option value="">{{ $t('Select city') }}</option>
+                                            <option v-for="city in citiesByRegion" :value="city.id">{{ city['city_name_' + $root.locale] }}</option>
+                                        </select>
+                                        <label class="form-label required">{{ $t('City') }}</label>
+                                        <div v-if="errors.city_id && errors.city_id.length" class="fv-plugins-message-container invalid-feedback d-block">
+                                            <span v-for="(error, index) in errors.city_id" v-bind:key="index">{{ error }}</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div v-else class="form-floating mb-6">
@@ -374,7 +386,7 @@
                 {{ $t('Consent to the processing of personal data') }}
             </template>
 
-            <div v-html="$root.config.terms"></div>
+            <div class="fs-5" v-html="$root.config.terms"></div>
 
             <template #footer>
                 <div class="m-0 d-flex align-items-center">
@@ -414,6 +426,7 @@ export default defineComponent({
                 phone: '',
                 role: 'journalist',
                 city_id: '',
+                region_id: '',
                 user_category_id: '',
                 password: '',
                 password_confirmation: '',
@@ -423,6 +436,7 @@ export default defineComponent({
                 name: [],
                 lastname: [],
                 city_id: [],
+                region_id: [],
                 user_category_id: [],
                 phone: [],
                 email: [],
@@ -432,6 +446,7 @@ export default defineComponent({
             strength: 0,
             categories: [],
             cities: [],
+            regions: [],
         }
     },
     created() {
@@ -444,6 +459,15 @@ export default defineComponent({
     },
     mounted() {
         
+    },
+    computed: {
+        citiesByRegion() {
+            if (!this.form.region_id) return []
+
+            return this.cities.filter((item) => {
+                return item.region_id == this.form.region_id
+            })
+        }
     },
     watch: {
         'form.name': function() {
@@ -608,6 +632,7 @@ export default defineComponent({
             this.$get('fields').then(({data}) => {
                 this.categories = data.categories
                 this.cities = data.cities
+                this.regions = data.regions
             }).catch((e) => {})
         },
         recaptchaVerified(response) {
