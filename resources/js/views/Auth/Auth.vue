@@ -178,6 +178,13 @@
                                         <span v-for="(error, index) in errors.lastname" v-bind:key="index">{{ error }}</span>
                                     </div>
                                 </div>
+                                <div v-if="form.role == 'journalist'" class="form-floating mb-6">
+                                    <input class="form-control form-control-lg" type="text" :placeholder="$t('Media Name')" v-model="form.media_name" @keyup.enter="register" autocomplete="off" />
+                                    <label class="form-label required">{{ $t('Media Name') }}</label>
+                                    <div v-if="errors.media_name && errors.media_name.length" class="fv-plugins-message-container invalid-feedback d-block">
+                                        <span v-for="(error, index) in errors.media_name" v-bind:key="index">{{ error }}</span>
+                                    </div>
+                                </div>
                                 <div class="row gx-3">
                                     <div class="col-12 col-sm-6 col-lg-12 col-xxl-6">
                                         <div class="form-floating mb-6">
@@ -422,6 +429,7 @@ export default defineComponent({
             form: {
                 name: '',
                 lastname: '',
+                media_name: '',
                 email: '',
                 phone: '',
                 role: 'journalist',
@@ -435,6 +443,7 @@ export default defineComponent({
             errors: {
                 name: [],
                 lastname: [],
+                media_name: [],
                 city_id: [],
                 region_id: [],
                 user_category_id: [],
@@ -478,6 +487,11 @@ export default defineComponent({
         'form.lastname': function() {
             if (this.errors.lastname && this.errors.lastname.length) {
                 this.errors.lastname = []
+            }
+        },
+        'form.media_name': function() {
+            if (this.errors.media_name && this.errors.media_name.length) {
+                this.errors.media_name = []
             }
         },
         'form.email': function() {
