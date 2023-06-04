@@ -230,7 +230,7 @@ export default defineComponent({
     async serverPrefetch() {
         this.loading = false
 
-        await this.$api(`polls/${this.slug}`, false).then(({data}) => {
+        await this.$api(`polls/${this.slug}`, !!this.$root.user).then(({data}) => {
             if (!data.ok) return
 
             this.poll = data.poll
