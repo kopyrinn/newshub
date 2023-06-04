@@ -146,7 +146,7 @@
             </div>
 
             <div class="form-floating mb-7">
-                <input type="text" class="form-control" id="req-phone" v-model="form.phone" :placeholder="$t('Phone')"/>
+                <input type="text" class="form-control" id="req-phone" v-model="form.phone" :placeholder="$t('Phone')" v-maska:[phoneMask]/>
                 <label for="req-phone" class="form-label required">{{ $t('Phone') }}</label>
             </div>
 
@@ -191,6 +191,10 @@ export default defineComponent({
             poll: {},
             participantVote: false,
             isSend: false,
+            phoneMask: {
+                mask: '+7-###-###-##-##',
+                eager: true,
+            },
             form: {
                 name: '',
                 position: '',
