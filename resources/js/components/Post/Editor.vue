@@ -72,11 +72,6 @@
                     <input class="d-none" type="file" id="editorImage" @input="insertImage" accept="image/png, image/gif, image/jpeg, image/webp" />
                 </div>
 
-                <div class="form-floating mb-7">
-                    <textarea class="form-control" id="post-summary" v-model="post.summary[locale]" :placeholder="$t('Summary')" style="height: 88px;" maxlength="250"></textarea>
-                    <label for="post-summary" class="form-label">{{ $t('Summary') }} <span class="text-muted fw-medium fs-8 ms-1">250 {{ $t('symbols') }}</span></label>
-                </div>
-
                 <div class="form-floating">
                     <VImageUpload class="h-175px w-100" :image="post.image" @uploaded="setImages"/>
                     <label class="form-label">{{ $t('Photo') }}</label>

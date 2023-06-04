@@ -381,7 +381,7 @@
                 </div>
                 <div>
                     <button class="btn rounded-2 btn-light me-2" @click="$root.closeModal('terms')">{{ $t('Close') }}</button>
-                    <button class="btn rounded-2 btn-light-success" @click="agree = true">{{ $t('Agree') }}</button>
+                    <button class="btn rounded-2 btn-light-success" @click="agree = true, $root.closeModal('terms')">{{ $t('Agree') }}</button>
                 </div>
             </template>
         </Modal>
