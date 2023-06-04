@@ -71,6 +71,7 @@ class AccountController extends Controller
         $request->validate($rules);
 
         $user->name = $request->name;
+        $user->description = $request->description;
         if ($request->lastname) {
             $user->lastname = $request->lastname;
         }
