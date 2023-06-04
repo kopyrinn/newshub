@@ -407,6 +407,7 @@ class PostController extends Controller
             'category_id' => 'required',
             'title' => 'required',
             'image' => 'required',
+            'image_caption' => 'required',
             'content' => 'required',
         ]);
 
