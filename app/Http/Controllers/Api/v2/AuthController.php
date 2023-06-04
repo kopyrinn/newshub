@@ -23,6 +23,7 @@ class AuthController extends Controller
     public function user()
     {
         $user = auth('sanctum')->user();
+        abort_if(!$user, 429);
 
         return response()->json([
             'ok' => true,
