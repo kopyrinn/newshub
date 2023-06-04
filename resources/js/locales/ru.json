@@ -962,6 +962,11 @@
     "Annual": "1 год",
     "Yesterday": "Вчера",
     "Participant(s)": "Участник(и)",
-    "Vote(s)": "Голос(ов)"
+    "Vote(s)": "Голос(ов)",
+    "Profile details": "Информация профиля",
+    "Organization name": "Наименование организации",
+    "Follow": "Подписаться",
+    "Unfollow": "Отписаться",
+    "Select category": "Выберите категорию"
     
 }

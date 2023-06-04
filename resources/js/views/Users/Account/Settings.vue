@@ -112,8 +112,25 @@
               </div>
             </div>
           </div>
-
-
+          
+          <div v-if="$root.user.isPress" class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $t('Description') }}</label>
+            <div class="col-lg-8">
+              <Field
+                type="text"
+                name="description"
+                class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                :placeholder="$t('description')"
+                v-model="user.description"
+              />
+              <div class="fv-plugins-message-container">
+                <div class="fv-help-block">
+                  <ErrorMessage name="description" />
+                </div>
+              </div>
+            </div>
+          </div>
+          
           <div v-if="user.is_journalist" class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $t('City') }}</label>
             <div class="col-lg-8">
@@ -132,6 +149,7 @@
               </select>
             </div>
           </div>
+          
 <!-- 
           <div  class="form-floating mb-6">
               <label class="form-label required">{{ $t('City') }}</label>

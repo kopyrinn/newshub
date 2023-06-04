@@ -6,7 +6,7 @@
                 <div v-if="item.summary" class="fs-6 fw-normal text-gray-800" v-html="item.summary"></div>
             </div>
             <app-link v-if="item.image" :to="{name: 'poll', params: {slug: item.slug}}">
-                <img :src="$url('/storage/' + item.image)" class="object-fit-cover h-100 min-h-250px mh-250px w-100" loading="lazy"/>
+                <img :src="$url('/storage/' + item.image)" class="object-fit-cover h-100 min-h-250px w-100" loading="lazy"/>
             </app-link>
         </div>
 

@@ -16,7 +16,7 @@
             <app-link :to="{name: 'post', params: {slug: item.slug}}" class="fs-3 fw-semibold text-gray-900 text-hover-primary d-block px-6 mb-3">{{ item.title }}</app-link>
             <div v-if="item.summary" class="fs-6 fw-normal text-gray-800 px-6 mb-4" v-html="item.summary"></div>
             <app-link :to="{name: 'post', params: {slug: item.slug}}">
-                <img v-if="item.image" :src="$url('/storage/' + item.image)" class="object-fit-cover h-100 min-h-250px mh-250px w-100" loading="lazy"/>
+                <img v-if="item.image" :src="$url('/storage/' + item.image)" class="object-fit-cover h-100 min-h-250px w-100" loading="lazy"/>
             </app-link>
         </div>
 

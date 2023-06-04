@@ -103,6 +103,8 @@ Route::prefix('v1')->group(function () {
         Route::post('login', [AuthController::class, 'authenticate']);
         Route::post('register', [AuthController::class, 'register']);
         Route::post('token/validate', [AuthController::class, 'verify']);
+        
+        
     });
 
     Route::group([

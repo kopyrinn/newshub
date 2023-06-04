@@ -60,7 +60,7 @@
             })()
         </script>
     </head>
-    <body id="kt_app_body" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" class="app-default hover-scroll-overlay-y">
+    <body id="kt_app_body" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" class="app-default">
         <div class="d-flex flex-column flex-root app-root" id="kt_app_root"></div>
     </body>
 </html>

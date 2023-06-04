@@ -36535,7 +36535,7 @@ code:not([class*=language-]) {
 }
 
 .form-control.form-control-solid {
-  background-color: var(--bs-gray-100);
+  background-color: var(--bs-gray-300);
   border-color: var(--bs-gray-100);
   color: var(--bs-gray-700);
   transition: color 0.2s ease;
@@ -36602,7 +36602,7 @@ code:not([class*=language-]) {
   text-shadow: 0 0 0 var(--bs-gray-700);
 }
 .form-select.form-select-solid {
-  background-color: var(--bs-gray-100);
+  background-color: var(--bs-gray-300);
   border-color: var(--bs-gray-100);
   color: var(--bs-gray-700);
   transition: color 0.2s ease;

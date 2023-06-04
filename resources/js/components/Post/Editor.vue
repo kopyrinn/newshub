@@ -28,10 +28,16 @@
                     <input type="text" class="form-control form-control-solid" id="post-title" v-model="post.title[locale]" :placeholder="$t('Title')"/>
                     <label for="post-title" class="form-label required">{{ $t('Title') }}</label>
                 </div>
+                
+                <div class="form-floating mb-7">
+                    <textarea class="form-control form-control-solid" id="post-summary" v-model="post.summary[locale]" :placeholder="$t('Summary')" style="height: 80px;"></textarea>
+                    <label for="post-summary" class="form-label">{{ $t('Summary') }} <span class="text-muted fw-medium fs-8 ms-1">250 {{ $t('symbols') }}</span></label>
+                </div>
+                
 
                 <div class="mb-5">
                     <div class="">
-                        <div class="form-control position-relative bg-gray-100 border-0 p-0 rounded-3 mb-2">
+                        <div class="form-control position-relative bg-gray-300 border-0 p-0 rounded-3 mb-2">
                             <div v-if="editor" class="w-100 border-2 border-gray-300 border-bottom-dashed bg-gray-100 rounded-top-3" :class="{'sticky-top': ready}">
                                 <div class="btn-group w-auto ms-2 py-1">
                                     <button @click="editor.chain().focus().toggleBold().run()" type="button"  class="btn btn-color-gray-600 btn-icon btn-active-color-primary" :class="{ 'active': editor.isActive('bold') }">
@@ -66,10 +72,6 @@
                     <input class="d-none" type="file" id="editorImage" @input="insertImage" accept="image/png, image/gif, image/jpeg, image/webp" />
                 </div>
 
-                <div class="form-floating mb-7">
-                    <textarea class="form-control form-control-solid" id="post-summary" v-model="post.summary[locale]" :placeholder="$t('Summary')" style="height: 80px;"></textarea>
-                    <label for="post-summary" class="form-label">{{ $t('Summary') }} <span class="text-muted fw-medium fs-8 ms-1">250 {{ $t('symbols') }}</span></label>
-                </div>
 
                 <div class="form-floating">
                     <VImageUpload class="h-175px w-100" :image="post.image" @uploaded="setImages"/>

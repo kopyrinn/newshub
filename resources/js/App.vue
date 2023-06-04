@@ -516,7 +516,7 @@ export default defineComponent({
             icons: {
                 eu: this.$media('flags/european-union.svg'),
                 ru: this.$media('flags/russia.svg'),
-                en: this.$media('flags/united-states.svg'),
+                en: this.$media('flags/united-nations.svg'),
                 kk: this.$media('flags/kazakhstan.svg'),
             },
             isMobile: window.innerWidth < 576,

@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::domain('m.newshub.kz')->group(function () {
-    Route::get('/', [MobileHomeController::class, 'index'])->name('mobile.home');
+    Route::get('rss', 'App\Http\Controllers\RssFeedController@feed');
+    Route::get('turbo', 'App\Http\Controllers\RssFeedController@turbo');
 });
 
 Auth::routes(['verify' => true]);
