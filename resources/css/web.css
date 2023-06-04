@@ -182,7 +182,6 @@
 
 body {
   margin: 0;
-  overflow: overlay;
   font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
@@ -96337,7 +96336,7 @@ readers do not read off random characters that represent icons */
   padding: 1rem 0;
   background-color: var(--bs-dropdown-bg);
 }
-body.modal-open:hover {
+body.modal-open {
   overflow-y: hidden !important;
 }
 .modal-open .select2-container--bootstrap5 .select2-dropdown {

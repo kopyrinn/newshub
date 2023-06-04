@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\Page;
 use App\Models\Post;
 use App\Models\Rubric;
 use App\Models\UserCategory;
@@ -86,6 +87,8 @@ class AppServiceProvider extends ServiceProvider
                 ->groupBy(function($item) {
                     return $item->created_at->format('Y-m-d');
                 });
+
+            $terms = Page::where('slug', 'terms-conditions')->first()->page_content;
             
             foreach (['ru', 'kk', 'en'] as $locale) {
                 App::setLocale($locale);
@@ -97,6 +100,7 @@ class AppServiceProvider extends ServiceProvider
                     'postSlides' => $slides,
                     'postFeatured' => $featured,
                     'postLatest' => $latest,
+                    'terms' => $terms,
                     'rates' => Cache::get('tickers')
                 ], 120);
             }

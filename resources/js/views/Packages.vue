@@ -97,7 +97,7 @@
                 </div>
 
                 <div class="form-floating mb-7">
-                    <select class="form-select form-select-solid" id="period" aria-label="Period" v-model="period">
+                    <select class="form-select" id="period" aria-label="Period" v-model="period">
                         <option :value="1">{{ $t('Month') }}</option>
                         <option :value="3">{{ $t('3 Month') }}</option>
                         <option :value="6">{{ $t('6 Month') }}</option>

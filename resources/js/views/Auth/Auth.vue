@@ -43,7 +43,7 @@
                                     <!--begin::Input group=-->
                                     <div class="form-floating mb-6">
                                         <!--begin::Email-->
-                                        <input type="text" placeholder="Email" v-model="form.email" @keyup.enter="login" autocomplete="off" data-kt-translate="sign-in-input-email" class="form-control form-control-solid" />
+                                        <input type="text" placeholder="Email" v-model="form.email" @keyup.enter="login" autocomplete="off" data-kt-translate="sign-in-input-email" class="form-control" />
                                         <label class="form-label required">Email</label>
                                         <!--end::Email-->
                                         <div v-if="errors.email && errors.email.length" class="fv-plugins-message-container invalid-feedback d-block">
@@ -53,7 +53,7 @@
                                     <!--end::Input group=-->
                                     <div class="form-floating mb-6">
                                         <!--begin::Password-->
-                                        <input type="password" :placeholder="$t('Password')" v-model="form.password" @keyup.enter="login" autocomplete="off" data-kt-translate="sign-in-input-password" class="form-control form-control-solid" />
+                                        <input type="password" :placeholder="$t('Password')" v-model="form.password" @keyup.enter="login" autocomplete="off" data-kt-translate="sign-in-input-password" class="form-control" />
                                         <label class="form-label required">{{ $t('Password') }}</label>
                                         <!--end::Password-->
                                         <div v-if="errors.password && errors.password.length" class="fv-plugins-message-container invalid-feedback d-block">
@@ -165,14 +165,14 @@
                                     </div>
                                 </div>
                                 <div class="form-floating mb-6">
-                                    <input class="form-control form-control-lg form-control-solid" type="text" :placeholder="form.role == 'journalist'? $t('Name'): $t('Organization name')" v-model="form.name" @keyup.enter="register" autocomplete="off" />
+                                    <input class="form-control form-control-lg" type="text" :placeholder="form.role == 'journalist'? $t('Name'): $t('Organization name')" v-model="form.name" @keyup.enter="register" autocomplete="off" />
                                     <label class="form-label required">{{ form.role == 'journalist'? $t('Name'): $t('Organization name') }}</label>
                                     <div v-if="errors.name && errors.name.length" class="fv-plugins-message-container invalid-feedback d-block">
                                         <span v-for="(error, index) in errors.name" v-bind:key="index">{{ error }}</span>
                                     </div>
                                 </div>
                                 <div v-if="form.role == 'journalist'" class="form-floating mb-6">
-                                    <input class="form-control form-control-lg form-control-solid" type="text" :placeholder="$t('Last Name')" v-model="form.lastname" @keyup.enter="register" autocomplete="off" />
+                                    <input class="form-control form-control-lg" type="text" :placeholder="$t('Last Name')" v-model="form.lastname" @keyup.enter="register" autocomplete="off" />
                                     <label class="form-label required">{{ $t('Last Name') }}</label>
                                     <div v-if="errors.lastname && errors.lastname.length" class="fv-plugins-message-container invalid-feedback d-block">
                                         <span v-for="(error, index) in errors.lastname" v-bind:key="index">{{ error }}</span>
@@ -181,7 +181,7 @@
                                 <div class="row gx-3">
                                     <div class="col-12 col-sm-6 col-lg-12 col-xxl-6">
                                         <div class="form-floating mb-6">
-                                            <input class="form-control form-control-lg form-control-solid" type="text" :placeholder="$t('Phone')" v-model="form.phone" @keyup.enter="register" autocomplete="off" v-maska:[phoneMask]/>
+                                            <input class="form-control form-control-lg" type="text" :placeholder="$t('Phone')" v-model="form.phone" @keyup.enter="register" autocomplete="off" v-maska:[phoneMask]/>
                                             <label class="form-label required">{{ $t('Phone') }}</label>
                                             <div v-if="errors.phone && errors.phone.length" class="fv-plugins-message-container invalid-feedback d-block">
                                                 <span v-for="(error, index) in errors.phone" v-bind:key="index">{{ error }}</span>
@@ -190,7 +190,7 @@
                                     </div>
                                     <div class="col-12 col-sm-6 col-lg-12 col-xxl-6">
                                         <div class="form-floating mb-6">
-                                            <input class="form-control form-control-lg form-control-solid" type="email" placeholder="Email" v-model="form.email" @keyup.enter="register" autocomplete="off" data-kt-translate="sign-up-input-email" />
+                                            <input class="form-control form-control-lg" type="email" placeholder="Email" v-model="form.email" @keyup.enter="register" autocomplete="off" data-kt-translate="sign-up-input-email" />
                                             <label class="form-label required">Email</label>
                                             <div v-if="errors.email && errors.email.length" class="fv-plugins-message-container invalid-feedback d-block">
                                                 <span v-for="(error, index) in errors.email" v-bind:key="index">{{ error }}</span>
@@ -203,7 +203,7 @@
                                         <div class="row gx-3">
                                             <div class="col-12 col-sm-6 col-lg-12 col-xxl-6">
                                                 <div class="form-floating mb-3">
-                                                    <input class="form-control form-control-lg form-control-solid" type="password" :placeholder="$t('Password')"  v-model="form.password" @keyup.enter="register"/>
+                                                    <input class="form-control form-control-lg" type="password" :placeholder="$t('Password')"  v-model="form.password" @keyup.enter="register"/>
                                                     <label class="form-label required">{{ $t('Password') }}</label>
                                                     <div v-if="errors.password && errors.password.length" class="fv-plugins-message-container invalid-feedback d-block">
                                                         <span v-for="(error, index) in errors.password" v-bind:key="index">{{ error }}</span>
@@ -213,7 +213,7 @@
 
                                             <div class="col-12 col-sm-6 col-lg-12 col-xxl-6">
                                                 <div class="form-floating mb-3">
-                                                    <input class="form-control form-control-lg form-control-solid" type="password" :placeholder="$t('Password confirmation')" v-model="form.password_confirmation" @keyup.enter="register" autocomplete="off" />
+                                                    <input class="form-control form-control-lg" type="password" :placeholder="$t('Password confirmation')" v-model="form.password_confirmation" @keyup.enter="register" autocomplete="off" />
                                                     <label class="form-label required">{{ $t('Password confirmation') }}</label>
                                                 </div>
                                             </div>
@@ -230,7 +230,7 @@
                                 </div>
                                 
                                 <div v-if="form.role == 'journalist'" class="form-floating mb-6">
-                                    <select class="form-control form-control-lg form-control-solid" :placeholder="$t('City')" v-model="form.city_id">
+                                    <select class="form-control form-control-lg" :placeholder="$t('City')" v-model="form.city_id">
                                         <option value="">{{ $t('Select city') }}</option>
                                         <option v-for="city in cities" :value="city.id">{{ city['city_name_' + $root.locale] }}</option>
                                     </select>
@@ -240,7 +240,7 @@
                                     </div>
                                 </div>
                                 <div v-else class="form-floating mb-6">
-                                    <select class="form-control form-control-lg form-control-solid" :placeholder="$t('Category')" v-model="form.user_category_id">
+                                    <select class="form-control form-control-lg" :placeholder="$t('Category')" v-model="form.user_category_id">
                                         <option value="">{{ $t('Select category') }}</option>
                                         <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
                                     </select>
@@ -248,6 +248,16 @@
                                     <div v-if="errors.user_category_id && errors.user_category_id.length" class="fv-plugins-message-container invalid-feedback d-block">
                                         <span v-for="(error, index) in errors.user_category_id" v-bind:key="index">{{ error }}</span>
                                     </div>
+                                </div>
+
+                                <div class="fv-row mb-8 fv-plugins-icon-container">
+                                    <label class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" v-model="agree" :value="true">
+                                        <span class="form-check-label fw-semibold text-gray-700 fs-base ms-1">
+                                            {{ $t('I Accept the') }} <a href="" class="ms-1 link-primary" @click.prevent="$root.openModal('terms')">{{ $t('Terms') }}</a>
+                                        </span>
+                                    </label>
+                                    <div class="fv-plugins-message-container invalid-feedback"></div>
                                 </div>
 
                                 <div class="mb-6">
@@ -312,7 +322,7 @@
                                 <!--begin::Input group-->
                                 <div class="form-floating mb-6 fv-plugins-icon-container">
                                     <!--begin::Email-->
-                                    <input type="text" placeholder="Email" v-model="form.email" @keyup.enter="reset" autocomplete="off" data-kt-translate="sign-in-input-email" class="form-control form-control-solid" />
+                                    <input type="text" placeholder="Email" v-model="form.email" @keyup.enter="reset" autocomplete="off" data-kt-translate="sign-in-input-email" class="form-control" />
                                     <label class="form-label required">Email</label>
                                     <!--end::Email-->
                                     <div v-if="errors.email && errors.email.length" class="fv-plugins-message-container invalid-feedback d-block">
@@ -358,21 +368,35 @@
                 </div>
             </div>
         </div>
+
+        <Modal v-if="$root.modalType == 'terms'" ref="modal" name="terms">
+            <template #title>
+                {{ $t('Consent to the processing of personal data') }}
+            </template>
+
+            <div v-html="$root.config.terms"></div>
+
+            <template #footer>
+                <div class="m-0 d-flex align-items-center">
+                </div>
+                <div>
+                    <button class="btn rounded-2 btn-light me-2" @click="$root.closeModal('terms')">{{ $t('Close') }}</button>
+                    <button class="btn rounded-2 btn-light-success" @click="agree = true">{{ $t('Agree') }}</button>
+                </div>
+            </template>
+        </Modal>
     </div>
 </template>
 <script>
 import { defineComponent } from "vue"
 import vueRecaptcha from 'vue3-recaptcha2';
+import Modal from '@/components/Modal.vue';
 
 export default defineComponent({
     name: 'Auth',
     components: {
         vueRecaptcha,
-    },
-    computed: {
-        siteKey() {
-
-        }
+        Modal,
     },
     data() {
         return {
@@ -382,6 +406,7 @@ export default defineComponent({
                 mask: '+7-###-###-##-##',
                 eager: true,
             },
+            agree: false,
             form: {
                 name: '',
                 lastname: '',

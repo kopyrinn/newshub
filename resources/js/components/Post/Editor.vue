@@ -25,20 +25,20 @@
         <div class="row g-9">
             <div class="col-xl-8 mb-xl-0">
                 <div class="form-floating mb-5">
-                    <input type="text" class="form-control form-control-solid" id="post-title" v-model="post.title[locale]" :placeholder="$t('Title')"/>
+                    <input type="text" class="form-control" id="post-title" v-model="post.title[locale]" :placeholder="$t('Title')"/>
                     <label for="post-title" class="form-label required">{{ $t('Title') }}</label>
                 </div>
                 
                 <div class="form-floating mb-7">
-                    <textarea class="form-control form-control-solid" id="post-summary" v-model="post.summary[locale]" :placeholder="$t('Summary')" style="height: 80px;"></textarea>
+                    <textarea class="form-control" id="post-summary" v-model="post.summary[locale]" :placeholder="$t('Summary')" style="height: 80px;"></textarea>
                     <label for="post-summary" class="form-label">{{ $t('Summary') }} <span class="text-muted fw-medium fs-8 ms-1">250 {{ $t('symbols') }}</span></label>
                 </div>
                 
 
                 <div class="mb-5">
                     <div class="">
-                        <div class="form-control position-relative bg-gray-300 border-0 p-0 rounded-3 mb-2">
-                            <div v-if="editor" class="w-100 border-2 border-gray-300 border-bottom-dashed bg-gray-100 rounded-top-3" :class="{'sticky-top': ready}">
+                        <div class="form-control position-relative border border-1 border-gray-300 p-0 rounded-3 mb-2">
+                            <div v-if="editor" class="w-100 border-2 border-gray-300 border-bottom-dashed rounded-top-3" :class="{'sticky-top': ready}">
                                 <div class="btn-group w-auto ms-2 py-1">
                                     <button @click="editor.chain().focus().toggleBold().run()" type="button"  class="btn btn-color-gray-600 btn-icon btn-active-color-primary" :class="{ 'active': editor.isActive('bold') }">
                                         <i class="ki-duotone ki-text-bold fs-2x"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="form-floating mb-7">
-                    <textarea class="form-control form-control-solid" id="post-summary" v-model="post.summary[locale]" :placeholder="$t('Summary')" style="height: 88px;" maxlength="250"></textarea>
+                    <textarea class="form-control" id="post-summary" v-model="post.summary[locale]" :placeholder="$t('Summary')" style="height: 88px;" maxlength="250"></textarea>
                     <label for="post-summary" class="form-label">{{ $t('Summary') }} <span class="text-muted fw-medium fs-8 ms-1">250 {{ $t('symbols') }}</span></label>
                 </div>
 
@@ -84,29 +84,29 @@
             </div>
             <div class="col-xl-4">
                 <div class="form-floating mb-5">
-                    <select class="form-select form-select-solid" id="post-category" v-model="post.category_id">
+                    <select class="form-select" id="post-category" v-model="post.category_id">
                         <option v-for="(name, key) in $root.user.allowed_categories" :value="key">{{ name }}</option>
                     </select>
                     <label for="post-category" class="form-label required">{{ $t('Category') }}</label>
                 </div>
 
                 <div v-if="post.category_id == 8" class="form-floating mb-7">
-                    <input type="datetime-local" class="form-control form-control-solid" id="post-event" v-model="post.event_date" :placeholder="$t('Scheduled Post')"/>
+                    <input type="datetime-local" class="form-control" id="post-event" v-model="post.event_date" :placeholder="$t('Scheduled Post')"/>
                     <label for="post-event" class="form-label required">{{ $t('Event Date') }}</label>
                 </div>
 
                 <div v-if="post.image" class="form-floating mb-5">
-                    <input type="text" class="form-control form-control-solid" id="post-source" v-model="post.image_caption" :placeholder="$t('Image Caption')"/>
+                    <input type="text" class="form-control" id="post-source" v-model="post.image_caption" :placeholder="$t('Image Caption')"/>
                     <label for="post-source" class="form-label required">{{ $t('Image Caption') }}</label>
                 </div>
 
                 <div class="form-floating mb-5">
-                    <input type="text" class="form-control form-control-solid" v-model="post.keywords" id="post-keywords" :placeholder="$t('Keywords')"/>
+                    <input type="text" class="form-control" v-model="post.keywords" id="post-keywords" :placeholder="$t('Keywords')"/>
                     <label for="post-keywords" class="form-label">{{ $t('Keywords') }}</label>
                 </div>
 
                 <div class="form-floating mb-7">
-                    <input type="datetime-local" class="form-control form-control-solid" id="post-schedule" v-model="post.created_at" :placeholder="$t('Scheduled Post')"/>
+                    <input type="datetime-local" class="form-control" id="post-schedule" v-model="post.created_at" :placeholder="$t('Scheduled Post')"/>
                     <label for="post-schedule" class="form-label">{{ $t('Scheduled Post') }}</label>
                 </div>
 

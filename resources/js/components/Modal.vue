@@ -5,7 +5,7 @@
                 <div class="modal-header">
                     <h3 class="modal-title d-flex align-items-center"><slot name="title"/></h3>
 
-                    <div>
+                    <div class="d-flex flex-nowrap">
                         <div @click="fs = !fs" class="btn btn-icon btn-sm btn-active-light-primary ms-2">
                             <i class="ki-duotone ki-arrow-two-diagonals fs-1"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i></i>
                         </div>
@@ -14,7 +14,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-body hover-scroll-overlay-y py-0" :class="contentClass">
+                <div class="modal-body py-0" :class="contentClass">
                     <div class="py-6">
                         <slot></slot>
                     </div>

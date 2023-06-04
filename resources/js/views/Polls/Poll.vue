@@ -136,22 +136,22 @@
             </div>
 
             <div class="form-floating mb-7">
-                <input type="text" class="form-control form-control-solid" id="req-name" v-model="form.name" :placeholder="$t('Full name')"/>
+                <input type="text" class="form-control" id="req-name" v-model="form.name" :placeholder="$t('Full name')"/>
                 <label for="req-name" class="form-label required">{{ $t('Full name') }}</label>
             </div>
 
             <div class="form-floating mb-7">
-                <input type="text" class="form-control form-control-solid" id="req-position" v-model="form.position" :placeholder="$t('Position')"/>
+                <input type="text" class="form-control" id="req-position" v-model="form.position" :placeholder="$t('Position')"/>
                 <label for="req-position" class="form-label required">{{ $t('Position') }}</label>
             </div>
 
             <div class="form-floating mb-7">
-                <input type="text" class="form-control form-control-solid" id="req-phone" v-model="form.phone" :placeholder="$t('Phone')"/>
+                <input type="text" class="form-control" id="req-phone" v-model="form.phone" :placeholder="$t('Phone')"/>
                 <label for="req-phone" class="form-label required">{{ $t('Phone') }}</label>
             </div>
 
             <div class="form-floating mb-7">
-                <input type="text" class="form-control form-control-solid" id="req-email" v-model="form.email" :placeholder="$t('Email')"/>
+                <input type="text" class="form-control" id="req-email" v-model="form.email" :placeholder="$t('Email')"/>
                 <label for="req-email" class="form-label required">{{ $t('Email') }}</label>
             </div>
 

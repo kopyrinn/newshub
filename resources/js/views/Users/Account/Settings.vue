@@ -67,7 +67,7 @@
               <Field
                 type="text"
                 name="name"
-                class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                class="form-control form-control-lg mb-3 mb-lg-0"
                 :placeholder="$root.user.is_journalist? $t('Name'):  $t('Organization name')"
                 v-model="user.name"
               />
@@ -84,7 +84,7 @@
               <Field
                 type="text"
                 name="lastname"
-                class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                class="form-control form-control-lg mb-3 mb-lg-0"
                 :placeholder="$t('Last Name')"
                 v-model="user.lastname"
               />
@@ -101,7 +101,7 @@
               <Field
                 type="text"
                 name="media_name"
-                class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                class="form-control form-control-lg mb-3 mb-lg-0"
                 :placeholder="$t('Media Name')"
                 v-model="user.media_name"
               />
@@ -116,7 +116,7 @@
             <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $root.user.is_journalist? $t('About'): $t('Description') }}</label>
             <div class="col-lg-8">
               <textarea
-                class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                class="form-control form-control-lg mb-3 mb-lg-0"
                 :placeholder="$root.user.is_journalist? $t('About'): $t('Description')"
                 rows="3"
                 v-model="user.description"
@@ -134,7 +134,7 @@
               <Field
                 type="text"
                 name="phone"
-                class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                class="form-control form-control-lg mb-3 mb-lg-0"
                 :placeholder="$t('Phone')"
                 v-model="user.phone"
               />
@@ -152,7 +152,7 @@
               <Field
                 type="text"
                 name="description"
-                class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                class="form-control form-control-lg mb-3 mb-lg-0"
                 :placeholder="$t('description')"
                 v-model="user.description"
               />
@@ -167,7 +167,7 @@
           <div v-if="user.is_journalist" class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $t('City') }}</label>
             <div class="col-lg-8">
-              <select class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" :placeholder="$t('City')" v-model="user.city_id">
+              <select class="form-control form-control-lg mb-3 mb-lg-0" :placeholder="$t('City')" v-model="user.city_id">
                   <option value="">{{ $t('Select city') }}</option>
                   <option v-for="city in cities" :value="city.id">{{ city['city_name_' + $root.locale] }}</option>
               </select>
@@ -176,7 +176,7 @@
           <div v-else class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $t('Category') }}</label>
             <div class="col-lg-8">
-              <select class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" :placeholder="$t('City')" v-model="user.user_category_id">
+              <select class="form-control form-control-lg mb-3 mb-lg-0" :placeholder="$t('City')" v-model="user.user_category_id">
                   <option value="">{{ $t('Select category') }}</option>
                   <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
               </select>
@@ -191,7 +191,7 @@
               </div>
           </div>
           <div class="form-floating mb-6">
-              <select class="form-control form-control-lg form-control-solid" :placeholder="$t('Category')" v-model="form.user_category_id">
+              <select class="form-control form-control-lg" :placeholder="$t('Category')" v-model="form.user_category_id">
                   <option value="">{{ $t('') }}</option>
                   <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
               </select>
@@ -272,7 +272,7 @@
                     >
                     <Field
                       type="email"
-                      class="form-control form-control-lg form-control-solid fw-bold fs-6"
+                      class="form-control form-control-lg fw-bold fs-6"
                       id="emailaddress"
                       placeholder="Email"
                       name="emailaddress"
@@ -295,7 +295,7 @@
                     >
                     <Field
                       type="password"
-                      class="form-control form-control-lg form-control-solid fw-bold fs-6"
+                      class="form-control form-control-lg fw-bold fs-6"
                       name="confirmemailpassword"
                       autocomplete="off"
                       v-model="confirmEmailPassword"
@@ -376,7 +376,7 @@
                     >
                     <Field
                       type="password"
-                      class="form-control form-control-lg form-control-solid fw-bold fs-6"
+                      class="form-control form-control-lg fw-bold fs-6"
                       name="currentpassword"
                       v-model="changePasswordData.currentpassword"
                       id="currentpassword"
@@ -395,7 +395,7 @@
                     >
                     <Field
                       type="password"
-                      class="form-control form-control-lg form-control-solid fw-bold fs-6"
+                      class="form-control form-control-lg fw-bold fs-6"
                       name="newpassword"
                       v-model="changePasswordData.newpassword"
                       id="newpassword"
@@ -414,7 +414,7 @@
                     >
                     <Field
                       type="password"
-                      class="form-control form-control-lg form-control-solid fw-bold fs-6"
+                      class="form-control form-control-lg fw-bold fs-6"
                       name="confirmpassword"
                       v-model="changePasswordData.confirmnewpassword"
                       id="confirmpassword"

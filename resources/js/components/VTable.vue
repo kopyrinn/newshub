@@ -11,7 +11,7 @@
         <label
           ><select
             name="kt_customers_table_length"
-            class="form-select form-select-sm form-select-solid"
+            class="form-select form-select-sm"
             @change="setItemsPerPage"
           >
             <option value="15">15</option>
@@ -156,7 +156,7 @@
           class="dataTables_length"
         >
           <div class="form-floating">
-              <select class="form-select form-select-solid min-w-100px" @change="setItemsPerPage" id="kt_customers_table_length">
+              <select class="form-select min-w-100px" @change="setItemsPerPage" id="kt_customers_table_length">
                   <option value="15">15</option>
                   <option value="50">50</option>
                   <option value="100">100</option>
@@ -166,7 +166,7 @@
           <!-- <label
             ><select
               name="kt_customers_table_length"
-              class="form-select form-select-sm form-select-solid"
+              class="form-select form-select-sm"
             >
             </select></label
           > -->

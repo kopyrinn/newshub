@@ -23,27 +23,27 @@
         </template>
         
         <div class="form-floating mb-5">
-            <input type="text" class="form-control form-control-solid" id="job-title" v-model="vacancy.job_title[locale]" :placeholder="$t('Title')"/>
+            <input type="text" class="form-control" id="job-title" v-model="vacancy.job_title[locale]" :placeholder="$t('Title')"/>
             <label for="job-title" class="form-label required">{{ $t('Title') }}</label>
         </div>
 
         <div class="form-floating mb-7">
-            <textarea class="form-control form-control-solid" id="job-requiremets" v-model="vacancy.requiremets[locale]" :placeholder="$t('Requiremets')" style="height: 80px;"></textarea>
+            <textarea class="form-control" id="job-requiremets" v-model="vacancy.requiremets[locale]" :placeholder="$t('Requiremets')" style="height: 80px;"></textarea>
             <label for="job-requiremets" class="form-label required">{{ $t('Requiremets') }}</label>
         </div>
 
         <div class="form-floating mb-7">
-            <textarea class="form-control form-control-solid" id="job-task" v-model="vacancy.task[locale]" :placeholder="$t('Task')" style="height: 80px;"></textarea>
+            <textarea class="form-control" id="job-task" v-model="vacancy.task[locale]" :placeholder="$t('Task')" style="height: 80px;"></textarea>
             <label for="job-task" class="form-label required">{{ $t('Task') }}</label>
         </div>
 
         <div class="form-floating mb-7">
-            <textarea class="form-control form-control-solid" id="job-conditionsm" v-model="vacancy.conditionsm[locale]" :placeholder="$t('Conditions')" style="height: 80px;"></textarea>
+            <textarea class="form-control" id="job-conditionsm" v-model="vacancy.conditionsm[locale]" :placeholder="$t('Conditions')" style="height: 80px;"></textarea>
             <label for="job-conditionsm" class="form-label required">{{ $t('Conditions') }}</label>
         </div>
 
         <div class="form-floating mb-5">
-            <input type="email" class="form-control form-control-solid" id="job-email" v-model="vacancy.email_jobseeker" placeholder="Email"/>
+            <input type="email" class="form-control" id="job-email" v-model="vacancy.email_jobseeker" placeholder="Email"/>
             <label for="job-email" class="form-label required">Email</label>
         </div>
 

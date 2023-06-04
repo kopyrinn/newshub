@@ -1,7 +1,7 @@
 <template>
   <div :class="class">
     <div
-      class="image-input bg-gray-100 h-100 w-100"
+      class="image-input h-100 w-100 border border-1 border-gray-300"
       :class="{ 'image-input-empty': !image, 'image-input-circle': circle }"
       data-kt-image-input="true"
     >

@@ -13,7 +13,7 @@
                             type="text"
                             v-model="table.search"
                             v-debounce:300ms="searchItems"
-                            class="form-control form-control-solid w-250px ps-15"
+                            class="form-control w-250px ps-15"
                             :placeholder="$t('Search')"
                         />
                         </div>

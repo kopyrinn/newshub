@@ -23,7 +23,7 @@
                 <div class="">
                     <div class="w-100 d-block d-lg-none position-relative mb-5">
                         <i class="ki-duotone ki-magnifier fs-2 text-gray-500 position-absolute top-50 translate-middle-y ms-5"><span class="path1"></span><span class="path2"></span></i>
-                        <input type="text" class="search-input form-control form-control-solid ps-13 w-100" v-model="search" :placeholder="$t('Search') + '...'" v-debounce="globalSearch"/>
+                        <input type="text" class="search-input form-control ps-13 w-100" v-model="search" :placeholder="$t('Search') + '...'" v-debounce="globalSearch"/>
                         <span v-if="isSearch" class="search-spinner position-absolute top-50 end-0 translate-middle-y lh-0 me-5">
                             <span class="spinner-border h-15px w-15px align-middle text-gray-400"></span>
                         </span>
