@@ -46,7 +46,7 @@ class PostController extends Controller
             'slider' => $slider,
             'featured' => $featured,
             'widgets' => $widgets,
-        ]);
+        ], 200, [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     public function feed(Request $request)
@@ -68,7 +68,7 @@ class PostController extends Controller
         return response()->json([
             'ok' => true,
             'posts' => $posts,
-        ]);
+        ], 200, [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     public function postGrammar(Request $request)
@@ -162,7 +162,7 @@ class PostController extends Controller
             'ok' => true,
             'post' => $post,
             // 'schema' => $schema,
-        ]);
+        ], 200, [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     public function editor(Request $request)
@@ -194,7 +194,7 @@ class PostController extends Controller
         return response()->json([
             'ok' => true,
             'post' => $data,
-        ]);
+        ], 200, [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     public function postAmp(Request $request, $slug)
@@ -564,7 +564,7 @@ class PostController extends Controller
 
                 if ($user->followers()->exists()) {
                     foreach ($user->followers()->select('id')->get() as $follower) {
-                        // $follower->notify(new NewPost($post));
+                        $follower->notify(new NewPost($post));
                     }
                 }
             } catch (\Exception $e) {

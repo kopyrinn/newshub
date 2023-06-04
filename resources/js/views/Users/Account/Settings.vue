@@ -95,6 +95,39 @@
               </div>
             </div>
           </div>
+          <div v-if="$root.user.is_journalist" class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $t('Media Name') }}</label>
+            <div class="col-lg-8">
+              <Field
+                type="text"
+                name="media_name"
+                class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                :placeholder="$t('Media Name')"
+                v-model="user.media_name"
+              />
+              <div class="fv-plugins-message-container">
+                <div class="fv-help-block">
+                  <ErrorMessage name="media_name" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $root.user.is_journalist? $t('About'): $t('Description') }}</label>
+            <div class="col-lg-8">
+              <textarea
+                class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                :placeholder="$root.user.is_journalist? $t('About'): $t('Description')"
+                rows="3"
+                v-model="user.description"
+              ></textarea>
+              <div class="fv-plugins-message-container">
+                <div class="fv-help-block">
+                  <ErrorMessage name="description" />
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-bold fs-6">{{ $t('Phone') }}</label>
             <div class="col-lg-8">
@@ -579,11 +612,11 @@ export default defineComponent({
     saveChanges() {
       if (this.$refs.submitButton1) {
         this.$refs.submitButton1.setAttribute("data-kt-indicator", "true");
-        const {name, avatar, lastname, phone, city_id, user_category_id} = this.user;
+        const {name, avatar, lastname, media_name, phone, description, city_id, user_category_id} = this.user;
 
         this.$api("account/settings", true, {
           method: 'POST',
-          data: {name, avatar, lastname, phone, city_id, user_category_id}
+          data: {name, avatar, lastname, media_name, phone, description, city_id, user_category_id}
         })
         .then(({ data }) => {
           this.$store.commit('setUser', data.user)

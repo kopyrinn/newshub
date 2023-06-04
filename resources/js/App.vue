@@ -29,7 +29,7 @@
 
                                 <template #content="{ close }">
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 mw-225px min-w-200px w-100 show">
-                                        <div class="menu-item px-5">
+                                        <div v-if="!user.is_journalist" class="menu-item px-5">
                                             <a href="" @click.prevent="post = null, openModal('post-editor'), close()" class="menu-link px-3">
                                                 <span class="menu-icon">
                                                     <i class="ki-duotone fs-2 ki-subtitle"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i></i>
@@ -37,7 +37,7 @@
                                                 <span class="menu-title">{{ $t('Post') }}</span>
                                             </a>
                                         </div>
-                                        <div class="menu-item px-5">
+                                        <div v-if="!user.is_journalist" class="menu-item px-5">
                                             <a href="" @click.prevent="post = null, postEditorEvent = true, openModal('post-editor'), close()" class="menu-link px-3">
                                                 <span class="menu-icon">
                                                     <i class="ki-duotone fs-2 ki-calendar-tick"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i><i class="path6"></i></i>
@@ -146,7 +146,7 @@
                                         <div class="menu-item px-5">
                                             <app-link @click="close" :to="{name: 'user', params: {slug: user.id}}" class="menu-link px-5">{{ $t('Profile') }}</app-link>
                                         </div>
-                                        <div class="menu-item px-5">
+                                        <div v-if="!user.is_journalist" class="menu-item px-5">
                                             <app-link @click="close" :to="{name: 'user-workspace', params: {slug: user.id}}" class="menu-link px-5">{{ $t('Workspace') }}</app-link>
                                         </div>
                                         <div class="menu-item px-5">
@@ -416,7 +416,7 @@
                             </ul>
                         </div>
                         <div class="d-flex align-items-center gap-2 gap-lg-3">
-                            <app-link v-if="token && $route.name == 'feed'" :to="{name: 'user-workspace', params: {slug: user.id}}" class="btn btn-sm fw-bold btn-primary">{{ $t('Workspace') }}</app-link>
+                            <app-link v-if="token && $route.name == 'feed' && !user.is_journalist" :to="{name: 'user-workspace', params: {slug: user.id}}" class="btn btn-sm fw-bold btn-primary">{{ $t('Workspace') }}</app-link>
                         </div>
                     </div>
                 </div>

@@ -63,6 +63,7 @@ class AccountController extends Controller
         if ($user->isUser()) {
             $rules['city_id'] = 'required';
             $rules['lastname'] = 'required';
+            $rules['media_name'] = 'required';
         } else {
             $rules['user_category_id'] = 'required';
         }
@@ -72,6 +73,9 @@ class AccountController extends Controller
         $user->name = $request->name;
         if ($request->lastname) {
             $user->lastname = $request->lastname;
+        }
+        if ($request->media_name) {
+            $user->media_name = $request->media_name;
         }
         $user->avatar = $request->avatar;
         $user->phone = $request->phone;

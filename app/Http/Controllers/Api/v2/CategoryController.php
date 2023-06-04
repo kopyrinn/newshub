@@ -62,7 +62,7 @@ class CategoryController extends Controller
         return response()->json([
             'ok' => true,
             'posts' => $posts,
-        ]);
+        ], 200, [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     public function tag(Request $request, $tag)
@@ -80,7 +80,7 @@ class CategoryController extends Controller
             'ok' => true,
             'tag' => $tag,
             'posts' => $posts,
-        ]);
+        ], 200, [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     public function rubric(Request $request, $slug, $rubricSlug)
@@ -107,7 +107,7 @@ class CategoryController extends Controller
         return response()->json([
             'ok' => true,
             'posts' => $posts,
-        ]);
+        ], 200, [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
 }

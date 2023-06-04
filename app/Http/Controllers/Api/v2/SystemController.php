@@ -41,7 +41,7 @@ class SystemController extends Controller
     public function config(Request $request)
     {
         $locale = in_array($request->header('locale'), ['en', 'kk', 'ru'])? $request->header('locale'): 'ru';
-        return response()->json(Cache::get("hubconfig:{$locale}"));
+        return response()->json(Cache::get("hubconfig:{$locale}"), 200, [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     public function journalists(Request $request)

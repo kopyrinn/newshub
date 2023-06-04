@@ -56,7 +56,7 @@
                     <li v-if="isOwner" class="nav-item mt-2">
                         <app-link :to="{name: 'user-settings', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-settings'}" href="">{{ $t('Settings') }}</app-link>
                     </li>
-                    <li v-if="isOwner" class="nav-item mt-2">
+                    <li v-if="isOwner && !$root.user.is_journalist" class="nav-item mt-2">
                         <app-link :to="{name: 'user-workspace', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-workspace'}" href="">{{ $t('Workspace') }}</app-link>
                     </li>
                     <li v-if="isOwner" class="nav-item mt-2">
