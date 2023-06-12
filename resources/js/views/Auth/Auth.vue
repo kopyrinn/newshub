@@ -388,7 +388,7 @@
             </div>
         </div>
 
-        <Modal v-if="$root.modalType == 'terms'" ref="modal" name="terms">
+        <Modal v-if="$root.modalType == 'terms'" ref="modal" name="terms" bodyClass="modal-lg">
             <template #title>
                 {{ $t('Consent to the processing of personal data') }}
             </template>

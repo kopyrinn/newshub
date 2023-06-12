@@ -590,6 +590,11 @@ export default defineComponent({
         this.categories = data.categories
         this.cities = data.cities
         this.regions = data.regions
+
+        if (this.cities.length && this.user.city_id) {
+          const city = this.cities.find(item => item.id === this.user.city_id)
+          this.user.region_id = city.region_id
+        }
     }).catch((e) => {})
 
     this.profileDetailsValidator = Yup.object().shape({
@@ -613,12 +618,14 @@ export default defineComponent({
   },
   computed: {
       citiesByRegion() {
-          if (!this.user.region_id) return []
+          if (!this.user.region_id || !this.cities.length) return []
 
-          return this.cities.filter((item) => {
+          const cities = this.cities.filter((item) => {
               return item.region_id == this.user.region_id
           })
-      }
+
+          return cities.sort((a, b) => (a['city_name_' + this.$root.locale] > b['city_name_' + this.$root.locale]) ? 1 : -1)
+      },
   },
   methods: {
     saveChanges() {
@@ -633,6 +640,8 @@ export default defineComponent({
         .then(({ data }) => {
           this.$store.commit('setUser', data.user)
           this.user = {...data.user}
+
+          this.$bus.emit('refresh-user')
 
           ElNotification({
             type: 'success',

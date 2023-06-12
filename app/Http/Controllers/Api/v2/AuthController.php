@@ -263,6 +263,7 @@ class AuthController extends Controller
         if ($request->role == 'journalist') {
             $rules['city_id'] = 'required';
             $rules['lastname'] = 'required';
+            $rules['media_name'] = 'required';
         } else {
             $rules['user_category_id'] = 'required';
         }
@@ -294,6 +295,7 @@ class AuthController extends Controller
         if ($request->role == 'journalist') {
             $user->lastname = $request->lastname;
             $user->city_id = $request->city_id;
+            $user->media_name = $request->media_name;
         } else {
             $user->user_category_id = $request->user_category_id;
         }

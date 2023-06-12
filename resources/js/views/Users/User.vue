@@ -137,6 +137,13 @@ export default defineComponent({
     created() {
         if (!import.meta.env.SSR) {
             this.fetchData()
+
+            this.$bus.on('refresh-user', this.fetchData)
+        }
+    },
+    beforeUnmount() {
+        if (!import.meta.env.SSR) {
+            this.$bus.off('refresh-user')
         }
     },
     watch: {
