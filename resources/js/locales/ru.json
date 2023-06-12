@@ -945,7 +945,7 @@
     "Your request has been successfully submitted for moderation.": "Ваша заявка успешно отправлена на модерацию.",
     "You have already voted.": "Вы уже проголосвали",
     "Please confirm your email.": "Пожалуйста подтвердите свою электронную почту.",
-    "To publish, you need to purchase a subscription": "Для размещения события, Вам необходимо купить соответствующую подписку.",
+    "To publish, you need to purchase a subscription": "Для размещения материала, Вам необходимо купить соответствующую подписку.",
     "Role-desc": "КАБИНЕТЫ «ПРЕСС-ЦЕНТРА» МОГУТ РЕГИСТРИРОВАТЬ ИСКЛЮЧИТЕЛЬНО ПРЕСС-СЛУЖБЫ!",
     "Subscribe to the Press-center": "Подпишитесь на пресс службы",
     "This is a very important notice!": "Это очень важное уведомление!",
@@ -972,6 +972,9 @@
     "Organization name": "Наименование организации",
     "Follow": "Подписаться",
     "Unfollow": "Отписаться",
-    "Select category": "Выберите категорию"
+    "Select category": "Выберите категорию",
+    "Select region": "Выберите область",
+    "Select city": "Выберите город",
+    "About": "О себе"
     
 }

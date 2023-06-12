@@ -878,6 +878,15 @@
     "Unfollow": "Жазылымнан бас тарту",
     "About the project": "Жоба жайлы",
     "Monthly": "1 айға",
-    "Annual": "12 айға"
+    "Annual": "12 айға",
+    "Select region": "Аймақты таңдау",
+    "Select city": "Елді мекенді таңдау",
+    "About": "Өзіңіз жайлы",
+    "Last Name": "Тегі",
+    "Media Name": "БАҚ атауы",
+    "Already registered": "Тіркелгенсіз бе",
+    "I Accept the": "Мен қабылдаймын ",
+    "Password confirmation": "Құпиясөзді растау"
+    
     
 }
