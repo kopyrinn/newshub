@@ -52,7 +52,7 @@ class PollController extends Controller
         $is_expired = $poll->expired_at && $poll->expired_at < Carbon::now();
 
         $poll->can_participate = $user && $user->isPress() && !$is_expired && !$poll->is_participant;
-        $poll->can_vote = $user && $poll->start_at <= Carbon::now() && !$is_expired && !$poll->is_voted;
+        $poll->can_vote = $user && $user->isUser() && $poll->start_at <= Carbon::now() && !$is_expired && !$poll->is_voted;
 
         $query = $poll->requests()
             ->select('poll_requests.id', 'poll_requests.photo', 'poll_requests.name', 'poll_requests.position', 'users.id as uid')
