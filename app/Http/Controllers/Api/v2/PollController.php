@@ -51,8 +51,8 @@ class PollController extends Controller
 
         $is_expired = $poll->expired_at && $poll->expired_at < Carbon::now();
 
-        $poll->can_participate = $user && $user->isPress() && !$is_expired && !$poll->is_participant;
-        $poll->can_vote = $user && $user->isUser() && $poll->start_at <= Carbon::now() && !$is_expired && !$poll->is_voted;
+        $poll->can_participate = $user && $user->email_verified_at && $user->isPress() && !$is_expired && !$poll->is_participant;
+        $poll->can_vote = $user && $user->email_verified_at && $user->isUser() && $poll->start_at <= Carbon::now() && !$is_expired && !$poll->is_voted;
 
         $query = $poll->requests()
             ->select('poll_requests.id', 'poll_requests.photo', 'poll_requests.name', 'poll_requests.position', 'users.id as uid')
@@ -147,12 +147,26 @@ class PollController extends Controller
             'participant' => 'required|numeric',
         ]);
 
-        // abort_if(!auth('sanctum')->user()->isUser(), 403);
+        $user = auth('sanctum')->user();
+
+        if (!$user->email_verified_at) {
+            return response()->json([
+                'ok' => false,
+                'message' => __('Please confirm your email.')
+            ]);
+        }
+
+        if (!$user->isUser()) {
+            return response()->json([
+                'ok' => false,
+                'message' => __('Error.')
+            ]);
+        }
 
         $poll = Poll::whereSlug($slug)->first();
         abort_if(!$poll, 404);
 
-        if ($poll->votes()->where('user_id', auth('sanctum')->user()->id)->exists()) {
+        if ($poll->votes()->where('user_id', $user->id)->exists()) {
             return response()->json([
                 'ok' => false,
                 'message' => __('You have already voted.')
@@ -168,7 +182,7 @@ class PollController extends Controller
         }
 
         $vote = new PollVote;
-        $vote->user_id = auth('sanctum')->user()->id;
+        $vote->user_id = $user->id;
         $vote->poll_request_id = $participant->id;
         $vote->ip = $request->ip();
         $poll->votes()->save($vote);
