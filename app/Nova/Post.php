@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Models\Category;
 use App\Models\Rubric;
+use Carbon\Carbon;
 use Emilianotisato\NovaTinyMCE\NovaTinyMCE;
 // use Fourstacks\NovaCheckboxes\Checkboxes;
 use Silvanite\NovaFieldCheckboxes\Checkboxes;
@@ -210,7 +211,7 @@ class Post extends Resource
                 ->default(auth()->user()->id)
             ,
             DateTime::make(__('Created At'), 'created_at')
-                ->default(date('Y-m-d H:i:s')),
+                ->default(Carbon::now()),
         ];
     }
 
