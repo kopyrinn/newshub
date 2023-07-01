@@ -39,9 +39,7 @@ class Page extends Resource
      *
      * @var  array
      */
-    public static $search = [
-        'title', 'slug', 'description',
-    ];
+    public static $search = [];
 
     /**
      * Get the displayable label of the resource.

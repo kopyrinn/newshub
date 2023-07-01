@@ -3,11 +3,11 @@
         <div class="w-100 mw-350px">
             <div class="w-100 d-none d-lg-block position-relative">
                 <i class="ki-duotone ki-magnifier fs-2 text-gray-500 position-absolute top-50 translate-middle-y"><span class="path1"></span><span class="path2"></span></i>
-                <input type="text" class="search-input form-control form-control-flush ps-8 pe-9 w-100" v-model="search" :placeholder="$t('Search') + '...'" v-debounce="globalSearch"/>
-                <span v-if="isSearch" class="search-spinner position-absolute top-50 end-0 translate-middle-y lh-0 me-3">
+                <input type="text" class="search-input form-control form-control-flush ps-8 pe-9 w-100" v-model="q" :placeholder="$t('Search') + '...'" v-debounce="search"/>
+                <span v-if="loading" class="search-spinner position-absolute top-50 end-0 translate-middle-y lh-0 me-3">
                     <span class="spinner-border h-15px w-15px align-middle text-gray-400"></span>
                 </span>
-                <span v-if="!isSearch && search" class="search-reset btn btn-flush btn-active-color-primary position-absolute top-50 end-0 translate-middle-y lh-0" @click="search = '', searchItems = []">
+                <span v-if="!loading && q" class="search-reset btn btn-flush btn-active-color-primary position-absolute top-50 end-0 translate-middle-y lh-0" @click="reset">
                     <i class="ki-duotone ki-cross fs-2 fs-lg-1 me-0"><span class="path1"></span><span class="path2"></span></i>
                 </span>
             </div>
@@ -23,30 +23,54 @@
                 <div class="">
                     <div class="w-100 d-block d-lg-none position-relative mb-5">
                         <i class="ki-duotone ki-magnifier fs-2 text-gray-500 position-absolute top-50 translate-middle-y ms-5"><span class="path1"></span><span class="path2"></span></i>
-                        <input type="text" class="search-input form-control ps-13 w-100" v-model="search" :placeholder="$t('Search') + '...'" v-debounce="globalSearch"/>
-                        <span v-if="isSearch" class="search-spinner position-absolute top-50 end-0 translate-middle-y lh-0 me-5">
+                        <input type="text" class="search-input form-control ps-13 w-100" v-model="q" :placeholder="$t('Search') + '...'" v-debounce="search"/>
+                        <span v-if="loading" class="search-spinner position-absolute top-50 end-0 translate-middle-y lh-0 me-5">
                             <span class="spinner-border h-15px w-15px align-middle text-gray-400"></span>
                         </span>
-                        <span v-if="!isSearch && search" class="search-reset btn btn-flush btn-active-color-primary position-absolute top-50 end-0 translate-middle-y lh-0 me-4" @click="search = ''">
+                        <span v-if="!loading && q" class="search-reset btn btn-flush btn-active-color-primary position-absolute top-50 end-0 translate-middle-y lh-0 me-4" @click="q = ''">
                             <i class="ki-duotone ki-cross fs-2 fs-lg-1 me-0"><span class="path1"></span><span class="path2"></span></i>
                         </span>
                     </div>
 
-                    <div v-if="searchItems.length" data-kt-search-element="results">
-                        <div class="scroll-y mh-450px mh-lg-450px">
-                            <h3 class="fs-5 text-muted m-0 pb-5" data-kt-search-element="category-title">{{ $t('Posts') }}</h3>
-                            <app-link v-for="item in searchItems" :key="item.slug" :to="{name: 'post', params: {slug: item.slug}}" class="d-flex text-dark text-hover-primary align-items-start mb-5" @click="close()">
-                                <div v-if="item.image" class="symbol symbol-40px me-4 mt-1">
-                                    <img :src="$url('/storage/' + item.image)" alt="" class="object-fit-cover" />
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <span class="fs-6 fw-semibold">{{ item.title }}</span>
-                                    <span class="fs-7 fw-semibold text-muted">{{ item.summary }}</span>
-                                </div>
-                            </app-link>
+                    <div v-if="!loading && hasResult">
+                        <div class="overflow-y-auto mh-450px mh-lg-450px">
+                            <div v-if="posts.length" class="mb-7">
+                                <h3 class="fs-5 text-muted m-0 pb-5">{{ $t('News') }}</h3>
+                                <app-link v-for="item in posts" :key="item.slug" :to="{name: 'post', params: {slug: item.slug}}" class="d-flex text-dark text-hover-primary align-items-start mb-5" @click="close()">
+                                    <div v-if="item.image" class="symbol symbol-40px me-4 mt-1">
+                                        <img :src="$url('/storage/' + item.image)" alt="" class="object-fit-cover" />
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <span class="fs-6 fw-semibold">{{ item.title }}</span>
+                                        <span class="fs-7 fw-semibold text-muted">{{ item.summary }}</span>
+                                    </div>
+                                </app-link>
+                            </div>
+                            <div v-if="polls.length" class="mb-7">
+                                <h3 class="fs-5 text-muted m-0 pb-5">{{ $t('Polls') }}</h3>
+                                <app-link v-for="item in polls" :key="item.slug" :to="{name: 'poll', params: {slug: item.slug}}" class="d-flex text-dark text-hover-primary align-items-start mb-5" @click="close()">
+                                    <div v-if="item.image" class="symbol symbol-40px me-4 mt-1">
+                                        <img :src="$url('/storage/' + item.image)" alt="" class="object-fit-cover" />
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <span class="fs-6 fw-semibold">{{ item.question }}</span>
+                                    </div>
+                                </app-link>
+                            </div>
+                            <div v-if="vacancies.length" class="">
+                                <h3 class="fs-5 text-muted m-0 pb-5">{{ $t('Vacancies') }}</h3>
+                                <app-link v-for="item in vacancies" :key="item.id" :to="{name: 'vacancy', params: {slug: item.id}}" class="d-flex text-dark text-hover-primary align-items-start mb-5" @click="close()">
+                                    <div v-if="item.image" class="symbol symbol-40px me-4 mt-1">
+                                        <img :src="$url('/storage/' + item.image)" alt="" class="object-fit-cover" />
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <span class="fs-6 fw-semibold">{{ item.job_title }}</span>
+                                    </div>
+                                </app-link>
+                            </div>
                         </div>
                     </div>
-                    <div v-else-if="isSearch" class="text-center">
+                    <div v-else class="text-center">
                         <div class="pt-10 pb-10">
                             <span class="spinner-border spinner-border-md opacity-50"></span>
                         </div>
@@ -83,32 +107,47 @@ export default defineComponent({
     },
     data() {
         return {
-            search: '',
-            isSearch: false,
-            searchItems: [],
+            q: '',
+            loading: false,
+            posts: [],
+            vacancies: [],
+            polls: [],
         }
     },
     created() {
         
     },
+    computed: {
+        hasResult() {
+            return this.posts.length || this.polls.length || this.vacancies.length
+        }
+    },
     methods: {
-        globalSearch() {
-            if (!this.search.trim()) return
+        search() {
+            if (!this.q.trim()) return
 
-            this.isSearch = true
+            this.loading = true
 
             this.$api('search', true, {
                 params: {
-                    q: this.search,
+                    q: this.q,
                 }
             }).then(({data}) => {
                 if (data.ok) {
-                    this.searchItems = data.posts.data
+                    this.posts = data.posts
+                    this.vacancies = data.vacancies
+                    this.polls = data.polls
                 }
-                this.isSearch = false
+                this.loading = false
             }).catch((e) => {
-                this.isSearch = false
+                this.loading = false
             })
+        },
+        reset() {
+            this.q = ''
+            this.posts = []
+            this.vacancies = []
+            this.polls = []
         },
     },
 });

@@ -48,6 +48,7 @@ class UserController extends Controller
         abort_if(!$user, 404);
 
         $user->role_names = $user->roles()->select('name')->where('slug', '!=', 'admin')->pluck('name');
+        $user->loadCount(['followers', 'feeds']);
 
         return response()->json([
             'ok' => true,

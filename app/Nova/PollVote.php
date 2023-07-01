@@ -30,9 +30,7 @@ class PollVote extends Resource
      *
      * @var  array
      */
-    public static $search = [
-        ' ',
-    ];
+    public static $search = [];
 
     /**
      * Get the displayable label of the resource.

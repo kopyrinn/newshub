@@ -35,10 +35,7 @@ class Rubric extends Resource
      *
      * @var  array
      */
-    public static $search = [
-        'name',
-        'slug',
-    ];
+    public static $search = [];
 
     /**
      * Get the displayable label of the resource.

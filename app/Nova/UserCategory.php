@@ -3,7 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Infinety\Filemanager\FilemanagerField;
+use Oneduo\NovaFileManager\FileManager;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
@@ -38,9 +38,7 @@ class UserCategory extends Resource
      *
      * @var  array
      */
-    public static $search = [
-        'name',
-    ];
+    public static $search = [];
 
     /**
      * Get the displayable label of the resource.

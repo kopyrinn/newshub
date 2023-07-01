@@ -20,13 +20,13 @@ class EnsureHasAccess
             return $next($request);
         }
 
-        if ($request->is('iam/dev')) {
-            return $next($request);
-        }
+        // if ($request->is('iam/dev')) {
+        //     return $next($request);
+        // }
 
-        if (!$request->cookie('is_dev')) {
-            return abort(403);
-        }
+        // if (!$request->cookie('is_dev')) {
+        //     return abort(403);
+        // }
 
         return $next($request);
     }

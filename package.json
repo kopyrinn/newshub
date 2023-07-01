@@ -2,7 +2,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vite",
+        "dev": "cross-env VITE_APP_ENV=local vite",
         "serve": "NODE_ENV=production node --experimental-modules ./resources/js/server.js",
         "build": "vite build --ssrManifest --outDir dist/client",
         "ssr": "cross-env VITE_SSR=1 vite build --ssr resources/js/main-server.js --outDir dist/server"

@@ -70,12 +70,12 @@ async function start() {
 
             let route = locale == 'ru'? url.slice(1): url.slice(4)
 
-            if (route.startsWith('feed') || route.endsWith('notifications') || route.endsWith('actions') || route.endsWith('workspace') || route.endsWith('login') || route.startsWith('verify')) {
+            if (route.startsWith('feed') || route.endsWith('notifications') || route.endsWith('actions') || route.endsWith('package') || route.endsWith('workspace') || route.endsWith('login') || route.startsWith('verify')) {
                 const html = template.replace(`{LOCALE}`, locale)
                 return res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
             }
 
-            const [appHtml, preloadLinks, headPayload] = await render(url, manifest)
+            const [appHtml, preloadLinks, headPayload, stateHtml] = await render(url, manifest)
 
             Object.entries(headPayload).forEach(([key, value]) => {
                 template = template.replace(`<!--${key}-->`, value)
@@ -84,6 +84,7 @@ async function start() {
             const html = template
                 .replace(`<!--preload-links-->`, preloadLinks)
                 .replace('<!--app-html-->', appHtml)
+                .replace('<!--store-state-->', stateHtml)
                 .replace(`{LOCALE}`, locale)
                 .replaceAll(`{URL}`, 'https://newshub.kz/')
 

@@ -22,17 +22,27 @@
                                 </div>
 
                                 <div class="d-flex flex-wrap fw-semibold fs-6 pe-2">
-                                    <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
+                                    <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-3">
                                         <i class="ki-duotone ki-profile-circle fs-4 me-1"><span class="path1"></span><span
                                                 class="path2"></span><span class="path3"></span></i>
                                                 <span v-for="(role, index) in user.role_names">{{ role }}<span v-if="index + 1 < user.role_names.length" class="me-1">,</span></span>
                                     </a>
-                                    <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
+                                    <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-3">
                                         <i class="ki-duotone ki-call fs-4 me-1"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i><i class="path6"></i><i class="path7"></i><i class="path8"></i></i> {{ user.phone }}
                                     </a>
-                                    <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary mb-2">
+                                    <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary mb-3">
                                         <i class="ki-duotone ki-sms fs-4 me-1"><span class="path1"></span><span class="path2"></span></i> {{ user.email }}
                                     </a>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-start">
+                                    <div class="d-flex flex-wrap">
+                                        <div class="border border-gray-300 border-dashed rounded py-1 px-3 me-3 fw-semibold fs-7">
+                                            {{ $t('Followers') }}: {{ user.feeds_count }}
+                                        </div>
+                                        <div class="border border-gray-300 border-dashed rounded py-1 px-3 fw-semibold fs-7">
+                                            {{ $t('Subscriptions') }}: {{ user.followers_count }}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -43,29 +53,34 @@
                             </div>
                         </div>
                         
-                        <div class="d-flex flex-wrap flex-stack">
+                        <div class="d-flex flex-wrap flex-stack mb-5">
                             <div class="text-gray-800 fs-6 fw-semibold">{{ user.description }}</div>
                         </div>
                     </div>
                 </div>
 
-                <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
-                    <li class="nav-item mt-2">
-                        <app-link :to="{name: 'user', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user'}" href="">{{ $t('Overview') }}</app-link>
-                    </li>
-                    <li v-if="isOwner" class="nav-item mt-2">
-                        <app-link :to="{name: 'user-settings', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-settings'}" href="">{{ $t('Settings') }}</app-link>
-                    </li>
-                    <li v-if="isOwner && !$root.user.is_journalist" class="nav-item mt-2">
-                        <app-link :to="{name: 'user-workspace', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-workspace'}" href="">{{ $t('Workspace') }}</app-link>
-                    </li>
-                    <li v-if="isOwner" class="nav-item mt-2">
-                        <app-link :to="{name: 'user-actions', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-actions'}" href="">{{ $t('Actions') }}</app-link>
-                    </li>
-                    <li v-if="isOwner" class="nav-item mt-2">
-                        <app-link :to="{name: 'user-notifications', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-notifications'}" href="">{{ $t('Notifications') }}</app-link>
-                    </li>
-                </ul>
+                <div class="overflow-x-invisible mt-2">
+                    <ul class="nav nav-stretch flex-nowrap nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
+                        <li class="nav-item">
+                            <app-link :to="{name: 'user', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user'}" href="">{{ $t('Overview') }}</app-link>
+                        </li>
+                        <li v-if="isOwner" class="nav-item">
+                            <app-link :to="{name: 'user-settings', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-settings'}" href="">{{ $t('Settings') }}</app-link>
+                        </li>
+                        <li v-if="isOwner && !$root.user.is_journalist" class="nav-item">
+                            <app-link :to="{name: 'user-workspace', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-workspace'}" href="">{{ $t('Workspace') }}</app-link>
+                        </li>
+                        <li v-if="isOwner" class="nav-item">
+                            <app-link :to="{name: 'user-actions', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-actions'}" href="">{{ $t('Actions') }}</app-link>
+                        </li>
+                        <li v-if="isOwner" class="nav-item">
+                            <app-link :to="{name: 'user-notifications', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-notifications'}" href="">{{ $t('Notifications') }}</app-link>
+                        </li>
+                        <li v-if="isOwner && !$root.user.is_journalist" class="nav-item">
+                            <app-link :to="{name: 'user-package', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-package'}" href="">{{ $t('Package') }}</app-link>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
 

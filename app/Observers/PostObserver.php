@@ -10,8 +10,15 @@ class PostObserver
 {
     public function retrieved(Post $post)
     {
-        $post->selected_categories = array_map('strval', $post->categories()->pluck('id')->toArray());
-        $post->selected_rubrics = array_map('strval', $post->rubrics()->pluck('id')->toArray());
+        $categories = $post->categories()->pluck('id')->flip();
+        $post->selected_categories = !$categories? []: $categories->map(function($item) {
+            return true;
+        })->toArray();
+
+        $rubrics = $post->rubrics()->pluck('id')->flip();
+        $post->selected_rubrics = !$rubrics? []: $rubrics->map(function($item) {
+            return true;
+        })->toArray();
     }
 
     public function updating(Post $post)
@@ -21,12 +28,12 @@ class PostObserver
         }
 
         if ($post->selected_categories) {
-            $post->categories()->sync($post->selected_categories);
+            $post->categories()->sync(array_keys(array_filter($post->selected_categories)));
             unset($post->selected_categories);
         }
 
         if ($post->selected_rubrics) {
-            $post->rubrics()->sync($post->selected_rubrics);
+            $post->rubrics()->sync(array_keys(array_filter($post->selected_rubrics)));
             unset($post->selected_rubrics);
         }
     }
@@ -45,12 +52,12 @@ class PostObserver
     public function created(Post $post)
     {
         if ($post->selected_categories) {
-            $post->categories()->sync($post->selected_categories);
+            $post->categories()->sync(array_keys(array_filter($post->selected_categories)));
             unset($post->selected_categories);
         }
 
         if ($post->selected_rubrics) {
-            $post->rubrics()->sync($post->selected_rubrics);
+            $post->rubrics()->sync(array_keys(array_filter($post->selected_rubrics)));
             unset($post->selected_rubrics);
         }
 

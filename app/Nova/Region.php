@@ -31,9 +31,7 @@ class Region extends Resource
      *
      * @var  array
      */
-    public static $search = [
-        'region_name_ru', 'code'
-    ];
+    public static $search = [];
 
     /**
      * Get the displayable label of the resource.

@@ -30,9 +30,7 @@ class GrammaticalError extends Resource
      *
      * @var  array
      */
-    public static $search = [
-        'error',
-    ];
+    public static $search = [];
 
     /**
      * Get the displayable label of the resource.

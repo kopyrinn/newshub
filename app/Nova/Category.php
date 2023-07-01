@@ -13,7 +13,6 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Select;
-use Silvanite\NovaToolPermissions\Role;
 use Kongulov\NovaTabTranslatable\NovaTabTranslatable;
 use Kongulov\NovaTabTranslatable\TranslatableTabToRowTrait;
 
@@ -42,9 +41,7 @@ class Category extends Resource
      *
      * @var  array
      */
-    public static $search = [
-        'name', 'slug', 'description',
-    ];
+    public static $search = [];
 
     /**
      * Get the displayable label of the resource.

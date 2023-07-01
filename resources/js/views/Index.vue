@@ -8,10 +8,8 @@
                             <img class="object-fit-cover object-position-center h-100 w-100" :src="$url('/storage/' + item.image)"/>
                             <div class="position-absolute h-100 w-100 bg-black bg-opacity-50 top-0 bottom-0 text-start">
                                 <div class="h-100 d-flex flex-column justify-content-end py-10 px-10"> 
-                                    <div>
-                                        <span class="fs-2qx fw-bold text-white mb-6" v-snip="{lines: 2}">{{ item.title }}</span>
-                                        <span class="fw-semibold text-white fs-6 mb-8 opacity-75" v-snip="{lines: 2}">{{ item.summary }}</span>
-                                    </div>
+                                    <div class="fs-2qx fw-bold text-white mb-6 text-truncate-2">{{ item.title }}</div>
+                                    <div class="fw-semibold text-white fs-6 mb-8 opacity-75 text-truncate-2">{{ item.summary }}</div>
                                     <div class="d-flex flex-column flex-sm-row d-grid gap-2">
                                         <app-link :to="{name: 'post', params: {slug: item.slug}}" class="btn btn-primary flex-shrink-0" style="background: rgba(255, 255, 255, 0.2)">{{ $t('Read more') }}</app-link>
                                     </div>
@@ -33,11 +31,9 @@
                     <div v-if="$root.width > 1400 || ($root.width < 1400 && index < 2)" class="h-200px mw-100 w-100 position-relative">
                         <img class="object-fit-cover object-position-center h-100 w-100" :src="$url('/storage/' + item.image)"/>
                         <div class="position-absolute h-100 w-100 bg-black bg-opacity-50 top-0 bottom-0 text-start">
-                            <div class="h-100 d-flex flex-column justify-content-end p-5"> 
-                                <div>
-                                    <span class="fs-4 fw-bold text-white mb-6" v-snip="{lines: 2}">{{ item.title }}</span>
-                                    <p class="fw-semibold text-white fs-6 mb-8 opacity-75" v-snip="{lines: 2}">{{ item.summary }}</p>
-                                </div>
+                            <div class="h-100 d-flex flex-column justify-content-end p-5">
+                                <div class="fs-4 fw-bold text-white mb-6 text-truncate-2">{{ item.title }}</div>
+                                <div class="fw-semibold text-white fs-6 mb-8 opacity-75 text-truncate-2">{{ item.summary }}</div>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <app-link :to="{name: 'post', params: {slug: item.slug}}"  class="btn btn-primary py-3 px-4 fs-7 lh-1" style="background: rgba(255, 255, 255, 0.2)">{{ $t('Read more') }}</app-link>
                                     <span class="badge badge-light-primary py-3 px-4 fs-7">{{ $t('News') }}</span>

@@ -153,6 +153,16 @@ const routes = [
                             animate: false,
                         },
                     },
+                    {
+                        path: "package",
+                        name: "user-package",
+                        component: () => import("@/views/Users/Account/Package.vue"),
+                        meta: {
+                            noSsr: true,
+                            toolbar: false,
+                            animate: false,
+                        },
+                    },
                 ],
             },
             {

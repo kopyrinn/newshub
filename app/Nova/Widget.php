@@ -31,9 +31,7 @@ class Widget extends Resource
      *
      * @var  array
      */
-    public static $search = [
-        'location', 'view'
-    ];
+    public static $search = [];
 
     /**
      * Get the displayable label of the resource.

@@ -32,9 +32,7 @@ class City extends Resource
      *
      * @var  array
      */
-    public static $search = [
-        'city_name_ru'
-    ];
+    public static $search = [];
 
     /**
      * Get the displayable label of the resource.

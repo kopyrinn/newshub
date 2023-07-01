@@ -3,11 +3,11 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Infinety\Filemanager\FilemanagerField;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
 
 class Ad extends Resource
@@ -33,9 +33,7 @@ class Ad extends Resource
      *
      * @var  array
      */
-    public static $search = [
-        'location', 'url',
-    ];
+    public static $search = [];
 
     /**
      * Get the displayable label of the resource.
@@ -103,10 +101,9 @@ class Ad extends Resource
             Number::make(__('Clicks'), 'clicks')
                 ->sortable()
             ,
-            FilemanagerField::make(__('Image'), 'image')
+            Image::make(__('Image'), 'image')
                 ->rules('required')
-                ->folder('ads')
-                ->displayAsImage()
+                ->path('ads')
             ,
             DateTime::make(__('Expired At'), 'expired_at')
                 ->sortable()

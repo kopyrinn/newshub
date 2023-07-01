@@ -7364,6 +7364,16 @@ textarea.form-control-lg {
   white-space: nowrap;
 }
 
+.text-truncate-2 {
+  -webkit-line-clamp: 2;
+  /* autoprefixer: off */
+  -webkit-box-orient: vertical;
+  /* autoprefixer: on */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+}
+
 .vr {
   display: inline-block;
   align-self: stretch;
@@ -7483,6 +7493,14 @@ textarea.form-control-lg {
 
 .overflow-x-auto {
   overflow-x: auto !important;
+}
+
+.overflow-x-invisible {
+  overflow-x: auto !important;
+}
+
+.overflow-x-invisible::-webkit-scrollbar {
+  display: none;
 }
 
 .overflow-x-hidden {

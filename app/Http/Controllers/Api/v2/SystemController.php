@@ -8,10 +8,12 @@ use App\Models\Ad;
 use App\Models\Category;
 use App\Models\Package;
 use App\Models\Page;
+use App\Models\Poll;
 use App\Models\Post;
 use App\Models\Region;
 use App\Models\User;
 use App\Models\UserCategory;
+use App\Models\Vacancy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -115,6 +117,39 @@ class SystemController extends Controller
         else $result['status'] = false;
 
         return response()->json($result);
+    }
+
+    public function search(Request $request)
+    {
+        $queryPost = Post::select('title', 'summary', 'slug', 'image')
+            ->where('status', 1)
+            ->where('created_at', '<', Carbon::now());
+
+        $queryPoll = Poll::select('question', 'slug', 'image')
+            ->where('is_active', 1);
+
+        $queryVacancy = Vacancy::select('id', 'job_title')
+            ->where('status', 1)
+            ->where('created_at', '<', Carbon::now());
+
+        if ($request->q) {
+            $token = $request->q;
+
+            $queryPost->where('title', 'like', "%{$token}%");
+            $queryPoll->where('question', 'like', "%{$token}%");
+            $queryVacancy->where('job_title', 'like', "%{$token}%");
+        }
+
+        $posts = $queryPost->latest('created_at')->take(5)->get();
+        $polls = $queryPoll->latest('created_at')->take(5)->get();
+        $vacancies = $queryVacancy->latest('created_at')->take(5)->get();
+
+        return response()->json([
+            'ok' => true,
+            'posts' => $posts,
+            'polls' => $polls,
+            'vacancies' => $vacancies,
+        ]);
     }
 
     public function packages(Request $request)

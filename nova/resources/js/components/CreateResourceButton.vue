@@ -1,96 +1,93 @@
 <template>
   <div v-if="shouldShowButtons">
     <!-- Attach Related Models -->
-    <router-link
+    <ButtonInertiaLink
+      class="flex-shrink-0"
       v-if="shouldShowAttachButton"
       dusk="attach-button"
-      :class="classes"
-      :to="{
-        name: 'attach',
-        params: {
-          resourceName: viaResource,
-          resourceId: viaResourceId,
-          relatedResourceName: resourceName,
-        },
-        query: {
-          viaRelationship: viaRelationship,
-          polymorphic: relationshipType == 'morphToMany' ? '1' : '0',
-        },
-      }"
+      :href="
+        $url(
+          `/resources/${viaResource}/${viaResourceId}/attach/${resourceName}`,
+          {
+            viaRelationship,
+            polymorphic: relationshipType === 'morphToMany' ? '1' : '0',
+          }
+        )
+      "
     >
-      <slot> {{ __('Attach :resource', { resource: singularName }) }}</slot>
-    </router-link>
+      <slot>
+        <span class="hidden md:inline-block">
+          {{ __('Attach :resource', { resource: singularName }) }}
+        </span>
+        <span class="inline-block md:hidden">
+          {{ __('Attach') }}
+        </span>
+      </slot>
+    </ButtonInertiaLink>
 
     <!-- Create Related Models -->
-    <router-link
+    <ButtonInertiaLink
       v-else-if="shouldShowCreateButton"
+      class="flex-shrink-0 h-9 px-4 focus:outline-none ring-primary-200 dark:ring-gray-600 focus:ring text-white dark:text-gray-800 inline-flex items-center font-bold"
       dusk="create-button"
-      :class="classes"
-      :to="{
-        name: 'create',
-        params: {
-          resourceName: resourceName,
-        },
-        query: {
+      :href="
+        $url(`/resources/${resourceName}/new`, {
           viaResource: viaResource,
           viaResourceId: viaResourceId,
           viaRelationship: viaRelationship,
-        },
-      }"
+          relationshipType: relationshipType,
+        })
+      "
     >
-      {{ label }}
-    </router-link>
+      <span class="hidden md:inline-block">
+        {{ label }}
+      </span>
+      <span class="inline-block md:hidden">
+        {{ __('Create') }}
+      </span>
+    </ButtonInertiaLink>
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    classes: { default: 'btn btn-default btn-primary' },
-    label: {},
-    singularName: {},
-    resourceName: {},
-    viaResource: {},
-    viaResourceId: {},
-    viaRelationship: {},
-    relationshipType: {},
-    authorizedToCreate: {},
-    authorizedToRelate: {},
-    alreadyFilled: {
-      type: Boolean,
-      default: false,
-    },
+<script setup>
+import { useLocalization } from '@/composables/useLocalization'
+import { computed } from 'vue'
+
+const { __ } = useLocalization()
+
+const props = defineProps({
+  type: {
+    type: String,
+    default: 'button',
+    validator: val => ['button', 'outline-button'].includes(val),
   },
+  label: {},
+  singularName: {},
+  resourceName: {},
+  viaResource: {},
+  viaResourceId: {},
+  viaRelationship: {},
+  relationshipType: {},
+  authorizedToCreate: {},
+  authorizedToRelate: {},
+  alreadyFilled: { type: Boolean, default: false },
+})
 
-  computed: {
-    /**
-     * Determine if any buttons should be displayed.
-     */
-    shouldShowButtons() {
-      return this.shouldShowAttachButton || this.shouldShowCreateButton
-    },
+const shouldShowAttachButton = computed(() => {
+  return (
+    (props.relationshipType === 'belongsToMany' ||
+      props.relationshipType === 'morphToMany') &&
+    props.authorizedToRelate
+  )
+})
 
-    /**
-     * Determine if the attach button should be displayed.
-     */
-    shouldShowAttachButton() {
-      return (
-        (this.relationshipType == 'belongsToMany' ||
-          this.relationshipType == 'morphToMany') &&
-        this.authorizedToRelate
-      )
-    },
+const shouldShowCreateButton = computed(() => {
+  return (
+    props.authorizedToCreate && props.authorizedToRelate && !props.alreadyFilled
+  )
+})
 
-    /**
-     * Determine if the create button should be displayed.
-     */
-    shouldShowCreateButton() {
-      return (
-        this.authorizedToCreate &&
-        this.authorizedToRelate &&
-        !this.alreadyFilled
-      )
-    },
-  },
-}
+const shouldShowButtons = computed(() => {
+  return shouldShowAttachButton || shouldShowCreateButton
+})
 </script>

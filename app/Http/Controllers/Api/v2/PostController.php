@@ -683,7 +683,7 @@ class PostController extends Controller
         $user = auth('sanctum')->user();
         abort_if(!$user->isAdmin() && !$user->isModerator(), 403);
 
-        $post = Post::select('id', 'status')->whereSlug($uuid)->first();
+        $post = Post::select('id', 'status', 'created_at')->whereSlug($uuid)->first();
         if (!$post) {
             return response()->json([
                 'ok' => false,
@@ -691,7 +691,14 @@ class PostController extends Controller
             ]);
         }
 
+        $now = Carbon::now();
+
         $post->status = 1;
+
+        if ($post->created_at < $now) {
+            $post->created_at = $now;
+        }
+
         $post->update();
 
         $post->notify(new ChannelNotification($post));

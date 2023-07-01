@@ -11,6 +11,7 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Textarea;
 use App\Notifications\RejectPost;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ModeratePostAction extends Action
 {
@@ -47,7 +48,7 @@ class ModeratePostAction extends Action
      *
      * @return array
      */
-    public function fields()
+    public function fields(NovaRequest $request)
     {
         return [
             Boolean::make(__('Отказ'), 'reject')->default(1),

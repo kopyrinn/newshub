@@ -2,19 +2,7 @@
 
 namespace Laravel\Nova\Trix;
 
-class PruneStaleAttachments
+class PruneStaleAttachments extends \Laravel\Nova\Fields\Attachments\PruneStaleAttachments
 {
-    /**
-     * Prune the stale attachments from the system.
-     *
-     * @return void
-     */
-    public function __invoke()
-    {
-        PendingAttachment::where('created_at', '<=', now()->subDays(1))
-                    ->orderBy('id', 'desc')
-                    ->chunk(100, function ($attachments) {
-                        $attachments->each->purge();
-                    });
-    }
+    //
 }

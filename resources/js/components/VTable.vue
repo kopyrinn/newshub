@@ -1,31 +1,9 @@
 <template>
-  <div class="row">
-    <!-- <div
-      class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start"
-    >
-      <div
-        v-if="enableItemsPerPageDropdown"
-        class="dataTables_length"
-        id="kt_customers_table_length"
-      >
-        <label
-          ><select
-            name="kt_customers_table_length"
-            class="form-select form-select-sm"
-            @change="setItemsPerPage"
-          >
-            <option value="15">15</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select></label
-        >
-      </div>
-    </div> -->
+  <div v-if="table.top_pagination" class="row">
     <div
       class="col-12 d-flex align-items-center justify-content-center justify-content-md-end mb-2"
     >
       <paginate
-        v-if="table.top_pagination"
         v-model:current-page="table.current_page"
         :page-count="table.last_page || 0"
         :page-range="5"
@@ -49,7 +27,7 @@
     <div class="table-responsive">
       <table
         :class="[loading && 'overlay overlay-block min-h-300px']"
-        class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
+        class="table align-middle table-row-dashed table-row-solid gy-4 gs-9 dataTable no-footer"
         id="kt_customers_table"
         role="grid"
       >
@@ -138,7 +116,7 @@
         </tbody>
         <div
           v-if="loading"
-          class="overlay-layer card-rounded bg-dark bg-opacity-5"
+          class="overlay-layer bg-dark bg-opacity-5"
         >
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">{{ $t('Please, wait') }} ...</span>
@@ -147,7 +125,7 @@
       </table>
     </div>
 
-    <div class="row">
+    <div v-if="enableFooter" class="row mx-5">
       <div
         class="col-sm-12 col-md-3 d-flex align-items-center justify-content-center justify-content-md-start"
       >
@@ -231,6 +209,7 @@ export default defineComponent({
     enableItemsPerPageDropdown: { type: Boolean, default: true },
     order: { type: String, default: "asc" },
     sortLabel: { type: String, default: "" },
+    enableFooter: { type: Boolean, default: true },
   },
   components: {
     Paginate

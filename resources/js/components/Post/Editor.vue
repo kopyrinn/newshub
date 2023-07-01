@@ -30,7 +30,7 @@
                 </div>
                 
                 <div class="form-floating mb-7">
-                    <textarea class="form-control" id="post-summary" v-model="post.summary[locale]" :placeholder="$t('Summary')" style="height: 80px;"></textarea>
+                    <textarea class="form-control" id="post-summary" v-model="post.summary[locale]" :placeholder="$t('Summary')" style="height: 88px;" maxlength="250"></textarea>
                     <label for="post-summary" class="form-label">{{ $t('Summary') }} <span class="text-muted fw-medium fs-8 ms-1">250 {{ $t('symbols') }}</span></label>
                 </div>
                 

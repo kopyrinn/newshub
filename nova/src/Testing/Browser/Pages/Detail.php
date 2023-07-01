@@ -3,11 +3,15 @@
 namespace Laravel\Nova\Testing\Browser\Pages;
 
 use Laravel\Dusk\Browser;
-use Laravel\Nova\Nova;
+use Laravel\Nova\Testing\Browser\Components\ActionDropdownComponent;
+use Laravel\Nova\Testing\Browser\Components\IndexComponent;
+use Laravel\Nova\Testing\Browser\Components\Modals\DeleteResourceModalComponent;
+use Laravel\Nova\Testing\Browser\Components\Modals\RestoreResourceModalComponent;
 
 class Detail extends Page
 {
     public $resourceName;
+
     public $resourceId;
 
     /**
@@ -21,16 +25,8 @@ class Detail extends Page
     {
         $this->resourceId = $resourceId;
         $this->resourceName = $resourceName;
-    }
 
-    /**
-     * Get the URL for the page.
-     *
-     * @return string
-     */
-    public function url()
-    {
-        return Nova::path().'/resources/'.$this->resourceName.'/'.$this->resourceId;
+        $this->setNovaPage("/resources/{$this->resourceName}/{$this->resourceId}");
     }
 
     /**
@@ -44,13 +40,10 @@ class Detail extends Page
      */
     public function runAction(Browser $browser, $uriKey)
     {
-        $browser->waitFor('@action-select', 25)
-                    ->select('@action-select', $uriKey)
-                    ->pause(100)
-                    ->click('@run-action-button')
-                    ->pause(250)
-                    ->click('@confirm-action-button')
-                    ->pause(250);
+        $browser->openControlSelector()
+            ->elsewhereWhenAvailable(new ActionDropdownComponent(), function ($browser) use ($uriKey) {
+                $browser->runWithConfirmation($uriKey);
+            });
     }
 
     /**
@@ -64,12 +57,10 @@ class Detail extends Page
      */
     public function runInstantAction(Browser $browser, $uriKey)
     {
-        $browser->waitFor('@action-select', 25)
-                    ->select('@action-select', $uriKey)
-                    ->pause(100)
-                    ->click('@run-action-button')
-                    ->assertDontSee('@cancel-action-button')
-                    ->pause(250);
+        $browser->openControlSelector()
+            ->elsewhereWhenAvailable(new ActionDropdownComponent(), function ($browser) use ($uriKey) {
+                $browser->runWithoutConfirmation($uriKey);
+            });
     }
 
     /**
@@ -83,13 +74,10 @@ class Detail extends Page
      */
     public function cancelAction(Browser $browser, $uriKey)
     {
-        $browser->waitFor('@action-select', 25)
-                    ->select('@action-select', 'mark-as-active')
-                    ->pause(100)
-                    ->click('@run-action-button')
-                    ->pause(250)
-                    ->click('@cancel-action-button')
-                    ->pause(250);
+        $browser->openControlSelector()
+            ->elsewhereWhenAvailable(new ActionDropdownComponent(), function ($browser) use ($uriKey) {
+                $browser->cancel($uriKey);
+            });
     }
 
     /**
@@ -103,7 +91,71 @@ class Detail extends Page
     public function edit(Browser $browser)
     {
         $browser->waitFor('@edit-resource-button')
-                    ->click('@edit-resource-button');
+            ->click('@edit-resource-button');
+    }
+
+    /**
+     * Create the related resource.
+     *
+     * @param  \Laravel\Dusk\Browser  $browser
+     * @param  string  $relatedResourceName
+     * @return void
+     *
+     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     */
+    public function runCreateRelation(Browser $browser, $relatedResourceName)
+    {
+        $browser->within(new IndexComponent($relatedResourceName), function ($browser) {
+            $browser->waitFor('@create-button')->click('@create-button');
+        })->on(new Create($relatedResourceName));
+    }
+
+    /**
+     * Create the related resource.
+     *
+     * @param  \Laravel\Dusk\Browser  $browser
+     * @param  string  $relatedResourceName
+     * @param  string|null  $viaRelationship
+     * @return void
+     *
+     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     */
+    public function runAttachRelation(Browser $browser, $relatedResourceName, $viaRelationship = null)
+    {
+        $browser->within(new IndexComponent($relatedResourceName, $viaRelationship), function ($browser) {
+            $browser->waitFor('@attach-button')->click('@attach-button');
+        })->on(new Attach($this->resourceName, $this->resourceId, $relatedResourceName, $viaRelationship));
+    }
+
+    /**
+     * Open the delete selector.
+     *
+     * @param  \Laravel\Dusk\Browser  $browser
+     * @return void
+     *
+     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     */
+    public function openControlSelector(Browser $browser)
+    {
+        $browser->whenAvailable("@{$this->resourceId}-control-selector", function ($browser) {
+            $browser->click('');
+        })->pause(100);
+    }
+
+    /**
+     * Replicate the resource.
+     *
+     * @param  \Laravel\Dusk\Browser  $browser
+     * @return void
+     *
+     * @throws \Facebook\WebDriver\Exception\TimeOutException
+     */
+    public function replicate(Browser $browser)
+    {
+        $browser->openControlSelector()
+            ->whenAvailable("@{$this->resourceId}-replicate-button", function ($browser) {
+                $browser->click('');
+            });
     }
 
     /**
@@ -116,13 +168,13 @@ class Detail extends Page
      */
     public function delete(Browser $browser)
     {
-        $browser->waitFor('@open-delete-modal-button')
-                    ->click('@open-delete-modal-button')
-                    ->elsewhere('', function ($browser) {
-                        $browser->whenAvailable('.modal', function ($browser) {
-                            $browser->click('#confirm-delete-button');
-                        });
-                    })->pause(1000);
+        $browser->openControlSelector()
+            ->whenAvailable('@open-delete-modal-button', function ($browser) {
+                $browser->click('');
+            })
+            ->elsewhereWhenAvailable(new DeleteResourceModalComponent(), function ($browser) {
+                $browser->confirm();
+            })->pause(1000);
     }
 
     /**
@@ -135,13 +187,13 @@ class Detail extends Page
      */
     public function restore(Browser $browser)
     {
-        $browser->waitFor('@open-restore-modal-button')
-                    ->click('@open-restore-modal-button')
-                    ->elsewhere('', function ($browser) {
-                        $browser->whenAvailable('.modal', function ($browser) {
-                            $browser->click('#confirm-restore-button');
-                        });
-                    })->pause(1000);
+        $browser->openControlSelector()
+            ->whenAvailable('@open-restore-modal-button', function ($browser) {
+                $browser->click('');
+            })
+            ->elsewhereWhenAvailable(new RestoreResourceModalComponent(), function ($browser) {
+                $browser->confirm();
+            })->pause(1000);
     }
 
     /**
@@ -154,13 +206,13 @@ class Detail extends Page
      */
     public function forceDelete(Browser $browser)
     {
-        $browser->waitFor('@open-force-delete-modal-button')
-                    ->click('@open-force-delete-modal-button')
-                    ->elsewhere('', function ($browser) {
-                        $browser->whenAvailable('.modal', function ($browser) {
-                            $browser->click('#confirm-delete-button');
-                        });
-                    })->pause(1000);
+        $browser->openControlSelector()
+            ->whenAvailable('@open-force-delete-modal-button', function ($browser) {
+                $browser->click('');
+            })
+            ->elsewhereWhenAvailable(new DeleteResourceModalComponent(), function ($browser) {
+                $browser->confirm();
+            })->pause(1000);
     }
 
     /**
@@ -171,7 +223,7 @@ class Detail extends Page
      */
     public function assert(Browser $browser)
     {
-        $browser->pause(500);
+        $browser->assertOk()->waitFor('@nova-resource-detail');
     }
 
     /**
@@ -181,6 +233,8 @@ class Detail extends Page
      */
     public function elements()
     {
-        return [];
+        return [
+            '@nova-resource-detail' => '#app [data-testid="content"] [dusk="'.$this->resourceName.'-detail-component"]',
+        ];
     }
 }

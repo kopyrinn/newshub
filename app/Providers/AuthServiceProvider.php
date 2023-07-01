@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use App\Traits\ValidatesPermissions;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-use Silvanite\Brandenburg\Traits\ValidatesPermissions;
 
 class AuthServiceProvider extends ServiceProvider
 {

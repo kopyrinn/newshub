@@ -2,13 +2,14 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\App;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Panel;
 use Laravel\Nova\NovaApplicationServiceProvider;
-use Silvanite\NovaToolPermissions\NovaToolPermissions;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Image;
+use Oneduo\NovaFileManager\NovaFileManager;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -19,7 +20,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function boot()
     {
-        \OptimistDigital\NovaSettings\NovaSettings::addSettingsFields([
+        \Outl1ne\NovaSettings\NovaSettings::addSettingsFields([
             Panel::make('Основные', [
                 Text::make('Заголовок', 'title'),
                 Text::make('Описание', 'description'),
@@ -103,6 +104,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function dashboards()
     {
         return [
+            new \App\Nova\Dashboards\Main,
             // new \Appstract\NovaHorizon\Dashboard,
         ];
     }
@@ -115,17 +117,16 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
-            new NovaToolPermissions(),
-            (new \MadWeb\NovaTelescopeLink\TelescopeLink)->canSee(function ($request) {
+            (NovaFileManager::make())->canSee(function ($request) {
                 return auth()->user()->isAdmin();
             }),
-            (new \OptimistDigital\NovaSettings\NovaSettings())->canSee(function ($request) {
+            // (new \MadWeb\NovaTelescopeLink\TelescopeLink)->canSee(function ($request) {
+            //     return auth()->user()->isAdmin();
+            // }),
+            (new \Outl1ne\NovaSettings\NovaSettings())->canSee(function ($request) {
                 return auth()->user()->isAdmin();
             }),
-            (new \Infinety\Filemanager\FilemanagerTool())->canSee(function ($request) {
-                return auth()->user()->isAdmin();
-            }),
-            (new \Cloudstudio\ResourceGenerator\ResourceGenerator())->canSee(function ($request) {
+            (new \Stepanenko3\LogsTool\LogsTool())->canSee(function ($request) {
                 return auth()->user()->isAdmin();
             }),
         ];

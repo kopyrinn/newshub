@@ -37,6 +37,7 @@ export async function render(url, manifest = null) {
     global.url = url
 
     const app = createSSRApp(App)
+    app.provide('store', store)
 
     dayjs.locale(getCurrentLocale())
     dayjs.extend(isSameOrAfter)
@@ -174,6 +175,12 @@ export async function render(url, manifest = null) {
         modules: [],
     }
 
+    const {config, meta} = store.state
+    const renderState = `
+      <script>
+        window.INITIAL_DATA = ${JSON.stringify({config, meta})}
+      </script>`;
+
     const html = await renderToString(app)
 
     let preloadLinks = ''
@@ -183,7 +190,7 @@ export async function render(url, manifest = null) {
 
     const headPayload = await renderSSRHead(head)
 
-    return [html, preloadLinks, headPayload]
+    return [html, preloadLinks, headPayload, renderState]
 }
 
 function renderPreloadLinks(modules, manifest) {

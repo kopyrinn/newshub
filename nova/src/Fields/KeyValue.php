@@ -3,9 +3,12 @@
 namespace Laravel\Nova\Fields;
 
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
 
 class KeyValue extends Field
 {
+    use SupportsDependentFields;
+
     /**
      * The field's component.
      *
@@ -23,28 +26,28 @@ class KeyValue extends Field
     /**
      * The label that should be used for the key heading.
      *
-     * @var string
+     * @var string|null
      */
     public $keyLabel;
 
     /**
      * The label that should be used for the value heading.
      *
-     * @var string
+     * @var string|null
      */
     public $valueLabel;
 
     /**
      * The label that should be used for the "add row" button.
      *
-     * @var string
+     * @var string|null
      */
     public $actionText;
 
     /**
      * The callback used to determine if the keys are readonly.
      *
-     * @var \Closure
+     * @var (callable(\Laravel\Nova\Http\Requests\NovaRequest):(bool))|bool|null
      */
     public $readonlyKeysCallback;
 
@@ -120,7 +123,7 @@ class KeyValue extends Field
     /**
      * Set the callback used to determine if the keys are readonly.
      *
-     * @param  \Closure|bool  $callback
+     * @param  (callable(\Laravel\Nova\Http\Requests\NovaRequest):(bool))|bool  $callback
      * @return $this
      */
     public function disableEditingKeys($callback = true)
@@ -170,15 +173,14 @@ class KeyValue extends Field
     /**
      * Prepare the field element for JSON serialization.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return array_merge(parent::jsonSerialize(), [
-            'keyLabel' => $this->keyLabel ?? __('Key'),
-            'valueLabel' => $this->valueLabel ?? __('Value'),
-            'actionText' => $this->actionText ?? __('Add row'),
+            'keyLabel' => $this->keyLabel ?? Nova::__('Key'),
+            'valueLabel' => $this->valueLabel ?? Nova::__('Value'),
+            'actionText' => $this->actionText ?? Nova::__('Add row'),
             'readonlyKeys' => $this->readonlyKeys(app(NovaRequest::class)),
             'canAddRow' => $this->canAddRow,
             'canDeleteRow' => $this->canDeleteRow,

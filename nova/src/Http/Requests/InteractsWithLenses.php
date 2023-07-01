@@ -2,6 +2,11 @@
 
 namespace Laravel\Nova\Http\Requests;
 
+use Laravel\Nova\Query\Search;
+
+/**
+ * @property-read string|null $lens
+ */
 trait InteractsWithLenses
 {
     /**
@@ -23,7 +28,25 @@ trait InteractsWithLenses
      */
     public function availableLenses()
     {
-        return $this->newResource()->availableLenses($this);
+        return transform($this->newResource(), function ($resource) {
+            abort_unless($resource::authorizedToViewAny($this), 403);
+
+            return $resource->availableLenses($this);
+        });
+    }
+
+    /**
+     * Transform the request into a search query.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function newSearchQuery()
+    {
+        $lens = $this->lens();
+
+        return $lens::searchable() && ! empty($this->search)
+            ? (new Search($this->newQuery(), $this->search))->handle($this->resource(), $lens->searchableColumns())
+            : $this->newQuery();
     }
 
     /**

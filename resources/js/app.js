@@ -12,6 +12,11 @@ app.config.globalProperties.$post = (url, data = {}, isAuth = false) => {
 }
 app.config.globalProperties.$upload = upload
 
+const storeInitialState = window.INITIAL_DATA;
+if (storeInitialState) {
+  store.replaceState(Object.assign(store.state, storeInitialState));
+}
+
 store.commit('setTitle', '')
 
 router.beforeEach((to, from, next) => {

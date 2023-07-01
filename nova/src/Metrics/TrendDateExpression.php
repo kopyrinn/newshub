@@ -2,18 +2,24 @@
 
 namespace Laravel\Nova\Metrics;
 
-use Cake\Chronos\Chronos;
+use Carbon\CarbonImmutable;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Query\Expression;
 
-abstract class TrendDateExpression extends Expression
+abstract class TrendDateExpression
 {
+    /**
+     * The value of the expression.
+     *
+     * @var string|int|float
+     */
+    protected $value;
+
     /**
      * The query builder being used to build the trend.
      *
-     * @var \Illuminate\Database\Query\Builder
+     * @var \Illuminate\Database\Eloquent\Builder
      */
     public $query;
 
@@ -32,7 +38,7 @@ abstract class TrendDateExpression extends Expression
     public $unit;
 
     /**
-     * The users's local timezone.
+     * The user's local timezone.
      *
      * @var string
      */
@@ -63,7 +69,7 @@ abstract class TrendDateExpression extends Expression
     public function offset()
     {
         $timezoneOffset = function ($timezone) {
-            return (new DateTime(Chronos::now()->format('Y-m-d H:i:s'), new DateTimeZone($timezone)))->getOffset() / 60 / 60;
+            return (new DateTime(CarbonImmutable::now()->format('Y-m-d H:i:s'), new DateTimeZone($timezone)))->getOffset() / 60 / 60;
         };
 
         if ($this->timezone) {
@@ -85,5 +91,22 @@ abstract class TrendDateExpression extends Expression
     protected function wrap($value)
     {
         return $this->query->getQuery()->getGrammar()->wrap($value);
+    }
+
+    /**
+     * Get the value of the expression.
+     *
+     * @return mixed
+     */
+    abstract public function getValue();
+
+    /**
+     * Get the value of the expression.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getValue();
     }
 }

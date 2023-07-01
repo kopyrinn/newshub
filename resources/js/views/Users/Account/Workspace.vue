@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-lg-7">
-            <div class="card mb-6">
+            <div class="card card-flush mb-6">
                 <div class="card-header border-0 pt-6">
                     <div class="card-title">
                         <div class="d-flex align-items-center position-relative my-1">
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body pt-6">
+                <div class="card-body p-0">
                     <VTable
                         :loading="loading"
                         :table="table"

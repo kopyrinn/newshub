@@ -7,7 +7,7 @@ use App\Models\Rubric;
 use Emilianotisato\NovaTinyMCE\NovaTinyMCE;
 // use Fourstacks\NovaCheckboxes\Checkboxes;
 use Silvanite\NovaFieldCheckboxes\Checkboxes;
-use Halimtuhu\ArrayFiles\ArrayFiles;
+// use Halimtuhu\ArrayFiles\ArrayFiles;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -16,13 +16,13 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Trix;
-use Infinety\Filemanager\FilemanagerField;
 use Kongulov\NovaTabTranslatable\NovaTabTranslatable;
 use Kongulov\NovaTabTranslatable\TranslatableTabToRowTrait;
 use Laravel\Nova\Fields\BooleanGroup;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Textarea;
+use Oneduo\NovaFileManager\FileManager;
 use OptimistDigital\MultiselectField\Multiselect;
 
 class Post extends Resource
@@ -97,10 +97,6 @@ class Post extends Resource
                 ->path('img/large')
                 ->nullable()
             ,
-            // FilemanagerField::make(__('Image'), 'image')
-            //     ->folder('posts')
-            //     ->displayAsImage()
-            // ,
             Text::make(__('Image Caption'), 'image_caption')
                 // ->creationRules('required')
                 ->hideFromIndex()
@@ -124,15 +120,15 @@ class Post extends Resource
                     ->hideFromIndex()
                 ,
             ]),
-            Checkboxes::make(__('Categories'), 'selected_categories')
+            BooleanGroup::make(__('Categories'), 'selected_categories')
                 ->options(Category::all()->pluck('name', 'id')->toArray())
-                ->columns(4)
+                // ->columns(4)
                 ->rules('required')
                 ->hideFromIndex()
             ,
-            Checkboxes::make(__('Rubrics'), 'selected_rubrics')
+            BooleanGroup::make(__('Rubrics'), 'selected_rubrics')
                 ->options(Rubric::all()->pluck('name', 'id')->toArray())
-                ->columns(4)
+                // ->columns(4)
                 ->hideFromIndex()
             ,
             Text::make(__('Keywords'), 'keywords')
@@ -176,11 +172,15 @@ class Post extends Resource
                 ->default('success-light text-success')
                 ->displayUsingLabels()
             ,
-            ArrayFiles::make(__('Files'), 'files')
-                ->disk('public')
-                ->path('files')
-                ->hideFromIndex()
-            ,
+            // FileManager::make(__('Files'), 'files')
+            //     ->hideFromIndex()
+            //     ->multiple(true)
+            //     ->limit(100),
+            // ArrayFiles::make(__('Files'), 'files')
+            //     ->disk('public')
+            //     ->path('files')
+            //     ->hideFromIndex()
+            // ,
             Boolean::make(__('To Fcm'), 'to_fcm')
                 ->default(0)
                 ->hideFromIndex()
@@ -202,6 +202,7 @@ class Post extends Resource
                 ->searchable()
                 ->sortable()
                 ->default(auth()->user()->id)
+                ->hideFromIndex()
             ,
             BelongsTo::make(__('Author'), 'author', User::class)
                 ->searchable()
@@ -268,7 +269,7 @@ class Post extends Resource
 
                     return true;
                 }),
-            Actions\ModeratePostAction::make()->showOnTableRow(),
+            Actions\ModeratePostAction::make()->showInline(),
         ];
     }
 }

@@ -155,6 +155,9 @@
                                         <div class="menu-item px-5">
                                             <app-link @click="close" :to="{name: 'user-actions', params: {slug: user.id}}" class="menu-link px-5">{{ $t('Actions') }}</app-link>
                                         </div>
+                                        <div v-if="!user.is_journalist" class="menu-item px-5">
+                                            <app-link @click="close" :to="{name: 'user-package', params: {slug: user.id}}" class="menu-link px-5">{{ $t('Package') }}</app-link>
+                                        </div>
                                         <div class="menu-item px-5">
                                             <app-link @click="close" :to="{name: 'user-settings', params: {slug: user.id}}" class="menu-link px-5">{{ $t('Settings') }}</app-link>
                                         </div>
@@ -590,17 +593,22 @@ export default defineComponent({
 
             this.darkMode = this.isDark
 
-            if (!import.meta.env.SSR) {
-                try {
-                    this.onResize()
-                    window.addEventListener('resize', this.onResize, { passive: true })
-                } catch (e) {
+            try {
+                this.onResize()
+                window.addEventListener('resize', this.onResize, { passive: true })
+            } catch (e) {
 
-                }
             }
 
-            this.getConfig()
+            if (import.meta.env.VITE_APP_ENV != 'production') {
+                this.getConfig()
+            }
         }
+    },
+    async serverPrefetch() {
+        await this.$api('config').then(({data}) => {
+            this.$store.commit('setConfig', data)
+        }).catch((e) => {})
     },
     computed: {
         menu() {

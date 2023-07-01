@@ -49,7 +49,7 @@ Route::prefix('v2')->group(function () {
     Route::get('post/{slug}/{name}', [PostController::class, 'file'])->name('file');
     Route::post('post/grammar', [PostController::class, 'postGrammar'])->name('post.grammar');
     Route::get('more-posts/{offset}', [PostController::class, 'morePosts'])->name('post.more');
-    Route::get('search', [PostController::class, 'search'])->name('search');
+    Route::get('posts-search', [PostController::class, 'search'])->name('post.search');
     Route::get('feed', [PostController::class, 'feed'])->name('feed');
     Route::get('new/{step?}/{id?}', [PostController::class, 'new'])->name('new');
     Route::post('post/save', [PostController::class, 'save'])->name('post.save');
@@ -92,6 +92,7 @@ Route::prefix('v2')->group(function () {
     Route::get('page/{slug}', [SystemController::class, 'page'])->name('page');
     Route::get('map', [SystemController::class, 'map'])->name('map');
     Route::get('journalists', [SystemController::class, 'journalists'])->name('journalists');
+    Route::get('search', [SystemController::class, 'search'])->name('search');
 
     Route::post('image/{figure}', [UploadController::class, 'image'])->name('upload.image');
 });

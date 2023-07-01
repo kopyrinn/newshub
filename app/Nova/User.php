@@ -13,7 +13,6 @@ use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Number;
-use Silvanite\NovaToolPermissions\Role;
 
 class User extends Resource
 {
@@ -78,7 +77,10 @@ class User extends Resource
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
-            
+
+            Text::make('media_name')
+                ->hideFromIndex(),
+
             Text::make('Lastname')
                 ->sortable()
                 ->rules('required', 'max:255'),

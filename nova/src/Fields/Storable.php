@@ -9,7 +9,7 @@ trait Storable
     /**
      * The name of the disk the file uses by default.
      *
-     * @var string
+     * @var string|null
      */
     public $disk;
 
@@ -54,6 +54,16 @@ trait Storable
     public function getStorageDisk()
     {
         return $this->disk;
+    }
+
+    /**
+     * Get the default disk for the field.
+     *
+     * @return string
+     */
+    public function getDefaultStorageDisk()
+    {
+        return config('nova.storage_disk', 'public');
     }
 
     /**

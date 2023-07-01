@@ -36,67 +36,67 @@ class GenerateSitemap extends Command
      */
     public function handle()
     {
-        $sitemap = Sitemap::create(config('app.url'));
+        $sitemap = Sitemap::create(config('app.origin'));
 
         $sitemap->add(
-            Url::create('/')
+            Url::create(config('app.origin') . '/')
                 ->setLastModificationDate(Carbon::now())
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
                 ->setPriority(1)
-                ->addAlternate("/kk/", 'kk')
-                ->addAlternate("/en/", 'en')
+                ->addAlternate(config('app.origin') . "/kk/", 'kk')
+                ->addAlternate(config('app.origin') . "/en/", 'en')
         );
 
         foreach (Category::all() as $category) {
             $sitemap->add(
-                Url::create("/category/{$category->slug}")
+                Url::create(config('app.origin') . "/category/{$category->slug}")
                     ->setLastModificationDate($category->updated_at)
                     ->setPriority(0.8)
-                    ->addAlternate("/kk/category/{$category->slug}", 'kk')
-                    ->addAlternate("/en/category/{$category->slug}", 'en')
+                    ->addAlternate(config('app.origin') . "/kk/category/{$category->slug}", 'kk')
+                    ->addAlternate(config('app.origin') . "/en/category/{$category->slug}", 'en')
             );
 
             foreach (Rubric::all() as $rubric) {
                 $sitemap->add(
-                    Url::create("/category/{$category->slug}/{$rubric->slug}")
+                    Url::create(config('app.origin') . "/category/{$category->slug}/{$rubric->slug}")
                         ->setLastModificationDate($rubric->updated_at)
                         ->setPriority(0.8)
-                        ->addAlternate("/kk/category/{$category->slug}/{$rubric->slug}", 'kk')
-                        ->addAlternate("/en/category/{$category->slug}/{$rubric->slug}", 'en')
+                        ->addAlternate(config('app.origin') . "/kk/category/{$category->slug}/{$rubric->slug}", 'kk')
+                        ->addAlternate(config('app.origin') . "/en/category/{$category->slug}/{$rubric->slug}", 'en')
                 );
             }
         }
 
         foreach (Page::where('visibility', 1)->get() as $page) {
             $sitemap->add(
-                Url::create("/page/{$page->slug}")
+                Url::create(config('app.origin') . "/page/{$page->slug}")
                     ->setLastModificationDate($page->updated_at)
                     ->setPriority(0.4)
-                    ->addAlternate("/kk/page/{$page->slug}", 'kk')
-                    ->addAlternate("/en/page/{$page->slug}", 'en')
+                    ->addAlternate(config('app.origin') . "/kk/page/{$page->slug}", 'kk')
+                    ->addAlternate(config('app.origin') . "/en/page/{$page->slug}", 'en')
             );
         }
 
         foreach (Vacancy::where('status', 1)->get() as $vacancy) {
             $sitemap->add(
-                Url::create("/vacancy/{$vacancy->id}")
+                Url::create(config('app.origin') . "/vacancy/{$vacancy->id}")
                     ->setLastModificationDate($vacancy->updated_at)
                     ->setPriority(0.5)
-                    ->addAlternate("/kk/vacancy/{$vacancy->id}", 'kk')
-                    ->addAlternate("/en/vacancy/{$vacancy->id}", 'en')
+                    ->addAlternate(config('app.origin') . "/kk/vacancy/{$vacancy->id}", 'kk')
+                    ->addAlternate(config('app.origin') . "/en/vacancy/{$vacancy->id}", 'en')
             );
         }
 
         foreach (Post::where('status', 1)->get() as $post) {
             $sitemap->add(
-                Url::create("/post/{$post->slug}")
+                Url::create(config('app.origin') . "/post/{$post->slug}")
                     ->setLastModificationDate($post->updated_at)
                     ->setPriority(0.5)
-                    ->addAlternate("/kk/post/{$post->slug}", 'kk')
-                    ->addAlternate("/en/post/{$post->slug}", 'en')
+                    ->addAlternate(config('app.origin') . "/kk/post/{$post->slug}", 'kk')
+                    ->addAlternate(config('app.origin') . "/en/post/{$post->slug}", 'en')
             );
         }
 
-        $sitemap->writeToFile(public_path('sitemap.xml'));
+        $sitemap->writeToFile(base_path('dist/client/sitemap.xml'));
     }
 }

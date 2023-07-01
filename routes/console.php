@@ -19,22 +19,7 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Artisan::command('test', function () {
-    dd(\Carbon\Carbon::now());
-    $category = \App\Models\Category::where('slug', 'sobitiya')
-        ->first();
-
-    abort_if(!$category, 404);
-
-    $posts = $category->posts()
-        ->select('title')
-        ->where('status', 1)
-        ->where('created_at', '<', \Carbon\Carbon::now())
-        ->latest('created_at')
-        ->groupBy('id')
-        ->get();
-
-    dd($posts->toArray());
-
+    dd(base_path('dist/client'));
 });
 
 Artisan::command('test-notify', function () {

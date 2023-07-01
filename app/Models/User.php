@@ -7,7 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
-use Silvanite\Brandenburg\Traits\HasRoles;
+use App\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -249,6 +249,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->is_journalist = $this->isUser();
         $this->notifications_count = $this->unreadNotifications()->count();
+        $this->is_package_active = $this->packageActive();
+
+        $package = $this->package()->select('name', 'slug')->first();
+        $this->package_name = $package? $package->name: '';
+        $this->package_slug = $package? $package->slug: '';
 
         $this->allowed_categories = Category::select('categories.id', 'categories.name')
             ->join('category_role', 'category_role.category_id', '=', 'categories.id')
