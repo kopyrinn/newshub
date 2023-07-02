@@ -68,6 +68,10 @@
                                 <div v-for="(item, index) in posts" :key="item.uuid">
                                     <Card :item="item" :is="item.uuid"/>
 
+                                    <RecommendedVacancies v-if="index === 1"/>
+                                    <RecommendedPosts v-if="index === 3 && $root.config.lastEvents.length" :items="$root.config.lastEvents" :title="$t('Events')"/>
+                                    <RecommendedPosts v-if="index === 6 && $root.config.lastArticles.length" :items="$root.config.lastArticles" :title="$t('Articles')"/>
+
                                     <intersection-observer
                                         v-if="index == posts.length - 9 && cursor"
                                         :sentinal-name="'posts' + cursor"
@@ -90,6 +94,8 @@ import { defineComponent } from "vue";
 import VLazyImage from "v-lazy-image"
 import { Carousel, Slide } from 'vue3-carousel'
 import Card from "@/components/Post/Card.vue"
+import RecommendedPosts from "@/components/Post/RecommendedPosts.vue"
+import RecommendedVacancies from "@/components/Vacancy/RecommendedVacancies.vue"
 import CardSkeleton from "@/components/Post/CardSkeleton.vue"
 import Sidebar from "@/components/Sidebar.vue"
 import IntersectionObserver from "@/components/IntersectionObserver.vue"
@@ -102,6 +108,8 @@ export default defineComponent({
         Slide,
         CardSkeleton,
         Card,
+        RecommendedPosts,
+        RecommendedVacancies,
         Sidebar,
         IntersectionObserver,
     },

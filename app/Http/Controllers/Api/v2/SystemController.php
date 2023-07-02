@@ -48,9 +48,17 @@ class SystemController extends Controller
 
     public function journalists(Request $request)
     {
-        $regions = Region::all();
-
-        $query = User::select('users.*')
+        $query = User::select(
+                'users.id',
+                'users.avatar',
+                'users.name',
+                'users.lastname',
+                'users.media_name',
+                'users.description',
+                'users.created_at',
+                'cities.city_name_ru as city_name',
+                'regions.region_name_ru as region_name',
+            )
             ->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->join('cities', 'cities.id', '=', 'users.city_id')
@@ -71,8 +79,7 @@ class SystemController extends Controller
             $query->whereRaw("CONCAT_WS(' ', users.name, regions.region_name_ru, cities.city_name_ru) LIKE '%{$token}%'");
         }
 
-        $users = $query->groupBy('users.id')
-            ->cursorPaginate(15);
+        $users = $query->groupBy('users.id')->cursorPaginate(15);
 
         return response()->json([
             'ok' => true,

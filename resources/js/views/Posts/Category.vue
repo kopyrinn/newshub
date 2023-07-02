@@ -13,6 +13,10 @@
                     ></intersection-observer>
 
                     <Card :item="item" :is="item.uuid"/>
+
+                    <RecommendedVacancies v-if="index === 1"/>
+                    <RecommendedPosts v-if="index === 3 && $root.config.lastEvents.length" :items="$root.config.lastEvents" :title="$t('Events')"/>
+                    <RecommendedPosts v-if="index === 6 && $root.config.lastArticles.length" :items="$root.config.lastArticles" :title="$t('Articles')"/>
                 </div>
 
                 <intersection-observer
@@ -47,6 +51,8 @@
 <script>
 import { defineComponent } from "vue";
 import Card from "@/components/Post/Card.vue"
+import RecommendedPosts from "@/components/Post/RecommendedPosts.vue"
+import RecommendedVacancies from "@/components/Vacancy/RecommendedVacancies.vue"
 import CardSkeleton from "@/components/Post/CardSkeleton.vue"
 import IntersectionObserver from "@/components/IntersectionObserver.vue"
 import Sidebar from "@/components/Sidebar.vue"
@@ -55,6 +61,8 @@ export default defineComponent({
     name: "Category",
     components: {
         Card,
+        RecommendedPosts,
+        RecommendedVacancies,
         CardSkeleton,
         IntersectionObserver,
         Sidebar,

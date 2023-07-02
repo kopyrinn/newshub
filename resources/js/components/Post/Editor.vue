@@ -21,9 +21,23 @@
                 </template>
             </Popper>
         </template>
-        
+
         <div class="row g-9">
             <div class="col-xl-8 mb-xl-0">
+                <div v-if="!$root.user.is_package_active" class="alert bg-light-warning border-dashed border-warning d-flex flex-column flex-sm-row p-5 mb-5">
+                    <i class="ki-duotone ki-notification-bing fs-2hx text-warning me-4 mb-5 mb-sm-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                    <div class="d-flex flex-fill flex-column pe-0 pe-sm-10">
+                        <h5 class="mb-1">{{ $t('Select package') }}</h5>
+                        <span class="fw-semibold">{{ $t('To be able to publish the material, you must purchase a package of services.') }}</span>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <app-link :to="{name: 'packages'}" class="position-absolute position-sm-relative mt-3 me-3 mt-sm-0 me-sm-0 top-0 end-0 btn btn-sm btn-light-warning ms-sm-auto">
+                            {{ $t('Select') }}
+                        </app-link>
+                    </div>
+                </div>
+
                 <div class="form-floating mb-5">
                     <input type="text" class="form-control" id="post-title" v-model="post.title[locale]" :placeholder="$t('Title')"/>
                     <label for="post-title" class="form-label required">{{ $t('Title') }}</label>
@@ -204,7 +218,7 @@
             </div>
             <div>
                 <button :disabled="isSend" type="button" class="btn rounded-2 btn-light me-2" @click="$root.closeModal('post-editor')">{{ $t('Close') }}</button>
-                <button :disabled="isSend" type="button" class="btn rounded-2 btn-light-success" @click="save">{{ post.uuid? $t('Update'): $t('Publish') }}</button>
+                <button :disabled="isSend || !$root.user.is_package_active" type="button" class="btn rounded-2 btn-light-success" @click="save">{{ post.uuid? $t('Update'): $t('Publish') }}</button>
             </div>
         </template>
 

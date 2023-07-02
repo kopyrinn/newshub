@@ -65,6 +65,8 @@ Route::prefix('v2')->group(function () {
     Route::get('users/{slug}', [UserController::class, 'category'])->name('users.category');
     Route::get('user/{id}', [UserController::class, 'user'])->name('user');
     Route::get('user/{id}/posts', [UserController::class, 'posts'])->name('user.posts');
+    Route::get('user/{id}/subscriptions', [UserController::class, 'subscriptions'])->name('user.subscriptions');
+    Route::get('user/{id}/followers', [UserController::class, 'followers'])->name('user.followers');
     Route::get('user/{id}/actions', [UserController::class, 'actions'])->name('user.actions');
     Route::get('user/{id}/workspace', [UserController::class, 'workspace'])->name('user.workspace');
     Route::get('user/{id}/workspace/delete/{slug}', [UserController::class, 'postDelete'])->name('user.workspace.delete');

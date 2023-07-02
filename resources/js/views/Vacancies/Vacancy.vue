@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-body p-5 p-lg-10 pb-lg-0">
                     <div class="d-flex flex-column flex-xl-row">
-                        <div class="flex-lg-row-fluid me-xl-15">
+                        <div class="flex-lg-row-fluid">
                             <ViewSkeleton v-if="loading"/>
                             <div v-else class="mb-17">
                                 <div class="mb-8">

@@ -12,6 +12,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import VueSnip from 'vue-snip'
 import messages from '@intlify/unplugin-vue-i18n/messages'
 import { registerSW } from 'virtual:pwa-register'
+import VueFullscreen from 'vue-fullscreen'
 import 'dayjs/locale/ru'
 import 'dayjs/locale/kk'
 import router from "./router"
@@ -159,6 +160,7 @@ app
     }))
     // .use(VueApexCharts)
     .use(VueSnip)
+    .use(VueFullscreen)
     .use(router)
     .use(store)
     .directive("maska", vMaska)

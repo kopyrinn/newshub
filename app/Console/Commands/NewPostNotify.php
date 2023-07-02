@@ -49,11 +49,11 @@ class NewPostNotify extends Command
             $post->is_notified = 1;
             $post->update();
 
-            $user = $post->user;
+            $user = $post->user()->select('id')->first();
 
             try {
                 if ($user->followers()->exists()) {
-                    foreach ($user->followers()->select('id')->get() as $follower) {
+                    foreach ($user->followers()->select('id')->where('newsletter', 1)->get() as $follower) {
                         $follower->notify(new NewPost($post));
                     }
                 }

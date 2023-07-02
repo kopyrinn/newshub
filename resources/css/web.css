@@ -99383,3 +99383,25 @@ body {
 .el-notification__content {
   text-align: initial;
 }
+
+.bg-blur {
+  position: absolute;
+  background-position: center;
+  background-size: cover;
+  -webkit-filter: blur(10px) brightness(.5);
+  -moz-filter: blur(10px) brightness(.5);
+  -ms-filter: blur(10px) brightness(.5);
+  -o-filter: blur(10px) brightness(.5);
+  filter: blur(10px) brightness(.5);
+  left: -15px;
+  right: -15px;
+  top: -15px;
+  bottom: -15px;
+}
+
+.cursor-zoom-in {
+  cursor: zoom-in;
+}
+.cursor-zoom-out {
+  cursor: zoom-out;
+}

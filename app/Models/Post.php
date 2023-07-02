@@ -89,14 +89,14 @@ class Post extends Model
         return array_filter(array_map('trim', explode(",", $this->keywords)));
     }
 
-    public function next()
+    public function nextPost()
     {
-        return self::where('id', '>', $this->id)->where('status', 1)->orderBy('id','asc')->first();
+        return self::select('slug')->where('id', '>', $this->id)->where('status', 1)->orderBy('id','asc')->first();
     }
 
-    public function previous()
+    public function previousPost()
     {
-        return self::where('id', '<', $this->id)->where('status', 1)->orderBy('id','desc')->first();
+        return self::select('slug')->where('id', '<', $this->id)->where('status', 1)->orderBy('id','desc')->first();
     }
 
     public function getImageAttribute($value)

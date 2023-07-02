@@ -177,24 +177,27 @@ export default defineConfig(({ command, mode }) => {
 })
 
 function detectServerConfig(host) {
-    let keyPath = resolve(`/www/server/panel/vhost/cert/${host}/privkey.pem`)
-    let certificatePath = resolve(`/www/server/panel/vhost/cert/${host}/fullchain.pem`)
+    // let keyPath = resolve(`/www/server/panel/vhost/cert/${host}/privkey.pem`)
+    // let certificatePath = resolve(`/www/server/panel/vhost/cert/${host}/fullchain.pem`)
 
-    if (!fs.existsSync(keyPath)) {
-        return {}
-    }
+    // if (!fs.existsSync(keyPath)) {
+    //     return {}
+    // }
 
-    if (!fs.existsSync(certificatePath)) {
-        return {}
-    }
+    // if (!fs.existsSync(certificatePath)) {
+    //     return {}
+    // }
 
     return {
-        hmr: {host},
-        host: '0.0.0.0',
-        https: {
-            key: fs.readFileSync(keyPath),
-            cert: fs.readFileSync(certificatePath),
+        hmr: {
+            protocol: 'ws',
+            host: 'localhost',
         },
+        host: 'localhost',
+        // https: {
+        //     key: fs.readFileSync(keyPath),
+        //     cert: fs.readFileSync(certificatePath),
+        // },
         watch: {
             ignored: [
                 '**/app/**',

@@ -14,7 +14,7 @@
                     </div>
 
                     <div class="flex-grow-1">
-                        <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+                        <div class="d-flex justify-content-between align-items-start flex-wrap">
                             <div class="d-flex flex-column">
                                 <div class="d-flex align-items-center mb-2">
                                     <span class="text-gray-900 text-hover-primary fs-2 fw-bold me-1">{{ user.name }}</span>
@@ -33,16 +33,6 @@
                                     <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary mb-3">
                                         <i class="ki-duotone ki-sms fs-4 me-1"><span class="path1"></span><span class="path2"></span></i> {{ user.email }}
                                     </a>
-                                </div>
-                                <div class="d-flex flex-wrap justify-content-start">
-                                    <div class="d-flex flex-wrap">
-                                        <div class="border border-gray-300 border-dashed rounded py-1 px-3 me-3 fw-semibold fs-7">
-                                            {{ $t('Followers') }}: {{ user.feeds_count }}
-                                        </div>
-                                        <div class="border border-gray-300 border-dashed rounded py-1 px-3 fw-semibold fs-7">
-                                            {{ $t('Subscriptions') }}: {{ user.followers_count }}
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -78,6 +68,12 @@
                         </li>
                         <li v-if="isOwner && !$root.user.is_journalist" class="nav-item">
                             <app-link :to="{name: 'user-package', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-package'}" href="">{{ $t('Package') }}</app-link>
+                        </li>
+                        <li class="nav-item">
+                            <app-link :to="{name: 'user-followers', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-followers'}" href="">{{ $t('Followers') }} <span class="badge badge-light ms-2">{{ user.followers_count }}</span></app-link>
+                        </li>
+                        <li class="nav-item">
+                            <app-link :to="{name: 'user-subscriptions', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-subscriptions'}" href="">{{ $t('Subscriptions') }} <span class="badge badge-light ms-2">{{ user.feeds_count }}</span></app-link>
                         </li>
                     </ul>
                 </div>
@@ -163,8 +159,7 @@ export default defineComponent({
     },
     watch: {
         $route(from, to) {
-            let routes = ['user', 'user-settings', 'user-workspace', 'user-actions']
-            if (routes.includes(from.name) && routes.includes(to.name) && from.params.slug != to.params.slug) {
+            if (from.name.startsWith('user') && to.name.startsWith('user') && from.params.slug != to.params.slug) {
                 this.reset()
             }
         }

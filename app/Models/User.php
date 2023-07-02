@@ -47,6 +47,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'package_expired_at' => 'datetime',
+        'newsletter' => 'boolean',
     ];
 
     public function getJWTIdentifier()
@@ -248,6 +249,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function withInfo()
     {
         $this->is_journalist = $this->isUser();
+        $this->is_admin = $this->isAdmin();
         $this->notifications_count = $this->unreadNotifications()->count();
         $this->is_package_active = $this->packageActive();
 

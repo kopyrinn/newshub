@@ -5,6 +5,7 @@ namespace App\Nova;
 use App\Models\Category;
 use App\Models\Rubric;
 use Carbon\Carbon;
+// use DateTime as GlobalDateTime;
 use Emilianotisato\NovaTinyMCE\NovaTinyMCE;
 // use Fourstacks\NovaCheckboxes\Checkboxes;
 use Silvanite\NovaFieldCheckboxes\Checkboxes;
@@ -197,7 +198,7 @@ class Post extends Resource
             //     ->hideFromIndex()
             // ,
             DateTime::make(__('Event Date'), 'event_date')
-                ->default(date('Y-m-d H:i:s'))
+                // ->default(date('Y-m-d H:i:s'))
                 ->hideFromIndex(),
             BelongsTo::make('User')
                 ->searchable()
@@ -211,7 +212,10 @@ class Post extends Resource
                 ->default(auth()->user()->id)
             ,
             DateTime::make(__('Created At'), 'created_at')
-                ->default(Carbon::now()),
+                // ->withMeta(['value' => Carbon::now()->format('Y-m-d\TH:i:s.uP')])
+                // ->format('DD.MM.YYYY HH:mm:ss')
+                // ->default(gmdate('Y-m-d\TH:i:s.uP', strtotime('now')))
+                ,
         ];
     }
 

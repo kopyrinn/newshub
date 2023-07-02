@@ -97,6 +97,16 @@ const routes = [
                 },
             },
             {
+                path: "journalists",
+                name: "journalists",
+                component: () => import("@/views/Users/Journalists.vue"),
+                meta: {
+                    title: 'Journalists',
+                    toolbar: true,
+                    animate: true,
+                },
+            },
+            {
                 path: "user/:slug",
                 component: () => import("@/views/Users/User.vue"),
                 meta: {
@@ -163,6 +173,26 @@ const routes = [
                             animate: false,
                         },
                     },
+                    {
+                        path: "followers",
+                        name: "user-followers",
+                        component: () => import("@/views/Users/Account/Followers.vue"),
+                        meta: {
+                            noSsr: true,
+                            toolbar: false,
+                            animate: false,
+                        },
+                    },
+                    {
+                        path: "subscriptions",
+                        name: "user-subscriptions",
+                        component: () => import("@/views/Users/Account/Subscriptions.vue"),
+                        meta: {
+                            noSsr: true,
+                            toolbar: false,
+                            animate: false,
+                        },
+                    },
                 ],
             },
             {
@@ -194,12 +224,12 @@ const routes = [
                 },
             },
             {
-                path: "post/:slug/:action(resolve)?",
+                path: "post/:slug/:action(resolve|scroll)?",
                 name: "post",
                 component: () => import("@/views/Posts/Post.vue"),
                 meta: {
                     toolbar: false,
-                    animate: true,
+                    animate: false,
                 },
             },
             {
@@ -234,7 +264,11 @@ const router = createRouter({
     history,
     routes,
     scrollBehavior(to, from, savedPosition) {
-        if (savedPosition) {
+        if (to.params.action == 'scroll') {
+            return false
+        }
+
+        if (from.name && savedPosition) {
             return savedPosition
         } else {
             return { top: 0 }

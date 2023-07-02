@@ -202,8 +202,8 @@
               </div>
           </div> -->
 
-          <!-- <div class="row mb-0">
-            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ $t('Allow email newsletter') }}</label>
+          <div class="row mb-0">
+            <label class="col-lg-4 col-form-label fw-bold fs-6">{{ $t('Allow Email newsletter') }}</label>
             <div class="col-lg-8 d-flex align-items-center">
               <div class="form-check form-check-solid form-switch fv-row">
                 <input
@@ -215,7 +215,7 @@
                 <label class="form-check-label" for="newsletter"></label>
               </div>
             </div>
-          </div> -->
+          </div>
         </div>
         <div class="card-footer d-flex justify-content-end py-6 px-9">
           <button
@@ -631,14 +631,15 @@ export default defineComponent({
     saveChanges() {
       if (this.$refs.submitButton1) {
         this.$refs.submitButton1.setAttribute("data-kt-indicator", "true");
-        const {name, avatar, lastname, media_name, phone, description, city_id, user_category_id} = this.user;
+        const {name, avatar, lastname, media_name, phone, description, city_id, user_category_id, newsletter} = this.user;
 
         this.$api("account/settings", true, {
           method: 'POST',
-          data: {name, avatar, lastname, media_name, phone, description, city_id, user_category_id}
+          data: {name, avatar, lastname, media_name, phone, description, city_id, user_category_id, newsletter}
         })
         .then(({ data }) => {
           this.$store.commit('setUser', data.user)
+          // this.$root.getUser()
           this.user = {...data.user}
 
           this.$bus.emit('refresh-user')

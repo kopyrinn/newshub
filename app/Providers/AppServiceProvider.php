@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\Ad;
 use App\Models\Category;
 use App\Models\Page;
 use App\Models\Post;
 use App\Models\Rubric;
 use App\Models\UserCategory;
+use App\Models\Vacancy;
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -88,18 +90,72 @@ class AppServiceProvider extends ServiceProvider
                     return $item->created_at->format('Y-m-d');
                 });
 
+            $banners = Ad::select('image', 'location', 'url')
+                ->where('expired_at', '>', Carbon::now())
+                ->get()
+                ->map(function($item) {
+                    $item->url = ltrim(str_replace(config('app.origin_url'), '', $item->url), '/');
+                    $item->url = ltrim(str_replace('https://newshub.kz', '', $item->url), '/');
+
+                    if (!\Str::startsWith($item->url, 'http')) {
+                        $item->url = '/' . $item->url;
+                    }
+
+                    return $item;
+                })
+                ->groupBy('location');
+
             $terms = Page::where('slug', 'terms-conditions')->first()->page_content;
-            
+
+            $lastVacancies = Vacancy::select('vacancies.id', 'vacancies.job_title', 'vacancies.task', 'vacancies.user_id', 'vacancies.created_at', 'users.name', 'users.avatar')
+                ->join('users', 'users.id', 'vacancies.user_id')
+                ->where('vacancies.status', 1)
+                ->inRandomOrder()
+                ->take(3)
+                ->get();
+
+            $lastArticles = Post::select('posts.slug', 'posts.summary', 'posts.image', 'posts.created_at', 'posts.title', 'users.name', 'users.avatar')
+                ->join('users', 'users.id', '=', 'posts.user_id')
+                ->where('posts.status', 1)
+                ->where('posts.created_at', '<', Carbon::now())
+                ->whereExists(function($query) {
+                    $query->selectRaw(\DB::raw(1))
+                        ->from('category_post')
+                        ->whereColumn('category_post.post_id', 'posts.id')
+                        ->where('category_post.category_id', 2);
+                })
+                ->inRandomOrder()
+                ->take(3)
+                ->get();
+
+            $lastEvents = Post::select('posts.slug', 'posts.summary', 'posts.image', 'posts.created_at', 'posts.title', 'users.name', 'users.avatar')
+                ->join('users', 'users.id', '=', 'posts.user_id')
+                ->where('posts.status', 1)
+                ->where('posts.created_at', '<', Carbon::now())
+                ->whereExists(function($query) {
+                    $query->selectRaw(\DB::raw(1))
+                        ->from('category_post')
+                        ->whereColumn('category_post.post_id', 'posts.id')
+                        ->where('category_post.category_id', 8);
+                })
+                ->inRandomOrder()
+                ->take(3)
+                ->get();
+
             foreach (['ru', 'kk', 'en'] as $locale) {
                 App::setLocale($locale);
 
                 Cache::set("hubconfig:{$locale}", [
-                    'rubrics' => $rubrics,
-                    'categories' => $categories,
-                    'users' => $userCategories,
-                    'postSlides' => $slides,
-                    'postFeatured' => $featured,
-                    'postLatest' => $latest,
+                    'rubrics' => $rubrics->toArray(),
+                    'categories' => $categories->toArray(),
+                    'users' => $userCategories->toArray(),
+                    'postSlides' => $slides->toArray(),
+                    'postFeatured' => $featured->toArray(),
+                    'postLatest' => $latest->toArray(),
+                    'lastVacancies' => $lastVacancies->toArray(),
+                    'lastArticles' => $lastArticles->toArray(),
+                    'lastEvents' => $lastEvents->toArray(),
+                    'banners' => $banners->toArray(),
                     'terms' => $terms,
                     'rates' => Cache::get('tickers')
                 ], 120);

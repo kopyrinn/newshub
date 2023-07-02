@@ -101,44 +101,6 @@ class PostController extends Controller
 
         abort_if(!$post, 404);
 
-        // $post->load(['categories', 'rubrics']);
-
-        // $schema = Schema::newsArticle()
-        //     ->image(asset("storage/" . $post->image))
-        //     ->headline($post->title)
-        //     ->description($post->getSummary(100))
-        //     ->articleBody($post->getSummary(200))
-        //     ->datePublished($post->created_at->toAtomString())
-        //     ->dateModified($post->updated_at->toAtomString())
-        //     ->author([
-        //         '@type' => 'Person',
-        //         'name' => [
-        //             $post->user->getName()
-        //         ]
-        //     ])
-        //     ->publisher([
-        //         '@type' => 'Organization',
-        //         'name' => 'newshub.kz',
-        //         'telephone' => '+77772555856',
-        //         'email' => 'info@newshub.kz',
-        //         'address' => [
-        //             '@type' => 'PostalAddress',
-        //             'streetAddress' => 'мкрн. "Жетысу-2", дом 59',
-        //             'postalCode' => '050063',
-        //             'addressLocality' => 'Алматы',
-        //         ],
-        //         'logo' => [
-        //             '@type' => 'ImageObject',
-        //             'url' => asset('logo.png'),
-        //             'width' => 302,
-        //             'height' => 61,
-        //         ],
-        //     ])
-        //     ->mainEntityOfPage([
-        //         '@type' => 'WebPage',
-        //         '@id' => url("post/{$post->slug}"),
-        //     ]);
-
         $post->pageviews++;
         $post->update();
 
@@ -155,6 +117,9 @@ class PostController extends Controller
         $post->categories = $post->categories()->select('slug', 'name')->groupBy('slug')->get();
         $post->rubrics = $post->rubrics()->select('slug', 'name')->groupBy('slug')->get();
 
+        $nextPost = $post->previousPost();
+        $post->next = $nextPost? $nextPost->slug: null;
+
         $post->content = preg_replace_callback('@<img src="/storage/([^\"]+)"@Usi', function($match) {
             return '<img src="' . asset('/storage/' . $match[1]) . '"';
         }, $post->content);
@@ -162,7 +127,6 @@ class PostController extends Controller
         return response()->json([
             'ok' => true,
             'post' => $post,
-            // 'schema' => $schema,
         ], 200, [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
@@ -565,7 +529,7 @@ class PostController extends Controller
                 $post->update();
 
                 if ($user->followers()->exists()) {
-                    foreach ($user->followers()->select('id')->get() as $follower) {
+                    foreach ($user->followers()->select('id')->where('newsletter', 1)->get() as $follower) {
                         $follower->notify(new NewPost($post));
                     }
                 }

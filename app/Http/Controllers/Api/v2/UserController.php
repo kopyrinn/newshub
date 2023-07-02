@@ -77,6 +77,66 @@ class UserController extends Controller
         ]);
     }
 
+    public function subscriptions(Request $request, $id)
+    {
+        $user = User::select('id')->find($id);
+        abort_if(!$user, 404);
+
+        $query = $user->feeds()
+            ->select(
+                'users.id',
+                'users.avatar',
+                'users.name',
+                'users.lastname',
+                'users.media_name',
+                'users.description',
+                'users.created_at',
+                'cities.city_name_ru as city_name',
+                'regions.region_name_ru as region_name',
+            )
+            // ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            // ->join('roles', 'roles.id', '=', 'role_user.role_id')
+            ->leftJoin('cities', 'cities.id', '=', 'users.city_id')
+            ->leftJoin('regions', 'regions.id', '=', 'cities.region_id');
+
+        $users = $query->groupBy('users.id')->cursorPaginate(15);
+
+        return response()->json([
+            'ok' => true,
+            'users' => $users,
+        ]);
+    }
+
+    public function followers(Request $request, $id)
+    {
+        $user = User::select('id')->find($id);
+        abort_if(!$user, 404);
+
+        $query = $user->followers()
+            ->select(
+                'users.id',
+                'users.avatar',
+                'users.name',
+                'users.lastname',
+                'users.media_name',
+                'users.description',
+                'users.created_at',
+                'cities.city_name_ru as city_name',
+                'regions.region_name_ru as region_name',
+            )
+            // ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            // ->join('roles', 'roles.id', '=', 'role_user.role_id')
+            ->leftJoin('cities', 'cities.id', '=', 'users.city_id')
+            ->leftJoin('regions', 'regions.id', '=', 'cities.region_id');
+
+        $users = $query->groupBy('users.id')->cursorPaginate(15);
+
+        return response()->json([
+            'ok' => true,
+            'users' => $users,
+        ]);
+    }
+
     public function follow(Request $request, $id)
     {
         $user = User::find($id);

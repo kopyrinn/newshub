@@ -78,6 +78,8 @@ class AccountController extends Controller
         if ($request->media_name) {
             $user->media_name = $request->media_name;
         }
+        $user->newsletter = $request->newsletter? 1: 0;
+        // dd($request->newsletter? 1: 0);
         $user->avatar = $request->avatar;
         $user->phone = $request->phone;
         if ($request->city_id) {

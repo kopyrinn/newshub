@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\Post;
 use App\Notifications\AdminNotice;
 use App\Notifications\ChannelNotification;
+use Carbon\Carbon;
 
 class PostObserver
 {
@@ -40,6 +41,14 @@ class PostObserver
 
     public function creating(Post $post)
     {
+        if (!$post->created_at) {
+            $post->created_at = Carbon::now();
+        }
+
+        if (!$post->event_date) {
+            $post->event_date = Carbon::now();
+        }
+
         if (!$post->slug) {
             $post->slug = \Str::slug($post->title, '-') . '-' . time();
         }

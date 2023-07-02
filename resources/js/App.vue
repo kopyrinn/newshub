@@ -358,11 +358,15 @@
                                     <span class="menu-title">{{ $t('Packages') }}</span>
                                 </app-link>
                             </div>
+                            <div v-if="token && user.is_admin" class="menu-item" :class="{'here': $route.name == 'journalists'}">
+                                <app-link to="/journalists" class="menu-link">
+                                    <span class="menu-icon">
+                                        <i class="ki-duotone ki-shield-search fs-2"><i class="path1 text-primary"></i><i class="path2 text-primary"></i><i class="path3 text-primary"></i></i>
+                                    </span>
+                                    <span class="menu-title">{{ $t('Journalists') }}</span>
+                                </app-link>
+                            </div>
                         </div>
-                        <!--end::Sidebar menu-->
-                        <!--begin::Separator-->
-                        <!-- <div class="separator"></div> -->
-                        <!--end::Separator-->
                     </div>
                 </div>
                 <!--end::Navs-->
@@ -477,6 +481,9 @@
         </div>
         <!--end::Wrapper-->
     </div>
+    <fullscreen v-model="fullscreen" class="d-flex align-items-center justify-content-center">
+        <img v-if="fullscreenImage" :src="fullscreenImage" loading="lazy" class="mh-100 mw-100 cursor-zoom-out rounded-3" @click="fullscreen = false"/>
+    </fullscreen>
     <Confirm ref="confirm"/>
     <div v-if="sideOpen" style="z-index: 105;" class="drawer-overlay"></div>
     <div v-show="confirmation" class="modal-backdrop show"></div>
@@ -531,6 +538,8 @@ export default defineComponent({
             isXxxl: window.innerWidth >= 1800,
             width: window.innerWidth,
             tabFocus: true,
+            fullscreen: false,
+            fullscreenImage: false,
             darkMode: false,
             modal: false,
             confirmation: false,
@@ -556,6 +565,9 @@ export default defineComponent({
         }
     },
     watch: {
+        fullscreen(value) {
+            if (!value) this.fullscreenImage = false
+        },
         $route (to, from) {
             if (!this.modal) return
 
@@ -602,6 +614,8 @@ export default defineComponent({
 
             if (import.meta.env.VITE_APP_ENV != 'production') {
                 this.getConfig()
+            } else {
+                setInterval(this.getConfig, 60 * 1000)
             }
         }
     },
@@ -719,8 +733,8 @@ export default defineComponent({
                 this.notifications = data.notifications.data
             })
         },
-        getUser() {
-            this.$api('user', true)
+        async getUser() {
+            return await this.$api('user', true)
                 .then(({data}) => {
                     this.$store.commit('setUser', data.user)
 
