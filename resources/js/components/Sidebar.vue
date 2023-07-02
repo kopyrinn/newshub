@@ -29,26 +29,11 @@
                 </div>
             </div>
 
-            <div class="card overflow-hidden">
+            <div v-if="banner.url" class="card overflow-hidden">
                 <div class="card-body p-0">
                     <app-link :to="banner.url" class="w-100">
                         <img :src="$storage(banner.image)" class="object-fit-contain bg-light w-100 min-h-275px max-h-500px" :alt="banner.url"/>
                     </app-link>
-                    <!-- <div class="mb-2">
-                        <h1 class="fw-semibold text-gray-800 text-center lh-lg">           
-                            Have you tried <br> new
-                            <span class="fw-bolder"> Mobile Application ?</span>
-                        </h1>
-
-                        <div class="py-10 text-center">
-                            <img src="/assets/media/svg/illustrations/easy/1.svg" class="theme-light-show w-200px" alt="">
-                            <img src="/assets/media/svg/illustrations/easy/1-dark.svg" class="theme-dark-show w-200px" alt="">
-                        </div>
-                    </div>
-                    <div class="text-center mb-1"> 
-                        <a class="btn btn-sm btn-primary me-2" data-bs-target="#kt_modal_new_card" data-bs-toggle="modal">Try now</a>
-                        <a class="btn btn-sm btn-light" href="">Learn more</a>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -59,25 +44,20 @@ import { defineComponent } from "vue"
 
 export default defineComponent({
     name: 'Sidebar',
-    components: {
-        
-    },
-    props: {
-    },
     data() {
         return {
             banner: {}
         }
     },
     created() {
-        if (Object.keys(this.$root.config.banners).length && this.$root.config.banners['sidebar.view'] && this.$root.config.banners['sidebar.view'].length) {
-            let key = Math.floor(Math.random() * this.$root.config.banners['sidebar.view'].length)
-            this.banner = this.$root.config.banners['sidebar.view'][key]
-            // console.log(this.banner)
+        try {
+            if (Object.keys(this.$root.config.banners).length && this.$root.config.banners['sidebar.view'] && this.$root.config.banners['sidebar.view'].length) {
+                let key = Math.floor(Math.random() * this.$root.config.banners['sidebar.view'].length)
+                this.banner = this.$root.config.banners['sidebar.view'][key]
+            }
+        } catch (e) {
+
         }
     },
-    methods: {
-
-    }
 })
 </script>
