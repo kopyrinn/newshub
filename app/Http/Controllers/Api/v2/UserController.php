@@ -44,7 +44,7 @@ class UserController extends Controller
 
     public function user(Request $request, $id)
     {
-        $user = User::find($id);
+        $user = User::find($id)->withInfo();
         abort_if(!$user, 404);
 
         $user->role_names = $user->roles()->select('name')->where('slug', '!=', 'admin')->pluck('name');
@@ -52,7 +52,7 @@ class UserController extends Controller
 
         return response()->json([
             'ok' => true,
-            'user' => $user->withInfo(),
+            'user' => $user,
         ]);
     }
 
