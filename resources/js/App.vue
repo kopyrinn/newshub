@@ -247,6 +247,28 @@
                             </div>
 
                             <!--begin:Menu item-->
+                            <div class="menu-item" :class="{'here': $route.name == 'polls'}">
+                                <!--begin:Menu link-->
+                                <app-link to="/polls" class="menu-link">
+                                    <span class="menu-icon">
+                                        <i class="ki-duotone ki-award fs-2"><i class="path1 text-warning"></i><i class="path2 text-warning"></i><i class="path3 text-warning"></i></i>
+                                    </span>
+                                    <span class="menu-title">{{ $t('Polls') }}</span>
+                                </app-link>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+                            
+                            <!-- <div class="separator"></div> -->
+
+                            <!--begin::Heading-->
+                            <div class="menu-item mt-2">
+                                <div class="menu-content menu-heading text-uppercase fs-7">{{ $t('Overview') }}</div>
+                            </div>
+                            <!--end::Heading-->
+                            
+                            
+                            <!--begin:Menu item-->
                             <div class="menu-item" :class="{'here': $route.name == 'users'}">
                                 <!--begin:Menu link-->
                                 <app-link to="/users" class="menu-link">
@@ -258,14 +280,6 @@
                                 <!--end:Menu link-->
                             </div>
                             <!--end:Menu item-->
-
-                            <!-- <div class="separator"></div> -->
-
-                            <!--begin::Heading-->
-                            <div class="menu-item mt-2">
-                                <div class="menu-content menu-heading text-uppercase fs-7">{{ $t('Overview') }}</div>
-                            </div>
-                            <!--end::Heading-->
 
                             <!--begin:Menu item-->
                             <div class="menu-item" :class="{'here': $route.name == 'map'}">
@@ -293,19 +307,7 @@
                             </div>
                             <!--end:Menu item-->
 
-                            <!--begin:Menu item-->
-                            <div class="menu-item" :class="{'here': $route.name == 'polls'}">
-                                <!--begin:Menu link-->
-                                <app-link to="/polls" class="menu-link">
-                                    <span class="menu-icon">
-                                        <i class="ki-duotone ki-award fs-2"><i class="path1 text-warning"></i><i class="path2 text-warning"></i><i class="path3 text-warning"></i></i>
-                                    </span>
-                                    <span class="menu-title">{{ $t('Polls') }}</span>
-                                </app-link>
-                                <!--end:Menu link-->
-                            </div>
-                            <!--end:Menu item-->
-
+                            
                             <!-- <div class="separator"></div> -->
 
                             <!--begin::Heading-->
@@ -313,19 +315,7 @@
                                 <div class="menu-content menu-heading text-uppercase fs-7">{{ $t('Useful information') }}</div>
                             </div>
                             <!--end::Heading-->
-
-                            <!--begin:Menu item-->
-                            <div class="menu-item" :class="{'here': $route.name == 'page' && $route.params.slug == 'contact'}">
-                                <!--begin:Menu link-->
-                                <app-link to="/page/contact" class="menu-link">
-                                    <span class="menu-icon">
-                                        <i class="ki-duotone ki-address-book"><i class="path1 text-primary"></i><i class="path2 text-primary"></i><i class="path3 text-primary"></i></i>
-                                    </span>
-                                    <span class="menu-title">{{ $t('Contacts') }}</span>
-                                </app-link>
-                                <!--end:Menu link-->
-                            </div>
-                            <!--end:Menu item-->
+                            
                             <!--begin:Menu item-->
                             <div class="menu-item" :class="{'here': $route.name == 'page' && $route.params.slug == 'about-project'}">
                                 <!--begin:Menu link-->
@@ -338,6 +328,14 @@
                                 <!--end:Menu link-->
                             </div>
                             <!--end:Menu item-->
+                            <div class="menu-item" :class="{'here': $route.name == 'packages'}">
+                                <app-link to="/packages" class="menu-link">
+                                    <span class="menu-icon">
+                                        <i class="ki-duotone ki-package fs-2"><i class="path1 text-success"></i><i class="path2 text-success"></i><i class="path3 text-success"></i></i>
+                                    </span>
+                                    <span class="menu-title">{{ $t('Packages') }}</span>
+                                </app-link>
+                            </div>
                             <!--begin:Menu item-->
                             <div class="menu-item" :class="{'here': $route.name == 'page' && $route.params.slug == 'ads'}">
                                 <!--begin:Menu link-->
@@ -350,14 +348,18 @@
                                 <!--end:Menu link-->
                             </div>
                             <!--end:Menu item-->
-                            <div class="menu-item" :class="{'here': $route.name == 'packages'}">
-                                <app-link to="/packages" class="menu-link">
+                            <!--begin:Menu item-->
+                            <div class="menu-item" :class="{'here': $route.name == 'page' && $route.params.slug == 'contact'}">
+                                <!--begin:Menu link-->
+                                <app-link to="/page/contact" class="menu-link">
                                     <span class="menu-icon">
-                                        <i class="ki-duotone ki-package fs-2"><i class="path1 text-success"></i><i class="path2 text-success"></i><i class="path3 text-success"></i></i>
+                                        <i class="ki-duotone ki-address-book"><i class="path1 text-primary"></i><i class="path2 text-primary"></i><i class="path3 text-primary"></i></i>
                                     </span>
-                                    <span class="menu-title">{{ $t('Packages') }}</span>
+                                    <span class="menu-title">{{ $t('Contacts') }}</span>
                                 </app-link>
+                                <!--end:Menu link-->
                             </div>
+                            <!--end:Menu item-->
                             <div v-if="token && user.is_admin" class="menu-item" :class="{'here': $route.name == 'journalists'}">
                                 <app-link to="/journalists" class="menu-link">
                                     <span class="menu-icon">
@@ -491,6 +493,9 @@
     <PostEditor v-if="modalType == 'post-editor'"/>
     <VacancyEditor v-if="modalType == 'vacancy-editor'"/>
 </template>
+
+
+
 
 <script>
 import { defineComponent, defineAsyncComponent } from "vue"

@@ -91,7 +91,21 @@ class Poll extends Resource
             NovaTinyMCE::make(__('Описание'), 'description')
                     // ->rules('required_lang:ru')
                     ->options([
-                        'height' => '400'
+                        'height' => '400',
+                        'plugins' => [
+                            'advlist',
+                            'anchor',
+                            'autolink',
+                            'autosave',
+                            'fullscreen',
+                            'lists',
+                            'link',
+                            'image',
+                            'media',
+                            'table',
+                            'wordcount',
+                        ],
+                        'toolbar' => 'undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link',
                     ])
                     ->hideFromIndex()
                     ->sortable()
