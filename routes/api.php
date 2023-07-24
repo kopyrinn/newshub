@@ -27,7 +27,6 @@ use App\Http\Controllers\Api\v2\VacancyController;
 
 Route::prefix('v2')->group(function () {
     Route::get('user', [V2AuthController::class, 'user']);
-    Route::get('fields', [V2AuthController::class, 'fields']);
     Route::post('forgot', [V2AuthController::class, 'forgot']);
     Route::post('reset', [V2AuthController::class, 'reset']);
     Route::post('telegram', [V2AuthController::class, 'telegram']);
@@ -85,18 +84,21 @@ Route::prefix('v2')->group(function () {
     Route::get('polls/{slug}', [PollController::class, 'poll'])->name('polls.view');
     Route::post('polls/{slug}/request', [PollController::class, 'pollRequest'])->name('polls.request');
     Route::post('polls/{slug}/vote', [PollController::class, 'pollVote'])->name('polls.vote');
-
-    Route::get('config', [SystemController::class, 'config'])->name('config');
     Route::get('money-list', [SystemController::class, 'getMoneyList'])->name('getMoneyList');
     Route::get('packages', [SystemController::class, 'packages'])->name('packages');
     Route::get('package/{slug}', [SystemController::class, 'packagesPay'])->name('packages.pay');
     Route::post('package/{slug}', [SystemController::class, 'packagesPay']);
-    Route::get('page/{slug}', [SystemController::class, 'page'])->name('page');
-    Route::get('map', [SystemController::class, 'map'])->name('map');
-    Route::get('journalists', [SystemController::class, 'journalists'])->name('journalists');
     Route::get('search', [SystemController::class, 'search'])->name('search');
 
     Route::post('image/{figure}', [UploadController::class, 'image'])->name('upload.image');
+
+    Route::middleware('cache.headers:public;max_age=60;etag')->group(function () {
+        Route::get('fields', [V2AuthController::class, 'fields']);
+        Route::get('config', [SystemController::class, 'config'])->name('config');
+        Route::get('page/{slug}', [SystemController::class, 'page'])->name('page');
+        Route::get('map', [SystemController::class, 'map'])->name('map');
+        Route::get('journalists', [SystemController::class, 'journalists'])->name('journalists');
+    });
 });
 
 Route::prefix('v1')->group(function () {
