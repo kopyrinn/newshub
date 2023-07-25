@@ -102,11 +102,11 @@
         "purgecss": "^5.0.0",
         "sass": "^1.62.1",
         "vite": "^4.4.7",
-        "vite-plugin-pwa": "^0.14.7",
+        "vite-plugin-pwa": "^0.16.4",
         "vite-plugin-static-copy": "^0.17.0",
         "vue-server-renderer": "^2.7.14",
-        "workbox-build": "^6.5.4",
-        "workbox-precaching": "^6.5.4",
-        "workbox-window": "^6.5.4"
+        "workbox-build": "^7.0",
+        "workbox-precaching": "^7.0",
+        "workbox-window": "^7.0"
     }
 }

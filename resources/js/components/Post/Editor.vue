@@ -235,7 +235,7 @@
     </Modal>
 </template>
 <script>
-import { defineComponent, defineAsyncComponent } from "vue"
+import { defineComponent } from "vue"
 import { BubbleMenu, Editor, EditorContent } from '@tiptap/vue-3'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
@@ -252,6 +252,7 @@ import History from '@tiptap/extension-history'
 import Gapcursor from '@tiptap/extension-gapcursor'
 import { TipTapCustomImage } from '@/plugins/tiptap/Image'
 import VImageUpload from '@/components/VImageUpload.vue'
+import Modal from '@/components/Modal.vue'
 import Popper from "vue3-popper"
 import showErrors from "@/helpers/notify"
 import { ElNotification} from 'element-plus'
@@ -260,9 +261,7 @@ export default defineComponent({
     name: 'Editor',
     props: [],
     components: {
-        Modal: defineAsyncComponent(() =>
-            import('@/components/Modal.vue')
-        ),
+        Modal,
         EditorContent,
         BubbleMenu,
         VImageUpload,

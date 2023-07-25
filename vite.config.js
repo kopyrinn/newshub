@@ -21,9 +21,10 @@ export default defineConfig(({ command, mode }) => {
             entryFileNames: `assets/[hash].js`,
             chunkFileNames: `assets/[hash].js`,
             assetFileNames: `assets/[hash].[ext]`
-            // entryFileNames: `assets/[name].[hash].js`,
-            // chunkFileNames: `assets/[name].[hash].js`,
-            // assetFileNames: `assets/[name].[hash].[ext]`
+        }
+    } else if (isMobile) {
+        rollupOptions.output = {
+            manualChunks: () => 'assets/[hash].js',
         }
     }
 
@@ -67,9 +68,20 @@ export default defineConfig(({ command, mode }) => {
                 ]
             }),
         )
+    } else if (isMobile) {
+        plugins.push(
+            viteStaticCopy({
+                targets: [
+                    {
+                        src: 'public/mobile',
+                        dest: normalizePath(path.resolve(__dirname, './dist'))
+                    },
+                ]
+            }),
+        )
     }
 
-    if (!isSsr) {
+    if (!isSsr && !isMobile) {
         plugins.push(
             VitePWA({
                 base: "/",
@@ -148,10 +160,16 @@ export default defineConfig(({ command, mode }) => {
         )
     }
 
-    plugins.push(splitVendorChunkPlugin())
-
-    rollupOptions.input = {
-        main: resolve(__dirname, 'index.html'),
+    if (isMobile) {
+        rollupOptions.input = {
+            main: resolve(__dirname, 'index-mobile.html'),
+        }
+        plugins.push(renameIndexPlugin('index.html'))
+    } else {
+        rollupOptions.input = {
+            main: resolve(__dirname, 'index.html'),
+        }
+        plugins.push(splitVendorChunkPlugin())    
     }
 
     const build = {
@@ -159,7 +177,7 @@ export default defineConfig(({ command, mode }) => {
         chunkSizeWarningLimit: 1000,
         copyPublicDir: false,
         outDir: './dist',
-        target: 'esnext',
+        target: 'ES2015',
         emptyOutDir: true
     }
 
@@ -255,5 +273,18 @@ const purge = (options) => {
                 bundle[file].source = purged[0].css
             }
         }
+    }
+}
+
+const renameIndexPlugin = (newFilename) => {
+    if (!newFilename) return
+
+    return {
+        name: 'renameIndex',
+        enforce: 'post',
+        generateBundle(options, bundle) {
+            const indexHtml = bundle['index-mobile.html']
+            indexHtml.fileName = newFilename
+        },
     }
 }

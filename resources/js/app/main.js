@@ -11,7 +11,6 @@ import isTomorrow from 'dayjs/plugin/isTomorrow'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import VueSnip from 'vue-snip'
 import messages from '@intlify/unplugin-vue-i18n/messages'
-import { registerSW } from 'virtual:pwa-register'
 import VueFullscreen from 'vue-fullscreen'
 import 'dayjs/locale/ru'
 import 'dayjs/locale/kk'
@@ -111,17 +110,6 @@ app.config.globalProperties.$math = function() {
   };
 }()
 
-// if (import.meta.env.VITE_APP_ENV == 'production') {
-    const updateSW = registerSW({
-        onNeedRefresh() {
-        // console.log('Need refresh')
-        },
-        onOfflineReady() {
-        // console.log('Offline ready')
-        }
-    })
-// }
-  
 const i18n = createI18n({
     legacy: true,
     locale: getCurrentLocale(),

@@ -167,10 +167,11 @@
     </div>
 </template>
 <script>
-import { defineComponent, defineAsyncComponent } from "vue";
+import { defineComponent } from "vue";
 import Sidebar from "@/components/Sidebar.vue"
 import ViewSkeleton from "@/components/Post/ViewSkeleton.vue"
 import VImageUpload from '@/components/VImageUpload.vue'
+import Modal from "@/components/Modal.vue"
 import showErrors from "@/helpers/notify"
 import { ElNotification } from 'element-plus'
 
@@ -180,9 +181,7 @@ export default defineComponent({
         Sidebar,
         ViewSkeleton,
         VImageUpload,
-        Modal: defineAsyncComponent(() =>
-            import('@/components/Modal.vue')
-        ),
+        Modal,
     },
     data() {
         return {

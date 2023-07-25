@@ -14,6 +14,8 @@ export const store = createStore({
       menu: 'general',
       user: false,
       token: false,
+      apptoken: false,
+      platform: false,
       ref: '',
       config: {
         categories: [],
@@ -64,6 +66,12 @@ export const store = createStore({
     getFeeds (state) {
         return state.feeds
     },
+    getAppToken (state) {
+      return state.apptoken
+    },
+    getPlatform (state) {
+      return state.platform
+    },
   },
   mutations: {
     setConfig (state, payload) {
@@ -101,6 +109,12 @@ export const store = createStore({
       if (index !== -1) {
         state.feeds.splice(index, 1)
       }
+    },
+    setAppToken (state, payload) {
+      state.apptoken = payload
+    },
+    setPlatform (state, payload) {
+      state.platform = payload
     },
   },
   plugins,

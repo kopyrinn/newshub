@@ -78,18 +78,17 @@
     </Modal>
 </template>
 <script>
-import { defineComponent, defineAsyncComponent } from "vue"
+import { defineComponent } from "vue"
 import Popper from "vue3-popper"
 import showErrors from "@/helpers/notify"
+import Modal from "@/components/Modal.vue"
 import { ElNotification } from 'element-plus'
 
 export default defineComponent({
     name: 'Editor',
     props: [],
     components: {
-        Modal: defineAsyncComponent(() =>
-            import('@/components/Modal.vue')
-        ),
+        Modal,
         Popper,
     },
     data() {

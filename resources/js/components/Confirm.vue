@@ -16,7 +16,7 @@
     </div>
 </template>
 <script>
-import { defineComponent, defineAsyncComponent } from "vue"
+import { defineComponent } from "vue"
 import { OnClickOutside } from '@vueuse/components'
 
 export default defineComponent({

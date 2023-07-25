@@ -7,8 +7,8 @@
 		"node_modules"
 	],
 	"compilerOptions": {
-		"module": "es6",
-		"target": "es6",
+		"module": "ESNext",
+		"target": "ESNext",
 		"types": [
 			"vite-plugin-pwa/client",
 			"vite/client"

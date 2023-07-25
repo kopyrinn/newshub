@@ -1,8 +1,10 @@
 {
-  "appId": "com.newshub.app",
+  "appId": "kz.newshub.app",
   "appName": "Newshub",
   "webDir": "dist/mobile",
   "server": {
+    "url": "https://mhub.webartisan.space",
+    "hostname": "mhub.webartisan.space",
     "androidScheme": "https"
   }
 }
