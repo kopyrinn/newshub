@@ -1,5 +1,3 @@
-import fs from 'fs'
-// import laravel from 'laravel-vite-plugin'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig, loadEnv, splitVendorChunkPlugin, normalizePath } from 'vite'
 import path from 'node:path'
@@ -7,7 +5,6 @@ import { VitePWA } from 'vite-plugin-pwa'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'url'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
-// import purge from '@erbelion/vite-plugin-laravel-purgecss/dist/index.mjs'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import UnheadVite from '@unhead/addons/vite'
 import { PurgeCSS } from 'purgecss'
@@ -15,10 +12,11 @@ import { PurgeCSS } from 'purgecss'
 export default defineConfig(({ command, mode }) => {
     const env = loadEnv(mode, process.cwd())
     const isSsr = env.VITE_SSR == 1
+    const isMobile = env.VITE_MOBILE == 1
 
     const rollupOptions = {}
 
-    if (!isSsr) {
+    if (!isSsr && !isMobile) {
         rollupOptions.output = {
             entryFileNames: `assets/[hash].js`,
             chunkFileNames: `assets/[hash].js`,
@@ -58,18 +56,20 @@ export default defineConfig(({ command, mode }) => {
         }),
     ]
 
-    if (!isSsr) {
+    if (!isSsr && !isMobile) {
         plugins.push(
             viteStaticCopy({
                 targets: [
                     {
-                    src: 'public/client',
-                    dest: normalizePath(path.resolve(__dirname, './dist'))
+                        src: 'public/client',
+                        dest: normalizePath(path.resolve(__dirname, './dist'))
                     },
                 ]
             }),
         )
+    }
 
+    if (!isSsr) {
         plugins.push(
             VitePWA({
                 base: "/",
@@ -146,9 +146,9 @@ export default defineConfig(({ command, mode }) => {
                 }
             })
         )
-
-        plugins.push(splitVendorChunkPlugin())
     }
+
+    plugins.push(splitVendorChunkPlugin())
 
     rollupOptions.input = {
         main: resolve(__dirname, 'index.html'),
@@ -191,9 +191,9 @@ function detectServerConfig(host) {
     return {
         hmr: {
             protocol: 'ws',
-            host: 'localhost',
+            host: '127.0.0.1',
         },
-        host: 'localhost',
+        host: '127.0.0.1',
         // https: {
         //     key: fs.readFileSync(keyPath),
         //     cert: fs.readFileSync(certificatePath),

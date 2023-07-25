@@ -1,0 +1,8 @@
+{
+  "appId": "com.newshub.app",
+  "appName": "Newshub",
+  "webDir": "dist/mobile",
+  "server": {
+    "androidScheme": "https"
+  }
+}

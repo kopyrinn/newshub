@@ -52,7 +52,7 @@
                 <div class="mb-5">
                     <div class="">
                         <div class="form-control position-relative border border-1 border-gray-300 p-0 rounded-3 mb-2">
-                            <div v-if="editor" class="w-100 border-2 border-gray-300 border-bottom-dashed rounded-top-3" :class="{'sticky-top': ready}">
+                            <div v-if="editor" class="w-100 border-2 border-gray-300 border-bottom-dashed rounded-top-3 bg-body" :class="{'sticky-top': ready}">
                                 <div class="btn-group w-auto ms-2 py-1">
                                     <button @click="editor.chain().focus().toggleBold().run()" type="button"  class="btn btn-color-gray-600 btn-icon btn-active-color-primary" :class="{ 'active': editor.isActive('bold') }">
                                         <i class="ki-duotone ki-text-bold fs-2x"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>

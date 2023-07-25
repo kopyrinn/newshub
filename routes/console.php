@@ -1,7 +1,12 @@
 <?php
 
+use App\Mail\CampaignEmail;
+use App\Models\Campaign;
+use App\Models\User;
 use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,23 +24,8 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Artisan::command('test', function () {
-    dd(base_path('dist/client'));
+    $user = User::find(2305);
+    $c = Campaign::find(8);
+    Mail::to($user)->send(new CampaignEmail($c, $user->public_token));
+
 });
-
-Artisan::command('test-notify', function () {
-    $post = \App\Models\Post::find(2251);
-    $post->notify(new \App\Notifications\AdminNotice($post));
-    // $path = \Illuminate\Support\Facades\Storage::disk('public')->exists('posts/2022/03/240322/6.jpeg');
-    // ~rt(asset("/storage/{$post->image}"));
-    $this->comment('ok');
-});
-
-Artisan::command('synclogs', function () {
-    $users = \App\Models\User::get();
-
-    foreach ($users as $user) {
-        
-    }
-
-    $this->comment("done :)");
-})->purpose('Display an inspiring quote');

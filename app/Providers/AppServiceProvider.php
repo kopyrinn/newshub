@@ -157,7 +157,24 @@ class AppServiceProvider extends ServiceProvider
                     'lastEvents' => $lastEvents->toArray(),
                     'banners' => $banners->toArray(),
                     'terms' => $terms,
-                    'rates' => Cache::get('tickers')
+                    'rates' => Cache::get('tickers')?: [
+                        'USD' => [
+                            'price' => 0,
+                            'change' => 0,
+                        ],
+                        'EUR' => [
+                            'price' => 0,
+                            'change' => 0,
+                        ],
+                        'RUB' => [
+                            'price' => 0,
+                            'change' => 0,
+                        ],
+                        'CNY' => [
+                            'price' => 0,
+                            'change' => 0,
+                        ]
+                    ]
                 ], 120);
             }
         })

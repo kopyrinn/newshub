@@ -4,28 +4,19 @@ namespace App\Nova;
 
 use App\Models\Category;
 use App\Models\Rubric;
-use Carbon\Carbon;
-// use DateTime as GlobalDateTime;
-use Emilianotisato\NovaTinyMCE\NovaTinyMCE;
-// use Fourstacks\NovaCheckboxes\Checkboxes;
-use Silvanite\NovaFieldCheckboxes\Checkboxes;
-// use Halimtuhu\ArrayFiles\ArrayFiles;
 use Illuminate\Http\Request;
+use Manogi\Tiptap\Tiptap;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Image;
-use Laravel\Nova\Fields\Trix;
 use Kongulov\NovaTabTranslatable\NovaTabTranslatable;
 use Kongulov\NovaTabTranslatable\TranslatableTabToRowTrait;
 use Laravel\Nova\Fields\BooleanGroup;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Textarea;
-use Oneduo\NovaFileManager\FileManager;
-use OptimistDigital\MultiselectField\Multiselect;
 
 class Post extends Resource
 {
@@ -112,29 +103,43 @@ class Post extends Resource
                     })
                 ,
                 Textarea::make(__('Summary'), 'summary')
-                    // ->rules('required_lang:ru')
                 ,
-                NovaTinyMCE::make(__('Content'), 'content')
-                    // ->rules('required_lang:ru')
-                    ->options([
-                        'height' => '400',
-                        'plugins' => [
-            'advlist',
-            'anchor',
-            'autolink',
-            'autosave',
-            'fullscreen',
-            'lists',
-            'link',
-            'image',
-            'media',
-            'table',
-            'wordcount',
-        ],
-                        'toolbar' => 'undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link',
-                    ])
+                Tiptap::make(__('Content'), 'content')
+                    ->rules('required_lang:ru')
                     ->hideFromIndex()
-                ,
+                    ->buttons([
+                        'heading',
+                        '|',
+                        'italic',
+                        'bold',
+                        '|',
+                        'link',
+                        'code',
+                        'strike',
+                        'underline',
+                        'highlight',
+                        '|',
+                        'bulletList',
+                        'orderedList',
+                        'br',
+                        'blockquote',
+                        '|',
+                        'horizontalRule',
+                        'hardBreak',
+                        '|',
+                        'table',
+                        '|',
+                        'image',
+                        '|',
+                        'textAlign',
+                        '|',
+                        'history',
+                    ])
+                    ->imageSettings([
+                        'disk' => 'public',
+                        'path' => 'posts/' . date('Y-m-d'),
+                    ])
+                    ->headingLevels([2, 3, 4]),
             ]),
             BooleanGroup::make(__('Categories'), 'selected_categories')
                 ->options(Category::all()->pluck('name', 'id')->toArray())

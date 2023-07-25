@@ -3,16 +3,14 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Emilianotisato\NovaTinyMCE\NovaTinyMCE;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Textarea;
+use Manogi\Tiptap\Tiptap;
 
 class Poll extends Resource
 {
@@ -88,28 +86,41 @@ class Poll extends Resource
                 ->from('question')
                 ->sortable()
             ,
-            NovaTinyMCE::make(__('Описание'), 'description')
-                    // ->rules('required_lang:ru')
-                    ->options([
-                        'height' => '400',
-                        'plugins' => [
-                            'advlist',
-                            'anchor',
-                            'autolink',
-                            'autosave',
-                            'fullscreen',
-                            'lists',
-                            'link',
-                            'image',
-                            'media',
-                            'table',
-                            'wordcount',
-                        ],
-                        'toolbar' => 'undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link',
-                    ])
-                    ->hideFromIndex()
-                    ->sortable()
-            ,
+            Tiptap::make(__('Description'), 'description')
+                ->hideFromIndex()
+                ->buttons([
+                    'heading',
+                    '|',
+                    'italic',
+                    'bold',
+                    '|',
+                    'link',
+                    'code',
+                    'strike',
+                    'underline',
+                    'highlight',
+                    '|',
+                    'bulletList',
+                    'orderedList',
+                    'br',
+                    'blockquote',
+                    '|',
+                    'horizontalRule',
+                    'hardBreak',
+                    '|',
+                    'table',
+                    '|',
+                    'image',
+                    '|',
+                    'textAlign',
+                    '|',
+                    'history',
+                ])
+                ->imageSettings([
+                    'disk' => 'public',
+                    'path' => 'polls/' . date('Y-m-d'),
+                ])
+                ->headingLevels([2, 3, 4]),
             DateTime::make(__('Дата начала'), 'start_at')
                 ->sortable()
             ,

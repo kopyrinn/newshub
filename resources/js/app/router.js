@@ -242,6 +242,15 @@ const routes = [
                 },
             },
             {
+                path: "unsubscribe/:slug",
+                name: "unsubscribe",
+                component: () => import("@/views/Auth/Unsubscribe.vue"),
+                meta: {
+                    toolbar: false,
+                    animate: true,
+                },
+            },
+            {
                 path: "page/:slug",
                 name: "page",
                 component: () => import("@/views/Page.vue"),

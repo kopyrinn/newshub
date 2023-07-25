@@ -266,4 +266,21 @@ class SystemController extends Controller
             'package' => $package
         ]);
     }
+
+    public function unsubscribe(Request $request, $slug)
+    {
+        $user = User::select('id', 'newsletter')
+            ->where('public_token', $slug)
+            ->where('newsletter', 1)
+            ->first();
+
+        if ($user) {
+            $user->newsletter = 0;
+            $user->update();
+        }
+
+        return response([
+            'ok' => true
+        ]);
+    }
 }

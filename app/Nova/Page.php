@@ -3,16 +3,14 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Emilianotisato\NovaTinyMCE\NovaTinyMCE;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\Slug;
-use Laravel\Nova\Fields\Trix;
 use Kongulov\NovaTabTranslatable\NovaTabTranslatable;
 use Kongulov\NovaTabTranslatable\TranslatableTabToRowTrait;
+use Manogi\Tiptap\Tiptap;
 
 class Page extends Resource
 {
@@ -82,12 +80,43 @@ class Page extends Resource
                 Textarea::make(__('Description'), 'description')
                     ->hideFromIndex()
                 ,
-                NovaTinyMCE::make(__('Content'), 'page_content')
-                ->options([
-                    'height' => '400',])
+
+                Tiptap::make(__('Content'), 'page_content')
                     ->rules('required_lang:ru')
                     ->hideFromIndex()
-                ,
+                    ->buttons([
+                        'heading',
+                        '|',
+                        'italic',
+                        'bold',
+                        '|',
+                        'link',
+                        'code',
+                        'strike',
+                        'underline',
+                        'highlight',
+                        '|',
+                        'bulletList',
+                        'orderedList',
+                        'br',
+                        'blockquote',
+                        '|',
+                        'horizontalRule',
+                        'hardBreak',
+                        '|',
+                        'table',
+                        '|',
+                        'image',
+                        '|',
+                        'textAlign',
+                        '|',
+                        'history',
+                    ])
+                    ->imageSettings([
+                        'disk' => 'public',
+                        'path' => 'pages/' . date('Y-m-d'),
+                    ])
+                    ->headingLevels([2, 3, 4]),
             ]),
             Slug::make(__('Slug'), 'slug')
                 ->rules('required')
