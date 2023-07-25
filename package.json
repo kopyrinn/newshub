@@ -10,6 +10,7 @@
         "prod": "yarn build && yarn ssr && yarn build:mobile"
     },
     "dependencies": {
+        "@aashu-dubey/capacitor-statusbar-safe-area": "^2.1.1",
         "@capacitor/android": "^5.2",
         "@capacitor/app": "^5.0",
         "@capacitor/browser": "^5.0",

@@ -8,6 +8,7 @@ import { Clipboard } from '@capacitor/clipboard'
 import { App } from '@capacitor/app'
 import { Capacitor } from '@capacitor/core'
 import { Browser } from '@capacitor/browser'
+import { SafeAreaController } from '@aashu-dubey/capacitor-statusbar-safe-area';
 
 const showAlert = async (title, message) => {
     await Dialog.alert({
@@ -79,7 +80,15 @@ App.addListener('appUrlOpen', function (event) {
     }
 })
 
-StatusBar.setOverlaysWebView({ overlay: true })
+if (SafeAreaController) {
+    SafeAreaController.injectCSSVariables()
+}
+
+if (app.config.globalProperties.$statusBar) {
+    try {
+        app.config.globalProperties.$statusBar.setOverlaysWebView({ overlay: true })
+    } catch (e) {}
+}
 
 // registerNotifications()
 

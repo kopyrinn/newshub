@@ -182,7 +182,7 @@
 
 body {
   margin: 0;
-  padding-top: calc(env(safe-area-inset-top)) !important;
+  padding-top: calc(var(--safe-area-inset-top)) !important;
   font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
@@ -5723,7 +5723,7 @@ textarea.form-control-lg {
 }
 
 .modal-dialog-scrollable {
-  height: calc(100% - var(--bs-modal-margin) * 2 - calc(env(safe-area-inset-top)));
+  height: calc(100% - var(--bs-modal-margin) * 2 - calc(var(--safe-area-inset-top)));
 }
 .modal-dialog-scrollable .modal-content {
   max-height: 100%;
@@ -5736,8 +5736,8 @@ textarea.form-control-lg {
 .modal-dialog-centered {
   display: flex;
   align-items: center;
-  min-height: calc(100% - var(--bs-modal-margin) * 2 - calc(env(safe-area-inset-top)));
-  padding-top: calc(env(safe-area-inset-top)) !important;
+  min-height: calc(100% - var(--bs-modal-margin) * 2 - calc(var(--safe-area-inset-top)));
+  padding-top: calc(var(--safe-area-inset-top)) !important;
 }
 
 .modal-content {
@@ -5851,7 +5851,7 @@ textarea.form-control-lg {
   height: 100% !important;
   border: 0;
   border-radius: 0;
-  padding-top: calc(env(safe-area-inset-top)) !important;
+  padding-top: calc(var(--safe-area-inset-top)) !important;
 }
 .modal-fullscreen .modal-header,
 .modal-fullscreen .modal-footer {
@@ -47957,7 +47957,7 @@ body,
   box-shadow: var(--bs-app-sidebar-base-box-shadow);
   border-left: var(--bs-app-sidebar-base-border-start);
   border-right: var(--bs-app-sidebar-base-border-end);
-  padding-top: calc(env(safe-area-inset-top)) !important;
+  padding-top: calc(var(--safe-area-inset-top)) !important;
 }
 
 .app-sidebar-minimize-d-flex,
@@ -49562,7 +49562,7 @@ body,
 } */
 
 .app-sidebar-navs {
-  height: calc(100dvh - 71.5px - 70px - calc(env(safe-area-inset-top)));
+  height: calc(100dvh - 71.5px - 70px - calc(var(--safe-area-inset-top)));
   overflow: hidden;
 }
 .app-sidebar-navs .menu {
