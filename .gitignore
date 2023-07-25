@@ -17,6 +17,7 @@ yarn-error.log
 /.vscode
 /public/assets/rates_all.xml
 /public/sitemap.xml
+/public/mobile
 /dist/client
 /dist/server
 /dist/mobile

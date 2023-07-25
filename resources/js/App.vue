@@ -467,21 +467,54 @@
                     </div>
                 </div>
 
-                <!--begin::Cookie alert-->
-                <!-- <div class="d-flex d-lg-block flex-column bg-light-primary bottom-0 text-center rounded-0 cookiealert py-5 position-absolute w-100" style="z-index: 105;">
-                    Here's an example of a cookie alert pop up from the bottom of the screen.
-                    Click the "Agree" button to accept the cookie.
-                    <a href="#">Learn more</a>
-
-                    <button type="button" class="btn btn-primary d-inline mx-auto ms-lg-5 acceptcookies mt-5 mt-lg-0">
-                        I agree
-                    </button>
-                </div> -->
-                <!--end::Cookie alert-->
             </div>
             <!--end:::Main-->
         </div>
         <!--end::Wrapper-->
+        <!--begin::Cookie alert-->
+        <div class="d-flex justify-content-around d-lg-none app-footer-menu px-3 py-5" style="z-index: 105;">
+            <app-link
+                :to="{name: 'category', params: {slug: 'articles'}}"
+                :class="{'active': $route.name == 'category' && $route.params.slug == 'articles'}"
+                class="d-flex flex-column align-items-center text-gray-700 text-hover-primary text-active-primary fs-6 fw-bold"
+            >
+                <i class="mb-1 ki-duotone fs-2hx ki-scroll"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
+                {{ $t('Articles') }}
+            </app-link>
+            <app-link
+                :to="{name: 'category', params: {slug: 'news'}}"
+                :class="{'active': $route.name == 'category' && $route.params.slug == 'news'}"
+                class="d-flex flex-column align-items-center text-gray-700 text-hover-primary text-active-primary fs-6 fw-bold"
+            >
+                <i class="mb-1 ki-duotone fs-2hx ki-subtitle"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i></i>
+                {{ $t('News') }}
+            </app-link>
+            <app-link
+                :to="{name: 'category', params: {slug: 'press-release-3'}}"
+                :class="{'active': $route.name == 'category' && $route.params.slug == 'press-release-3'}"
+                class="d-flex flex-column align-items-center text-gray-700 text-hover-primary text-active-primary fs-6 fw-bold"
+            >
+                <i class="mb-1 ki-duotone fs-2hx ki-directbox-default"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i></i>
+                {{ $t('Press releases') }}
+            </app-link>
+            <app-link
+                :to="{name: 'category', params: {slug: 'sobitiya'}}"
+                :class="{'active': $route.name == 'category' && $route.params.slug == 'sobitiya'}"
+                class="d-flex flex-column align-items-center text-gray-700 text-hover-primary text-active-primary fs-6 fw-bold"
+            >
+                <i class="mb-1 ki-duotone fs-2hx ki-calendar-tick"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i><i class="path6"></i></i>
+                {{ $t('Events') }}
+            </app-link>
+            <app-link
+                :to="{name: 'category', params: {slug: 'intervyu'}}"
+                :class="{'active': $route.name == 'category' && $route.params.slug == 'intervyu'}"
+                class="d-flex flex-column align-items-center text-gray-700 text-hover-primary text-active-primary fs-6 fw-bold"
+            >
+                <i class="mb-1 ki-duotone fs-2hx ki-user-square"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
+                {{ $t('Interviews') }}
+            </app-link>
+        </div>
+        <!--end::Cookie alert-->
     </div>
     <fullscreen v-model="fullscreen" class="d-flex align-items-center justify-content-center">
         <img v-if="fullscreenImage" :src="fullscreenImage" loading="lazy" class="mh-100 mw-100 cursor-zoom-out rounded-3" @click="fullscreen = false"/>
@@ -493,10 +526,6 @@
     <PostEditor v-if="modalType == 'post-editor'"/>
     <VacancyEditor v-if="modalType == 'vacancy-editor'"/>
 </template>
-
-
-
-
 <script>
 import { defineComponent, defineAsyncComponent } from "vue"
 import Popper from "vue3-popper"
@@ -610,6 +639,18 @@ export default defineComponent({
 
             this.darkMode = this.isDark
 
+            if (this.$statusBar) {
+                // this.$statusBar.setOverlaysWebView({ overlay: false })
+                // this.$statusBar.hide()
+                if (this.darkMode) {
+                    // this.$statusBar.setStyle({ style: this.$statusBarStyle.Dark });
+                    // this.$statusBar.setBackgroundColor({color: '#151521'})
+                } else {
+                    // this.$statusBar.setStyle({ style: this.$statusBarStyle.Light });
+                    // this.$statusBar.setBackgroundColor({color: '#ffffff'})
+                }
+            }
+
             try {
                 this.onResize()
                 window.addEventListener('resize', this.onResize, { passive: true })
@@ -617,11 +658,11 @@ export default defineComponent({
 
             }
 
-            if (import.meta.env.VITE_APP_ENV != 'production') {
+            if (import.meta.env.VITE_APP_ENV != 'production' || this.$isApp) {
                 this.getConfig()
-            } else {
-                setInterval(this.getConfig, 60 * 1000)
             }
+
+            setInterval(this.getConfig, 60 * 1000)
         }
     },
     async serverPrefetch() {
@@ -742,61 +783,6 @@ export default defineComponent({
             return await this.$api('user', true)
                 .then(({data}) => {
                     this.$store.commit('setUser', data.user)
-
-                    // if (this.user && !this.user.org) {
-                    //     Swal.fire({
-                    //         title: 'Введите название вашей организации',
-                    //         input: 'text',
-                    //         customClass: {
-                    //             input: 'form-control rounded-3 border-1 border-secondary',
-                    //             confirmButton: 'btn btn-success rounded-3',
-                    //         },
-                    //         confirmButtonColor: '#50cd89',
-                    //         inputPlaceholder: 'Название организации',
-                    //         confirmButtonText: 'Сохранить',
-                    //         showLoaderOnConfirm: true,
-                    //         allowOutsideClick: false,
-                    //         showCancelButton: false,
-                    //         preConfirm: (org) => {
-                    //             const {name, avaId, newsletter} = this.user;
-                    //             const params = {name, avaId, newsletter, org}
-
-                    //             return this.$api("account/settings", true, {
-                    //                 method: 'POST',
-                    //                 data: params
-                    //             })
-                    //             .then(({ data }) => {
-                    //                 if (data.status) {
-                    //                     this.$store.commit('setUser', data.user)
-                    //                 }
-
-                    //                 if (!this.user.org) {
-                    //                     Swal.showValidationMessage(
-                    //                         `Ошибка сохраненния`
-                    //                     )
-
-                    //                     return false
-                    //                 }
-
-                    //                 return data
-                    //             })
-                    //             .catch(({ response }) => {
-                    //                 showErrors(response)
-                    //             });
-                    //         },
-                    //         inputValidator: (value) => {
-                    //             if (!value) {
-                    //                 return 'Название организации обязательно для продолжения работы.'
-                    //             }
-                    //         }
-                    //     }).then((result) => {
-                    //         if (!result.value.status) {
-                    //             Swal.showValidationMessage(
-                    //                 `Ошибка сохраненния`
-                    //             )
-                    //         }
-                    //     })
-                    // }
                 })
                 .catch(({response}) => {
                     if (response && response.status === 401) {
@@ -840,7 +826,6 @@ export default defineComponent({
         },
         scrollToTop(behavior) {
             this.scrollTo(0, behavior)
-            // window.scrollTo({ top: 0, behavior: "smooth" })
         },
         scrollTo(offset, behavior, callback) {
             const fixedOffset = offset.toFixed();
@@ -881,6 +866,17 @@ export default defineComponent({
                 }
 
                 theme = theme == 'dark'? 'light': 'dark'
+
+                if (this.$statusBar) {
+                    // this.$statusBar.hide()
+                    if (theme === 'dark') {
+                        // this.$statusBar.setStyle({ style: this.$statusBarStyle.Dark });
+                        // this.$statusBar.setBackgroundColor({color: '#151521'})
+                    } else {
+                        // this.$statusBar.setStyle({ style: this.$statusBarStyle.Light });
+                        // this.$statusBar.setBackgroundColor({color: '#ffffff'})
+                    }
+                }
 
                 this.$store.commit('setTheme', theme)
                 localStorage.setItem('data-bs-theme', theme);

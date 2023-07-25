@@ -79,6 +79,8 @@ App.addListener('appUrlOpen', function (event) {
     }
 })
 
+StatusBar.setOverlaysWebView({ overlay: true })
+
 // registerNotifications()
 
 router.isReady().then(() => app.mount('#kt_app_root'))

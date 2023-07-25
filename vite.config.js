@@ -177,7 +177,7 @@ export default defineConfig(({ command, mode }) => {
         chunkSizeWarningLimit: 1000,
         copyPublicDir: false,
         outDir: './dist',
-        target: 'ES2015',
+        target: 'esnext',
         emptyOutDir: true
     }
 
