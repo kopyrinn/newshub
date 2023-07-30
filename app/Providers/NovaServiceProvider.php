@@ -76,7 +76,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         Gate::define('viewNova', function ($user) {
             $ids = Permission::where('permission_slug', 'viewNova')->pluck('role_id');
-            return $user->roles()->whereIn('role_user', $ids)->exists();
+            return $user->roles()->whereIn('role_id', $ids)->exists();
         });
     }
 
