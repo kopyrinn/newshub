@@ -142,6 +142,8 @@ class AppServiceProvider extends ServiceProvider
                 ->take(3)
                 ->get();
 
+            $tickers = Cache::get('tickers');
+
             foreach (['ru', 'kk', 'en'] as $locale) {
                 App::setLocale($locale);
 
@@ -157,7 +159,7 @@ class AppServiceProvider extends ServiceProvider
                     'lastEvents' => $lastEvents->toArray(),
                     'banners' => $banners->toArray(),
                     'terms' => $terms,
-                    'rates' => Cache::get('tickers')?: [
+                    'rates' => $tickers? $tickers: [
                         'USD' => [
                             'price' => 0,
                             'change' => 0,
