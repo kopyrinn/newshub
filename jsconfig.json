@@ -11,6 +11,7 @@
 		"target": "ESNext",
 		"types": [
 			"vite-plugin-pwa/client",
+			"vite-plugin-pwa/vue",
 			"vite/client"
 		]
 	}

@@ -66709,7 +66709,7 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-end, body.swal2-toast-shown
   font-style: normal;
 }
 
-@font-face {
+/* @font-face {
   font-family: "keenicons-outline";
   src: url("fonts/keenicons/keenicons-outline.eot?fzo4bm");
   src: url("fonts/keenicons/keenicons-outline.eot?fzo4bm#iefix") format("embedded-opentype"), url("fonts/keenicons/keenicons-outline.ttf?fzo4bm") format("truetype"), url("fonts/keenicons/keenicons-outline.woff?fzo4bm") format("woff"), url("fonts/keenicons/keenicons-outline.svg?fzo4bm#keenicons-outline") format("svg");
@@ -66718,7 +66718,6 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-end, body.swal2-toast-shown
   font-display: block;
 }
 .ki-outline {
-  /* use !important to prevent issues with browser extensions that change fonts */
   font-family: "keenicons-outline" !important;
   speak: never;
   font-style: normal;
@@ -66726,10 +66725,9 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-end, body.swal2-toast-shown
   font-variant: normal;
   text-transform: none;
   line-height: 1;
-  /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+} */
 
 .ki-abstract-1.ki-outline:before {
   content: "\e900";
@@ -69023,7 +69021,7 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-end, body.swal2-toast-shown
   content: "\eb3c";
 }
 
-@font-face {
+/* @font-face {
   font-family: "keenicons-solid";
   src: url("fonts/keenicons/keenicons-solid.eot?812fv7");
   src: url("fonts/keenicons/keenicons-solid.eot?812fv7#iefix") format("embedded-opentype"), url("fonts/keenicons/keenicons-solid.ttf?812fv7") format("truetype"), url("fonts/keenicons/keenicons-solid.woff?812fv7") format("woff"), url("fonts/keenicons/keenicons-solid.svg?812fv7#keenicons-solid") format("svg");
@@ -69032,7 +69030,6 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-end, body.swal2-toast-shown
   font-display: block;
 }
 .ki-solid {
-  /* use !important to prevent issues with browser extensions that change fonts */
   font-family: "keenicons-solid" !important;
   speak: never;
   font-style: normal;
@@ -69040,10 +69037,9 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-end, body.swal2-toast-shown
   font-variant: normal;
   text-transform: none;
   line-height: 1;
-  /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+} */
 
 .ki-abstract-1.ki-solid:before {
   content: "\e900";
@@ -77162,7 +77158,7 @@ readers do not read off random characters that represent icons */
   width: auto;
 }
 
-@font-face {
+/* @font-face {
   font-family: "Line Awesome Brands";
   font-style: normal;
   font-weight: normal;
@@ -77172,9 +77168,9 @@ readers do not read off random characters that represent icons */
 }
 .lab {
   font-family: "Line Awesome Brands";
-}
+} */
 
-@font-face {
+/* @font-face {
   font-family: "Line Awesome Free";
   font-style: normal;
   font-weight: 400;
@@ -77185,9 +77181,9 @@ readers do not read off random characters that represent icons */
 .lar {
   font-family: "Line Awesome Free";
   font-weight: 400;
-}
+} */
 
-@font-face {
+/* @font-face {
   font-family: "Line Awesome Free";
   font-style: normal;
   font-weight: 900;
@@ -77199,13 +77195,13 @@ readers do not read off random characters that represent icons */
 .las {
   font-family: "Line Awesome Free";
   font-weight: 900;
-}
+} */
 
 .la.la-glass:before {
   content: "\f000";
 }
 
-.la.la-meetup {
+/* .la.la-meetup {
   font-family: "Line Awesome Brands";
   font-weight: 400;
 }
@@ -77213,7 +77209,7 @@ readers do not read off random characters that represent icons */
 .la.la-star-o {
   font-family: "Line Awesome Free";
   font-weight: 400;
-}
+} */
 
 .la.la-star-o:before {
   content: "\f005";
@@ -94113,13 +94109,13 @@ readers do not read off random characters that represent icons */
   --fa-font-brands:normal 400 1em/1 "Font Awesome 6 Brands";
 }
 
-@font-face {
+/* @font-face {
   font-family: "Font Awesome 6 Brands";
   font-style: normal;
   font-weight: 400;
   font-display: block;
   src: url("fonts/@fortawesome/fa-brands-400.woff2") format("woff2"), url("fonts/@fortawesome/fa-brands-400.ttf") format("truetype");
-}
+} */
 .fa-brands, .fab {
   font-weight: 400;
 }
@@ -95996,7 +95992,7 @@ readers do not read off random characters that represent icons */
   --fa-font-regular:normal 400 1em/1 "Font Awesome 6 Free";
 }
 
-@font-face {
+/* @font-face {
   font-family: "Font Awesome 6 Free";
   font-style: normal;
   font-weight: 400;
@@ -96005,14 +96001,14 @@ readers do not read off random characters that represent icons */
 }
 .fa-regular, .far {
   font-weight: 400;
-}
+} */
 
-:host, :root {
+/* :host, :root {
   --fa-style-family-classic:"Font Awesome 6 Free";
   --fa-font-solid:normal 900 1em/1 "Font Awesome 6 Free";
-}
+} */
 
-@font-face {
+/* @font-face {
   font-family: "Font Awesome 6 Free";
   font-style: normal;
   font-weight: 900;
@@ -96021,9 +96017,9 @@ readers do not read off random characters that represent icons */
 }
 .fa-solid, .fas {
   font-weight: 900;
-}
+} */
 
-@font-face {
+/* @font-face {
   font-family: "Font Awesome 5 Brands";
   font-display: block;
   font-weight: 400;
@@ -96062,7 +96058,7 @@ readers do not read off random characters that represent icons */
   font-display: block;
   src: url("fonts/@fortawesome/fa-v4compatibility.woff2") format("woff2"), url("fonts/@fortawesome/fa-v4compatibility.ttf") format("truetype");
   unicode-range: u+f041, u+f047, u+f065-f066, u+f07d-f07e, u+f080, u+f08b, u+f08e, u+f090, u+f09a, u+f0ac, u+f0ae, u+f0b2, u+f0d0, u+f0d6, u+f0e4, u+f0ec, u+f10a-f10b, u+f123, u+f13e, u+f148-f149, u+f14c, u+f156, u+f15e, u+f160-f161, u+f163, u+f175-f178, u+f195, u+f1f8, u+f219, u+f27a;
-}
+} */
 :root,
 [data-bs-theme=light] {
   --bs-prismjs-bg: #1e1e3f;

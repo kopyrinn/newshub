@@ -81,23 +81,29 @@ export default defineConfig(({ command, mode }) => {
         )
     }
 
-    if (!isSsr && !isMobile) {
+    if (!isSsr) {
         plugins.push(
             VitePWA({
                 base: "/",
                 strategies: "injectManifest",
                 srcDir: 'resources/js/app',
-                outDir: 'dist/client',
+                outDir: !isMobile? 'dist/client': 'dist/mobile',
                 filename: 'sw.js',
                 registerType: 'autoUpdate',
                 injectManifest: {
-                    globPatterns: [],
+                    globPatterns: [
+                        'assets/**',
+                        '*.{js,css,ico,xml,png,svg,webp,jpeg,jpg,gif}',
+                    ]
+                },
+                workbox: {
+                  cleanupOutdatedCaches: true
                 },
                 manifest: {
                     "display": "standalone",
                     "scope": "/",
-                    "id": env.VITE_ORIGIN_URL,
-                    "start_url": env.VITE_ORIGIN_URL,
+                    "id": !isMobile? env.VITE_ORIGIN_URL: env.VITE_MOBILE_URL,
+                    "start_url": !isMobile? env.VITE_ORIGIN_URL: env.VITE_MOBILE_URL,
                     "theme_color": "#12121a",
                     "background_color": "#12121a",
                     "name": "NewsHub.kz",
@@ -155,7 +161,7 @@ export default defineConfig(({ command, mode }) => {
                             "type": "image/png"
                         }
                     ]
-                }
+                },
             })
         )
     }
@@ -222,6 +228,10 @@ function detectServerConfig(host) {
                 '**/bootstrap/**',
                 '**/config/**',
                 '**/database/**',
+                '**/android/**',
+                '**/ios/**',
+                '**/node_modules/**',
+                '**/dist/**',
                 '**/nova/**',
                 '**/public/**',
                 '**/resources/lang/**',

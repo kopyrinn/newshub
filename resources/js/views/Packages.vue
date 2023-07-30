@@ -182,6 +182,8 @@ export default defineComponent({
             })
         },
         buy() {
+            this.$store.commit('updateCacheKey')
+
             this.$api(`package/${this.slug}`, true, {
                 method: 'post',
                 data: {

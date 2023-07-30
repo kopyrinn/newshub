@@ -26,7 +26,6 @@ use App\Http\Controllers\Api\v2\VacancyController;
 */
 
 Route::prefix('v2')->group(function () {
-    Route::get('user', [V2AuthController::class, 'user']);
     Route::post('forgot', [V2AuthController::class, 'forgot']);
     Route::post('reset', [V2AuthController::class, 'reset']);
     Route::post('telegram', [V2AuthController::class, 'telegram']);
@@ -43,7 +42,6 @@ Route::prefix('v2')->group(function () {
     Route::get('post/translate/{locale}/{slug}', [PostController::class, 'postTranslate'])->name('post.translate');
     Route::get('post/prev/{slug}', [PostController::class, 'postPrev'])->name('post.prev');
     Route::get('amp/post/{slug}', [PostController::class, 'postAmp'])->name('post.amp');
-    Route::get('post/{slug}', [PostController::class, 'post'])->name('post');
     Route::post('post/editor', [PostController::class, 'editor'])->name('post.editor');
     Route::get('post/{slug}/{name}', [PostController::class, 'file'])->name('file');
     Route::post('post/grammar', [PostController::class, 'postGrammar'])->name('post.grammar');
@@ -62,7 +60,6 @@ Route::prefix('v2')->group(function () {
 
     Route::get('users', [UserController::class, 'users'])->name('users');
     Route::get('users/{slug}', [UserController::class, 'category'])->name('users.category');
-    Route::get('user/{id}', [UserController::class, 'user'])->name('user');
     Route::get('user/{id}/posts', [UserController::class, 'posts'])->name('user.posts');
     Route::get('user/{id}/subscriptions', [UserController::class, 'subscriptions'])->name('user.subscriptions');
     Route::get('user/{id}/followers', [UserController::class, 'followers'])->name('user.followers');
@@ -72,7 +69,6 @@ Route::prefix('v2')->group(function () {
     Route::post('user/{id}/follow', [UserController::class, 'follow'])->name('user.follow');
 
     Route::get('account/notifications', [AccountController::class, 'notifications'])->name('account.notifications');
-    Route::get('account/subscriptions', [AccountController::class, 'subscriptions'])->name('account.subscriptions');
     Route::post('account/settings', [AccountController::class, 'settings'])->name('account.settings');
     Route::post('account/email', [AccountController::class, 'email'])->name('account.email');
     Route::post('account/verify-resend', [AccountController::class, 'resendVerificationLink'])->name('account.verify.resend');
@@ -94,11 +90,15 @@ Route::prefix('v2')->group(function () {
     Route::post('image/{figure}', [UploadController::class, 'image'])->name('upload.image');
 
     Route::middleware('cache.headers:public;max_age=60;etag')->group(function () {
+        Route::get('post/{slug}', [PostController::class, 'post'])->name('post');
+        Route::get('user', [V2AuthController::class, 'user']);
+        Route::get('user/{id}', [UserController::class, 'user'])->name('user');
         Route::get('fields', [V2AuthController::class, 'fields']);
         Route::get('config', [SystemController::class, 'config'])->name('config');
         Route::get('page/{slug}', [SystemController::class, 'page'])->name('page');
         Route::get('map', [SystemController::class, 'map'])->name('map');
         Route::get('journalists', [SystemController::class, 'journalists'])->name('journalists');
+        Route::get('account/subscriptions', [AccountController::class, 'subscriptions'])->name('account.subscriptions');
     });
 });
 

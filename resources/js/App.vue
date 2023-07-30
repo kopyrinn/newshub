@@ -912,6 +912,7 @@ export default defineComponent({
                 this.$store.commit('delFeed', id)
             }
 
+            this.$store.commit('updateCacheKey')
             this.$api(`user/${id}/follow`, true, {
                 method: 'post',
                 data: {

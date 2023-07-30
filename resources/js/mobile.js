@@ -9,6 +9,9 @@ import { App } from '@capacitor/app'
 import { Capacitor } from '@capacitor/core'
 import { Browser } from '@capacitor/browser'
 import { SafeAreaController } from '@aashu-dubey/capacitor-statusbar-safe-area';
+import { registerSW } from 'virtual:pwa-register'
+
+registerSW({ immediate: true })
 
 const showAlert = async (title, message) => {
     await Dialog.alert({
@@ -80,14 +83,9 @@ App.addListener('appUrlOpen', function (event) {
     }
 })
 
-if (SafeAreaController) {
+if (['ios', 'android'].includes(Capacitor.getPlatform())) {
     SafeAreaController.injectCSSVariables()
-}
-
-if (app.config.globalProperties.$statusBar) {
-    try {
-        app.config.globalProperties.$statusBar.setOverlaysWebView({ overlay: true })
-    } catch (e) {}
+    StatusBar.setOverlaysWebView({ overlay: true })
 }
 
 // registerNotifications()

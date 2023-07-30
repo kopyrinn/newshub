@@ -12,6 +12,7 @@ export const store = createStore({
     return {
       theme: 'system',
       menu: 'general',
+      cacheKey: Math.random().toString(36).slice(2, 7),
       user: false,
       token: false,
       apptoken: false,
@@ -74,6 +75,9 @@ export const store = createStore({
     },
   },
   mutations: {
+    updateCacheKey (state) {
+      state.cacheKey = Math.random().toString(36).slice(2, 7)
+    },
     setConfig (state, payload) {
       state.config = payload
     },

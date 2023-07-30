@@ -16,6 +16,14 @@ export const api = async (endpoint = 'user', useAuth, config = {}) => {
         config.headers = {}
     }
 
+    if (!config.params) {
+        config.params = {}
+    }
+
+    const cacheKey = computed(() => store.state.cacheKey)
+
+    config.params['ckey'] = cacheKey.value
+
     config.headers['Accept'] = 'application/json'
     config.headers['Locale'] = getCurrentLocale()
 

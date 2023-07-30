@@ -633,6 +633,7 @@ export default defineComponent({
         this.$refs.submitButton1.setAttribute("data-kt-indicator", "true");
         const {name, avatar, lastname, media_name, phone, description, city_id, user_category_id, newsletter} = this.user;
 
+        this.$store.commit('updateCacheKey')
         this.$api("account/settings", true, {
           method: 'POST',
           data: {name, avatar, lastname, media_name, phone, description, city_id, user_category_id, newsletter}

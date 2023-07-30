@@ -399,7 +399,9 @@ export default defineComponent({
         },
         save() {
             this.isSend = true
-            console.log(this.post.uuid)
+            
+            this.$store.commit('updateCacheKey')
+
             this.$api(this.post.uuid? 'post/update': 'post/save', true, {
                 method: 'post',
                 data: { ...this.post }

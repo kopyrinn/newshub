@@ -1,11 +1,7 @@
 import { app, router, store } from '@/app/main'
 import { api, upload } from '@/app/api'
 import { registerSW } from 'virtual:pwa-register'
-
-registerSW({
-    onNeedRefresh() {},
-    onOfflineReady() {}
-})
+registerSW({ immediate: true })
 
 app.config.globalProperties.$isApp = false
 app.config.globalProperties.$isWeb = true
