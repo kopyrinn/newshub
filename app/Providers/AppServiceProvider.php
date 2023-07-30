@@ -143,6 +143,26 @@ class AppServiceProvider extends ServiceProvider
                 ->get();
 
             $tickers = Cache::get('tickers');
+            if (!$tickers) {
+                $tickers = [
+                    'USD' => [
+                        'price' => 0,
+                        'change' => 0,
+                    ],
+                    'EUR' => [
+                        'price' => 0,
+                        'change' => 0,
+                    ],
+                    'RUB' => [
+                        'price' => 0,
+                        'change' => 0,
+                    ],
+                    'CNY' => [
+                        'price' => 0,
+                        'change' => 0,
+                    ]
+                ];
+            }
 
             foreach (['ru', 'kk', 'en'] as $locale) {
                 App::setLocale($locale);
@@ -159,24 +179,7 @@ class AppServiceProvider extends ServiceProvider
                     'lastEvents' => $lastEvents->toArray(),
                     'banners' => $banners->toArray(),
                     'terms' => $terms,
-                    'rates' => $tickers? $tickers: [
-                        'USD' => [
-                            'price' => 0,
-                            'change' => 0,
-                        ],
-                        'EUR' => [
-                            'price' => 0,
-                            'change' => 0,
-                        ],
-                        'RUB' => [
-                            'price' => 0,
-                            'change' => 0,
-                        ],
-                        'CNY' => [
-                            'price' => 0,
-                            'change' => 0,
-                        ]
-                    ]
+                    'rates' => $tickers
                 ], 120);
             }
         })
