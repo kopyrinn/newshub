@@ -11,6 +11,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Manogi\Tiptap\Tiptap;
 use Alexwenzel\DependencyContainer\HasDependencies;
 use App\Models\Package;
+use App\Models\Region;
 use App\Models\Role;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\BooleanGroup;
@@ -58,6 +59,7 @@ class Campaign extends Resource
     {
         $packages = Package::pluck('name', 'id');
         $roles = Role::pluck('name', 'id');
+        $regions = Region::pluck('region_name_ru', 'id');
 
         return [
             ID::make()->sortable(),
@@ -140,7 +142,7 @@ class Campaign extends Resource
                     ->default('all')
                     ->displayUsingLabels(),
 
-                Boolean::make(__('Последняя активность'), 'activity')
+                Boolean::make(__('Последняя активность'), 'has_activity')
                     ->hideFromIndex()
                     ->help(__('Используется для создания условия по дате последнего посещения пользователем')),
                 DependencyContainer::make([
@@ -166,7 +168,16 @@ class Campaign extends Resource
                             '5y' => __('>= 5 лет'),
                         ])
                         ->displayUsingLabels(),
-                ])->dependsOn('activity', 1),
+                ])->dependsOn('has_activity', 1),
+
+                Boolean::make(__('Region'), 'has_regions')
+                    ->hideFromIndex()
+                    ->help(__('Используется для создания условия по регионам пользователей')),
+                DependencyContainer::make([
+                    BooleanGroup::make(__('Regions'), 'regions')
+                        ->options($regions->toArray())
+                        ->default($regions->map(fn($item) => $item = true)->toArray()),
+                ])->dependsOn('has_regions', 1),
             ])
         ];
     }

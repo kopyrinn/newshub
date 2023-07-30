@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Mail\CampaignEmail;
 use App\Models\Campaign;
+use App\Models\City;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -40,6 +41,7 @@ class CampaignJob implements ShouldQueue
 
         $packages = array_keys(array_filter($this->campaign->packages));
         $roles = array_keys(array_filter($this->campaign->roles));
+        $regions = array_keys(array_filter($this->campaign->regions));
 
         $this->campaign->update([
             'start_at' => Carbon::now()
@@ -67,7 +69,7 @@ class CampaignJob implements ShouldQueue
                 ->whereIn('role_user.role_id', $roles);
         });
     
-        if ($this->campaign->activity && ($this->campaign->activity_gte || $this->campaign->activity_lte)) {
+        if ($this->campaign->has_activity && ($this->campaign->activity_gte || $this->campaign->activity_lte)) {
             $query->whereExists(function($query) {
                 $query->selectRaw(1)
                     ->from('personal_access_tokens')
@@ -82,6 +84,13 @@ class CampaignJob implements ShouldQueue
                     $query->where('personal_access_tokens.last_used_at', '>=', Carbon::now()->sub($this->campaign->activity_lte));
                 }
             });
+        }
+
+        if ($this->campaign->has_regions) {
+            $cityIds = City::whereIn('region_id', array_filter($regions, fn($val) => is_int($val)))->pluck('id');
+            if ($cityIds) {
+                $query->whereIn('city_id', $cityIds);
+            }
         }
 
         $users = $query->get();

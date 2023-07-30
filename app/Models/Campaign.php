@@ -12,7 +12,9 @@ class Campaign extends Model
     protected $casts = [
         'roles' => 'array',
         'packages' => 'array',
-        'activity' => 'boolean',
+        'regions' => 'array',
+        'has_activity' => 'boolean',
+        'has_regions' => 'boolean',
         'start_at' => 'datetime',
         'ends_at' => 'datetime',
         'total' => 'integer',
