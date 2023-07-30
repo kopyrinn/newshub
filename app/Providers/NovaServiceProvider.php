@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Permission;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Panel;
 use Laravel\Nova\NovaApplicationServiceProvider;
@@ -72,7 +74,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function gate()
     {
-        
+        Gate::define('viewNova', function ($user) {
+            $ids = Permission::where('permission_slug', 'viewNova')->pluck('role_id');
+            return $user->roles()->whereIn('role_user', $ids)->exists();
+        });
     }
 
     /**
