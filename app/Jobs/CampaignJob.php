@@ -41,7 +41,6 @@ class CampaignJob implements ShouldQueue
 
         $packages = array_keys(array_filter($this->campaign->packages));
         $roles = array_keys(array_filter($this->campaign->roles));
-        $regions = array_keys(array_filter($this->campaign->regions));
 
         $this->campaign->update([
             'start_at' => Carbon::now()
@@ -87,6 +86,7 @@ class CampaignJob implements ShouldQueue
         }
 
         if ($this->campaign->has_regions) {
+            $regions = array_keys(array_filter($this->campaign->regions));
             $cityIds = City::whereIn('region_id', array_filter($regions, fn($val) => is_int($val)))->pluck('id');
             if ($cityIds) {
                 $query->whereIn('city_id', $cityIds);
