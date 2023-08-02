@@ -647,7 +647,7 @@ class PostController extends Controller
         $user = auth('sanctum')->user();
         abort_if(!$user->isAdmin() && !$user->isModerator(), 403);
 
-        $post = Post::select('id', 'status', 'created_at')->whereSlug($uuid)->first();
+        $post = Post::select('id', 'status', 'user_id', 'created_at', 'is_notified')->whereSlug($uuid)->first();
         if (!$post) {
             return response()->json([
                 'ok' => false,
@@ -665,8 +665,26 @@ class PostController extends Controller
 
         $post->update();
 
-        $post->notify(new ChannelNotification($post));
-        $post->notify(new NewPost($post));
+        if ($post->created_at <= Carbon::now()) {
+            $post->notify(new ChannelNotification($post));
+
+            if (!$post->is_notified) {
+                try {
+                    $post->is_notified = 1;
+                    $post->update();
+
+                    $author = $post->user()->select('id')->first();
+
+                    if ($author->followers()->exists()) {
+                        foreach ($author->followers()->select('id')->where('newsletter', 1)->get() as $follower) {
+                            $follower->notify(new NewPost($post));
+                        }
+                    }
+                } catch (\Exception $e) {
+                    
+                }
+            }
+        }
 
         return response()->json([
             'ok' => true,

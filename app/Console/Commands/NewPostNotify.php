@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Post;
+use App\Notifications\ChannelNotification;
 use App\Notifications\NewPost;
 
 class NewPostNotify extends Command
@@ -50,6 +51,8 @@ class NewPostNotify extends Command
             $post->update();
 
             $user = $post->user()->select('id')->first();
+
+            $post->notify(new ChannelNotification($post));
 
             try {
                 if ($user->followers()->exists()) {

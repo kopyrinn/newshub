@@ -2,26 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\City;
-use App\Models\Draft;
-use App\Models\Package;
-use App\Models\Poll;
-use App\Models\PollRequest;
-use App\Models\PollVote;
-use App\Models\Post;
 use App\Models\Region;
 use App\Models\User;
-use App\Models\Vacancy;
-use App\Notifications\AdminNotice;
-use App\Notifications\ChannelNotification;
-use App\Notifications\NewPollRequest;
-use App\Notifications\NewPost;
 use App\Notifications\NewPress;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 
 class ProfileController extends Controller
 {
