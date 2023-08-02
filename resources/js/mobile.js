@@ -1,6 +1,7 @@
 import { app, router, store } from '@/app/main'
 import { api, upload } from '@/app/api'
 import { PushNotifications } from '@capacitor/push-notifications'
+import { LocalNotifications } from '@capacitor/local-notifications'
 import { Share } from '@capacitor/share'
 import { Dialog } from '@capacitor/dialog'
 import { StatusBar, Style } from '@capacitor/status-bar'
@@ -20,7 +21,7 @@ const showAlert = async (title, message) => {
     });
 };
 
-const addListeners = async () => {
+const registerPushNotifications = async () => {
     await PushNotifications.addListener('registration', token => {
         if (['ios', 'android'].includes(Capacitor.getPlatform())) {
             store.commit('setAppToken', token.value)
@@ -31,10 +32,6 @@ const addListeners = async () => {
     await PushNotifications.addListener('registrationError', err => {
         store.commit('setAppToken', '')
     })
-}
-
-const registerNotifications = async () => {
-    addListeners()
 
     try {
         let permStatus = await PushNotifications.checkPermissions()
@@ -45,6 +42,22 @@ const registerNotifications = async () => {
 
         if (permStatus.receive == 'granted') {
             PushNotifications.register()
+        }
+    } catch (e) {
+        //
+    }
+}
+
+const registerLocalNotifications = async () => {
+    try {
+        let permStatus = await LocalNotifications.checkPermissions()
+
+        if (permStatus.receive === 'prompt') {
+            permStatus = await LocalNotifications.requestPermissions()
+        }
+
+        if (permStatus.receive == 'granted') {
+            LocalNotifications.register()
         }
     } catch (e) {
         //
@@ -87,7 +100,8 @@ if (['ios', 'android'].includes(Capacitor.getPlatform())) {
     SafeAreaController.injectCSSVariables()
     StatusBar.setOverlaysWebView({ overlay: true })
 
-    registerNotifications()
+    registerPushNotifications()
+    registerLocalNotifications()
 }
 
 router.isReady().then(() => app.mount('#kt_app_root'))
