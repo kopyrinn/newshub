@@ -52,12 +52,15 @@ const registerLocalNotifications = async () => {
     try {
         let permStatus = await LocalNotifications.checkPermissions()
 
-        if (permStatus.receive === 'prompt') {
+        if (permStatus.display === 'prompt') {
             permStatus = await LocalNotifications.requestPermissions()
         }
 
-        if (permStatus.receive == 'granted') {
-            LocalNotifications.register()
+        if (permStatus.display == 'granted') {
+            await LocalNotifications.createChannel({
+                id: 'all',
+                name: 'All',
+            })
         }
     } catch (e) {
         //
