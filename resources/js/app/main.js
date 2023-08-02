@@ -23,6 +23,7 @@ import AppLink from '@/components/AppLink.vue';
 import { Skeletor } from 'vue-skeletor';
 import { createHead, VueHeadMixin } from "@unhead/vue"
 import { vMaska } from "maska"
+import VueAnalytics from '@morr/vue3-analytics'
 
 // import * as Sentry from "@sentry/vue";
 // import { BrowserTracing } from "@sentry/tracing";
@@ -139,6 +140,9 @@ const head = createHead()
 
 app
     .mixin(VueHeadMixin)
+    .use(VueAnalytics, {
+        id: 'UA-209786162-1'
+    })
     .use(head)
     .use(i18n)
     .directive('debounce', vue3Debounce({

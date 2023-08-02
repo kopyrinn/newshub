@@ -7,7 +7,7 @@
         "build": "vite build --ssrManifest --outDir dist/client",
         "build:mobile": "cross-env VITE_MOBILE=1 vite build --outDir dist/mobile",
         "ssr": "cross-env VITE_SSR=1 vite build --ssr resources/js/main-server.js --outDir dist/server",
-        "prod": "yarn build && yarn ssr && yarn build:mobile"
+        "prod": "yarn build && yarn ssr && yarn build:mobile && php artisan optimize && php artisan octane:reload"
     },
     "dependencies": {
         "@aashu-dubey/capacitor-statusbar-safe-area": "^2.1.1",
@@ -23,6 +23,7 @@
         "@capacitor/push-notifications": "^5.0",
         "@capacitor/share": "^5.0",
         "@capacitor/status-bar": "^5.0",
+        "@morr/vue3-analytics": "^1.0.0",
         "@sentry/tracing": "^7.60",
         "@sentry/vue": "^7.60",
         "@tiptap/core": "^2.0.4",
