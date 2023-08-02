@@ -2,11 +2,13 @@
 
 namespace App\Notifications;
 
+use App\Channels\FcmSingleChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Post;
+use Illuminate\Support\Facades\App;
 
 class NewPost extends Notification implements ShouldQueue
 {
@@ -32,7 +34,8 @@ class NewPost extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['database', 'mail'];
+        // 'database', 'mail', 
+        return [FcmSingleChannel::class];
     }
 
     /**
@@ -44,6 +47,10 @@ class NewPost extends Notification implements ShouldQueue
      */
     public function shouldSend($notifiable, $channel)
     {
+        if ($channel == FcmSingleChannel::class && !$notifiable->tokens()->wherePlatform('android')->whereNotNull('app_token')->exists()) {
+            return false;
+        }
+
         return $this->post->status == 1;
     }
 
@@ -71,5 +78,32 @@ class NewPost extends Notification implements ShouldQueue
         return [
             'post_id' => $this->post->id,
         ];
+    }
+
+    public function toFcm($notifiable)
+    {
+        $tokens = $notifiable->tokens()
+            ->select('app_token')
+            ->wherePlatform('android')
+            ->whereNotNull('app_token')
+            ->pluck('app_token');
+
+        App::setLocale('ru');
+
+        $messages = [];
+
+        foreach ($tokens as $token) {
+            $messages[] = [
+                'to' => $token,
+                'notification' => [
+                    'body' => $this->post->getSummary(100),
+                    'title' => __('New Post') . ': ' . $this->post->title,
+                    'url' => config('app.origin') . "/post/{$this->post->slug}",
+                    'sound' => 'default',
+                ],
+            ];
+        }
+
+        return $messages;
     }
 }

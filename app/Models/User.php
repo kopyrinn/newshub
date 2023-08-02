@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Traits\HasRoles;
+use Illuminate\Http\Request;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -265,5 +266,23 @@ class User extends Authenticatable implements MustVerifyEmail
             ->pluck('name', 'id');
 
         return $this;
+    }
+
+    public function createAppToken(Request $request)
+    {
+        $uuid = \Str::uuid()->toString();
+
+        $accessToken = $this->createToken($uuid);
+
+        $token = $this->tokens()->whereName($uuid)->first();
+        $token->ip = $request->ip();
+        $token->ua = $request->userAgent();
+        $token->app_token = $request->appToken;
+        $token->platform = $request->platform;
+        $token->update();
+
+        // \Log::info('token', $token->toArray());
+
+        return $accessToken;
     }
 }

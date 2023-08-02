@@ -3,8 +3,9 @@
 namespace App\Channels;
 
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Http;
 
-class FcmChannel
+class FcmGlobalChannel
 {
     /**
      * Send the given notification.
@@ -16,8 +17,6 @@ class FcmChannel
     public function send($notifiable, Notification $notification)
     {
         $post = $notification->toFcm($notifiable);
-
-        $apiKey = config('services.fcm');
 
         $payload = [
             'to'                    => '/topics/all',
@@ -50,11 +49,9 @@ class FcmChannel
         ];
 
         try {
-            $response = \Http::withHeaders([
-                'Authorization' => "key={$apiKey}",
-            ])->post('https://fcm.googleapis.com/fcm/send', $payload);
+            Http::fcm()->post('/send', $payload);
         } catch (\Exception $e) {
-            \Log::error('FCM', $e->getMessage() . " " . $e->getTraceAsString());
+            \Log::error('FCM Global', [$e->getMessage()]);
         }
     }
 }

@@ -91,7 +91,7 @@ app.config.globalProperties.$browserOpen = async (url) => {
 
 if (['ios', 'android'].includes(Capacitor.getPlatform())) {
     App.addListener('appUrlOpen', function (event) {
-        const slug = event.url.split(import.meta.env.VITE_APP_DOMAIN).pop();
+        const slug = event.url.split(import.meta.env.VITE_ORIGIN_DOMAIN).pop();
 
         if (slug) {
             router.push({

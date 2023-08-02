@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Azate\LaravelTelegramLoginAuth\TelegramLoginAuth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -68,7 +69,7 @@ class AuthController extends Controller
                 }
             }
 
-            $token = $user->createToken($request->ip() . ':' . $request->userAgent());
+            $token = $user->createAppToken($request);
 
             $user->addAction('login');
 
@@ -150,7 +151,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($request->only(['email', 'password']))) {
             $user = User::whereEmail($request->email)->first();
-            $token = $user->createToken($request->ip() . ':' . $request->userAgent());
+            $token = $user->createAppToken($request);
 
             $user->addAction('login');
 
@@ -328,7 +329,7 @@ class AuthController extends Controller
             }
         }
 
-        $token = $user->createToken($request->ip() . ':' . $request->userAgent());
+        $token = $user->createAppToken($request);
 
         $user->notify(new VerifyEmail($user));
         // $user->sendEmailVerificationNotification();

@@ -11,9 +11,9 @@ use App\Models\UserCategory;
 use App\Models\Vacancy;
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Laravel\Octane\Facades\Octane;
 
 class AppServiceProvider extends ServiceProvider
@@ -38,7 +38,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Paginator::useBootstrap();
+        Http::macro('fcm', function () {
+            $apiKey = config('services.fcm');
+
+            return Http::acceptJson()
+                ->withHeaders([
+                    'Authorization' => "key={$apiKey}",
+                ])
+                ->baseUrl('https://fcm.googleapis.com/fcm')
+                ->connectTimeout(15)
+                ->timeout(15);
+        });
 
         Octane::tick('hub:config', function () {
             $categories = Category::select('name', 'slug', 'icon')

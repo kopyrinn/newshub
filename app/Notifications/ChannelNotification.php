@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Telegram\TelegramFile;
 use NotificationChannels\Telegram\TelegramMessage;
-use App\Channels\FcmChannel;
+use App\Channels\FcmGlobalChannel;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 
@@ -37,7 +37,7 @@ class ChannelNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['telegram', FcmChannel::class];
+        return ['telegram', FcmGlobalChannel::class];
     }
 
     /**
@@ -51,7 +51,7 @@ class ChannelNotification extends Notification implements ShouldQueue
     {
         if ($channel == 'telegram') {
             return $this->post->to_telegram == 1 && $this->post->status == 1;
-        } else if ($channel == FcmChannel::class) {
+        } else if ($channel == FcmGlobalChannel::class) {
             return $this->post->to_fcm == 1 && $this->post->status == 1;
         }
     }

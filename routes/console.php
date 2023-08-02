@@ -2,7 +2,9 @@
 
 use App\Mail\CampaignEmail;
 use App\Models\Campaign;
+use App\Models\Post;
 use App\Models\User;
+use App\Notifications\NewPost;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
@@ -24,8 +26,8 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Artisan::command('test', function () {
-    $user = User::find(2305);
-    $c = Campaign::find(8);
-    Mail::to($user)->send(new CampaignEmail($c, $user->public_token));
+    $user = User::find(1);
+    $post = Post::find(6123);
+    $user->notify(new NewPost($post));
 
 });
