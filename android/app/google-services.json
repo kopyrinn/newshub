@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "624325780458",
+    "project_id": "newshub-328410",
+    "storage_bucket": "newshub-328410.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624325780458:android:601b80a02d6a10dcc08893",
+        "android_client_info": {
+          "package_name": "kz.newshub.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624325780458-d5rgmiku5o33gbrnl77roq81n9fd9899.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9F_wArAC_soulKlBrj0WRIHBJO5-4kCU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "624325780458-d5rgmiku5o33gbrnl77roq81n9fd9899.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "624325780458-7m9l2ato70iis038ssa5v5id6nnljqif.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "kz.newshub.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

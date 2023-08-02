@@ -470,6 +470,12 @@ export default defineComponent({
         
     },
     computed: {
+        appToken() {
+            return this.$store.getters.getAppToken
+        },
+        platform() {
+            return this.$store.getters.getPlatform
+        },
         citiesByRegion() {
             if (!this.form.region_id) return []
 
@@ -595,7 +601,7 @@ export default defineComponent({
             this.loading = true
             this.$api('login', false, {
                 method: 'post',
-                data: this.form
+                data: {...this.form, appToken: this.appToken, platform: this.platform}
             })
             .then(({data}) => {
                 this.loading = false
