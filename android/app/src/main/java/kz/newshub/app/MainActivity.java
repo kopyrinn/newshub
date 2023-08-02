@@ -1,4 +1,4 @@
-package com.newshub.app;
+package kz.newshub.app;
 
 import com.getcapacitor.BridgeActivity;
 

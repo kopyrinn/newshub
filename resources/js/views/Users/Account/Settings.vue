@@ -676,7 +676,7 @@ export default defineComponent({
               confirmButton: "btn btn-light-primary",
             },
           }).then(() => {
-            emailFormDisplay.value = false;
+            this.emailFormDisplay = false;
           });
         }, 2000);
       }
@@ -700,7 +700,7 @@ export default defineComponent({
               duration: 2000,
             })
             this.$refs.updateEmailButton.removeAttribute("data-kt-indicator");
-            emailFormDisplay.value = false;
+            this.emailFormDisplay = false;
           })
           .catch(({ response }) => {
             showErrors(response);
@@ -714,7 +714,7 @@ export default defineComponent({
 
         this.$api("account/password", true, {
           method: 'POST',
-          data: changePasswordData.value
+          data: this.changePasswordData
         })
           .then(({ data }) => {
             ElNotification({
@@ -724,10 +724,10 @@ export default defineComponent({
               duration: 2000,
             })
             this.$refs.updatePasswordButton.removeAttribute("data-kt-indicator");
-            passwordFormDisplay.value = false;
-            changePasswordData.value.currentpassword = "";
-            changePasswordData.value.newpassword = "";
-            changePasswordData.value.confirmnewpassword = "";
+            this.passwordFormDisplay = false;
+            this.changePasswordData.currentpassword = "";
+            this.changePasswordData.newpassword = "";
+            this.changePasswordData.confirmnewpassword = "";
           })
           .catch(({ response }) => {
             showErrors(response);

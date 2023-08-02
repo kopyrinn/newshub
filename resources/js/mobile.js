@@ -73,21 +73,21 @@ app.config.globalProperties.$browserOpen = async (url) => {
     await Browser.open({ url: url });
 }
 
-App.addListener('appUrlOpen', function (event) {
-    const slug = event.url.split(import.meta.env.VITE_APP_DOMAIN).pop();
-
-    if (slug) {
-        router.push({
-            path: slug,
-        })
-    }
-})
-
 if (['ios', 'android'].includes(Capacitor.getPlatform())) {
+    App.addListener('appUrlOpen', function (event) {
+        const slug = event.url.split(import.meta.env.VITE_APP_DOMAIN).pop();
+
+        if (slug) {
+            router.push({
+                path: slug,
+            })
+        }
+    })
+
     SafeAreaController.injectCSSVariables()
     StatusBar.setOverlaysWebView({ overlay: true })
-}
 
-// registerNotifications()
+    registerNotifications()
+}
 
 router.isReady().then(() => app.mount('#kt_app_root'))
