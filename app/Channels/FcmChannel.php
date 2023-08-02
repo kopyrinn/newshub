@@ -39,7 +39,7 @@ class FcmChannel
                 'post_id'               => $post->id,
                 'title'                 => $post->title,
                 'image'                 => asset("storage/{$post->image}"),
-                'url'                   => url("post/{$post->slug}"),
+                'url'                   => config('app.origin') . "/post/{$post->slug}",
                 'show_in_notification'  => true,
                 'dialog_title'          => $post->title,
                 'dialog_text'           => $post->getSummary(100),
