@@ -19,7 +19,7 @@ if (storeInitialState) {
   store.replaceState(Object.assign(store.state, storeInitialState));
 }
 
-store.commit('setTitle', '')
+// store.commit('setTitle', '')
 
 router.beforeEach((to, from, next) => {
     if (to.meta.title) {

@@ -69,6 +69,11 @@ export default defineComponent({
             cursor: null,
         }
     },
+    head() {
+        return {
+            title: this.$store.state.meta.title
+        }
+    },
     created() {
         if (this.$route.meta.noSsr && import.meta.env.SSR) return false
 

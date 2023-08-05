@@ -164,8 +164,8 @@ export async function render(url, manifest = null) {
 
     if (app.config.globalProperties.$route.meta.title) {
         store.commit('setTitle', app.config.globalProperties.$t(app.config.globalProperties.$route.meta.title))
-    } else {
-        store.commit('setTitle', '')
+    // } else {
+    //     store.commit('setTitle', '')
     }
 
     // ctx - context. Плагин @vitejs/plugin-vue
@@ -175,12 +175,6 @@ export async function render(url, manifest = null) {
         modules: [],
     }
 
-    const {config, meta} = store.state
-    const renderState = `
-      <script>
-        window.INITIAL_DATA = ${JSON.stringify({config, meta})}
-      </script>`;
-
     const html = await renderToString(app)
 
     let preloadLinks = ''
@@ -189,6 +183,12 @@ export async function render(url, manifest = null) {
     }
 
     const headPayload = await renderSSRHead(head)
+
+    const {config, meta, post} = store.state
+    const renderState = `
+      <script>
+        window.INITIAL_DATA = ${JSON.stringify({config, meta, post})}
+      </script>`;
 
     return [html, preloadLinks, headPayload, renderState]
 }

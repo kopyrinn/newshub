@@ -282,14 +282,18 @@ export default defineComponent({
     data() {
         return {
             slug: this.$route.params.slug,
-            loading: true,
+            loading: false,
             grammar: '',
             suggest: '',
             isSend: false,
             reported: false,
-            post: {},
             posts: [],
             slugs: [],
+        }
+    },
+    computed: {
+        post() {
+            return this.$store.state.post
         }
     },
     head() {
@@ -325,8 +329,10 @@ export default defineComponent({
 
             if (!data.ok) return
 
-            this.post = data.post
-            this.post.url = this.$base(this.$router.resolve({name: 'post', params: {slug: this.post.slug, locale: this.$root.locale != 'ru'? this.$root.locale: ''}}).fullPath)
+            let post = data.post
+            post.url = this.$base(this.$router.resolve({name: 'post', params: {slug: post.slug, locale: this.$root.locale != 'ru'? this.$root.locale: ''}}).fullPath)
+
+            this.$store.commit('setPost', post)
 
             this.$store.commit('setMeta', {
                 title: this.post.title,
@@ -384,13 +390,17 @@ export default defineComponent({
             if (to.params.action === 'scroll') return
 
             if (from.name == 'post' && to.name == from.name && from.params.slug != to.params.slug) {
-                // console.log(to.params.slug, from.params.slug)
                 this.reset()
             }
         }
     },
     methods: {
         fetchData() {
+            if (this.post.slug) {
+                this.loading = false
+                return
+            }
+
             this.loading = true
 
             this.$api(`post/${this.slug}`, false).then(({data}) => {
@@ -398,8 +408,10 @@ export default defineComponent({
 
                 if (!data.ok) return
 
-                this.post = data.post
-                this.post.url = this.$base(this.$router.resolve({name: 'post', params: {slug: this.post.slug, locale: this.$root.locale != 'ru'? this.$root.locale: ''}}).fullPath)
+                let post = data.post
+                post.url = this.$base(this.$router.resolve({name: 'post', params: {slug: post.slug, locale: this.$root.locale != 'ru'? this.$root.locale: ''}}).fullPath)
+
+                this.$store.commit('setPost', post)
 
                 this.$store.commit('setMeta', {
                     title: this.post.title,
@@ -437,10 +449,9 @@ export default defineComponent({
             })
         },
         reset() {
-            this.slug = this.$route.params.slug
             this.loading = true
-            this.post = {}
-
+            this.slug = this.$route.params.slug
+            this.$store.commit('setPost', {})
             this.fetchData()
         },
         sendReport() {

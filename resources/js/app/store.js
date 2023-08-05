@@ -34,6 +34,7 @@ export const store = createStore({
         title: '',
       },
       feeds: [],
+      post: {},
     }
   },
   getters: {
@@ -80,6 +81,9 @@ export const store = createStore({
     },
     setConfig (state, payload) {
       state.config = payload
+    },
+    setPost (state, payload) {
+      state.post = payload
     },
     setToken (state, payload) {
       state.token = payload

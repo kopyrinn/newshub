@@ -666,10 +666,10 @@ class PostController extends Controller
         $post->update();
 
         if ($post->created_at <= Carbon::now()) {
-            $post->notify(new ChannelNotification($post));
-
             if (!$post->is_notified) {
                 try {
+                    $post->notify(new ChannelNotification($post));
+
                     $post->is_notified = 1;
                     $post->update();
 

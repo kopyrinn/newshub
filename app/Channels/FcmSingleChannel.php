@@ -21,8 +21,8 @@ class FcmSingleChannel
         foreach ($messages as $message) {
             try {
                 $response = Http::fcm()->post('/send', $message);
-                $json = $response->json();
-                \Log::info('FCM Single', [$response, $message, $json]);
+                // $json = $response->json();
+                // \Log::info('FCM Single', [$response, $message, $json]);
 
                 // if (!empty($json['failure'])) {
                 //     AppToken::whereToken($message['to'])->delete();
