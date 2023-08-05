@@ -396,7 +396,7 @@ export default defineComponent({
     },
     methods: {
         fetchData() {
-            if (this.post.slug) {
+            if (this.post.slug && this.post.slug === this.slug) {
                 this.loading = false
                 return
             }
