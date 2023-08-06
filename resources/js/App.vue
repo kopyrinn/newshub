@@ -734,6 +734,8 @@ export default defineComponent({
         },
         setLocale(locale) {
             if (!import.meta.env.SSR) {
+                this.$store.commit('updateCacheKey')
+
                 const url = new URL(window.location.href)
 
                 let path = url.pathname

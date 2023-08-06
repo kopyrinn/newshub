@@ -37,6 +37,16 @@ const routes = [
                 },
             },
             {
+                path: "password/reset/:token",
+                name: "reset",
+                component: () => import("@/views/Auth/Reset.vue"),
+                meta: {
+                    title: 'Reset',
+                    toolbar: false,
+                    animate: true,
+                },
+            },
+            {
                 path: "map",
                 name: "map",
                 component: () => import("@/views/Map.vue"),

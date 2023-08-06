@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Traits\HasRoles;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Notifications\ResetPassword;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -284,5 +285,14 @@ class User extends Authenticatable implements MustVerifyEmail
         // \Log::info('token', $token->toArray());
 
         return $accessToken;
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        ResetPassword::createUrlUsing(function ($user, string $token) {
+            return config('app.origin') . "/password/reset/{$token}?email=" . $user->email;
+        });
+
+        $this->notify(new ResetPassword($token));
     }
 }

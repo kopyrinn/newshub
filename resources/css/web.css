@@ -43625,11 +43625,11 @@ code:not([class*=language-]) {
 .indicator-progress {
   display: none;
 }
-[data-kt-indicator=on] > .indicator-progress {
+[data-kt-indicator=true] > .indicator-progress {
   display: inline-block;
 }
 
-[data-kt-indicator=on] > .indicator-label {
+[data-kt-indicator=true] > .indicator-label {
   display: none;
 }
 

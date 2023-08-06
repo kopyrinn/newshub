@@ -1,6 +1,6 @@
 <template>
     <div class="card card-flush mb-6">
-        <div class="card-body p-0">
+        <div class="card-body">
             <div class=" d-flex flex-column flex-lg-row flex-column-fluid">
                 <!--begin::Logo-->
                 <!-- <a href="/" class="text-reset d-block d-lg-none mx-auto pt-10">
@@ -8,11 +8,11 @@
                 </a> -->
                 <!--end::Logo-->
                 <!--begin::Aside-->
-                <div class="d-flex flex-column flex-column-fluid flex-center w-lg-50 p-10">
+                <div class="d-flex flex-column flex-column-fluid flex-center w-lg-50">
                     <!--begin::Wrapper-->
                     <div v-if="action == 'login'" class="d-flex justify-content-between flex-column-fluid flex-column w-100 mw-450px">
                         <!--begin::Header-->
-                        <div class="d-flex flex-stack py-2">
+                        <div class="d-flex flex-stack pt-5">
                             <!--begin::Back link-->
                             <div class="me-2"></div>
                             <!--end::Back link-->
@@ -25,75 +25,64 @@
                         </div>
                         <!--end::Header-->
                         <!--begin::Body-->
-                        <div class="py-20">
+                        <div class="pt-5 py-lg-20">
                             <!--begin::Form-->
                             <div class=" w-100">
-                                <!--begin::Body-->
-                                <div class="card-body">
-                                    <!--begin::Heading-->
-                                    <div class="text-start mb-6">
-                                        <!--begin::Title-->
-                                        <h1 class="text-dark mb-3 fs-3x" data-kt-translate="sign-in-title">{{ $t('Login') }}</h1>
-                                        <!--end::Title-->
-                                        <!--begin::Text-->
-                                        <div class="text-gray-400 fw-semibold fs-6" data-kt-translate="general-desc"></div>
-                                        <!--end::Link-->
-                                    </div>
-                                    <!--begin::Heading-->
-                                    <!--begin::Input group=-->
-                                    <div class="form-floating mb-6">
-                                        <!--begin::Email-->
-                                        <input type="text" placeholder="Email" v-model="form.email" @keyup.enter="login" autocomplete="off" data-kt-translate="sign-in-input-email" class="form-control" />
-                                        <label class="form-label required">Email</label>
-                                        <!--end::Email-->
-                                        <div v-if="errors.email && errors.email.length" class="fv-plugins-message-container invalid-feedback d-block">
-                                            <span v-for="(error, index) in errors.email" v-bind:key="index">{{ error }}</span>
-                                        </div>
-                                    </div>
-                                    <!--end::Input group=-->
-                                    <div class="form-floating mb-6">
-                                        <!--begin::Password-->
-                                        <input type="password" :placeholder="$t('Password')" v-model="form.password" @keyup.enter="login" autocomplete="off" data-kt-translate="sign-in-input-password" class="form-control" />
-                                        <label class="form-label required">{{ $t('Password') }}</label>
-                                        <!--end::Password-->
-                                        <div v-if="errors.password && errors.password.length" class="fv-plugins-message-container invalid-feedback d-block">
-                                            <span v-for="(error, index) in errors.password" v-bind:key="index">{{ error }}</span>
-                                        </div>
-                                    </div>
-                                    <!--end::Input group=-->
-                                    <!--begin::Wrapper-->
-                                    <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-6">
-                                        <div></div>
-                                        <!--begin::Link-->
-                                        <a href="" @click.prevent="setAction('reset')" class="link-primary">{{ $t('Forgot Your Password?') }}</a>
-                                        <!--end::Link-->
-                                    </div>
-                                    <!--end::Wrapper-->
-                                    <!--begin::Actions-->
-                                    <div class="d-flex flex-stack">
-                                        <!--begin::Submit-->
-                                        <button @click="login" type="button" class="btn btn-primary me-2 flex-shrink-0 rounded-4" :data-kt-indicator="loading" :disabled="loading">
-                                            <!--begin::Indicator label-->
-                                            <span class="indicator-label" data-kt-translate="sign-in-submit">{{ $t('Login') }}</span>
-                                            <!--end::Indicator label-->
-                                            <!--begin::Indicator progress-->
-                                            <span class="indicator-progress">
-                                                <span data-kt-translate="general-progress">{{ $t('Please, wait') }}...</span>
-                                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                            </span>
-                                            <!--end::Indicator progress-->
-                                        </button>
-                                        <!--end::Submit-->
-                                        <!--begin::Social-->
-                                        <!-- <div class="d-flex align-items-center">
-                                            <div class="text-gray-400 fw-semibold fs-6 me-3 me-md-6" data-kt-translate="general-or">Или</div>
-                                            <div ref="telegram" class="d-flex align-items-center"></div>
-                                        </div> -->
-                                        <!--end::Social-->
-                                    </div>
-                                    <!--end::Actions-->
+                                <!--begin::Heading-->
+                                <div class="text-start mb-6">
+                                    <!--begin::Title-->
+                                    <h1 class="text-dark mb-3 fs-3x" data-kt-translate="sign-in-title">{{ $t('Authorization') }}</h1>
+                                    <!--end::Title-->
+                                    <!--begin::Text-->
+                                    <div class="text-gray-400 fw-semibold fs-6" data-kt-translate="general-desc"></div>
+                                    <!--end::Link-->
                                 </div>
-                                <!--begin::Body-->
+                                <!--begin::Heading-->
+                                <!--begin::Input group=-->
+                                <div class="form-floating mb-6">
+                                    <!--begin::Email-->
+                                    <input type="text" placeholder="Email" v-model="form.email" @keyup.enter="login" autocomplete="off" data-kt-translate="sign-in-input-email" class="form-control" />
+                                    <label class="form-label required">Email</label>
+                                    <!--end::Email-->
+                                    <div v-if="errors.email && errors.email.length" class="fv-plugins-message-container invalid-feedback d-block">
+                                        <span v-for="(error, index) in errors.email" v-bind:key="index">{{ error }}</span>
+                                    </div>
+                                </div>
+                                <!--end::Input group=-->
+                                <div class="form-floating mb-6">
+                                    <!--begin::Password-->
+                                    <input type="password" :placeholder="$t('Password')" v-model="form.password" @keyup.enter="login" autocomplete="off" data-kt-translate="sign-in-input-password" class="form-control" />
+                                    <label class="form-label required">{{ $t('Password') }}</label>
+                                    <!--end::Password-->
+                                    <div v-if="errors.password && errors.password.length" class="fv-plugins-message-container invalid-feedback d-block">
+                                        <span v-for="(error, index) in errors.password" v-bind:key="index">{{ error }}</span>
+                                    </div>
+                                </div>
+                                <!--end::Input group=-->
+                                <!--begin::Actions-->
+                                <div class="d-flex flex-stack align-items-start flex-wrap">
+                                    <!--begin::Submit-->
+                                    <button @click="login" type="button" class="btn btn-lg fw-bold btn-light-primary me-2 flex-shrink-0 w-100 w-lg-auto" :data-kt-indicator="loading" :disabled="loading">
+                                        <!--begin::Indicator label-->
+                                        <span class="indicator-label" data-kt-translate="sign-in-submit">{{ $t('Login') }}</span>
+                                        <!--end::Indicator label-->
+                                        <!--begin::Indicator progress-->
+                                        <span class="indicator-progress">
+                                            <span data-kt-translate="general-progress">{{ $t('Please, wait') }}...</span>
+                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                        </span>
+                                        <!--end::Indicator progress-->
+                                    </button>
+                                    <a href="" @click.prevent="setAction('reset')" class="link-primary fw-bold mt-5 mt-lg-0 w-100 w-lg-auto text-end">{{ $t('Forgot Your Password?') }}</a>
+                                    <!--end::Submit-->
+                                    <!--begin::Social-->
+                                    <!-- <div class="d-flex align-items-center">
+                                        <div class="text-gray-400 fw-semibold fs-6 me-3 me-md-6" data-kt-translate="general-or">Или</div>
+                                        <div ref="telegram" class="d-flex align-items-center"></div>
+                                    </div> -->
+                                    <!--end::Social-->
+                                </div>
+                                <!--end::Actions-->
                             </div>
                             <!--end::Form-->
                         </div>
@@ -104,10 +93,10 @@
                     <!--begin::Wrapper-->
                     <div v-else-if="action == 'register'" class="d-flex justify-content-between flex-column-fluid flex-column w-100 mw-450px">
                         <!--begin::Header-->
-                        <div class="d-flex flex-stack py-2 mb-4">
+                        <div class="d-flex flex-stack mb-4 pt-5">
                             <!--begin::Back link-->
                             <div class="me-2">
-                                <a href="" @click.prevent="setAction('login')" class="btn btn-icon bg-light rounded-circle">
+                                <a href="" @click.prevent="setAction('login')" class="btn btn-sm btn-icon bg-light rounded-circle">
                                     <i class="ki-duotone ki-arrow-left fs-2x"><i class="path1"></i><i class="path2"></i></i>
                                 </a>
                             </div>
@@ -226,9 +215,18 @@
                                             </div>
                                         </div>
 
+                                        <div class="text-muted fw-bold fs-lg mb-2">{{ $t('Password strength') }}</div>
                                         <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
-                                            <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2" :class="{'active': strength > 0}"></div>
-                                            <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2" :class="{'active': strength > 1}"></div>
+                                            <div
+                                                class="flex-grow-1 bg-secondary rounded h-5px me-2"
+                                                :class="{'active': strength > 0, 'bg-active-success': strength > 2, 'bg-active-warning': strength <= 2}"
+                                            >
+                                            </div>
+                                            <div
+                                                class="flex-grow-1 bg-secondary rounded h-5px me-2"
+                                                :class="{'active': strength > 1, 'bg-active-success': strength > 2, 'bg-active-warning': strength <= 2}"
+                                            >
+                                            </div>
                                             <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2" :class="{'active': strength > 2}"></div>
                                             <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px" :class="{'active': strength > 3}"></div>
                                         </div>
@@ -294,7 +292,7 @@
                                 </div>
 
                                 <div class="d-flex flex-stack">
-                                    <button @click="register" type="button" class="btn btn-primary rounded-4" :data-kt-indicator="loading" :disabled="loading || !form.recaptcha || !agree">
+                                    <button @click="register" type="button" class="btn btn-lg fw-bold btn-light-primary w-100 w-lg-auto" :data-kt-indicator="loading" :disabled="loading || !form.recaptcha || !agree">
                                         <span class="indicator-label">{{ $t('Send') }}</span>
                                         <span class="indicator-progress">{{ $t('Please, wait') }}...
                                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
@@ -305,9 +303,9 @@
                     </div>
 
                     <div v-else-if="action == 'reset'" class="d-flex justify-content-between flex-column-fluid flex-column w-100 mw-450px">
-                        <div class="d-flex flex-stack py-2">
+                        <div class="d-flex flex-stack pt-5">
                             <div class="me-2">
-                                <a href="" @click.prevent="setAction('login')" class="btn btn-icon bg-light rounded-circle">
+                                <a href="" @click.prevent="setAction('login')" class="btn btn-sm btn-icon bg-light rounded-circle">
                                     <i class="ki-duotone ki-arrow-left fs-2x"><i class="path1"></i><i class="path2"></i></i>
                                 </a>
                             </div>
@@ -321,7 +319,7 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="py-20 mb-20">
+                        <div class="pt-5 py-lg-20">
                             <div class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework">
                                 <div class="text-start mb-6">
                                     <!--begin::Title-->
@@ -352,21 +350,17 @@
 
                                 <!--begin::Actions-->
                                 <div class="d-flex flex-stack">
-                                    <!--begin::Link-->
-                                    <div class="m-0">
-                                        <button type="button" @click="reset" class="btn btn-primary rounded-4 me-2" :data-kt-indicator="loading" :disabled="loading">
-                                            <!--begin::Indicator label-->
-                                            <span class="indicator-label">{{ $t('Send') }}</span>
-                                            <!--end::Indicator label-->
+                                    <button type="button" @click="reset" class="btn btn-lg fw-bold btn-light-primary w-100 w-lg-auto" :data-kt-indicator="loading" :disabled="loading">
+                                        <!--begin::Indicator label-->
+                                        <span class="indicator-label">{{ $t('Send') }}</span>
+                                        <!--end::Indicator label-->
 
-                                            <!--begin::Indicator progress-->
-                                            <span class="indicator-progress">{{ $t('Please, wait') }}... <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                                            <!--end::Indicator progress-->
-                                        </button>
+                                        <!--begin::Indicator progress-->
+                                        <span class="indicator-progress">{{ $t('Please, wait') }}... <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                        <!--end::Indicator progress-->
+                                    </button>
 
-                                        <a href="" @click.prevent="setAction('login')" class="btn btn-lg btn-light-primary rounded-4 fw-bold">{{ $t('Cancel') }}</a>
-                                    </div>
-                                    <!--end::Link-->
+                                    <!-- <a href="" @click.prevent="setAction('login')" class="btn btn-lg btn-light-primary fw-bold">{{ $t('Cancel') }}</a> -->
                                 </div>
                                 <!--end::Actions-->
                             </div>
@@ -375,20 +369,20 @@
                 </div>
                 <!--end::Aside-->
 
-                <div class="d-flex flex-column flex-center pb-0 pb-lg-10 p-10 w-100"> 
-                    <img class="mx-auto mw-100 w-150px w-lg-300px mb-6 mb-lg-20" :src="$media('illustrations/sketchy-1/1.png')" alt="">
+                <div class="d-flex flex-column flex-center pt-5 p-lg-10 w-100"> 
+                    <img class="mx-auto mw-100 w-225px w-lg-300px mb-6 mb-lg-20" :src="$media('illustrations/sketchy-1/1.png')" alt="">
 
                     <h1 class="text-gray-800 fs-2qx fw-bold text-center mb-6"> 
                         {{ $t('Fast and efficient') }}
                     </h1>
-                    <div class="text-gray-600 fs-base text-center fw-semibold mb-20 mb-lg-0">
+                    <div class="text-gray-600 fs-base text-center fw-semibold mb-lg-0">
                         {{ $t('NewsHub.kz allows you to use media resources quickly and efficiently') }}
                     </div>
                 </div>
             </div>
         </div>
 
-        <Modal v-if="$root.modalType == 'terms'" ref="modal" name="terms" bodyClass="modal-lg">
+        <Modal v-if="$root.modalType == 'terms'" ref="modal" name="terms" :fsMode="$root.isMobile" bodyClass="modal-lg">
             <template #title>
                 {{ $t('Consent to the processing of personal data') }}
             </template>
@@ -410,6 +404,7 @@
 import { defineComponent } from "vue"
 import vueRecaptcha from 'vue3-recaptcha2';
 import Modal from '@/components/Modal.vue';
+import { ElNotification } from "element-plus"
 
 export default defineComponent({
     name: 'Auth',
@@ -599,6 +594,7 @@ export default defineComponent({
         // },
         login() {
             this.loading = true
+            this.$store.commit('updateCacheKey')
             this.$api('login', false, {
                 method: 'post',
                 data: {...this.form, appToken: this.appToken, platform: this.platform}
@@ -627,6 +623,7 @@ export default defineComponent({
 
             this.loading = true
 
+            this.$store.commit('updateCacheKey')
             this.$api('register', false, {
                 method: 'post',
                 data: this.form
@@ -668,7 +665,8 @@ export default defineComponent({
         reset() {
             this.loading = true
 
-            this.$api('reset', false, {
+            this.$store.commit('updateCacheKey')
+            this.$api('forgot', false, {
                 method: 'post',
                 data: this.form
             })
@@ -676,7 +674,14 @@ export default defineComponent({
                 this.loading = false
 
                 if (data.ok) {
-                    this.message = "Мы отправили на ваш Email новые доступы к аккаунту"
+                    ElNotification({
+                        type: 'success',
+                        title: this.$t('Notification'),
+                        message: data.message,
+                        duration: 2000,
+                    })
+                    this.form.email = ''
+                    this.action = 'login'
                 } else {
                     this.errors = {...data.errors}
                 }

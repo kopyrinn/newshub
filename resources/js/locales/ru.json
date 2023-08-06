@@ -990,6 +990,12 @@
     "Select category": "Выберите категорию",
     "Select region": "Выберите область",
     "Select city": "Выберите город",
-    "About": "О себе"
-    
+    "About": "О себе",
+    "Reset": "Сброс",
+    "Password reset": "Сброс пароля",
+    "Password strength": "Надежность пароля",
+    "New password": "Новый пароль",
+    "Oops!": "Упс!",
+    "We cant find that page": "Мы не можем найти страницу",
+    "Return home": "Вернуться на главную"
 }
