@@ -665,26 +665,26 @@ class PostController extends Controller
 
         $post->update();
 
-        if ($post->created_at <= Carbon::now()) {
-            if (!$post->is_notified) {
-                try {
-                    $post->notify(new ChannelNotification($post));
+        // if ($post->created_at <= Carbon::now()) {
+        //     if (!$post->is_notified) {
+        //         try {
+        //             $post->notify(new ChannelNotification($post));
 
-                    $post->is_notified = 1;
-                    $post->update();
+        //             $post->is_notified = 1;
+        //             $post->update();
 
-                    $author = $post->user()->select('id')->first();
+        //             $author = $post->user()->select('id')->first();
 
-                    if ($author->followers()->exists()) {
-                        foreach ($author->followers()->select('id')->where('newsletter', 1)->get() as $follower) {
-                            $follower->notify(new NewPost($post));
-                        }
-                    }
-                } catch (\Exception $e) {
+        //             if ($author->followers()->exists()) {
+        //                 foreach ($author->followers()->select('id')->where('newsletter', 1)->get() as $follower) {
+        //                     $follower->notify(new NewPost($post));
+        //                 }
+        //             }
+        //         } catch (\Exception $e) {
                     
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
 
         return response()->json([
             'ok' => true,
