@@ -1,7 +1,7 @@
 import { app, router, store } from '@/app/main'
 import { api, upload } from '@/app/api'
 import { PushNotifications } from '@capacitor/push-notifications'
-import { LocalNotifications } from '@capacitor/local-notifications'
+import { FCM } from "@capacitor-community/fcm";
 import { Share } from '@capacitor/share'
 import { Dialog } from '@capacitor/dialog'
 import { StatusBar, Style } from '@capacitor/status-bar'
@@ -42,31 +42,15 @@ const registerPushNotifications = async () => {
 
         if (permStatus.receive == 'granted') {
             PushNotifications.register()
+
+            FCM.subscribeTo({ topic: "all" })
+                .then((r) => showAlert('fcm', 'subscribed to topic'))
+                .catch((err) => console.log(err))
         }
     } catch (e) {
         //
     }
 }
-
-const registerLocalNotifications = async () => {
-    try {
-        let permStatus = await LocalNotifications.checkPermissions()
-
-        if (permStatus.display === 'prompt') {
-            permStatus = await LocalNotifications.requestPermissions()
-        }
-
-        if (permStatus.display == 'granted') {
-            await LocalNotifications.createChannel({
-                id: 'all',
-                name: 'All',
-            })
-        }
-    } catch (e) {
-        //
-    }
-}
-
 
 app.config.globalProperties.$api = api
 app.config.globalProperties.$get = (url, params = {}, isAuth = false) => {
@@ -104,7 +88,6 @@ if (['ios', 'android'].includes(Capacitor.getPlatform())) {
     StatusBar.setOverlaysWebView({ overlay: true })
 
     registerPushNotifications()
-    registerLocalNotifications()
 }
 
 router.isReady().then(() => app.mount('#kt_app_root'))
