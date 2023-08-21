@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Newshub</string>
-    <string name="title_activity_main">Newshub</string>
+    <string name="app_name">NewsHub.kz</string>
+    <string name="title_activity_main">NewsHub.kz</string>
     <string name="package_name">kz.newshub.app</string>
     <string name="custom_url_scheme">kz.newshub.app</string>
 </resources>

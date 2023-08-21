@@ -1,10 +1,10 @@
 {
   "appId": "kz.newshub.app",
-  "appName": "Newshub",
+  "appName": "NewsHub.kz",
   "webDir": "dist/mobile",
   "server": {
-    "url": "https://mhub.webartisan.space",
-    "hostname": "mhub.webartisan.space",
+    "url": "https://m.newshub.kz",
+    "hostname": "m.newshub.kz",
     "androidScheme": "https"
   },
   "plugins": {
