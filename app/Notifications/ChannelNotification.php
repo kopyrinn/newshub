@@ -2,7 +2,6 @@
 
 namespace App\Notifications;
 
-use App\Helpers\Format;
 use App\Models\Post;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -49,9 +48,9 @@ class ChannelNotification extends Notification implements ShouldQueue
      */
     public function shouldSend($notifiable, $channel)
     {
-        if ($channel == 'telegram') {
+        if ($channel === 'telegram') {
             return $this->post->to_telegram == 1 && $this->post->status == 1;
-        } else if ($channel == FcmGlobalChannel::class) {
+        } else if ($channel === FcmGlobalChannel::class) {
             return $this->post->to_fcm == 1 && $this->post->status == 1;
         }
     }
@@ -77,6 +76,8 @@ class ChannelNotification extends Notification implements ShouldQueue
 
     public function toFcm($notifiable)
     {
+        App::setLocale('ru');
+
         return $this->post;
     }
 }

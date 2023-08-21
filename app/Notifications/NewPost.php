@@ -34,8 +34,7 @@ class NewPost extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        // 'database', 'mail', 
-        return [FcmSingleChannel::class];
+        return ['database', 'mail', FcmSingleChannel::class];
     }
 
     /**
@@ -47,7 +46,7 @@ class NewPost extends Notification implements ShouldQueue
      */
     public function shouldSend($notifiable, $channel)
     {
-        if ($channel == FcmSingleChannel::class && !$notifiable->tokens()->wherePlatform('android')->whereNotNull('app_token')->exists()) {
+        if ($channel === FcmSingleChannel::class && !$notifiable->tokens()->wherePlatform('android')->whereNotNull('app_token')->exists()) {
             return false;
         }
 
