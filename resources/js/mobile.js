@@ -90,7 +90,7 @@ app.config.globalProperties.$browserOpen = async (url) => {
 }
 
 App.addListener('appUrlOpen', function (event) {
-    const slug = event.url.split('webartisan.space').pop();
+    const slug = event.url.split(import.meta.env.VITE_ORIGIN_DOMAIN).pop();
 
     if (slug) {
         router.push({

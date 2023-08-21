@@ -1,20 +1,20 @@
 <template>
-    <div class="d-flex flex-column flex-center text-center p-10">
+    <div class="d-flex flex-column flex-center text-center pt-10 mb-">
         <h1 class="fw-bolder fs-2hx text-gray-900 mb-4">
             {{ $t('Oops!') }}
         </h1>
 
         <div class="fw-semibold fs-6 text-gray-500 mb-7">
-            {{ $t('We can`t find that page.') }}
+            {{ $t('We cant find that page') }}
         </div>
 
-        <div class="mb-3">
-            <img :src="$media('auth/404-error.png')" class="mw-100 mh-300px theme-light-show" alt="">
-            <img :src="$media('auth/404-error-dark.png')" class="mw-100 mh-300px theme-dark-show" alt="">
+        <div>
+            <app-link to="/" class="btn btn-light-primary">{{ $t('Return home') }}</app-link>
         </div>
 
-        <div class="mb-0">
-            <app-link to="/" class="btn btn-sm btn-primary">{{ $t('Return Home') }}</app-link>
+        <div>
+            <img :src="$media('auth/404.png')" class="mw-100 mh-400px mh-lg-600px theme-light-show" alt="">
+            <img :src="$media('auth/404-dark.png')" class="mw-100 mh-400px mh-lg-600px theme-dark-show" alt="">
         </div>
     </div>
 </template>

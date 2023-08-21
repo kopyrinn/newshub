@@ -40,6 +40,7 @@ export default defineComponent({
     },
     methods: {
         fetchData() {
+            this.$store.commit('updateCacheKey')
             this.$post('account/verify', {token: this.token}).then(({data}) => {
                 if (data.ok) {
                     ElNotification({

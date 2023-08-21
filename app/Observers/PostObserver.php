@@ -80,8 +80,8 @@ class PostObserver
 
         $post->notify(new AdminNotice($post));
 
-        if ($post->created_at <= Carbon::now() && $post->status == 1) {
-            $post->notify(new ChannelNotification($post));
-        }
+        // if ($post->created_at <= Carbon::now() && $post->status == 1) {
+        //     $post->notify(new ChannelNotification($post));
+        // }
     }
 }
