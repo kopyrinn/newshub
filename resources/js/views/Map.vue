@@ -68,6 +68,8 @@ export default defineComponent({
         }
     },
     created() {
+        if (import.meta.env.SSR) return
+
         $.fn.myAddClass = function (classTitle) {
             return this.each(function () {
                 var oldClass = $(this).attr("class");
