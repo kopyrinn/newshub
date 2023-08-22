@@ -30,22 +30,26 @@ const registerPushNotifications = async () => {
     })
 
     await PushNotifications.addListener('registrationError', err => {
+        // showAlert('push', 'error')
+        // console.log(err)
         store.commit('setAppToken', '')
     })
 
     try {
         let permStatus = await PushNotifications.checkPermissions()
+        // showAlert('push', permStatus.receive)
 
         if (permStatus.receive === 'prompt') {
             permStatus = await PushNotifications.requestPermissions()
+            // showAlert('push', 'requested')
         }
 
         if (permStatus.receive == 'granted') {
-            PushNotifications.register()
+            await PushNotifications.register()
 
-            FCM.subscribeTo({ topic: "all" })
-                .then((r) => showAlert('fcm', 'subscribed to topic'))
-                .catch((err) => console.log(err))
+            await FCM.subscribeTo({ topic: "all" })
+                // .then((r) => showAlert('fcm', 'subscribed to topic'))
+                // .catch((err) => console.log(err))
         }
     } catch (e) {
         //
@@ -74,7 +78,7 @@ app.config.globalProperties.$browserOpen = async (url) => {
 }
 
 App.addListener('appUrlOpen', function (event) {
-    showAlert('url', event.url)
+    // showAlert('url', event.url)
     const slug = event.url.split(import.meta.env.VITE_ORIGIN_DOMAIN).pop();
 
     if (slug) {
