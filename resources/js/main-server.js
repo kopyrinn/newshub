@@ -144,6 +144,7 @@ export async function render(url, manifest = null) {
     const head = createHead()
 
     app
+        .directive('debounce', {})
         .use(i18n)
         .use(VueSnip)
         .use(router)
