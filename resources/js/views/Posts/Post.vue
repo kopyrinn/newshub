@@ -12,8 +12,8 @@
                     <div class="card-body p-5 p-lg-10 pb-lg-0">
                         <ViewSkeleton v-if="loading"/>
                         <div v-else class="mb-17">
-                            <div class="mb-8" itemprop="headline">
-                                <h1 class="text-dark fs-1 fw-bold">
+                            <div class="mb-8">
+                                <h1 class="text-dark fs-1 fw-bold" itemprop="headline">
                                     {{ post.title }}
 
                                     <span class="fw-bold text-muted fs-5 ps-1">{{ post.read_mins }} {{ $t('mins read') }}</span>
@@ -47,7 +47,7 @@
                                 ></intersection-observer>
 
                                 <div v-if="post.image" class="d-block position-relative overflow-hidden rounded-3 mt-6 cursor-zoom-in" @click="$root.fullscreenImage = $storage(post.image), $root.fullscreen = true">
-                                    <img :src="$storage(post.image)" :alt="post.title" class="object-fit-contain z-index-1 position-relative mh-450px min-h-250px w-100" loading="lazy"/>
+                                    <img :src="$storage(post.image)" :alt="post.title" class="object-fit-contain z-index-1 position-relative mh-450px min-h-250px w-100" itemprop="image" loading="lazy"/>
                                     <div :style="{backgroundImage: 'url(' + $storage(encodeURIComponent(post.image)) + ')'}" class="bg-blur"></div>
                                 </div>
                                 <div v-if="post.image_caption" class="fw-semibold mt-1 text-gray-700 fs-6">{{ post.image_caption }}</div>
