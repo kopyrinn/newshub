@@ -343,6 +343,7 @@ export default defineComponent({
                 twitterCard: 'summary_large_image',
             })
         })
+        .catch((e) => {})
     },
     created() {
         if (!import.meta.env.SSR) {

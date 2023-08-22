@@ -116,6 +116,7 @@ export default defineComponent({
 
             this.cursor = data.posts.next_cursor
         })
+        .catch((e) => {})
     },
     created() {
         this.init()
