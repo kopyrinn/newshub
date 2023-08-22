@@ -46,7 +46,7 @@ class NewPost extends Notification implements ShouldQueue
      */
     public function shouldSend($notifiable, $channel)
     {
-        if ($channel === FcmSingleChannel::class && !$notifiable->tokens()->wherePlatform('android')->whereNotNull('app_token')->exists()) {
+        if ($channel === FcmSingleChannel::class && !$notifiable->tokens()->whereIn('platform', ['android', 'ios'])->whereNotNull('app_token')->where('app_token', '!=', '0')->exists()) {
             return false;
         }
 
@@ -83,8 +83,9 @@ class NewPost extends Notification implements ShouldQueue
     {
         $tokens = $notifiable->tokens()
             ->select('app_token')
-            ->wherePlatform('android')
+            ->whereIn('platform', ['android', 'ios'])
             ->whereNotNull('app_token')
+            ->where('app_token', '!=', '0')
             ->pluck('app_token');
 
         App::setLocale('ru');
