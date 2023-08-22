@@ -75,6 +75,7 @@ export default defineComponent({
 
             this.cursor = data.polls.next_cursor
         })
+        .catch((e) => {})
     },
     created() {
         this.fetchData()

@@ -165,12 +165,7 @@ export async function render(url, manifest = null) {
 
     if (app.config.globalProperties.$route.meta.title) {
         store.commit('setTitle', app.config.globalProperties.$t(app.config.globalProperties.$route.meta.title))
-    // } else {
-    //     store.commit('setTitle', '')
     }
-
-    // ctx - context. Плагин @vitejs/plugin-vue
-    // https://vitejs.dev/guide/ssr.html#generating-preload-directives
 
     const ctx = {
         modules: [],

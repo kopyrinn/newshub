@@ -247,6 +247,7 @@ export default defineComponent({
                 twitterCard: 'summary_large_image',
             })
         })
+        .catch((e) => {})
     },
     created() {
         this.fetchData()

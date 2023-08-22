@@ -136,6 +136,7 @@ export default defineComponent({
                 ogTitle: this.vacancy.job_title,
             })
         })
+        .catch((e) => {})
     },
     created() {
         if (!import.meta.env.SSR) {
