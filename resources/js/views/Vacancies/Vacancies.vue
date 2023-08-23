@@ -78,7 +78,9 @@ export default defineComponent({
         .catch((e) => {})
     },
     created() {
-        this.fetchData()
+        if (!import.meta.env.SSR) {
+            this.fetchData()
+        }
     },
     methods: {
         fetchData() {

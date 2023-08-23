@@ -250,7 +250,9 @@ export default defineComponent({
         .catch((e) => {})
     },
     created() {
-        this.fetchData()
+        if (!import.meta.env.SSR) {
+            this.fetchData()
+        }
     },
     watch: {
         $route(from, to) {

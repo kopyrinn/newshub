@@ -37,7 +37,6 @@ export async function render(url, manifest = null) {
     global.url = url
 
     const app = createSSRApp(App)
-    app.provide('store', store)
 
     dayjs.locale(getCurrentLocale())
     dayjs.extend(isSameOrAfter)
