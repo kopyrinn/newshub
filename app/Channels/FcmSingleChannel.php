@@ -20,7 +20,8 @@ class FcmSingleChannel
 
         foreach ($messages as $message) {
             try {
-                Http::fcm()->post('/send', $message);
+                $response = Http::fcm()->post('/send', $message);
+                \Log::error('FCM Message', [$response->body()]);
             } catch (\Exception $e) {
                 \Log::error('FCM Single', [$e->getMessage()]);
             }
