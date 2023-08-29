@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
-use ImageOptimizer;
+use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 
 class PostImageJob implements ShouldQueue
 {
@@ -47,9 +47,9 @@ class PostImageJob implements ShouldQueue
 
         if (!Storage::disk('public')->exists($this->post->image)) return;
 
-        if (\Str::endsWith($this->post->image, '.webp')) {
-            ImageOptimizer::optimize(Storage::disk('public')->path($this->post->image));
-        }
+        // if (\Str::endsWith($this->post->image, '.webp')) {
+        //     ImageOptimizer::optimize(Storage::disk('public')->path($this->post->image));
+        // }
 
         $manager = new ImageManager(['driver' => 'gd']);
 

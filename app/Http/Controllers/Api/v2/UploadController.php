@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image as ImageInvertation;
 use App\Http\Controllers\Controller;
-use ImageOptimizer;
 
 class UploadController extends Controller
 {
@@ -32,8 +31,6 @@ class UploadController extends Controller
         } else {
             $sizes = [
                 "large" => 900,
-                // "medium" => 650,
-                // "small" => 650,
             ];
         }
 
@@ -75,8 +72,6 @@ class UploadController extends Controller
             }
 
             $images[$size] = "img/{$size}/{$name}";
-
-            ImageOptimizer::optimize("{$path}/{$name}");
         }
 
         $resize->destroy();

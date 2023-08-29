@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
-use ImageOptimizer;
+use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 
 class PollImageJob implements ShouldQueue
 {
@@ -47,9 +47,9 @@ class PollImageJob implements ShouldQueue
 
         if (!Storage::disk('public')->exists($this->poll->image)) return;
 
-        if (\Str::endsWith($this->poll->image, '.webp')) {
-            ImageOptimizer::optimize(Storage::disk('public')->path($this->poll->image));
-        }
+        // if (\Str::endsWith($this->poll->image, '.webp')) {
+        //     ImageOptimizer::optimize(Storage::disk('public')->path($this->poll->image));
+        // }
 
         $manager = new ImageManager(['driver' => 'gd']);
 
