@@ -1,14 +1,13 @@
 <?php
 
-use App\Mail\CampaignEmail;
-use App\Models\Campaign;
+use App\Jobs\PollImageJob;
+use App\Jobs\PostImageJob;
+use App\Jobs\UserImageJob;
+use App\Models\Poll;
 use App\Models\Post;
 use App\Models\User;
-use App\Notifications\NewPost;
-use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,13 +20,24 @@ use Illuminate\Support\Facades\Mail;
 |
 */
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote');
-
 Artisan::command('test', function () {
-    $user = User::find(1);
-    $post = Post::find(6123);
-    $user->notify(new NewPost($post));
+    // cwebp /www/wwwroot/hub.webartisan.space/storage/app/public/img/large/1RKpzklM3y8VeilJlnkQonHcMLcmkNFv5G9LYGD3.webp -o /www/wwwroot/hub.webartisan.space/storage/app/public/img/large/1RKpzklM3y8VeilJlnkQonHcMLcmkNFv5G9LYGD32.webp
+    // dd(Storage::disk('public')->path('img/large/1RKpzklM3y8VeilJlnkQonHcMLcmkNFv5G9LYGD3.webp'));
+    $post = Post::find(7709);
+    PostImageJob::dispatch($post);
 
+    // $users = User::select('id')->get();
+    // foreach ($users as $user) {
+    //     UserImageJob::dispatch($user);
+    // }
+
+    // $polls = Poll::select('id')->get();
+    // foreach ($polls as $poll) {
+    //     PollImageJob::dispatch($poll);
+    // }
+
+    // $posts = Post::select('id')->orderBy('created_at', 'desc')->get();
+    // foreach ($posts as $post) {
+    //     PostImageJob::dispatch($post);
+    // }
 });

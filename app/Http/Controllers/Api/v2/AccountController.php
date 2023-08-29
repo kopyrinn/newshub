@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v2;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\UserImageJob;
 use App\Models\User;
 use App\Notifications\VerifyEmail;
 use Carbon\Carbon;
@@ -89,6 +90,8 @@ class AccountController extends Controller
             $user->user_category_id = $request->user_category_id;
         }
         $user->update();
+
+        UserImageJob::dispatch($user);
 
         return response()->json([
             'status' => true,

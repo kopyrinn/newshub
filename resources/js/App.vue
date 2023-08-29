@@ -118,7 +118,7 @@
                             <Popper v-if="user" placement="bottom-end" :hover="!$root.isMobile" class="d-block">
                                 <app-link :to="$root.isMobile? '': {name: 'user', params: {slug: user.id}}" class="d-flex align-items-center">
                                     <div class="d-flex flex-center cursor-pointer symbol symbol-30px symbol-md-40px">
-                                        <img :src="$url('/storage/' + user.avatar)" class="object-fit-cover rounded-3" />
+                                        <img :src="$storage(user.avatar_sm)" class="object-fit-cover rounded-3" loading="lazy"/>
                                     </div>
                                 </app-link>
 
@@ -128,7 +128,7 @@
                                         <div class="menu-item px-3">
                                             <div class="menu-content d-flex align-items-center px-3">
                                                 <div class="symbol symbol-75px me-5">
-                                                    <img :src="$url('/storage/' + user.avatar)" class="object-fit-cover rounded-3" />
+                                                    <img :src="$storage(user.avatar_sm)" class="object-fit-cover rounded-3" loading="lazy"/>
                                                 </div>
                                                 <div class="d-flex flex-column text-truncate">
                                                     <div class="fw-bold d-flex align-items-center fs-5 text-truncate">{{ user.name }}

@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Traits\HasRoles;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -52,6 +53,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'package_expired_at' => 'datetime',
         'newsletter' => 'boolean',
     ];
+
+    protected function avatarSm(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $value?: $attributes['avatar'],
+        );
+    }
 
     public function getJWTIdentifier()
     {
@@ -185,11 +193,6 @@ class User extends Authenticatable implements MustVerifyEmail
         $balance->save();
 
         $this->balance -= $cost;
-    }
-
-    public function getAvatar()
-    {
-        return asset("storage/{$this->avatar}");
     }
 
     public function getRecommendations()

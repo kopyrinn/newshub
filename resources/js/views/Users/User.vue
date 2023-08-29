@@ -6,7 +6,7 @@
                 <div class="d-flex flex-wrap flex-sm-nowrap">
                     <div class="me-7 mb-4">
                         <div class="symbol symbol-100px symbol-lg-150px symbol-fixed position-relative">
-                            <img :src="$url('/storage/' + user.avatar)" class="object-fit-cover" alt="image">
+                            <img :src="$storage(user.avatar)" class="object-fit-cover" alt="image">
                             <div
                                 class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-body h-20px w-20px">
                             </div>
@@ -140,7 +140,7 @@ export default defineComponent({
                 ogTitle: this.user.name,
                 description: this.user.description,
                 ogDescription: this.user.description,
-                ogImage: this.user.avatar? this.$url('/storage/' + this.user.avatar): '',
+                ogImage: this.user.avatar? this.$storage(this.user.avatar): '',
                 twitterCard: 'summary_large_image',
             })
         })
@@ -182,7 +182,7 @@ export default defineComponent({
                     ogTitle: this.user.name,
                     description: this.user.description,
                     ogDescription: this.user.description,
-                    ogImage: this.user.avatar? this.$url('/storage/' + this.user.avatar): '',
+                    ogImage: this.user.avatar? this.$storage(this.user.avatar): '',
                     twitterCard: 'summary_large_image',
                 })
             })

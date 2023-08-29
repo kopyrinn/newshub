@@ -32,7 +32,7 @@
             <div v-if="banner.url" class="card overflow-hidden">
                 <div class="card-body p-0">
                     <app-link :to="banner.url" class="w-100">
-                        <img :src="$storage(banner.image)" class="object-fit-contain bg-light w-100 min-h-275px max-h-500px" :alt="banner.url"/>
+                        <img :src="$storage(banner.image)" class="object-fit-contain bg-light w-100 min-h-275px max-h-500px" :alt="banner.url" loading="lazy"/>
                     </app-link>
                 </div>
             </div>

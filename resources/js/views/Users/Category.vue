@@ -11,7 +11,7 @@
                             <app-link :to="{name: 'user', params: {slug: item.id}}" class="me-6 d-flex flex-fill flex-nowrap">
                                 <div class="me-6 flex-shrink-0">
                                     <div class="symbol symbol-50px w-50px bg-light rounded-3 my-1">
-                                        <img :src="$url('/storage/' + item.avatar)" class="object-fit-cover rounded-3" alt=""> 
+                                        <img :src="$storage(item.avatar_sm)" class="object-fit-cover rounded-3" alt="" loading="lazy"> 
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">

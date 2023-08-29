@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image as ImageInvertation;
 use App\Http\Controllers\Controller;
+use ImageOptimizer;
 
 class UploadController extends Controller
 {
@@ -23,7 +24,6 @@ class UploadController extends Controller
         if ($figure == 'rectangle') {
             $sizes = [
                 "large" => 600,
-                "small" => 100,
             ];
         } else if ($figure == 'comment') {
             $sizes = [
@@ -71,11 +71,15 @@ class UploadController extends Controller
                 $resize->save("{$path}/{$name}", $size == 'small'? 1: 90);
             } else if ($figure == 'rectangle') {
                 $resize->fit($dimension)
-                    ->save("{$path}/{$name}", 90);
+                    ->save("{$path}/{$name}", 100);
             }
 
             $images[$size] = "img/{$size}/{$name}";
+
+            ImageOptimizer::optimize("{$path}/{$name}");
         }
+
+        $resize->destroy();
 
         $params = [
             'ok' => true,

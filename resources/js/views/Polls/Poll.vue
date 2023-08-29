@@ -19,8 +19,14 @@
 
                                     <span class="fw-bold text-muted fs-5 ps-1">{{ poll.read_mins }} {{ $t('mins read') }}</span>
                                 </h1>
-                                <div v-if="poll.photo" class="mt-8">
-                                    <img :src="$url('/storage/' + poll.photo)" class="object-fit-cover h-350px w-100 rounded"/>
+
+                                <div v-if="poll.image" class="d-block position-relative overflow-hidden rounded-3 mt-6 cursor-zoom-in" @click="$root.fullscreenImage = $storage(poll.image), $root.fullscreen = true">
+                                    <picture>
+                                        <source media="(max-width: 500px)" :srcset="$storage(poll.image_sm)" />
+                                        <source media="(min-width: 501px)" :srcset="$storage(poll.image_md)" />
+                                        <img :src="$storage(poll.image_md)" :alt="poll.question" class="object-fit-contain z-index-1 position-relative mh-450px min-h-250px w-100" itemprop="image" loading="lazy"/>
+                                    </picture>
+                                    <img :src="$storage(poll.image_blur)" class="blurry" loading="lazy"/>
                                 </div>
                             </div>
 
@@ -42,7 +48,7 @@
 
                                                 <div class="me-6 flex-shrink-0">
                                                     <div class="symbol symbol-50px w-50px symbol-sm-100px w-sm-100px bg-light rounded-3">
-                                                        <img :src="$url('/storage/' + participant.photo)" class="object-fit-cover rounded-3" alt=""> 
+                                                        <img :src="$storage(participant.photo)" class="object-fit-cover rounded-3" alt="" loading="lazy"> 
                                                     </div>
                                                 </div>
                                                 
@@ -75,13 +81,13 @@
                                             <div class="d-flex flex-stack text-start mb-5">
                                                 <div class="me-6 flex-shrink-0">
                                                     <app-link :to="{name: 'user', params: {slug: participant.uid}}" class="symbol symbol-50px w-50px symbol-sm-100px w-sm-100px bg-light rounded-3">
-                                                        <img :src="$url('/storage/' + participant.photo)" class="object-fit-cover rounded-3" alt=""> 
+                                                        <img :src="$storage(participant.photo)" class="object-fit-cover rounded-3" alt="" loading="lazy"> 
                                                     </app-link>
                                                 </div>
                                                 
                                                 <div class="flex-grow-1">
-                                                    <app-link :to="{name: 'user', params: {slug: participant.uid}}" class="fs-3 fw-bold" v-snip="{lines: $root.isMobile? 1: 2}">
-                                                        {{ participant.name }}
+                                                    <app-link :to="{name: 'user', params: {slug: participant.uid}}" class="fs-3 fw-bold">
+                                                        <span v-snip="{lines: $root.isMobile? 1: 2}">{{ participant.name }}</span>
                                                     </app-link>
                                                     <div class="fw-semibold text-gray-800" v-snip="{lines: $root.isMobile? 2: 3}">
                                                         {{ participant.position }}
@@ -105,16 +111,16 @@
 
                             <div class="d-flex flex-center">
                                 <a :href="$root.shareWith('tg', $base($route.fullPath))" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/telegram.svg')" class="h-20px my-2" alt="">
+                                    <img :src="$media('svg/brand-logos/telegram.svg')" class="h-20px my-2" alt="" loading="lazy">
                                 </a>
                                 <a :href="$root.shareWith('vk', $base($route.fullPath))" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/vk.svg')" class="h-20px my-2" alt="">
+                                    <img :src="$media('svg/brand-logos/vk.svg')" class="h-20px my-2" alt="" loading="lazy">
                                 </a>
                                 <a :href="$root.shareWith('tw', $base($route.fullPath))" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/twitter.svg')" class="h-20px my-2" alt="">
+                                    <img :src="$media('svg/brand-logos/twitter.svg')" class="h-20px my-2" alt="" loading="lazy">
                                 </a>
                                 <a :href="$root.shareWith('fb', $base($route.fullPath))" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/facebook-4.svg')" class="h-20px my-2" alt="">
+                                    <img :src="$media('svg/brand-logos/facebook-4.svg')" class="h-20px my-2" alt="" loading="lazy">
                                 </a>
                             </div>
                         </div>
@@ -243,7 +249,7 @@ export default defineComponent({
                 ogTitle: this.poll.question,
                 description: this.poll.summary,
                 ogDescription: this.poll.summary,
-                ogImage: this.poll.image? this.$url('/storage/' + this.poll.image): '',
+                ogImage: this.poll.image? this.$storage(this.poll.image): '',
                 twitterCard: 'summary_large_image',
             })
         })
@@ -278,7 +284,7 @@ export default defineComponent({
                     ogTitle: this.poll.question,
                     description: this.poll.summary,
                     ogDescription: this.poll.summary,
-                    ogImage: this.poll.image? this.$url('/storage/' + this.poll.image): '',
+                    ogImage: this.poll.image? this.$storage(this.poll.image): '',
                     twitterCard: 'summary_large_image',
                 })
             })

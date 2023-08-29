@@ -11,7 +11,7 @@ class VacancyController extends Controller
 
     public function vacancies(Request $request)
     {
-        $vacancies = Vacancy::select('vacancies.id', 'vacancies.job_title', 'vacancies.task', 'vacancies.user_id', 'vacancies.created_at', 'users.name', 'users.avatar')
+        $vacancies = Vacancy::select('vacancies.id', 'vacancies.job_title', 'vacancies.task', 'vacancies.user_id', 'vacancies.created_at', 'users.name', 'users.avatar', 'users.avatar_sm')
             ->join('users', 'users.id', 'vacancies.user_id')
             ->where('vacancies.status', 1)
             ->orderByDesc('vacancies.created_at')
@@ -25,7 +25,7 @@ class VacancyController extends Controller
 
     public function vacancy(Request $request, $id)
     {
-        $vacancy = Vacancy::select('vacancies.*', 'users.avatar', 'users.name', 'users.description')
+        $vacancy = Vacancy::select('vacancies.*', 'users.avatar', 'users.avatar_sm', 'users.name', 'users.description')
             ->join('users', 'users.id', 'vacancies.user_id')
             ->where('vacancies.status', 1)
             ->where('vacancies.id', $id)

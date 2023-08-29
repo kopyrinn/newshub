@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\PostImageJob;
 use App\Models\Post;
 use App\Notifications\AdminNotice;
 use App\Notifications\ChannelNotification;
@@ -79,6 +80,8 @@ class PostObserver
         }
 
         $post->notify(new AdminNotice($post));
+
+        PostImageJob::dispatch($post);
 
         // if ($post->created_at <= Carbon::now() && $post->status == 1) {
         //     $post->notify(new ChannelNotification($post));

@@ -1,5 +1,5 @@
 import vue from '@vitejs/plugin-vue'
-import { defineConfig, loadEnv, splitVendorChunkPlugin, normalizePath } from 'vite'
+import { defineConfig, loadEnv, normalizePath } from 'vite'
 import path from 'node:path'
 import { VitePWA } from 'vite-plugin-pwa'
 import { resolve, dirname } from 'node:path'
@@ -12,21 +12,6 @@ import { PurgeCSS } from 'purgecss'
 export default defineConfig(({ command, mode }) => {
     const env = loadEnv(mode, process.cwd())
     const isSsr = env.VITE_SSR == 1
-    const isMobile = env.VITE_MOBILE == 1
-
-    const rollupOptions = {}
-
-    if (!isSsr && !isMobile) {
-        rollupOptions.output = {
-            entryFileNames: `assets/[hash].js`,
-            chunkFileNames: `assets/[hash].js`,
-            assetFileNames: `assets/[hash].[ext]`
-        }
-    } else if (isMobile) {
-        rollupOptions.output = {
-            manualChunks: () => 'assets/[hash].js',
-        }
-    }
 
     const plugins = [
         vue({
@@ -57,7 +42,7 @@ export default defineConfig(({ command, mode }) => {
         }),
     ]
 
-    if (!isSsr && !isMobile) {
+    if (!isSsr) {
         plugins.push(
             viteStaticCopy({
                 targets: [
@@ -68,26 +53,12 @@ export default defineConfig(({ command, mode }) => {
                 ]
             }),
         )
-    } else if (isMobile) {
-        plugins.push(
-            viteStaticCopy({
-                targets: [
-                    {
-                        src: 'public/mobile',
-                        dest: normalizePath(path.resolve(__dirname, './dist'))
-                    },
-                ]
-            }),
-        )
-    }
-
-    if (!isSsr) {
         plugins.push(
             VitePWA({
                 base: "/",
                 strategies: "injectManifest",
                 srcDir: 'resources/js/app',
-                outDir: !isMobile? 'dist/client': 'dist/mobile',
+                outDir: 'dist/client',
                 filename: 'sw.js',
                 registerType: 'autoUpdate',
                 injectManifest: {
@@ -102,8 +73,8 @@ export default defineConfig(({ command, mode }) => {
                 manifest: {
                     "display": "standalone",
                     "scope": "/",
-                    "id": !isMobile? env.VITE_ORIGIN_URL: env.VITE_MOBILE_URL,
-                    "start_url": !isMobile? env.VITE_ORIGIN_URL: env.VITE_MOBILE_URL,
+                    "id": env.VITE_ORIGIN_URL,
+                    "start_url": env.VITE_ORIGIN_URL,
                     "theme_color": "#12121a",
                     "background_color": "#12121a",
                     "name": "NewsHub.kz",
@@ -166,20 +137,21 @@ export default defineConfig(({ command, mode }) => {
         )
     }
 
-    if (isMobile) {
-        rollupOptions.input = {
-            main: resolve(__dirname, 'index-mobile.html'),
-        }
-        plugins.push(renameIndexPlugin('index.html'))
-    } else {
-        rollupOptions.input = {
-            main: resolve(__dirname, 'index.html'),
-        }
-        plugins.push(splitVendorChunkPlugin())    
-    }
-
     const build = {
-        rollupOptions: rollupOptions,
+        rollupOptions: {
+            output: isSsr? {
+                entryFileNames: `[name].js`,
+                chunkFileNames: `[name].js`,
+                assetFileNames: `[name].[ext]`
+            }: {
+                entryFileNames: `assets/[hash].js`,
+                chunkFileNames: `assets/[hash].js`,
+                assetFileNames: `assets/[hash].[ext]`
+            },
+            input: {
+                main: resolve(__dirname, 'index.html'),
+            }
+        },
         chunkSizeWarningLimit: 1000,
         copyPublicDir: false,
         outDir: './dist',

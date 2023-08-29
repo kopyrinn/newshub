@@ -16,7 +16,7 @@ class PollController extends Controller
 
     public function polls(Request $request)
     {
-        $polls = Poll::select('polls.id', 'polls.question', 'polls.image', 'polls.slug', 'polls.description', 'polls.created_at')
+        $polls = Poll::select('polls.id', 'polls.question', 'polls.image', 'polls.image_md', 'polls.image_sm', 'polls.image_blur', 'polls.slug', 'polls.description', 'polls.created_at')
             ->where('polls.is_active', 1)
             ->withCount('requests')
             // ->where('expired_at', '>', Carbon::now())

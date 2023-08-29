@@ -13,8 +13,8 @@
         </div>
 
         <div>
-            <img :src="$media('auth/404.png')" class="mw-100 mh-400px mh-lg-600px theme-light-show" alt="">
-            <img :src="$media('auth/404-dark.png')" class="mw-100 mh-400px mh-lg-600px theme-dark-show" alt="">
+            <img :src="$media('auth/404.png')" class="mw-100 mh-400px mh-lg-600px theme-light-show" alt="" loading="lazy">
+            <img :src="$media('auth/404-dark.png')" class="mw-100 mh-400px mh-lg-600px theme-dark-show" alt="" loading="lazy">
         </div>
     </div>
 </template>

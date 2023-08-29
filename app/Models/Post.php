@@ -8,6 +8,7 @@ use Mews\Purifier\Casts\CleanHtml;
 use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
 use \DateTimeInterface;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Post extends Model
 {
@@ -29,10 +30,46 @@ class Post extends Model
         'read_mins',
     ];
 
-    public function getReadMinsAttribute()
+    protected function readMins(): Attribute
     {
-        $length = substr_count(strip_tags(html_entity_decode($this->content)), ' ');
-        return ceil($length / 190);
+        return Attribute::make(
+            get: fn () => ceil(substr_count(strip_tags(html_entity_decode($this->content)), ' ') / 190),
+        );
+    }
+
+    protected function imageMd(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $value?: $attributes['image'],
+        );
+    }
+
+    protected function imageFit(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $value?: $attributes['image'],
+        );
+    }
+
+    protected function imageSm(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $value?: $attributes['image'],
+        );
+    }
+
+    protected function imageBlur(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $value?: $attributes['image'],
+        );
+    }
+
+    protected function avatarSm(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $value?: (isset($attributes['avatar'])? $attributes['avatar']: ''),
+        );
     }
 
     public function category()

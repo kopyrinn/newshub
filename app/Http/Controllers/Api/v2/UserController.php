@@ -25,7 +25,7 @@ class UserController extends Controller
         abort_if(!$category, 404);
 
         $users = $category->users()
-            ->select('users.id', 'users.name', 'users.description', 'users.avatar')
+            ->select('users.id', 'users.name', 'users.description', 'users.avatar', 'users.avatar_sm')
             ->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'role_user.role_id', '=', 'roles.id')
             ->where('roles.slug', 'press')
@@ -62,7 +62,7 @@ class UserController extends Controller
         abort_if(!$user, 404);
 
         $posts = Post::select(
-                'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.summary', 'posts.created_at', 'users.name', 'users.avatar',
+                'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.image_md', 'posts.image_sm', 'posts.image_blur', 'posts.summary', 'posts.created_at', 'users.name', 'users.avatar', 'users.avatar_sm',
             )
             ->join('users', 'users.id', 'posts.user_id')
             ->where('users.id', $user->id)
@@ -86,6 +86,7 @@ class UserController extends Controller
             ->select(
                 'users.id',
                 'users.avatar',
+                'users.avatar_sm',
                 'users.name',
                 'users.lastname',
                 'users.media_name',
@@ -116,6 +117,7 @@ class UserController extends Controller
             ->select(
                 'users.id',
                 'users.avatar',
+                'users.avatar_sm',
                 'users.name',
                 'users.lastname',
                 'users.media_name',

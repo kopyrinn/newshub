@@ -3,7 +3,7 @@
         <div class="card-header px-6 pt-0 pb-0">
             <div class="d-flex align-items-center text-truncate">
                 <div class="symbol symbol-40px me-5">
-                    <img :src="$url('/storage/' + item.avatar)" class="object-fit-cover rounded-3"/>
+                    <img :src="$storage(item.avatar_sm)" class="object-fit-cover rounded-3" loading="lazy"/>
                 </div>
                 <div class="flex-grow-1 text-truncate">
                     <app-link :to="{name: 'user', params: {slug: item.user_id}}" class="text-gray-800 text-hover-primary fs-4 fw-bold text-truncate">{{ item.name }}</app-link>

@@ -37,8 +37,8 @@
                             <div v-if="posts.length" class="mb-7">
                                 <h3 class="fs-5 text-muted m-0 pb-5">{{ $t('News') }}</h3>
                                 <app-link v-for="item in posts" :key="item.slug" :to="{name: 'post', params: {slug: item.slug}}" class="d-flex text-dark text-hover-primary align-items-start mb-5" @click="close()">
-                                    <div v-if="item.image" class="symbol symbol-40px me-4 mt-1">
-                                        <img :src="$url('/storage/' + item.image)" alt="" class="object-fit-cover" />
+                                    <div v-if="item.image_blur" class="symbol symbol-40px me-4 mt-1">
+                                        <img :src="$storage(item.image_blur)" alt="" class="object-fit-cover" loading="lazy"/>
                                     </div>
                                     <div class="d-flex flex-column">
                                         <span class="fs-6 fw-semibold">{{ item.title }}</span>
@@ -49,8 +49,8 @@
                             <div v-if="polls.length" class="mb-7">
                                 <h3 class="fs-5 text-muted m-0 pb-5">{{ $t('Polls') }}</h3>
                                 <app-link v-for="item in polls" :key="item.slug" :to="{name: 'poll', params: {slug: item.slug}}" class="d-flex text-dark text-hover-primary align-items-start mb-5" @click="close()">
-                                    <div v-if="item.image" class="symbol symbol-40px me-4 mt-1">
-                                        <img :src="$url('/storage/' + item.image)" alt="" class="object-fit-cover" />
+                                    <div v-if="item.image_blur" class="symbol symbol-40px me-4 mt-1">
+                                        <img :src="$storage(item.image_blur)" alt="" class="object-fit-cover" loading="lazy"/>
                                     </div>
                                     <div class="d-flex flex-column">
                                         <span class="fs-6 fw-semibold">{{ item.question }}</span>
@@ -60,8 +60,8 @@
                             <div v-if="vacancies.length" class="">
                                 <h3 class="fs-5 text-muted m-0 pb-5">{{ $t('Vacancies') }}</h3>
                                 <app-link v-for="item in vacancies" :key="item.id" :to="{name: 'vacancy', params: {slug: item.id}}" class="d-flex text-dark text-hover-primary align-items-start mb-5" @click="close()">
-                                    <div v-if="item.image" class="symbol symbol-40px me-4 mt-1">
-                                        <img :src="$url('/storage/' + item.image)" alt="" class="object-fit-cover" />
+                                    <div v-if="item.image_blur" class="symbol symbol-40px me-4 mt-1">
+                                        <img :src="$storage(item.image_blur)" alt="" class="object-fit-cover" loading="lazy"/>
                                     </div>
                                     <div class="d-flex flex-column">
                                         <span class="fs-6 fw-semibold">{{ item.job_title }}</span>

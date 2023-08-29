@@ -278,7 +278,7 @@
                                 </div>
 
                                 <div class="mb-6">
-                                    <vue-recaptcha v-show="action == 'register'" sitekey="6LcHEUkmAAAAAEtBo4xx-MSNyfwc9L5qOkkdngsZ"
+                                    <vue-recaptcha v-if="action == 'register'" sitekey="6LcHEUkmAAAAAEtBo4xx-MSNyfwc9L5qOkkdngsZ"
                                         size="normal" 
                                         :theme="$root.isDark? 'dark': 'light'"
                                         :hl="$root.locale"
@@ -401,15 +401,16 @@
     </div>
 </template>
 <script>
-import { defineComponent } from "vue"
-import vueRecaptcha from 'vue3-recaptcha2';
+import { defineComponent, defineAsyncComponent } from "vue"
 import Modal from '@/components/Modal.vue';
 import { ElNotification } from "element-plus"
 
 export default defineComponent({
     name: 'Auth',
     components: {
-        vueRecaptcha,
+        [!import.meta.env.VITE_SSR && 'vueRecaptcha']: defineAsyncComponent(() =>
+            import('vue3-recaptcha2')
+        ),
         Modal,
     },
     data() {

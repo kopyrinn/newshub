@@ -47,8 +47,12 @@
                                 ></intersection-observer>
 
                                 <div v-if="post.image" class="d-block position-relative overflow-hidden rounded-3 mt-6 cursor-zoom-in" @click="$root.fullscreenImage = $storage(post.image), $root.fullscreen = true">
-                                    <img :src="$storage(post.image)" :alt="post.title" class="object-fit-contain z-index-1 position-relative mh-450px min-h-250px w-100" itemprop="image" loading="lazy"/>
-                                    <div :style="{backgroundImage: 'url(' + $storage(encodeURIComponent(post.image)) + ')'}" class="bg-blur"></div>
+                                    <picture>
+                                        <source media="(max-width: 500px)" :srcset="$storage(post.image_sm)" />
+                                        <source media="(min-width: 501px)" :srcset="$storage(post.image_md)" />
+                                        <img :src="$storage(post.image_md)" :alt="post.title" class="object-fit-contain z-index-1 position-relative mh-450px min-h-250px w-100" itemprop="image" loading="lazy"/>
+                                    </picture>
+                                    <img :src="$storage(post.image_blur)" class="blurry" loading="lazy"/>
                                 </div>
                                 <div v-if="post.image_caption" class="fw-semibold mt-1 text-gray-700 fs-6">{{ post.image_caption }}</div>
                             </div>
@@ -66,7 +70,7 @@
                                         <app-link :to="{name: 'user', params: {slug: post.user_id}}" class="me-6 d-flex flex-fill flex-nowrap">
                                             <div class="me-6 flex-shrink-0">
                                                 <div class="symbol symbol-50px w-50px bg-light my-1">
-                                                    <img :src="$url('/storage/' + post.avatar)" class="object-fit-cover" alt=""> 
+                                                    <img :src="$storage(post.avatar_sm)" class="object-fit-cover" alt="" loading="lazy"> 
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1">
@@ -90,16 +94,16 @@
 
                             <div class="d-flex flex-center mb-5">
                                 <a :href="$root.shareWith('tg', post.url)" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/telegram.svg')" class="h-20px my-2" alt="">
+                                    <img :src="$media('svg/brand-logos/telegram.svg')" class="h-20px my-2" alt="" loading="lazy">
                                 </a>
                                 <a :href="$root.shareWith('vk', post.url)" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/vk.svg')" class="h-20px my-2" alt="">
+                                    <img :src="$media('svg/brand-logos/vk.svg')" class="h-20px my-2" alt="" loading="lazy">
                                 </a>
                                 <a :href="$root.shareWith('tw', post.url)" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/twitter.svg')" class="h-20px my-2" alt="">
+                                    <img :src="$media('svg/brand-logos/twitter.svg')" class="h-20px my-2" alt="" loading="lazy">
                                 </a>
                                 <a :href="$root.shareWith('fb', post.url)" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/facebook-4.svg')" class="h-20px my-2" alt="">
+                                    <img :src="$media('svg/brand-logos/facebook-4.svg')" class="h-20px my-2" alt="" loading="lazy">
                                 </a>
                             </div>
 
@@ -161,8 +165,12 @@
                                 ></intersection-observer>
 
                                 <div v-if="item.image" class="d-block position-relative overflow-hidden rounded-3 mt-6 cursor-zoom-in" @click="$root.fullscreenImage = $storage(item.image), $root.fullscreen = true">
-                                    <img :src="$storage(item.image)" :alt="item.title" class="object-fit-contain z-index-1 position-relative mh-450px min-h-250px w-100" loading="lazy"/>
-                                    <div :style="{backgroundImage: 'url(' + $storage(encodeURIComponent(post.image)) + ')'}" class="bg-blur"></div>
+                                    <picture>
+                                        <source media="(max-width: 500px)" :srcset="$storage(item.image_sm)" />
+                                        <source media="(min-width: 501px)" :srcset="$storage(item.image_md)" />
+                                        <img :src="$storage(item.image_md)" :alt="item.title" class="object-fit-contain z-index-1 position-relative mh-450px min-h-250px w-100" loading="lazy"/>
+                                    </picture>
+                                    <img :src="$storage(item.image_blur)" class="blurry" loading="lazy"/>
                                 </div>
                                 <div v-if="item.image_caption" class="fw-semibold mt-1 text-gray-700 fs-6">{{ item.image_caption }}</div>
                             </div>
@@ -180,7 +188,7 @@
                                         <app-link :to="{name: 'user', params: {slug: item.user_id}}" class="me-6 d-flex flex-fill flex-nowrap">
                                             <div class="me-6 flex-shrink-0">
                                                 <div class="symbol symbol-50px w-50px bg-light my-1">
-                                                    <img :src="$url('/storage/' + item.avatar)" class="object-fit-cover" alt=""> 
+                                                    <img :src="$storage(item.avatar_sm)" class="object-fit-cover" alt="" loading="lazy"> 
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1">
@@ -204,16 +212,16 @@
 
                             <div class="d-flex flex-center mb-5">
                                 <a :href="$root.shareWith('tg', item.url)" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/telegram.svg')" class="h-20px my-2" alt="">
+                                    <img :src="$media('svg/brand-logos/telegram.svg')" class="h-20px my-2" alt="" loading="lazy">
                                 </a>
                                 <a :href="$root.shareWith('vk', item.url)" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/vk.svg')" class="h-20px my-2" alt="">
+                                    <img :src="$media('svg/brand-logos/vk.svg')" class="h-20px my-2" alt="" loading="lazy">
                                 </a>
                                 <a :href="$root.shareWith('tw', item.url)" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/twitter.svg')" class="h-20px my-2" alt="">
+                                    <img :src="$media('svg/brand-logos/twitter.svg')" class="h-20px my-2" alt="" loading="lazy">
                                 </a>
                                 <a :href="$root.shareWith('fb', item.url)" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/facebook-4.svg')" class="h-20px my-2" alt="">
+                                    <img :src="$media('svg/brand-logos/facebook-4.svg')" class="h-20px my-2" alt="" loading="lazy">
                                 </a>
                             </div>
 

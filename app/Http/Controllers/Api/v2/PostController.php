@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v2;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\PostImageJob;
 use App\Models\Category;
 use App\Models\GrammaticalError;
 use App\Models\Post;
@@ -55,7 +56,7 @@ class PostController extends Controller
         $user = auth('sanctum')->user();
 
         $query = Post::query();
-        $query->select('posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.summary', 'posts.created_at', 'users.name', 'users.avatar',);
+        $query->select('posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.image_md', 'posts.image_sm', 'posts.image_blur', 'posts.summary', 'posts.created_at', 'users.name', 'users.avatar', 'users.avatar_sm');
         $query->join('followers', 'followers.user_id', '=', 'posts.user_id');
         $query->join('users', 'users.id', '=', 'posts.user_id');
         $query->where('followers.follower_id', $user->id);
@@ -94,7 +95,7 @@ class PostController extends Controller
 
     public function post(Request $request, $slug)
     {
-        $post = Post::select('posts.*', 'users.avatar', 'users.name', 'users.description')
+        $post = Post::select('posts.*', 'users.avatar', 'users.avatar_sm', 'users.name', 'users.description')
             ->join('users', 'users.id', 'posts.user_id')
             ->where('posts.slug', $slug)
             ->first();
@@ -538,6 +539,8 @@ class PostController extends Controller
             }
         }
 
+        // PostImageJob::dispatch($post);
+
         return response()->json([
             'ok' => true,
             'slug' => $post->slug,
@@ -568,7 +571,13 @@ class PostController extends Controller
                 'http://newshub.kz/storage/' => '',
             ]);
             $image = ltrim($image, '/');
-            $post->image = $image;
+
+            if ($image && $post->image != $image) {
+                $post->image = $image;
+                $post->image_md = null;
+                $post->image_sm = null;
+                $post->image_blur = null;
+            }
         }
 
         $post->keywords = $request->keywords;
@@ -635,6 +644,8 @@ class PostController extends Controller
         $user->addAction('update_post', [
             'post_id' => $post->id
         ]);
+
+        PostImageJob::dispatch($post);
 
         return response()->json([
             'ok' => true,

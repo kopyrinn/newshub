@@ -70,7 +70,7 @@ class AppServiceProvider extends ServiceProvider
                     return $item;
                 });
 
-            $slides = Post::select('posts.id', 'posts.slug', 'posts.summary', 'posts.image', 'posts.created_at', 'posts.title')
+            $slides = Post::select('posts.id', 'posts.slug', 'posts.summary', 'posts.image', 'posts.image_md', 'posts.image_fit', 'posts.created_at', 'posts.title')
                 ->where('is_slider', 1)
                 ->where('status', 1)
                 ->where('created_at', '<', Carbon::now())
@@ -78,7 +78,7 @@ class AppServiceProvider extends ServiceProvider
                 ->limit(10)
                 ->get();
 
-            $featured = Post::select('posts.id', 'posts.slug', 'posts.summary', 'posts.image', 'posts.created_at', 'posts.title')
+            $featured = Post::select('posts.id', 'posts.slug', 'posts.summary', 'posts.image', 'posts.image_sm', 'posts.created_at', 'posts.title')
                 ->where('is_featured', 1)
                 ->where('status', 1)
                 ->where('created_at', '<', Carbon::now())
@@ -117,14 +117,14 @@ class AppServiceProvider extends ServiceProvider
 
             $terms = Page::where('slug', 'terms-conditions')->first()->page_content;
 
-            $lastVacancies = Vacancy::select('vacancies.id', 'vacancies.job_title', 'vacancies.task', 'vacancies.user_id', 'vacancies.created_at', 'users.name', 'users.avatar')
+            $lastVacancies = Vacancy::select('vacancies.id', 'vacancies.job_title', 'vacancies.task', 'vacancies.user_id', 'vacancies.created_at', 'users.name', 'users.avatar', 'users.avatar_sm')
                 ->join('users', 'users.id', 'vacancies.user_id')
                 ->where('vacancies.status', 1)
                 ->inRandomOrder()
                 ->take(3)
                 ->get();
 
-            $lastArticles = Post::select('posts.slug', 'posts.summary', 'posts.image', 'posts.created_at', 'posts.title', 'users.name', 'users.avatar')
+            $lastArticles = Post::select('posts.slug', 'posts.summary', 'posts.image', 'posts.image_blur', 'posts.created_at', 'posts.title', 'users.name', 'users.avatar', 'users.avatar_sm')
                 ->join('users', 'users.id', '=', 'posts.user_id')
                 ->where('posts.status', 1)
                 ->where('posts.created_at', '<', Carbon::now())
@@ -138,7 +138,7 @@ class AppServiceProvider extends ServiceProvider
                 ->take(3)
                 ->get();
 
-            $lastEvents = Post::select('posts.slug', 'posts.summary', 'posts.image', 'posts.created_at', 'posts.title', 'users.name', 'users.avatar')
+            $lastEvents = Post::select('posts.slug', 'posts.summary', 'posts.image', 'posts.image_blur', 'posts.created_at', 'posts.title', 'users.name', 'users.avatar', 'users.avatar_sm')
                 ->join('users', 'users.id', '=', 'posts.user_id')
                 ->where('posts.status', 1)
                 ->where('posts.created_at', '<', Carbon::now())

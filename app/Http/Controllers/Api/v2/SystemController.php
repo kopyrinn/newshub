@@ -128,11 +128,11 @@ class SystemController extends Controller
 
     public function search(Request $request)
     {
-        $queryPost = Post::select('title', 'summary', 'slug', 'image')
+        $queryPost = Post::select('title', 'summary', 'slug', 'image', 'image_md', 'image_sm', 'image_blur')
             ->where('status', 1)
             ->where('created_at', '<', Carbon::now());
 
-        $queryPoll = Poll::select('question', 'slug', 'image')
+        $queryPoll = Poll::select('question', 'slug', 'image', 'image_md', 'image_sm', 'image_blur')
             ->where('is_active', 1);
 
         $queryVacancy = Vacancy::select('id', 'job_title')

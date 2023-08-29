@@ -19,7 +19,7 @@
                                         {{ vacancy.job_title }}
                                     </h1>
                                     <div v-if="vacancy.image" class="mt-8">
-                                        <img :src="$url('/storage/' + vacancy.image)" class="object-fit-cover h-350px w-100 rounded"/>
+                                        <img :src="$storage(vacancy.image)" class="object-fit-cover h-350px w-100 rounded" loading="lazy"/>
                                     </div>
                                 </div>
 
@@ -37,7 +37,7 @@
                                             <app-link :to="{name: 'user', params: {slug: vacancy.user_id}}" class="me-6 d-flex flex-fill flex-nowrap">
                                                 <div class="me-6 flex-shrink-0">
                                                     <div class="symbol symbol-50px w-50px bg-light my-1">
-                                                        <img :src="$url('/storage/' + vacancy.avatar)" class="object-fit-cover" alt=""> 
+                                                        <img :src="$storage(vacancy.avatar_sm)" class="object-fit-cover" alt="" loading="lazy"> 
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
@@ -61,16 +61,16 @@
 
                                 <div class="d-flex flex-center">
                                     <a :href="$root.shareWith('tg', $base($route.fullPath))" class="mx-4">
-                                        <img :src="$media('svg/brand-logos/telegram.svg')" class="h-20px my-2" alt="">
+                                        <img :src="$media('svg/brand-logos/telegram.svg')" class="h-20px my-2" alt="" loading="lazy">
                                     </a>
                                     <a :href="$root.shareWith('vk', $base($route.fullPath))" class="mx-4">
-                                        <img :src="$media('svg/brand-logos/vk.svg')" class="h-20px my-2" alt="">
+                                        <img :src="$media('svg/brand-logos/vk.svg')" class="h-20px my-2" alt="" loading="lazy">
                                     </a>
                                     <a :href="$root.shareWith('tw', $base($route.fullPath))" class="mx-4">
-                                        <img :src="$media('svg/brand-logos/twitter.svg')" class="h-20px my-2" alt="">
+                                        <img :src="$media('svg/brand-logos/twitter.svg')" class="h-20px my-2" alt="" loading="lazy">
                                     </a>
                                     <a :href="$root.shareWith('fb', $base($route.fullPath))" class="mx-4">
-                                        <img :src="$media('svg/brand-logos/facebook-4.svg')" class="h-20px my-2" alt="">
+                                        <img :src="$media('svg/brand-logos/facebook-4.svg')" class="h-20px my-2" alt="" loading="lazy">
                                     </a>
                                 </div>
                             </div>

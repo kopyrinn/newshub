@@ -85,7 +85,7 @@ export default defineComponent({
     },
     computed: {
       uploadedImage() {
-        return this.$url('/storage/' + this.image)
+        return this.$storage(this.image)
       }
     },
     methods: {

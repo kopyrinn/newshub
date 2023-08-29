@@ -5,8 +5,14 @@
                 <app-link :to="{name: 'poll', params: {slug: item.slug}}" class="fs-3 fw-semibold text-gray-900 text-hover-primary d-block mb-4">{{ item.question }}</app-link>
                 <div v-if="item.summary" class="fs-6 fw-normal text-gray-800" v-html="item.summary"></div>
             </div>
-            <app-link v-if="item.image" :to="{name: 'poll', params: {slug: item.slug}}">
-                <img :src="$url('/storage/' + item.image)" class="object-fit-cover h-100 min-h-250px w-100" loading="lazy"/>
+
+            <app-link v-if="item.image" :to="{name: 'poll', params: {slug: item.slug}}" class="d-block position-relative overflow-hidden">
+                <picture>
+                    <source media="(max-width: 500px)" :srcset="$storage(item.image_sm)" />
+                    <source media="(min-width: 501px)" :srcset="$storage(item.image_md)" />
+                    <img :src="$storage(item.image_md)" :alt="item.title" class="object-fit-contain z-index-1 position-relative mh-500px min-h-250px w-100" loading="lazy"/>
+                </picture>
+                <img :src="$storage(item.image_blur)" class="blurry" loading="lazy"/>
             </app-link>
         </div>
 
