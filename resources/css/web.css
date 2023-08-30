@@ -99449,3 +99449,9 @@ body {
   overflow-y: auto;
   overflow-y: overlay;
 }
+
+@media (max-width: 1500px) {
+  .featured-card:nth-child(n+3) {
+    display: none !important;
+  }
+}
