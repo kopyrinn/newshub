@@ -214,7 +214,7 @@
                 <!--end::Header-->
                 <!--begin::Navs-->
                 <div class="app-sidebar-navs flex-column-fluid">
-                    <div class="hover-scroll-y h-100 pt-5">
+                    <div class="sidebar-scroll pt-5">
                         <!--begin::Sidebar menu-->
                         <div class="menu menu-column menu-rounded menu-sub-indention menu-state-bullet-primary">
                             <div class="menu-item" :class="{'here': $route.name == 'index'}">

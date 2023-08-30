@@ -1,6 +1,6 @@
 <template>
     <div class="" :class="{'app-container container-xxl': $root.isXxxl}">
-        <div class="d-flex" :class="{'flex-wrap': $root.isLg}">
+        <div class="d-flex flex-wrap flex-xl-nowrap">
             <Carousel :autoplay="3000" :wrapAround="true" class="w-100 h-400px mw-xl-700px w-xl-700px carousel carousel-custom flex-shrink-0" v-model="currentSlide">
                 <Slide v-for="item in $root.config.postSlides" :key="item.image" class="h-400px overflow-hidden">
                     <div class="carousel__item position-relative w-100 h-100">
@@ -31,8 +31,23 @@
                 </template>
             </Carousel>
             <div class="d-flex flex-wrap w-auto flex-grow-1">
-                <div v-for="(item, index) in $root.config.postFeatured" class="w-xxl-50 mw-xxl-50 w-xl-100 mw-xl-100 w-sm-50 mw-sm-50 w-100 mw-100" :key="item.slug">
-                    <div v-if="$root.width > 1400 || ($root.width < 1400 && index < 2)" class="h-200px mw-100 w-100 position-relative">
+                <div v-for="(item, index) in $root.config.postFeatured.slice(0, 2)" class="w-xxl-50 mw-xxl-50 w-xl-100 mw-xl-100 w-sm-50 mw-sm-50 w-100 mw-100" :key="item.slug">
+                    <div  class="h-200px mw-100 w-100 position-relative">
+                        <img class="object-fit-cover object-position-center h-100 w-100" :src="$storage(item.image_sm)"/>
+                        <div class="position-absolute h-100 w-100 bg-black bg-opacity-50 top-0 bottom-0 text-start">
+                            <div class="h-100 d-flex flex-column justify-content-end p-5">
+                                <div class="fs-4 fw-bold text-white mb-6 text-truncate-2">{{ item.title }}</div>
+                                <div class="fw-semibold text-white fs-6 mb-8 opacity-75 text-truncate-2">{{ item.summary }}</div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <app-link :to="{name: 'post', params: {slug: item.slug}}"  class="btn btn-primary py-3 px-4 fs-7 lh-1" style="background: rgba(255, 255, 255, 0.2)">{{ $t('Read more') }}</app-link>
+                                    <span class="badge badge-light-primary py-3 px-4 fs-7">{{ $t('News') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-for="(item, index) in $root.config.postFeatured.slice(2)" class="w-xxl-50 mw-xxl-50 w-xl-100 mw-xl-100 w-sm-50 mw-sm-50 w-100 mw-100 d-none d-xxl-block" :key="item.slug">
+                    <div class="h-200px mw-100 w-100 position-relative">
                         <img class="object-fit-cover object-position-center h-100 w-100" :src="$storage(item.image_sm)"/>
                         <div class="position-absolute h-100 w-100 bg-black bg-opacity-50 top-0 bottom-0 text-start">
                             <div class="h-100 d-flex flex-column justify-content-end p-5">

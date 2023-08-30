@@ -51,6 +51,7 @@ class SystemController extends Controller
         $query = User::select(
                 'users.id',
                 'users.avatar',
+                'users.avatar_sm',
                 'users.name',
                 'users.lastname',
                 'users.media_name',
