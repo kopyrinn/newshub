@@ -99450,7 +99450,7 @@ body {
   overflow-y: overlay;
 }
 
-@media (max-width: 1500px) {
+@media (max-width: 1400px) {
   .featured-card:nth-child(n+3) {
     display: none !important;
   }
