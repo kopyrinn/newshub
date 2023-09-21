@@ -56,7 +56,7 @@ class PostController extends Controller
         $user = auth('sanctum')->user();
 
         $query = Post::query();
-        $query->select('posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.image_md', 'posts.image_sm', 'posts.image_blur', 'posts.summary', 'posts.created_at', 'users.name', 'users.avatar', 'users.avatar_sm');
+        $query->select('posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.image_md', 'posts.image_sm', 'posts.image_blur', 'posts.pageviews', 'posts.summary', 'posts.created_at', 'users.name', 'users.avatar', 'users.avatar_sm');
         $query->join('followers', 'followers.user_id', '=', 'posts.user_id');
         $query->join('users', 'users.id', '=', 'posts.user_id');
         $query->where('followers.follower_id', $user->id);
@@ -102,8 +102,9 @@ class PostController extends Controller
 
         abort_if(!$post, 404);
 
-        $post->pageviews++;
-        $post->update();
+        $post->update([
+            'pageviews' => $post->pageviews + 1
+        ]);
 
         if (!auth('sanctum')->guest()) {
             $notifications = auth('sanctum')->user()->unreadNotifications()->get();
@@ -143,16 +144,18 @@ class PostController extends Controller
         $post = $user->posts()->where('slug', $request->slug)->first();
         abort_if(!$post, 404);
 
+        $post->embedsSanitize();
+
         $data = [];
         foreach ($post->getAttributes() as $key => $attr) {
             if (in_array($key, $post->translatable)) {
-                $data[$key] = json_decode($attr);
+                $data[$key] = json_decode($attr, true);
             } else {
                 $data[$key] = $attr;
             }
         }
 
-        $category = $post->categories()->first();
+        $category = $post->categories()->select('id')->first();
         if ($category) {
             $data['category_id'] = $category->id;
         }
@@ -206,8 +209,9 @@ class PostController extends Controller
                 '@id' => url("post/{$post->slug}"),
             ]);
 
-        $post->pageviews++;
-        $post->update();
+        $post->update([
+            'pageviews' => $post->pageviews + 1
+        ]);
 
         if (!auth('sanctum')->guest()) {
             $notifications = auth('sanctum')->user()->unreadNotifications()->get();
@@ -255,8 +259,9 @@ class PostController extends Controller
         $prevPost = $post->previous();
 
         if ($prevPost) {
-            $prevPost->pageviews++;
-            $prevPost->update();
+            $prevPost->update([
+                'pageviews' => $prevPost->pageviews + 1
+            ]);
 
             return response()->json([
                 'ok' => true,

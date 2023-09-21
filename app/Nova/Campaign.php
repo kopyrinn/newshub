@@ -19,6 +19,7 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\MultiSelect;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Panel;
+use Murdercode\TinymceEditor\TinymceEditor;
 
 class Campaign extends Resource
 {
@@ -64,43 +65,46 @@ class Campaign extends Resource
         return [
             ID::make()->sortable(),
             Text::make(__('Тема'), 'subject'),
-            Tiptap::make(__('Сообщение'), 'body')
-                ->rules('required')
+            TinymceEditor::make(__('Сообщение'), 'body')
                 ->hideFromIndex()
-                ->buttons([
-                    'heading',
-                    '|',
-                    'italic',
-                    'bold',
-                    '|',
-                    'link',
-                    'code',
-                    'strike',
-                    'underline',
-                    'highlight',
-                    '|',
-                    'bulletList',
-                    'orderedList',
-                    'br',
-                    'blockquote',
-                    '|',
-                    'horizontalRule',
-                    'hardBreak',
-                    '|',
-                    'table',
-                    '|',
-                    'image',
-                    '|',
-                    'textAlign',
-                    '|',
-                    'history',
-                ])
-                ->imageSettings([
-                    'disk' => 'public',
-                    'path' => 'campaigns/' . date('Y-m-d'),
-                ])
-                ->headingLevels([2, 3, 4]),
-
+                ->rules(['required'])
+                ->fullWidth(),
+            // Tiptap::make(__('Сообщение'), 'body')
+            //     ->rules('required')
+            //     ->hideFromIndex()
+            //     ->buttons([
+            //         'heading',
+            //         '|',
+            //         'italic',
+            //         'bold',
+            //         '|',
+            //         'link',
+            //         'code',
+            //         'strike',
+            //         'underline',
+            //         'highlight',
+            //         '|',
+            //         'bulletList',
+            //         'orderedList',
+            //         'br',
+            //         'blockquote',
+            //         '|',
+            //         'horizontalRule',
+            //         'hardBreak',
+            //         '|',
+            //         'table',
+            //         '|',
+            //         'image',
+            //         '|',
+            //         'textAlign',
+            //         '|',
+            //         'history',
+            //     ])
+            //     ->imageSettings([
+            //         'disk' => 'public',
+            //         'path' => 'campaigns/' . date('Y-m-d'),
+            //     ])
+            //     ->headingLevels([2, 3, 4]),
             Boolean::make(__('Активно'), 'is_active')
                 ->hideWhenCreating()
                 ->hideWhenUpdating()

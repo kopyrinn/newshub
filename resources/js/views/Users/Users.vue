@@ -1,6 +1,18 @@
 <template>
     <div class="row g-9">
         <div class="col-md-7 col-xl-7">
+            <div class="alert bg-body d-flex flex-column flex-sm-row p-5 mb-6 rounded-3">
+                <div class="symbol symbol-50px w-50px  me-6">
+                    <span class="symbol-label bg-light-warning">
+                        <i class="ki-duotone ki-notification-bing fs-2hx text-warning"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                    </span>
+                </div>
+                
+                <app-link class="d-flex flex-column pe-0 pe-sm-10" :to="{name: 'page', params: {slug: 'terms-conditions'}}">
+                    <div class="fs-3 fw-bold text-dark">{{ $t('User agreement') }}</div>
+                    <span class="text-gray-800 fs-6 mt-1 fw-semibold mb-0">{{ $t('Please read our user agreement carefully.') }}</span>
+                </app-link>
+            </div>
             <app-link v-for="category in $root.config.users" :to="{name: 'user-category', params: {slug: category.slug}}" class="card border-hover-primary mb-6">
                 <div class="card-body p-5">
                     <div class="d-flex">
@@ -20,6 +32,7 @@
                     </div>
                 </div>
             </app-link>
+            
         </div>
         <div class="col-lg-5">
             <Sidebar/>

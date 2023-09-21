@@ -11,6 +11,7 @@ use Laravel\Nova\Fields\Slug;
 use Kongulov\NovaTabTranslatable\NovaTabTranslatable;
 use Kongulov\NovaTabTranslatable\TranslatableTabToRowTrait;
 use Manogi\Tiptap\Tiptap;
+use Murdercode\TinymceEditor\TinymceEditor;
 
 class Page extends Resource
 {
@@ -80,43 +81,46 @@ class Page extends Resource
                 Textarea::make(__('Description'), 'description')
                     ->hideFromIndex()
                 ,
-
-                Tiptap::make(__('Content'), 'page_content')
-                    ->rules('required_lang:ru')
+                TinymceEditor::make(__('Content'), 'page_content')
                     ->hideFromIndex()
-                    ->buttons([
-                        'heading',
-                        '|',
-                        'italic',
-                        'bold',
-                        '|',
-                        'link',
-                        'code',
-                        'strike',
-                        'underline',
-                        'highlight',
-                        '|',
-                        'bulletList',
-                        'orderedList',
-                        'br',
-                        'blockquote',
-                        '|',
-                        'horizontalRule',
-                        'hardBreak',
-                        '|',
-                        'table',
-                        '|',
-                        'image',
-                        '|',
-                        'textAlign',
-                        '|',
-                        'history',
-                    ])
-                    ->imageSettings([
-                        'disk' => 'public',
-                        'path' => 'pages/' . date('Y-m-d'),
-                    ])
-                    ->headingLevels([2, 3, 4]),
+                    ->rules(['required_lang:ru'])
+                    ->fullWidth(),
+                // Tiptap::make(__('Content'), 'page_content')
+                //     ->rules('required_lang:ru')
+                //     ->hideFromIndex()
+                //     ->buttons([
+                //         'heading',
+                //         '|',
+                //         'italic',
+                //         'bold',
+                //         '|',
+                //         'link',
+                //         'code',
+                //         'strike',
+                //         'underline',
+                //         'highlight',
+                //         '|',
+                //         'bulletList',
+                //         'orderedList',
+                //         'br',
+                //         'blockquote',
+                //         '|',
+                //         'horizontalRule',
+                //         'hardBreak',
+                //         '|',
+                //         'table',
+                //         '|',
+                //         'image',
+                //         '|',
+                //         'textAlign',
+                //         '|',
+                //         'history',
+                //     ])
+                //     ->imageSettings([
+                //         'disk' => 'public',
+                //         'path' => 'pages/' . date('Y-m-d'),
+                //     ])
+                //     ->headingLevels([2, 3, 4]),
             ]),
             Slug::make(__('Slug'), 'slug')
                 ->rules('required')

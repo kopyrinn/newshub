@@ -31,8 +31,9 @@ class HomeController extends Controller
             $post = $query->first();
             abort_if(!$post, 404, "Not found post");
 
-            $post->pageviews++;
-            $post->update();
+            $post->update([
+                'pageviews' => $post->pageviews + 1
+            ]);
 
             $post = $post->toArray();
             $row = json_decode(json_encode($post));

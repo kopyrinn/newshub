@@ -15,8 +15,6 @@
                             <div class="mb-8">
                                 <h1 class="text-dark fs-1 fw-bold" itemprop="headline">
                                     {{ post.title }}
-
-                                    <span class="fw-bold text-muted fs-5 ps-1">{{ post.read_mins }} {{ $t('mins read') }}</span>
                                 </h1>
                                 <div class="d-flex flex-wrap">
                                     <div class="me-5 my-1 d-flex align-items-center">
@@ -33,6 +31,14 @@
                                     <div v-if="post.categories.length && post.rubrics.length" class="me-5 my-1 d-flex align-items-center">
                                         <i class="ki-duotone ki-price-tag fs-2 me-2"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
                                         <span class="fw-bold text-gray-400"><span v-for="(rubric, index) in post.rubrics"><app-link :to="{name: 'category', params: {slug: post.categories[0].slug, rubric: rubric.slug}}">{{ rubric.name }}</app-link><span v-if="index + 1 < post.rubrics.length" class="me-1">,</span></span></span>
+                                    </div>
+                                    <div class="d-flex align-items-center me-5">
+                                        <i class="ki-duotone ki-timer fs-2 me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                        <span class="fw-bold text-gray-400">{{ post.read_mins }} {{ $t('mins read') }}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center me-5">
+                                        <i class="ki-duotone ki-eye fs-2 me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                        <span class="fw-bold text-gray-400 fs-7">{{ post.pageviews }}</span>
                                     </div>
                                     <!-- <div class="my-1 d-flex align-items-center">
                                         <i class="ki-duotone ki-message-text-2 text-primary fs-2 me-1"><span
@@ -57,7 +63,7 @@
                                 <div v-if="post.image_caption" class="fw-semibold mt-1 text-gray-700 fs-6">{{ post.image_caption }}</div>
                             </div>
 
-                            <div class="fs-5 fw-medium text-gray-900 mb-10 article" itemprop="articleBody" v-html="post.content"></div>
+                            <div class="fs-5 fw-medium text-gray-900 mb-10 article" itemprop="articleBody" v-html="post.content" ref="articleBody"></div>
 
                             <intersection-observer
                                 :sentinal-name="'footer' + post.slug"
@@ -92,7 +98,13 @@
                                 </div>
                             </div>
 
+                            <div class="fs-6 fw-semibold text-center text-muted mb-3">
+                                {{ $t('Subscribe or follow our news on social networks') }}
+                            </div>
                             <div class="d-flex flex-center mb-5">
+                                <a href="" @click.prevent="share(post)" class="btn btn-sm btn-icon btn-primary mx-3 p-0 w-20px h-20px">
+                                    <i class="ki-duotone ki-share fs-5"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i><i class="path6"></i></i>
+                                </a>
                                 <a :href="$root.shareWith('tg', post.url)" class="mx-4">
                                     <img :src="$media('svg/brand-logos/telegram.svg')" class="h-20px my-2" alt="" loading="lazy">
                                 </a>
@@ -210,18 +222,24 @@
                                 </div>
                             </div>
 
+                            <div class="fs-6 fw-semibold text-center text-muted mb-3">
+                                {{ $t('Subscribe or follow our news on social networks') }}
+                            </div>
                             <div class="d-flex flex-center mb-5">
+                                <a href="" @click.prevent="share(item)" class="btn btn-sm btn-icon btn-primary mx-3 p-0 w-20px h-20px">
+                                    <i class="ki-duotone ki-share fs-5"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i><i class="path6"></i></i>
+                                </a>
                                 <a :href="$root.shareWith('tg', item.url)" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/telegram.svg')" class="h-20px my-2" alt="" loading="lazy">
+                                    <img :src="$media('svg/brand-logos/telegram.svg')" class="h-20px" alt="" loading="lazy">
                                 </a>
                                 <a :href="$root.shareWith('vk', item.url)" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/vk.svg')" class="h-20px my-2" alt="" loading="lazy">
+                                    <img :src="$media('svg/brand-logos/vk.svg')" class="h-20px" alt="" loading="lazy">
                                 </a>
                                 <a :href="$root.shareWith('tw', item.url)" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/twitter.svg')" class="h-20px my-2" alt="" loading="lazy">
+                                    <img :src="$media('svg/brand-logos/twitter.svg')" class="h-20px" alt="" loading="lazy">
                                 </a>
                                 <a :href="$root.shareWith('fb', item.url)" class="mx-4">
-                                    <img :src="$media('svg/brand-logos/facebook-4.svg')" class="h-20px my-2" alt="" loading="lazy">
+                                    <img :src="$media('svg/brand-logos/facebook-4.svg')" class="h-20px" alt="" loading="lazy">
                                 </a>
                             </div>
 
@@ -297,6 +315,7 @@ export default defineComponent({
             reported: false,
             posts: [],
             slugs: [],
+            iframes: [],
         }
     },
     computed: {
@@ -389,10 +408,17 @@ export default defineComponent({
             }
 
             window.addEventListener('keyup', this.onKeyUp)
+            window.addEventListener('message', this.resize)
         }
     },
+    mounted() {
+        if (this.$isSsr) return
+
+        this.renderTelegram()
+    },
     beforeUnmount() {
-        window.removeEventListener('keyup', this.onKeyUp);
+        window.removeEventListener('keyup', this.onKeyUp)
+        window.removeEventListener('message', this.resize)
     },
     watch: {
         $route(to, from) {
@@ -405,10 +431,10 @@ export default defineComponent({
     },
     methods: {
         fetchData() {
-            if (this.post.slug && this.post.slug === this.slug) {
-                this.loading = false
-                return
-            }
+            // if (this.post.slug && this.post.slug === this.slug) {
+            //     this.loading = false
+            //     return
+            // }
 
             this.loading = true
 
@@ -430,6 +456,8 @@ export default defineComponent({
                     ogImage: this.post.image? this.$storage(this.post.image): '',
                     twitterCard: 'summary_large_image',
                 })
+
+                this.renderTelegram()
             })
         },
         async updatePage(item) {
@@ -446,6 +474,42 @@ export default defineComponent({
                     action: 'scroll'
                 }
             })
+        },
+        renderTelegram() {
+            this.$nextTick(() => {
+                if (!this.$refs.articleBody) return
+
+                if (!this.iframes.length) {
+                    this.iframes = this.$refs.articleBody.querySelectorAll('.telegram-post')
+                    if (!this.iframes.length) return
+
+                    this.iframes.forEach((iframe) => {
+                        iframe.addEventListener("load", () => {
+                            this.checkFrame(iframe.id)
+                        });
+                    })
+                }
+            })
+        },
+        checkFrame(id) {
+            this.$refs.articleBody.querySelector('#' + id).contentWindow.postMessage(
+                JSON.stringify({ event: "visible", frame: id.replace(':', '/') }),
+                "*"
+            );
+        },
+        resize({ origin, data, source }) {
+            if (origin !== 'https://t.me' || !data || typeof data !== "string") return
+
+            const action = JSON.parse(data)
+
+            if (action.event === "resize" && action.height) {
+                this.iframes.forEach((iframe) => {
+                    if (source === iframe.contentWindow) {
+                        iframe.style.height = action.height + 'px'
+                        return false
+                    }
+                })
+            }
         },
         fetchNext(next) {
             this.slugs.push(next)
@@ -488,7 +552,42 @@ export default defineComponent({
                 this.isSend = false
                 this.$root.openModal('report')
             }
-        }
+        },
+        async share(item) {
+            var title = item.title.substring(0, 85)
+            if (item.title.length > 85) {
+                title += '...'
+            }
+
+            var description = item.description.substring(0, 170)
+            if (item.description.length > 170) {
+                description += '...'
+            }
+
+            if (this.$share) {
+                await this.$share.share({
+                    title: title,
+                    text: description? description: '',
+                    url: item.url,
+                    dialogTitle: this.$t('Share'),
+                })
+            } else if (navigator.share) {
+                await navigator.share({
+                    title: title,
+                    text: description? description: '',
+                    url: item.url
+                })
+            } else {
+                this.$root.copyText(item.url)
+                
+                ElNotification({
+                    type: 'success',
+                    title: this.$t('Notification'),
+                    message: this.$t('URL Copied'),
+                    duration: 2000,
+                })
+            }
+        },
     },
 });
 </script>

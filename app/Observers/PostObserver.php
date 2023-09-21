@@ -21,6 +21,10 @@ class PostObserver
         $post->selected_rubrics = !$rubrics? []: $rubrics->map(function($item) {
             return true;
         })->toArray();
+
+        if (request()->is('admin/resources/posts/*') || request()->is('nova-api/posts/*')) {
+            $post->embedsSanitize();
+        }
     }
 
     public function updating(Post $post)
@@ -37,6 +41,10 @@ class PostObserver
         if ($post->selected_rubrics) {
             $post->rubrics()->sync(array_keys(array_filter($post->selected_rubrics)));
             unset($post->selected_rubrics);
+        }
+
+        if ($post->content) {
+            $post->embedsParse();
         }
     }
 

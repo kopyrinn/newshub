@@ -138,8 +138,7 @@ class AppServiceProvider extends ServiceProvider
                 ->take(3)
                 ->get();
 
-            $lastEvents = Post::select('posts.slug', 'posts.summary', 'posts.image', 'posts.image_blur', 'posts.created_at', 'posts.title', 'users.name', 'users.avatar', 'users.avatar_sm')
-                ->join('users', 'users.id', '=', 'posts.user_id')
+            $lastEvents = Post::select('posts.slug', 'posts.summary', 'posts.image', 'posts.image_blur', 'posts.created_at', 'posts.event_date', 'posts.title')
                 ->where('posts.status', 1)
                 ->where('posts.created_at', '<', Carbon::now())
                 ->whereExists(function($query) {

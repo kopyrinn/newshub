@@ -62,7 +62,7 @@ class UserController extends Controller
         abort_if(!$user, 404);
 
         $posts = Post::select(
-                'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.image_md', 'posts.image_sm', 'posts.image_blur', 'posts.summary', 'posts.created_at', 'users.name', 'users.avatar', 'users.avatar_sm',
+                'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.image_md', 'posts.image_sm', 'posts.image_blur', 'posts.pageviews', 'posts.summary', 'posts.created_at', 'users.name', 'users.avatar', 'users.avatar_sm',
             )
             ->join('users', 'users.id', 'posts.user_id')
             ->where('users.id', $user->id)

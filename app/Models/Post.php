@@ -30,6 +30,10 @@ class Post extends Model
         'read_mins',
     ];
 
+    protected $fillable = [
+        'pageviews',
+    ];
+
     protected function readMins(): Attribute
     {
         return Attribute::make(
@@ -183,14 +187,110 @@ class Post extends Model
         }
     }
 
-    /**
-     * Prepare a date for array / JSON serialization.
-     *
-     * @param  \DateTimeInterface  $date
-     * @return string
-     */
-    // protected function serializeDate(DateTimeInterface $date)
-    // {
-    //     return $date->toIso8601String(); // 2019-02-01T03:45:27+00:00
-    // }
+    public function embedsSanitize()
+    {
+        foreach ($this->getTranslations('content') as $locale => $content) {
+            if (!$content) continue;
+
+            if (preg_match("@<iframe.*src=\"(https://www\.instagram\.com/(p|reel)/\w++/embed/).*</iframe>@Usi", $content)) {
+                $content = preg_replace_callback("@<iframe.*src=\"(https://www\.instagram\.com/(p|reel)/\w++/embed/).*</iframe>@Usi", function($match) {
+                    return "<a href=\"{$match[1]}\">{$match[1]}</a>";
+                }, $content);
+            }
+
+            if (preg_match("@<iframe.*src=\"(https://www\.tiktok\.com/embed/v2/\d++).*</iframe>@Usi", $content)) {
+                $content = preg_replace_callback("@<iframe.*src=\"(https://www\.tiktok\.com/embed/v2/\d++).*</iframe>@Usi", function($match) {
+                    return "<a href=\"{$match[1]}\">{$match[1]}</a>";
+                }, $content);
+            }
+
+            if (preg_match("@<iframe.*src=\"(https://t\.me/\w++/\d++).*</iframe>@Usi", $content)) {
+                $content = preg_replace_callback("@<iframe.*src=\"(https://t\.me/\w++/\d++).*</iframe>@Usi", function($match) {
+                    return "<a href=\"{$match[1]}\">{$match[1]}</a>";
+                }, $content);
+            }
+
+            if (preg_match("@(<(iframe|embed).*</(iframe|embed)>)@Usi", $content)) {
+                $content = preg_replace_callback("@(<(iframe|embed).*</(iframe|embed)>)@Usi", function($match) {
+                    return htmlentities($match[1]);
+                }, $content);
+            }
+
+            $this->setTranslation('content', $locale, $content);
+        }
+    }
+
+    public function embedsParse()
+    {
+        foreach ($this->getTranslations('content') as $locale => $content) {
+            if (preg_match("@(&lt;(script).*&lt;/(script)&gt;)@Usi", $content)) {
+                $content = preg_replace("@(&lt;script.*&lt;/script&gt;)@Usi", '', $content);
+            }
+
+            // instagram
+            if (preg_match("@&lt;blockquote.*data-instgrm-permalink=\"https://www\.instagram\.com/(p|reel)/([0-9a-z-_]++)/.*&lt;/blockquote&gt;@Usi", $content)) {
+                $content = preg_replace_callback("@&lt;blockquote.*data-instgrm-permalink=\"https://www\.instagram\.com/(p|reel)/([0-9a-z-_]++)/.*&lt;/blockquote&gt;@Usi", function($match) {
+                    return "<iframe frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"600\" src=\"https://www.instagram.com/{$match[1]}/{$match[2]}/embed/\"></iframe>";
+                }, $content);
+            }
+
+            if (preg_match("@<a.*href=\"https://www\.instagram\.com/(p|reel)/([0-9a-z-_]++)/embed/.*</a>@Usi", $content)) {
+                $content = preg_replace_callback("@<a.*href=\"https://www\.instagram\.com/(p|reel)/([0-9a-z-_]++)/embed/.*</a>@Usi", function($match) {
+                    return "<iframe frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"600\" src=\"https://www.instagram.com/{$match[1]}/{$match[2]}/embed/\"></iframe>";
+                }, $content);
+            }
+
+            if (preg_match("@<a.*href=\"https://www\.instagram\.com/(p|reel)/([0-9a-z-_]++)/.*</a>@Usi", $content)) {
+                $content = preg_replace_callback("@<a.*href=\"https://www\.instagram\.com/(p|reel)/([0-9a-z-_]++)/.*</a>@Usi", function($match) {
+                    return "<iframe frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"600\" src=\"https://www.instagram.com/{$match[1]}/{$match[2]}/embed/\"></iframe>";
+                }, $content);
+            }
+
+            // tiktok
+            if (preg_match("@<a.*href=\"https://www\.tiktok\.com/embed/v2/(\d++).*</a>@Usi", $content)) {
+                $content = preg_replace_callback("@<a.*href=\"https://www\.tiktok\.com/embed/v2/(\d++).*</a>@Usi", function($match) {
+                    return "<iframe frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"600\" src=\"https://www.tiktok.com/embed/v2/{$match[1]}\"></iframe>";
+                }, $content);
+            }
+
+            if (preg_match("@<a.*href=\"https://www\.tiktok\.com/\@\w++/video/(\d++).*</a>@Usi", $content)) {
+                $content = preg_replace_callback("@<a.*href=\"https://www\.tiktok\.com/\@\w++/video/(\d++).*</a>@Usi", function($match) {
+                    return "<iframe frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"600\" src=\"https://www.tiktok.com/embed/v2/{$match[1]}\"></iframe>";
+                }, $content);
+            }
+
+            if (preg_match("@&lt;blockquote.*cite=\"https://www\.tiktok\.com/\@\w++/video/(\d++).*&lt;/blockquote&gt;@Usi", $content)) {
+                $content = preg_replace_callback("@&lt;blockquote.*cite=\"https://www\.tiktok\.com/\@\w++/video/(\d++).*&lt;/blockquote&gt;@Usi", function($match) {
+                    return "<iframe frameborder=\"0\" scrolling=\"no\" width=\"100%\" height=\"600\" src=\"https://www.tiktok.com/embed/v2/{$match[1]}\"></iframe>";
+                }, $content);
+            }
+
+            // iframes / embeds
+            if (preg_match("@(&lt;(iframe|embed).*&lt;/(iframe|embed)&gt;)@Usi", $content)) {
+                $content = preg_replace_callback("@(&lt;(iframe|embed).*&lt;/(iframe|embed)&gt;)@Usi", function($match) {
+                    $embed = html_entity_decode($match[1]);
+            
+                    if (preg_match("@src=[\"']<a.*>.(.*)</a>[\"']@Usi", $embed)) {
+                        $embed = preg_replace_callback("@src=[\"']<a.*>(.*)</a>[\"']@Usi", function($match) {
+                            return "src=\"{$match[1]}\"";
+                        }, $embed);
+                    }
+            
+                    return $embed;
+                }, $content);
+            }
+
+            // telegram
+            if (preg_match("@<a.*href=\"(https://t\.me/\w++/\d++)\".*</a>@Usi", $content)) {
+                $content = preg_replace_callback("@<a.*href=\"https://t\.me/(\w++/\d++)\".*</a>@Usi", function($match) {
+                    $url = 'https://t.me/' . $match[1] . '?embed=1&color=0099FF';
+                    $id = str_replace('/', '-', $match[1]);
+
+                    return "<iframe id=\"{$id}\" frameborder=\"0\" scrolling=\"no\" width=\"100%\" src=\"{$url}\" class=\"telegram-post\"></iframe>";
+                }, $content);
+            }
+
+            $this->setTranslation('content', $locale, $content);
+        }
+    }
 }

@@ -88,8 +88,9 @@ Route::prefix('v2')->group(function () {
     Route::get('unsubscribe/{slug}', [SystemController::class, 'unsubscribe']);
 
     Route::post('image/{figure}', [UploadController::class, 'image'])->name('upload.image');
+    Route::post('upload', [UploadController::class, 'upload'])->name('upload.default');
 
-    Route::middleware('cache.headers:public;max_age=60;etag')->group(function () {
+    Route::middleware('cache.headers:public;max_age=15;etag')->group(function () {
         Route::get('post/{slug}', [PostController::class, 'post'])->name('post');
         Route::get('user', [V2AuthController::class, 'user']);
         Route::get('user/{id}', [UserController::class, 'user'])->name('user');
