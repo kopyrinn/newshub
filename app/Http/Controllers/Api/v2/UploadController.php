@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image as ImageInvertation;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class UploadController extends Controller
 {
@@ -94,5 +95,65 @@ class UploadController extends Controller
         }
 
         return response()->json($params);
+    }
+
+    public function upload(Request $request)
+    {
+        $validator = $this->validateRequest($request);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->first()]);
+        }
+
+        $imageFolder = config('nova-tinymce-editor.extra.upload_images.folder') ?? 'images';
+
+        $uuid = \Str::orderedUuid()->toString();
+        $name = $uuid . '.webp';
+
+        $source = $request->file('file');
+        if (!$source) {
+            return response()->json(['error' => 'Failed to move uploaded file.']);
+        }
+
+        $resize = ImageInvertation::make($source->path());
+        $resize->orientate();
+
+        $w = $resize->width();
+        $h = $resize->height();
+
+        $dimension = 800;
+
+        if ($w > $h) {
+            if ($dimension > $h) {
+                $dimension = $h;
+            }
+
+            $resize->resize(null, $dimension, function ($const) {
+                $const->aspectRatio();
+            });
+        } else {
+            if ($dimension > $w) {
+                $dimension = $w;
+            }
+
+            $resize->resize($dimension, null, function ($const) {
+                $const->aspectRatio();
+            });
+        }
+
+        $path = Storage::disk('public')->path($imageFolder);
+
+        $resize->save("{$path}/{$name}", 95);
+
+        return response()->json(['location' => Storage::disk('public')->url($imageFolder . '/' . $name)]);
+    }
+
+    public function validateRequest(Request $request): \Illuminate\Validation\Validator
+    {
+        $maxSize = config('nova-tinymce-editor.extra.upload_images.maxSize') ?? 2048;
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:'.$maxSize,
+        ]);
+
+        return $validator;
     }
 }

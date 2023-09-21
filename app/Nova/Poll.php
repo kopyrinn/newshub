@@ -86,41 +86,44 @@ class Poll extends Resource
                 ->from('question')
                 ->sortable()
             ,
-            Tiptap::make(__('Description'), 'description')
+            TinymceEditor::make(__('Description'), 'description')
                 ->hideFromIndex()
-                ->buttons([
-                    'heading',
-                    '|',
-                    'italic',
-                    'bold',
-                    '|',
-                    'link',
-                    'code',
-                    'strike',
-                    'underline',
-                    'highlight',
-                    '|',
-                    'bulletList',
-                    'orderedList',
-                    'br',
-                    'blockquote',
-                    '|',
-                    'horizontalRule',
-                    'hardBreak',
-                    '|',
-                    'table',
-                    '|',
-                    'image',
-                    '|',
-                    'textAlign',
-                    '|',
-                    'history',
-                ])
-                ->imageSettings([
-                    'disk' => 'public',
-                    'path' => 'polls/' . date('Y-m-d'),
-                ])
-                ->headingLevels([2, 3, 4]),
+                ->fullWidth(),
+            // Tiptap::make(__('Description'), 'description')
+            //     ->hideFromIndex()
+            //     ->buttons([
+            //         'heading',
+            //         '|',
+            //         'italic',
+            //         'bold',
+            //         '|',
+            //         'link',
+            //         'code',
+            //         'strike',
+            //         'underline',
+            //         'highlight',
+            //         '|',
+            //         'bulletList',
+            //         'orderedList',
+            //         'br',
+            //         'blockquote',
+            //         '|',
+            //         'horizontalRule',
+            //         'hardBreak',
+            //         '|',
+            //         'table',
+            //         '|',
+            //         'image',
+            //         '|',
+            //         'textAlign',
+            //         '|',
+            //         'history',
+            //     ])
+            //     ->imageSettings([
+            //         'disk' => 'public',
+            //         'path' => 'polls/' . date('Y-m-d'),
+            //     ])
+            //     ->headingLevels([2, 3, 4]),
             DateTime::make(__('Дата начала'), 'start_at')
                 ->sortable()
             ,

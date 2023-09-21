@@ -128,10 +128,10 @@ export default defineComponent({
                     name: 'Push-оповещение зарегистрированных на портале журналистов через мобильное приложение NewsHub.kz',
                     count: this.$root.user.package_help,
                 },
-                {
-                    name: 'Возможность заказа перевода статьи от редакции NewsHub.kz',
-                    count: this.$root.user.package_translate,
-                },
+                // {
+                //     name: 'Возможность заказа перевода статьи от редакции NewsHub.kz',
+                //     count: this.$root.user.package_translate,
+                // },
                 // {
                 //     name: '',
                 //     count: this.$root.user.package_pr,

@@ -102,7 +102,7 @@ return [
 
         OperationTerminated::class => [
             FlushTemporaryContainerInstances::class,
-            DisconnectFromDatabases::class,
+            // DisconnectFromDatabases::class,
             CollectGarbage::class,
         ],
 
@@ -199,7 +199,7 @@ return [
     |
     */
 
-    'garbage' => 50,
+    'garbage' => 100,
 
     /*
     |--------------------------------------------------------------------------

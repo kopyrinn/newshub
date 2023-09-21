@@ -1,6 +1,6 @@
 <template>
     <div class="" :class="{'app-container container-xxl': $root.isXxxl}">
-        <div class="d-flex" :class="{'flex-wrap': $root.isLg}">
+        <div class="d-flex flex-wrap flex-xl-nowrap">
             <Carousel :autoplay="3000" :wrapAround="true" class="w-100 h-400px mw-xl-700px w-xl-700px carousel carousel-custom flex-shrink-0" v-model="currentSlide">
                 <Slide v-for="item in $root.config.postSlides" :key="item.image" class="h-400px overflow-hidden">
                     <div class="carousel__item position-relative w-100 h-100">
@@ -31,8 +31,8 @@
                 </template>
             </Carousel>
             <div class="d-flex flex-wrap w-auto flex-grow-1">
-                <div v-for="(item, index) in $root.config.postFeatured" class="w-xxl-50 mw-xxl-50 w-xl-100 mw-xl-100 w-sm-50 mw-sm-50 w-100 mw-100" :key="item.slug">
-                    <div v-if="$root.width > 1400 || ($root.width < 1400 && index < 2)" class="h-200px mw-100 w-100 position-relative">
+                <div v-for="(item, index) in $root.config.postFeatured" class="w-xxl-50 mw-xxl-50 w-xl-100 mw-xl-100 w-sm-50 mw-sm-50 w-100 mw-100 featured-card" :key="item.slug">
+                    <div  class="h-200px mw-100 w-100 position-relative">
                         <img class="object-fit-cover object-position-center h-100 w-100" :src="$storage(item.image_sm)"/>
                         <div class="position-absolute h-100 w-100 bg-black bg-opacity-50 top-0 bottom-0 text-start">
                             <div class="h-100 d-flex flex-column justify-content-end p-5">
@@ -73,7 +73,7 @@
                                     <Card :item="item" :is="item.uuid"/>
 
                                     <RecommendedVacancies v-if="index === 1"/>
-                                    <RecommendedPosts v-if="index === 3 && $root.config.lastEvents.length" :items="$root.config.lastEvents" :title="$t('Events')"/>
+                                    <RecommendedPosts v-if="index === 3 && $root.config.lastEvents.length" :items="$root.config.lastEvents" :title="$t('Events')" :isEvent="true"/>
                                     <RecommendedPosts v-if="index === 6 && $root.config.lastArticles.length" :items="$root.config.lastArticles" :title="$t('Articles')"/>
 
                                     <intersection-observer

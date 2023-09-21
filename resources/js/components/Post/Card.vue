@@ -23,22 +23,24 @@
                 </picture>
                 <img :src="$storage(item.image_blur)" class="blurry" loading="lazy"/>
             </app-link>
+
+            
         </div>
 
-        <!-- <div class="card-footer px-6 py-0">
-            <ul class="nav py-3">
+        <div class="card-footer px-6 py-0">
+            <ul class="nav py-1">
                 <li class="nav-item">
-                    <a class="nav-link btn btn-sm btn-color-gray-600 btn-active-color-primary btn-active-light-primary fw-bold px-4 me-1">
+                    <!-- <a class="nav-link btn btn-sm btn-color-gray-600 btn-active-color-primary btn-active-light-primary fw-bold px-4 me-1">
                         <i class="ki-duotone ki-message-text-2 fs-2 me-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i> 3 Comments
-                    </a>
+                    </a> -->
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link btn btn-sm btn-color-gray-600 btn-active-color-primary fw-bold px-4 me-1">
-                        <i class="ki-duotone ki-heart fs-2 me-1"><span class="path1"></span><span class="path2"></span></i> 8 Likes
-                    </a>
+                    <span class="py-3 fw-bold px-0 me-1 d-flex flex-center text-muted">
+                        <i class="ki-duotone ki-eye fs-2 me-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i> {{ item.pageviews ?? 0 }}
+                    </span>
                 </li>
             </ul>
-        </div> -->
+        </div>
     </div>
 </template>
 <script>

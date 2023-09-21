@@ -17,6 +17,7 @@ use Laravel\Nova\Fields\BooleanGroup;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Textarea;
+use Murdercode\TinymceEditor\TinymceEditor;
 
 class Post extends Resource
 {
@@ -104,42 +105,46 @@ class Post extends Resource
                 ,
                 Textarea::make(__('Summary'), 'summary')
                 ,
-                Tiptap::make(__('Content'), 'content')
-                    ->rules('required_lang:ru')
-                    ->hideFromIndex()
-                    ->buttons([
-                        'heading',
-                        '|',
-                        'italic',
-                        'bold',
-                        '|',
-                        'link',
-                        'code',
-                        'strike',
-                        'underline',
-                        'highlight',
-                        '|',
-                        'bulletList',
-                        'orderedList',
-                        'br',
-                        'blockquote',
-                        '|',
-                        'horizontalRule',
-                        'hardBreak',
-                        '|',
-                        'table',
-                        '|',
-                        'image',
-                        '|',
-                        'textAlign',
-                        '|',
-                        'history',
-                    ])
-                    ->imageSettings([
-                        'disk' => 'public',
-                        'path' => 'posts/' . date('Y-m-d'),
-                    ])
-                    ->headingLevels([2, 3, 4]),
+                TinymceEditor::make(__('Content'), 'content')
+                    ->rules(['required_lang:ru'])
+                    ->fullWidth()
+                    ->help(__('The content of the article.')),
+                // Tiptap::make(__('Content'), 'content')
+                //     ->rules('required_lang:ru')
+                //     ->hideFromIndex()
+                //     ->buttons([
+                //         'heading',
+                //         '|',
+                //         'italic',
+                //         'bold',
+                //         '|',
+                //         'link',
+                //         'code',
+                //         'strike',
+                //         'underline',
+                //         'highlight',
+                //         '|',
+                //         'bulletList',
+                //         'orderedList',
+                //         'br',
+                //         'blockquote',
+                //         '|',
+                //         'horizontalRule',
+                //         'hardBreak',
+                //         '|',
+                //         'table',
+                //         '|',
+                //         'image',
+                //         '|',
+                //         'textAlign',
+                //         '|',
+                //         'history',
+                //     ])
+                //     ->imageSettings([
+                //         'disk' => 'public',
+                //         'path' => 'posts/' . date('Y-m-d'),
+                //     ])
+                //     ->headingLevels([2, 3, 4]),
             ]),
             BooleanGroup::make(__('Categories'), 'selected_categories')
                 ->options(Category::all()->pluck('name', 'id')->toArray())

@@ -41,9 +41,9 @@ class AccountController extends Controller
             ->paginate($request->per_page?: 15)
             ->withQueryString();
 
-        foreach ($notifications as $notification) {
-            $notification->markAsRead();
-        }
+        $user->notifications()->whereNull('read_at')->update([
+            'read_at' => Carbon::now(),
+        ]);
 
         return response()->json([
             'ok' => true,

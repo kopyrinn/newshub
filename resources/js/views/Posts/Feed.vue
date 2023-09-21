@@ -9,7 +9,7 @@
                     <Card :item="item" :is="item.uuid"/>
 
                     <RecommendedVacancies v-if="index === 1"/>
-                    <RecommendedPosts v-if="index === 3 && $root.config.lastEvents.length" :items="$root.config.lastEvents" :title="$t('Events')"/>
+                    <RecommendedPosts v-if="index === 3 && $root.config.lastEvents.length" :items="$root.config.lastEvents" :title="$t('Events')"  :isEvent="true"/>
                     <RecommendedPosts v-if="index === 6 && $root.config.lastArticles.length" :items="$root.config.lastArticles" :title="$t('Articles')"/>
 
                     <intersection-observer

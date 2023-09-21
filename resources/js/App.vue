@@ -62,8 +62,8 @@
                         </div>
                         <div v-if="user" class="app-navbar-item align-items-stretch ms-1 ms-md-3">
                             <Popper placement="bottom-end" class="d-block">
-                                <button type="button" class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px" @click="getNotifications">
-                                    <i class="ki-duotone ki-notification-status fs-2 fs-lg-1"><i class="path1" :class="{'text-danger': user.notifications_count}"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i></i>
+                                <button type="button" class="btn btn-icon btn-custom btn-active-light w-30px h-30px w-md-40px h-md-40px " @click="getNotifications" :class="{'btn-active-light-danger btn-icon-danger': user.notifications_count}">
+                                    <i class="ki-duotone ki-notification-on fs-2 fs-lg-1"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i></i>
                                 </button>
 
                                 <template #content="{ close }">
@@ -88,10 +88,10 @@
                                                         <div class="d-flex align-items-center">
                                                             <app-link :to="notification.url? notification.url: ''" class="mb-0 me-2" @click="close">
                                                                 <div class="d-flex align-items-center">
-                                                                    <span class="fs-6 text-gray-800 text-hover-primary fw-bold me-3">{{ notification.title }}</span>
+                                                                    <span class="fs-6 text-gray-800 text-hover-primary fw-bold me-3" :class="{'text-gray-900 fw-bolder': !notification.is_read}">{{ notification.title }}</span>
                                                                     <span class="fw-medium text-muted fs-8"><VDate :datetime="new Date(notification.created_at)"/></span>
                                                                 </div>
-                                                                <div class="text-gray-700 fs-7">{{ notification.message }}</div>
+                                                                <div class="text-gray-700 fs-7" :class="{'fw-bolder': !notification.is_read}">{{ notification.message }}</div>
                                                             </app-link>
                                                         </div>
                                                     </div>
@@ -214,7 +214,7 @@
                 <!--end::Header-->
                 <!--begin::Navs-->
                 <div class="app-sidebar-navs flex-column-fluid">
-                    <div class="hover-scroll-y h-100 pt-5">
+                    <div class="sidebar-scroll pt-5">
                         <!--begin::Sidebar menu-->
                         <div class="menu menu-column menu-rounded menu-sub-indention menu-state-bullet-primary">
                             <div class="menu-item" :class="{'here': $route.name == 'index'}">
@@ -779,6 +779,8 @@ export default defineComponent({
                 if (!data.ok) return
 
                 this.notifications = data.notifications.data
+                this.$store.commit('updateCacheKey')
+                this.getUser()
             })
         },
         async getUser() {
