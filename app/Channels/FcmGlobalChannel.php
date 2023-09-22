@@ -17,6 +17,7 @@ class FcmGlobalChannel
     public function send($notifiable, Notification $notification)
     {
         $post = $notification->toFcm($notifiable);
+        $url = config('app.origin') . "/post/{$post->slug}";
 
         $payload = [
             'to'                    => '/topics/all',
@@ -26,19 +27,19 @@ class FcmGlobalChannel
                 'body'                  => $post->getSummary(55),
                 'content_available'     => true,
                 'android_channel_id'    => 'all',
-                'click_action'          => 'NOTIFICATION_CLICK',
+                'click_action'          => $url,
                 'sound'                 => 'default',
                 'image'                 => asset("storage/{$post->image}"),
             ],
             'priority'              => 'high',
             'data'                  => [
-                'click_action'          => 'NOTIFICATION_CLICK',
+                'click_action'          => $url,
                 'message'               => $post->getSummary(55),
                 'post_type'             => 'article',
                 'post_id'               => $post->id,
                 'title'                 => $post->title,
                 'image'                 => asset("storage/{$post->image}"),
-                'url'                   => config('app.origin') . "/post/{$post->slug}",
+                'url'                   => $url,
                 'show_in_notification'  => true,
                 'dialog_title'          => $post->title,
                 'dialog_text'           => $post->getSummary(100),
