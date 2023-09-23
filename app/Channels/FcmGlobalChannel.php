@@ -27,6 +27,7 @@ class FcmGlobalChannel
                 'body'                  => $post->getSummary(55),
                 'content_available'     => true,
                 'android_channel_id'    => 'all',
+                'url'                   => $url,
                 'click_action'          => $url,
                 'sound'                 => 'default',
                 'image'                 => asset("storage/{$post->image}"),
