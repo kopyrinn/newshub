@@ -144,7 +144,7 @@ class UploadController extends Controller
 
         $resize->save("{$path}/{$name}", 95);
 
-        return response()->json(['location' => config('app.origin') . '/' . Storage::disk('public')->url($imageFolder . '/' . $name)]);
+        return response()->json(['location' => config('app.url') . '/storage/' . $imageFolder . '/' . $name]);
     }
 
     public function validateRequest(Request $request): \Illuminate\Validation\Validator
