@@ -26,6 +26,8 @@ return [
         'autosave_interval' => '20s',
         'autosave_retention' => '30m',
         'browser_spellcheck' => true,
+        'relative_urls' => false,
+        'convert_urls' => false,
         'contextmenu' => true,
         'images_upload_url' => '/api/v2/upload', // Uncomment this line if you want to enable images upload
     ],
