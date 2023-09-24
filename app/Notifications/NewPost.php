@@ -99,7 +99,7 @@ class NewPost extends Notification implements ShouldQueue
                     'body' => $this->post->getSummary(100),
                     'title' => __('New Post') . ': ' . $this->post->title,
                     'url' => config('app.origin') . "/post/{$this->post->slug}",
-                    'click_action' => config('app.origin') . "/post/{$this->post->slug}",
+                    'link' => config('app.origin') . "/post/{$this->post->slug}",
                     'sound' => 'default',
                 ],
             ];
