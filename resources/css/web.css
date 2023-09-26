@@ -178,6 +178,10 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  -webkit-text-size-adjust:none;
+  -ms-text-size-adjust:none;
+  -moz-text-size-adjust:none;
+  text-size-adjust:none;
 }
 
 body {
@@ -192,7 +196,10 @@ body {
   color: var(--bs-body-color);
   text-align: var(--bs-body-text-align);
   background-color: var(--bs-body-bg);
-  -webkit-text-size-adjust: 100%;
+  -webkit-text-size-adjust:none;
+  -ms-text-size-adjust:none;
+  -moz-text-size-adjust:none;
+  text-size-adjust:none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
