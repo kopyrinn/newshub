@@ -4,4 +4,5 @@
     <string name="title_activity_main">NewsHub.kz</string>
     <string name="package_name">kz.newshub.app</string>
     <string name="custom_url_scheme">kz.newshub.app</string>
+    <string name="app_domain">newshub.kz</string>
 </resources>

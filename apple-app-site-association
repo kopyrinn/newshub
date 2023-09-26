@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "23N46AW64P.kz.newshub.app",
+        "paths": ["*"]
+      }
+    ]
+  }
+}

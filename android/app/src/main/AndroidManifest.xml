@@ -28,7 +28,9 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="newshub.kz" />
+                <data android:scheme="http" android:host="@string/app_domain" />
+                <data android:scheme="https" android:host="@string/app_domain" />
+                <data android:scheme="app" android:host="@string/package_name" />
             </intent-filter>
         </activity>
 
