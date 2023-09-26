@@ -11,6 +11,7 @@ import { App } from '@capacitor/app'
 import { Capacitor } from '@capacitor/core'
 import { Browser } from '@capacitor/browser'
 import { SafeAreaController } from '@aashu-dubey/capacitor-statusbar-safe-area';
+import { TextZoom } from "@capacitor/text-zoom"
 
 registerSW({ immediate: true })
 
@@ -106,6 +107,10 @@ if (['ios', 'android'].includes(platform)) {
                 path: slug,
             })
         }
+    })
+
+    TextZoom.set({
+        value: 1.0
     })
 }
 
