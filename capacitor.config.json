@@ -3,8 +3,8 @@
   "appName": "NewsHub.kz",
   "webDir": "dist/mobile",
   "server": {
-    "url": "https://newshub.kz",
-    "hostname": "newshub.kz",
+    "url": "https://hub.webartisan.space",
+    "hostname": "hub.webartisan.space",
     "androidScheme": "https"
   },
   "plugins": {
@@ -25,5 +25,8 @@
     "PushNotifications": {
       "presentationOptions": ["badge", "sound", "alert"]
     }
+  },
+  "ios": {
+    "preferredContentMode": "mobile"
   }
 }

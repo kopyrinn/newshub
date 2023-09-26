@@ -24,6 +24,7 @@
         "@capacitor/share": "^5.0",
         "@capacitor/splash-screen": "^5.0.6",
         "@capacitor/status-bar": "^5.0",
+        "@capacitor/text-zoom": "^5.0.6",
         "@morr/vue3-analytics": "^1.0.0",
         "@sentry/tracing": "^7.60",
         "@sentry/vue": "^7.60",
