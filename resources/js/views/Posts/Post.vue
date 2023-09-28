@@ -142,11 +142,9 @@
                     <div class="card-body p-5 p-lg-10 pb-lg-0">
                         <ViewSkeleton v-if="loading"/>
                         <div v-else class="mb-17">
-                            <div class="mb-8" itemprop="headline">
-                                <h1 class="text-dark fs-1 fw-bold">
+                            <div class="mb-8">
+                                <h1 class="text-dark fs-1 fw-bold" itemprop="headline">
                                     {{ item.title }}
-
-                                    <span class="fw-bold text-muted fs-5 ps-1">{{ item.read_mins }} {{ $t('mins read') }}</span>
                                 </h1>
                                 <div class="d-flex flex-wrap">
                                     <div class="me-5 my-1 d-flex align-items-center">
@@ -164,11 +162,14 @@
                                         <i class="ki-duotone ki-price-tag fs-2 me-2"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
                                         <span class="fw-bold text-gray-400"><span v-for="(rubric, index) in item.rubrics"><app-link :to="{name: 'category', params: {slug: item.categories[0].slug, rubric: rubric.slug}}">{{ rubric.name }}</app-link><span v-if="index + 1 < item.rubrics.length" class="me-1">,</span></span></span>
                                     </div>
-                                    <!-- <div class="my-1 d-flex align-items-center">
-                                        <i class="ki-duotone ki-message-text-2 text-primary fs-2 me-1"><span
-                                                class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-                                        <span class="fw-bold text-gray-400">24 Comments</span>
-                                    </div> -->
+                                    <div class="d-flex align-items-center me-5">
+                                        <i class="ki-duotone ki-timer fs-2 me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                        <span class="fw-bold text-gray-400">{{ item.read_mins }} {{ $t('mins read') }}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center me-5">
+                                        <i class="ki-duotone ki-eye fs-2 me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                        <span class="fw-bold text-gray-400 fs-7">{{ item.pageviews }}</span>
+                                    </div>
                                 </div>
 
                                 <intersection-observer
