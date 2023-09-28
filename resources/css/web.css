@@ -98194,15 +98194,15 @@ body {
 .article video,
 .article picture,
 .article img {
-  max-width: 100%;
+  max-width: 100% !important;
   border-radius: 0.475rem !important;
-  object-fit: contain;
   margin: 0 auto;
   display: block;
 }
 .article picture,
 .article img {
   height: auto;
+  object-fit: contain;
 }
 .el-notification__content {
   color: var(--bs-gray-700);
