@@ -617,7 +617,7 @@ export default defineComponent({
 
         this.$router.beforeEach((to, from, next) => {
             if (this.sideOpen) {
-                this.sideOpen = false
+                this.toggleSidebar()
             }
 
             next()
@@ -718,11 +718,19 @@ export default defineComponent({
     },
     methods: {
         toggleSidebar() {
+            if (import.meta.env.SSR) return
+
             this.sideOpen = !this.sideOpen
+
+            if (this.sideOpen) {
+                document.body.classList.add('modal-open')
+            } else {
+                document.body.classList.remove('modal-open')
+            }
         },
         maybeCloseSidebar() {
             if (this.sideOpen) {
-                this.sideOpen = false
+                this.toggleSidebar()
             }
         },
         getRandom() {
