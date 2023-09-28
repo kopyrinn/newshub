@@ -397,8 +397,9 @@ class PostController extends Controller
 
         if ($request->image) {
             $image = strtr($request->image, [
+                'https://api.newshub.kz/storage/' => '',
                 'https://newshub.kz/storage/' => '',
-                'http://newshub.kz/storage/' => '',
+                '/storage/' => '',
             ]);
             $image = ltrim($image, '/');
             $post->image = $image;
@@ -572,8 +573,9 @@ class PostController extends Controller
 
         if ($request->image) {
             $image = strtr($request->image, [
+                'https://api.newshub.kz/storage/' => '',
                 'https://newshub.kz/storage/' => '',
-                'http://newshub.kz/storage/' => '',
+                '/storage/' => '',
             ]);
             $image = ltrim($image, '/');
 
@@ -581,6 +583,7 @@ class PostController extends Controller
                 $post->image = $image;
                 $post->image_md = null;
                 $post->image_sm = null;
+                $post->image_fit = null;
                 $post->image_blur = null;
             }
         }

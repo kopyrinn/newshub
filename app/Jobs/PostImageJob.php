@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Helpers\Util;
 use App\Models\Post;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -45,16 +46,26 @@ class PostImageJob implements ShouldQueue
             return;
         }
 
+        $uuid = Util::uuidv5($this->post->image);
+        $name = $uuid . '.webp';
+
+        if (
+            \Str::endsWith($this->post->image_md, $name) &&
+            \Str::endsWith($this->post->image_sm, $name) &&
+            \Str::endsWith($this->post->image_fit, $name) &&
+            \Str::endsWith($this->post->image_blur, $name)
+        ) {
+            return;
+        }
+
         if (!Storage::disk('public')->exists($this->post->image)) return;
+
 
         // if (\Str::endsWith($this->post->image, '.webp')) {
         //     ImageOptimizer::optimize(Storage::disk('public')->path($this->post->image));
         // }
 
         $manager = new ImageManager(['driver' => 'gd']);
-
-        $uuid = \Str::uuid()->toString();
-        $name = $uuid . '.webp';
 
         $sizes = [
             "medium" => 750,
@@ -87,7 +98,7 @@ class PostImageJob implements ShouldQueue
                 $resize->save("{$path}/{$name}", 1);
             } else {
                 $resize->save("{$path}/{$name}", 95);
-                ImageOptimizer::optimize("{$path}/{$name}");
+                // ImageOptimizer::optimize("{$path}/{$name}");
             }
 
             $images[$group] = "img/{$group}/{$name}";
@@ -100,7 +111,7 @@ class PostImageJob implements ShouldQueue
         $path = Storage::disk('public')->path("img/fit");
         $resize->fit($dimension);
         $resize->save("{$path}/{$name}", 95);
-        ImageOptimizer::optimize("{$path}/{$name}");
+        // ImageOptimizer::optimize("{$path}/{$name}");
         $images['fit'] = "img/fit/{$name}";
         $resize->destroy();
 

@@ -48,6 +48,22 @@ class PostObserver
         }
     }
 
+    public function updated(Post $post)
+    {
+        if (request()->is('admin/resources/posts/*') || request()->is('nova-api/posts/*')) {
+            $hasPreviews = $post->getRawOriginal('image_md') && $post->getRawOriginal('image_sm') && $post->getRawOriginal('image_blur');
+    
+            if (
+                !$hasPreviews ||
+                $post->image !== $post->getRawOriginal('image_md') ||
+                $post->image !== $post->getRawOriginal('image_sm') ||
+                $post->image !== $post->getRawOriginal('image_blur')
+            ) {
+                PostImageJob::dispatch($post);
+            }
+        }
+    }
+
     public function creating(Post $post)
     {
         if (!$post->created_at) {
