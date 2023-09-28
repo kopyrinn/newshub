@@ -43770,7 +43770,7 @@ code:not([class*=language-]) {
   transform: rotateZ(270deg);
 }
 
-@media (min-width: 992px) {
+/* @media (min-width: 992px) {
   main,
   span,
   ol,
@@ -43845,7 +43845,7 @@ code:not([class*=language-]) {
   div:hover::-webkit-scrollbar-corner {
     background-color: transparent;
   }
-}
+} */
 .scroll {
   overflow: scroll;
   position: relative;
@@ -98283,14 +98283,15 @@ body {
 }
 
 .sidebar-scroll {
-  overflow-y: hidden;
+  overflow-y: auto;
+  overflow-y: overlay;
   height: calc(100dvh - 148px);
   transition: all 0.3s ease;
 }
-.sidebar-scroll:hover {
+/* .sidebar-scroll:hover {
   overflow-y: auto;
   overflow-y: overlay;
-}
+} */
 
 @media (max-width: 1400px) {
   .featured-card:nth-child(n+3) {

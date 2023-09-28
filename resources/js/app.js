@@ -12,6 +12,7 @@ import { Capacitor } from '@capacitor/core'
 import { Browser } from '@capacitor/browser'
 import { SafeAreaController } from '@aashu-dubey/capacitor-statusbar-safe-area';
 import { TextZoom } from "@capacitor/text-zoom"
+import { Device } from '@capacitor/device'
 
 registerSW({ immediate: true })
 
@@ -109,9 +110,13 @@ if (['ios', 'android'].includes(platform)) {
         }
     })
 
-    TextZoom.set({
-        value: 1.0
-    })
+    const info = await Device.getInfo()
+
+    if (['ios', 'android'].includes(info.operatingSystem)) {
+        TextZoom.set({
+            value: 1.0
+        })
+    }
 }
 
 router.isReady().then(() => app.mount('#kt_app_root'))
