@@ -45,6 +45,7 @@
                 </div>
             </div>
             <Sidebar/>
+            <SchemaOrgWebPage type="CollectionPage" :name="$root.meta.title" />
         </div>
     </div>
 </template>

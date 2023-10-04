@@ -59,11 +59,11 @@ class ChannelNotification extends Notification implements ShouldQueue
     {
         App::setLocale('ru');
 
-        if ($this->post->image && $this->post->image != 'news.jpg') {
+        if ($this->post->image_md && $this->post->image_md != 'news.jpg') {
             $message = TelegramFile::create()
                 ->to(-1001343246474)
                 ->content("*{$this->post->title}*\n\n{$this->post->summary}")
-                ->file(Storage::disk('public')->path($this->post->image), 'photo');
+                ->file(Storage::disk('public')->path($this->post->image_md), 'photo');
         } else {
             $message = TelegramMessage::create()
                 ->to(-1001343246474)

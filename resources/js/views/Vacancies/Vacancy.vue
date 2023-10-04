@@ -81,6 +81,15 @@
         </div>
         <div class="col-lg-5">
             <Sidebar/>
+            <SchemaOrgArticle
+                v-if="vacancy.created_at"
+                :headline="vacancy.job_title"
+                :description="vacancy.task"
+                :date-published="new Date(vacancy.created_at).toISOString()"
+                :date-modified="new Date(vacancy.updated_at).toISOString()"
+                :author="{name: vacancy.name, url: $base($router.resolve({name: 'user', params: {slug: vacancy.user_id, locale: $root.locale != 'ru'? $root.locale: ''}}).fullPath)}"
+                :publisher="{name: vacancy.name, url: $base($router.resolve({name: 'user', params: {slug: vacancy.user_id, locale: $root.locale != 'ru'? $root.locale: ''}}).fullPath)}"
+            />
         </div>
     </div>
 </template>

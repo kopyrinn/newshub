@@ -34,6 +34,7 @@
         </div>
         <div class="col-lg-5">
             <Sidebar/>
+            <SchemaOrgWebPage type="CollectionPage" :name="$root.meta.title" />
         </div>
     </div>
 </template>

@@ -31,6 +31,7 @@ import { Skeletor } from 'vue-skeletor';
 import { api, upload } from '@/app/api'
 import { renderSSRHead } from '@unhead/ssr'
 import { createHead, VueHeadMixin } from "@unhead/vue"
+import { SchemaOrgUnheadPlugin } from '@unhead/schema-org-vue'
 import 'regenerator-runtime'
 
 export async function render(url, manifest = null) {
@@ -141,6 +142,16 @@ export async function render(url, manifest = null) {
     })
 
     const head = createHead()
+
+    head.use(SchemaOrgUnheadPlugin({
+        host: import.meta.env.VITE_ORIGIN_URL,
+    }, () => {
+        const route = router.currentRoute.value
+        return {
+            path: route.path,
+            ...route.meta,
+        }
+    }))
 
     app
         .directive('debounce', {})

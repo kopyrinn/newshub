@@ -101,6 +101,8 @@ class NewPost extends Notification implements ShouldQueue
                     'url' => config('app.origin') . "/post/{$this->post->slug}",
                     'link' => config('app.origin') . "/post/{$this->post->slug}",
                     'sound' => 'default',
+                    'content_available' => true,
+                    'image' => asset("storage/{$this->post->image_sm}"),
                 ],
             ];
         }

@@ -7,6 +7,8 @@ import { fileURLToPath } from 'url'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import UnheadVite from '@unhead/addons/vite'
+import Components from 'unplugin-vue-components/vite'
+import { SchemaOrgResolver } from '@unhead/schema-org-vue'
 import { PurgeCSS } from 'purgecss'
 
 export default defineConfig(({ command, mode }) => {
@@ -24,6 +26,11 @@ export default defineConfig(({ command, mode }) => {
         }),
         VueI18nPlugin({
           include: resolve(dirname(fileURLToPath(import.meta.url)), './resources/js/locales/**'),
+        }),
+        Components({
+          resolvers: [
+            SchemaOrgResolver(),
+          ],
         }),
         UnheadVite(),
         purge({

@@ -414,15 +414,19 @@
 
             <!--begin::Main-->
             <div class="app-main flex-column flex-row-fluid position-relative">
-                <div v-if="$route.meta.toolbar" class="app-toolbar d-flex pt-4 pt-lg-6 border-0">
+                <div v-if="$route.name != 'index'" class="app-toolbar d-none pt-4 pt-lg-6 border-0" :class="{'d-flex': $route.meta.toolbar}">
                     <div class="app-container container-xxl d-flex flex-stack ">
                         <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                             <h3 class="text-gray-900 fw-bolder m-0">{{ title }}</h3>
-                            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+                            <SchemaOrgBreadcrumb
+                              as="ul"
+                              class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1"
+                              :item-list-element="[{name: $t('Home'), item: '/'}, {name: title, item: $route.path}]"
+                            >
                                 <li class="breadcrumb-item text-muted"><app-link to="/" class="text-muted text-hover-primary">{{ $t('Home') }}</app-link></li>
                                 <li class="breadcrumb-item"><span class="bullet bg-gray-400 w-5px h-2px"></span></li>
                                 <li class="breadcrumb-item text-muted">{{ title }}</li>
-                            </ul>
+                            </SchemaOrgBreadcrumb>
                         </div>
                         <div class="d-flex align-items-center gap-2 gap-lg-3">
                             <app-link v-if="token && $route.name == 'feed' && !user.is_journalist" :to="{name: 'user-workspace', params: {slug: user.id}}" class="btn btn-sm fw-bold btn-primary">{{ $t('Workspace') }}</app-link>
@@ -525,6 +529,17 @@
     <div v-show="modal" class="modal-backdrop show"></div>
     <PostEditor v-if="modalType == 'post-editor'"/>
     <VacancyEditor v-if="modalType == 'vacancy-editor'"/>
+
+    <SchemaOrgWebSite name="NewsHub.kz - Информационный хаб" />
+    <SchemaOrgOrganization
+        type="NewsMediaOrganization"
+        name="NewsHub.kz"
+        telephone="+77772555856"
+        email="info@newshub.kz"
+        :image="$base('/logo-alt.webp')"
+        :logo="$base('/logo-alt.webp')"
+        :address="address"
+    />
 </template>
 <script>
 import { defineComponent, defineAsyncComponent } from "vue"
@@ -554,6 +569,22 @@ export default defineComponent({
         [!import.meta.env.VITE_SSR && 'VacancyEditor']: defineAsyncComponent(() =>
             import('@/components/Vacancy/Editor.vue')
         ),
+    },
+    head() {
+        return {
+            title: this.$root.meta.title,
+            meta: [
+                {name: 'og:type', content: 'website'},
+                {name: 'og:title', content: this.$root.meta.title},
+                {name: 'og:site_name', content: 'Newshub.kz'},
+                {name: 'og:image', content: this.$base('/android-chrome-512x512.png')},
+                {name: 'og:image:width', content: '512px'},
+                {name: 'og:image:height', content: '512px'},
+                {name: 'og:image:type', content: 'image/png'},
+                {name: 'description', content: 'Информационный хаб NewsHub.kz  —  это интернет-площадка для эффективного взаимодействия пресс-служб организаций со средствами массовой информации.'},
+                {name: 'og:description', content: 'Информационный хаб NewsHub.kz  —  это интернет-площадка для эффективного взаимодействия пресс-служб организаций со средствами массовой информации.'},
+            ]
+        }
     },
     data() {
         return {
@@ -596,6 +627,12 @@ export default defineComponent({
             postEditorEvent: false,
             vacancy: '',
             notifications: [],
+            address: {
+                streetAddress: "мкрн. \"Жетысу-2\", дом 59",
+                postalCode: "050063",
+                addressLocality: "Алматы",
+                addressCountry: "KZ",
+            }
         }
     },
     watch: {

@@ -281,8 +281,8 @@ class User extends Authenticatable implements MustVerifyEmail
         $token = $this->tokens()->whereName($uuid)->first();
         $token->ip = $request->ip();
         $token->ua = $request->userAgent();
-        $token->app_token = $request->appToken;
-        $token->platform = $request->platform;
+        $token->app_token = $request->appToken?: null;
+        $token->platform = $request->platform?: 'web';
         $token->update();
 
         // \Log::info('token', $token->toArray());

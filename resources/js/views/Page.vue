@@ -48,6 +48,7 @@
             </div>
             <!--end::Layout-->
 
+            <SchemaOrgWebPage type="AboutPage" :name="$root.meta.title" />
         </div>
         <!--end::Body-->
     </div>

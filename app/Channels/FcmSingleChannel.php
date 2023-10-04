@@ -4,6 +4,7 @@ namespace App\Channels;
 
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Http;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class FcmSingleChannel
 {
@@ -21,9 +22,21 @@ class FcmSingleChannel
         foreach ($messages as $message) {
             try {
                 $response = Http::fcm()->post('/send', $message);
-                \Log::error('FCM Message', [$response->body()]);
+                $data = $response->json();
+
+                if (isset($data['failure']) && $data['failure'] === 1) {
+                    $token = PersonalAccessToken::where('app_token', $message['to'])->first();
+
+                    if ($token) {
+                        $token->app_token = null;
+                        $token->platform = 'web';
+                        $token->update();
+                    }
+
+                    \Log::error('FCM single failure', [$message, $response->body()]);
+                }
             } catch (\Exception $e) {
-                \Log::error('FCM Single', [$e->getMessage()]);
+                \Log::error('FCM single error', [$e->getMessage()]);
             }
         }
     }

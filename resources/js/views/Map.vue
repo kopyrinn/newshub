@@ -42,6 +42,7 @@
                     </table>
                 </div>
             </div>
+            <SchemaOrgWebPage :name="$root.meta.title" />
         </div>
     </div>
 </template>

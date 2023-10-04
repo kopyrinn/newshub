@@ -398,6 +398,7 @@
                 </div>
             </template>
         </Modal>
+        <SchemaOrgWebPage :name="$root.meta.title" />
     </div>
 </template>
 <script>

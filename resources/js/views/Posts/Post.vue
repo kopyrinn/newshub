@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <div class="col-lg-7">
-                <div class="card mb-7" itemscope itemtype="http://schema.org/Article">
+                <div class="card mb-7">
                     <intersection-observer
                         v-if="!loading && post.next && !slugs.includes(post.next)"
                         :sentinal-name="'top' + post.slug"
@@ -13,14 +13,14 @@
                         <ViewSkeleton v-if="loading"/>
                         <div v-else class="mb-17">
                             <div class="mb-8">
-                                <h1 class="text-dark fs-1 fw-bold" itemprop="headline">
+                                <h1 class="text-dark fs-1 fw-bold">
                                     {{ post.title }}
                                 </h1>
                                 <div class="d-flex flex-wrap">
                                     <div class="me-5 my-1 d-flex align-items-center">
                                         <i class="ki-duotone ki-element-11 fs-2 me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
 
-                                        <span class="fw-bold text-gray-400" itemprop="datePublished" datetime="2019-04-22"><VDate :datetime="new Date(post.created_at)"/></span>
+                                        <span class="fw-bold text-gray-400"><VDate :datetime="new Date(post.created_at)"/></span>
                                     </div>
                                     <div v-if="post.categories.length" class="me-5 my-1 d-flex align-items-center">
                                         <i class="ki-duotone ki-briefcase fs-2 me-2"><span
@@ -56,14 +56,14 @@
                                     <picture>
                                         <source media="(max-width: 500px)" :srcset="$storage(post.image_sm)" />
                                         <source media="(min-width: 501px)" :srcset="$storage(post.image_md)" />
-                                        <img :src="$storage(post.image_md)" :alt="post.title" class="object-fit-contain z-index-1 position-relative mh-450px min-h-250px w-100" itemprop="image" loading="lazy"/>
+                                        <img :src="$storage(post.image_md)" :alt="post.title" class="object-fit-contain z-index-1 position-relative mh-450px min-h-250px w-100" loading="lazy"/>
                                     </picture>
                                     <img :src="$storage(post.image_blur)" class="blurry" loading="lazy"/>
                                 </div>
                                 <div v-if="post.image_caption" class="fw-semibold mt-1 text-gray-700 fs-6">{{ post.image_caption }}</div>
                             </div>
 
-                            <div class="fs-5 fw-medium text-gray-900 mb-10 article" itemprop="articleBody" v-html="post.content" ref="articleBody"></div>
+                            <div class="fs-5 fw-medium text-gray-900 mb-10 article" v-html="post.content" ref="articleBody"></div>
 
                             <intersection-observer
                                 :sentinal-name="'footer' + post.slug"
@@ -81,7 +81,7 @@
                                             </div>
                                             <div class="flex-grow-1">
                                                 <div class="d-flex align-items-start justify-content-between">
-                                                    <div class="fs-3 fw-bold text-dark me-5" itemprop="author">{{ post.name }}</div>
+                                                    <div class="fs-3 fw-bold text-dark me-5">{{ post.name }}</div>
                                                 </div>
                                                 <div class="text-gray-400 fw-semibold fs-5 mt-1 mb-0">{{ post.description }}</div>
                                             </div>
@@ -143,14 +143,14 @@
                         <ViewSkeleton v-if="loading"/>
                         <div v-else class="mb-17">
                             <div class="mb-8">
-                                <h1 class="text-dark fs-1 fw-bold" itemprop="headline">
+                                <h1 class="text-dark fs-1 fw-bold">
                                     {{ item.title }}
                                 </h1>
                                 <div class="d-flex flex-wrap">
                                     <div class="me-5 my-1 d-flex align-items-center">
                                         <i class="ki-duotone ki-element-11 fs-2 me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
 
-                                        <span class="fw-bold text-gray-400" itemprop="datePublished" datetime="2019-04-22"><VDate :datetime="new Date(item.created_at)"/></span>
+                                        <span class="fw-bold text-gray-400"><VDate :datetime="new Date(item.created_at)"/></span>
                                     </div>
                                     <div v-if="item.categories.length" class="me-5 my-1 d-flex align-items-center">
                                         <i class="ki-duotone ki-briefcase fs-2 me-2"><span
@@ -188,7 +188,7 @@
                                 <div v-if="item.image_caption" class="fw-semibold mt-1 text-gray-700 fs-6">{{ item.image_caption }}</div>
                             </div>
 
-                            <div class="fs-5 fw-medium text-gray-900 mb-10 article" itemprop="articleBody" v-html="item.content"></div>
+                            <div class="fs-5 fw-medium text-gray-900 mb-10 article" v-html="item.content"></div>
 
                             <intersection-observer
                                 :sentinal-name="'footer' + item.slug"
@@ -206,7 +206,7 @@
                                             </div>
                                             <div class="flex-grow-1">
                                                 <div class="d-flex align-items-start justify-content-between">
-                                                    <div class="fs-3 fw-bold text-dark me-5" itemprop="author">{{ item.name }}</div>
+                                                    <div class="fs-3 fw-bold text-dark me-5">{{ item.name }}</div>
                                                 </div>
                                                 <div class="text-gray-400 fw-semibold fs-5 mt-1 mb-0">{{ item.description }}</div>
                                             </div>
@@ -288,6 +288,19 @@
                 </div>
             </template>
         </Modal>
+
+        <SchemaOrgArticle
+            v-if="post.created_at"
+            type="NewsArticle"
+            :headline="post.title"
+            :description="post.summary"
+            :thumbnailUrl="$storage(post.image_sm)"
+            :image="$storage(post.image_md)"
+            :date-published="new Date(post.created_at).toISOString()"
+            :date-modified="new Date(post.updated_at).toISOString()"
+            :author="{name: post.name, url: $base($router.resolve({name: 'user', params: {slug: post.user_id, locale: $root.locale != 'ru'? $root.locale: ''}}).fullPath)}"
+            :publisher="{name: post.name, url: $base($router.resolve({name: 'user', params: {slug: post.user_id, locale: $root.locale != 'ru'? $root.locale: ''}}).fullPath)}"
+        />
     </div>
 </template>
 <script>

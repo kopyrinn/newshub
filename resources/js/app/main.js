@@ -22,6 +22,7 @@ import AppLink from '@/components/AppLink.vue';
 // import VueApexCharts from "vue3-apexcharts"
 import { Skeletor } from 'vue-skeletor';
 import { createHead, VueHeadMixin } from "@unhead/vue"
+import { SchemaOrgUnheadPlugin } from '@unhead/schema-org-vue'
 import { vMaska } from "maska"
 import VueAnalytics from '@morr/vue3-analytics'
 
@@ -137,6 +138,16 @@ const i18n = createI18n({
 // })
 
 const head = createHead()
+
+head.use(SchemaOrgUnheadPlugin({
+    host: import.meta.env.VITE_ORIGIN_URL,
+}, () => {
+    const route = router.currentRoute.value
+    return {
+    path: route.path,
+    ...route.meta,
+    }
+}))
 
 app
     .mixin(VueHeadMixin)

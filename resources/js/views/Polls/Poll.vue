@@ -24,7 +24,7 @@
                                     <picture>
                                         <source media="(max-width: 500px)" :srcset="$storage(poll.image_sm)" />
                                         <source media="(min-width: 501px)" :srcset="$storage(poll.image_md)" />
-                                        <img :src="$storage(poll.image_md)" :alt="poll.question" class="object-fit-contain z-index-1 position-relative mh-450px min-h-250px w-100" itemprop="image" loading="lazy"/>
+                                        <img :src="$storage(poll.image_md)" :alt="poll.question" class="object-fit-contain z-index-1 position-relative mh-450px min-h-250px w-100" loading="lazy"/>
                                     </picture>
                                     <img :src="$storage(poll.image_blur)" class="blurry" loading="lazy"/>
                                 </div>
@@ -170,6 +170,16 @@
                 </div>
             </template>
         </Modal>
+
+        <SchemaOrgArticle
+            v-if="poll.created_at"
+            :headline="poll.question"
+            :description="poll.summary"
+            :thumbnailUrl="$storage(poll.image_sm)"
+            :image="$storage(poll.image_md)"
+            :date-published="new Date(poll.created_at).toISOString()"
+            :date-modified="new Date(poll.updated_at).toISOString()"
+        />
     </div>
 </template>
 <script>

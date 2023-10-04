@@ -81,6 +81,7 @@
         </div>
 
         <router-view/>
+        <SchemaOrgWebPage :name="$root.meta.title" />
     </div>
 </template>
 <script>

@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Campaign;
+use DateTime;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -11,6 +12,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Headers;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\App;
+use Illuminate\Queue\Middleware\ThrottlesExceptions;
 
 class CampaignEmail extends Mailable implements ShouldQueue
 {
@@ -28,6 +30,11 @@ class CampaignEmail extends Mailable implements ShouldQueue
 
         $this->campaign = $campaign;
         $this->token = $token;
+    }
+
+    public function middleware(): array
+    {
+        return [new ThrottlesExceptions(10, 10)];
     }
 
     /**

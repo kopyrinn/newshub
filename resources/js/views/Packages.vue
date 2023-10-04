@@ -135,6 +135,7 @@
                     <button type="button" @click="buy" class="btn btn-success w-100">{{ $t('Buy') }}</button>
                 <!-- </div> -->
             </div>
+            <SchemaOrgWebPage :name="$root.meta.title" />
         </div>
     </div>
 </template>
