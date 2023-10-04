@@ -86,7 +86,14 @@ class Post extends Resource
                 ->default(1)
                 ->sortable()
             ,
+            Image::make(__('Image'), 'image_blur')
+                ->exceptOnForms()
+                ->creationRules('required')
+                ->path('img/blurry')
+                ->nullable()
+            ,
             Image::make(__('Image'), 'image')
+                ->onlyOnForms()
                 ->creationRules('required')
                 ->path('img/large')
                 ->nullable()

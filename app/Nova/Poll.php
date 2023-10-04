@@ -11,6 +11,7 @@ use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Manogi\Tiptap\Tiptap;
+use Murdercode\TinymceEditor\TinymceEditor;
 
 class Poll extends Resource
 {
@@ -76,7 +77,12 @@ class Poll extends Resource
                 ->default(1)
                 ->sortable()
             ,
+            Image::make(__('Изображение'), 'image_blur')
+                ->exceptOnForms()
+                ->path('polls')
+            ,
             Image::make(__('Изображение'), 'image')
+                ->onlyOnForms()
                 ->path('polls')
             ,
             Text::make(__('Вопрос'), 'question')
