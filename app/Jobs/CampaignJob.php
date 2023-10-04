@@ -100,9 +100,15 @@ class CampaignJob implements ShouldQueue
         ]);
 
         if ($users->count()) {
-            foreach ($users as $user) {
+            foreach ($users as $i => $user) {
                 App::setLocale('ru');
-                Mail::to($user)->send(new CampaignEmail($this->campaign, $user->public_token));
+
+                $limitPerMinute = 30;
+
+                Mail::to($user)->later(
+                    now()->addMinutes((int) ceil(($i + 1) / $limitPerMinute)),
+                    new CampaignEmail($this->campaign, $user->public_token)
+                );
 
                 $this->campaign->update([
                     'sent' => $users->count()
