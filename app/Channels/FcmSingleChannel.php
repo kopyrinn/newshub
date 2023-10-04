@@ -25,12 +25,14 @@ class FcmSingleChannel
                 $data = $response->json();
 
                 if (isset($data['failure']) && $data['failure'] === 1) {
-                    $token = PersonalAccessToken::where('app_token', $message['to'])->first();
+                    $tokens = PersonalAccessToken::where('app_token', $message['to'])->get();
 
-                    if ($token) {
-                        $token->app_token = null;
-                        $token->platform = 'web';
-                        $token->update();
+                    if ($tokens->count()) {
+                        foreach ($tokens as $token) {
+                            $token->app_token = null;
+                            $token->platform = 'web';
+                            $token->update();
+                        }
                     }
 
                     \Log::error('FCM single failure', [$message, $response->body()]);

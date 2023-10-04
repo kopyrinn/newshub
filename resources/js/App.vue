@@ -832,6 +832,15 @@ export default defineComponent({
             return await this.$api('user', true)
                 .then(({data}) => {
                     this.$store.commit('setUser', data.user)
+
+                    if (['ios', 'android'].includes(this.$store.state.platform)) {
+                        if (!data.token || data.token !== this.$store.state.appToken) {
+                            this.$post('account/app-token', {
+                                token: this.$store.state.appToken,
+                                platform: this.$store.state.platform,
+                            }, true)
+                        }
+                    }
                 })
                 .catch(({response}) => {
                     if (response && response.status === 401) {
@@ -983,10 +992,7 @@ export default defineComponent({
         logout() {
             if (this.$isApp) {
                 this.$api('logout', true, {
-                    method: 'post',
-                    data: {
-                        appToken: this.appToken
-                    }
+                    method: 'post'
                 }).then(({data}) => {
                     this.clearSession()
                 }).catch((e) => {

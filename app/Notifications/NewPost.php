@@ -86,6 +86,7 @@ class NewPost extends Notification implements ShouldQueue
             ->whereIn('platform', ['android', 'ios'])
             ->whereNotNull('app_token')
             ->where('app_token', '!=', '0')
+            ->groupBy('app_token')
             ->pluck('app_token');
 
         App::setLocale('ru');

@@ -75,6 +75,7 @@ Route::prefix('v2')->group(function () {
     Route::post('account/verify', [AccountController::class, 'verify'])->name('account.verify');
     Route::post('account/password', [AccountController::class, 'password'])->name('account.password');
     Route::post('account/delete', [AccountController::class, 'delete'])->name('account.delete');
+    Route::post('account/app-token', [AccountController::class, 'updateAppToken'])->name('account.update.apptoken');
 
     Route::get('polls', [PollController::class, 'polls'])->name('polls');
     Route::get('polls/{slug}', [PollController::class, 'poll'])->name('polls.view');

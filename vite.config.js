@@ -8,6 +8,7 @@ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import UnheadVite from '@unhead/addons/vite'
 import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { SchemaOrgResolver } from '@unhead/schema-org-vue'
 import { PurgeCSS } from 'purgecss'
 
@@ -30,6 +31,7 @@ export default defineConfig(({ command, mode }) => {
         Components({
           resolvers: [
             SchemaOrgResolver(),
+            ElementPlusResolver(),
           ],
         }),
         UnheadVite(),

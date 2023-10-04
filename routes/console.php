@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\Util;
 use App\Models\Poll;
 use App\Models\Post;
 use App\Models\User;
@@ -19,23 +20,7 @@ use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 */
 
 Artisan::command('test', function () {
-    $test = '<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@dragon_knm1/video/7273129101358091525" data-video-id="7273129101358091525" style="max-width: 605px;min-width: 325px;" > <section> <a target="_blank" title="@dragon_knm1" href="https://www.tiktok.com/@dragon_knm1?refer=embed">@dragon_knm1</a> <p>Ахахах прости ПАП 🤣❤️</p> <a target="_blank" title="♬ оригинальный звук - Нургелды Dragon 🐉" href="https://www.tiktok.com/music/оригинальный-звук-7273129120946195206?refer=embed">♬ оригинальный звук - Нургелды Dragon 🐉</a> </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>';
-    dd(htmlentities($test, ENT_NOQUOTES));
-
-    $test = preg_replace_callback("@(&lt;(iframe|embed).*&lt;/(iframe|embed)&gt;)@Usi", function($match) {
-        $embed = html_entity_decode($match[1]);
-
-        if (preg_match("@src=[\"']<a.*>.(.*)</a>[\"']@Usi", $embed)) {
-            $embed = preg_replace_callback("@src=[\"']<a.*>(.*)</a>[\"']@Usi", function($match) {
-                return "src=\"{$match[1]}\"";
-            }, $embed);
-        }
-
-        return $embed;
-    }, $test);
-    // preg_match_all(, $test, $matches);
-    // dd($matches);
-    dd($test);
+    //
 });
 
 Artisan::command('optimize:images', function () {

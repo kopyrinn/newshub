@@ -26,9 +26,13 @@ class AuthController extends Controller
         $user = auth('sanctum')->user();
         abort_if(!$user, 429);
 
+        $token = $user->currentAccessToken();
+        $appToken = $token? $token->app_token: null;
+
         return response()->json([
             'ok' => true,
             'user' => $user->withInfo(),
+            'token' => $appToken,
         ]);
     }
 

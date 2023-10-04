@@ -152,6 +152,29 @@ class AccountController extends Controller
         ]);
     }
 
+    public function updateAppToken(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'platform' => 'required',
+        ]);
+
+        $user = auth('sanctum')->user();
+        abort_if(!$user, 403);
+
+        $token = $user->currentAccessToken();
+
+        if ($token) {
+            $token->app_token = $request->token;
+            $token->platform = $request->platform;
+            $token->update();
+        }
+
+        return response()->json([
+            'ok' => true,
+        ]);
+    }
+
     public function resendVerificationLink(Request $request)
     {
         $user = auth('sanctum')->user();

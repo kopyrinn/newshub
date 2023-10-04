@@ -24,15 +24,15 @@
 
         <div class="row g-9">
             <div class="col-xl-8 mb-xl-0">
-                <div v-if="!$root.user.is_package_active" class="alert bg-light-warning border-dashed border-warning d-flex flex-column flex-sm-row p-5 mb-5">
-                    <i class="ki-duotone ki-notification-bing fs-2hx text-warning me-4 mb-5 mb-sm-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                <div v-if="!$root.user.is_package_active" class="alert bg-light-primary border-dashed border-primary d-flex flex-column flex-sm-row p-5 mb-5">
+                    <i class="ki-duotone ki-notification-bing fs-2hx text-primary me-4 mb-5 mb-sm-0"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                     <div class="d-flex flex-fill flex-column pe-0 pe-sm-10">
                         <h5 class="mb-1">{{ $t('Select package') }}</h5>
                         <span class="fw-semibold">{{ $t('To be able to publish the material, you must purchase a package of services.') }}</span>
                     </div>
 
                     <div class="d-flex align-items-center">
-                        <app-link :to="{name: 'packages'}" class="position-absolute position-sm-relative mt-3 me-3 mt-sm-0 me-sm-0 top-0 end-0 btn btn-sm btn-light-warning ms-sm-auto">
+                        <app-link :to="{name: 'packages'}" class="position-absolute position-sm-relative mt-3 me-3 mt-sm-0 me-sm-0 top-0 end-0 btn btn-sm btn-light-primary ms-sm-auto">
                             {{ $t('Select') }}
                         </app-link>
                     </div>
@@ -181,18 +181,53 @@
                     </label>
                 </div>
 
-                <div class="form-check form-switch form-check-custom form-check-solid mb-5">
-                    <input class="form-check-input" type="checkbox" v-model="post.to_fcm" :value="1" id="post-push"/>
-                    <label class="form-check-label text-gray-800" for="post-push">
-                        {{ $t('Send Notifications To Fcm') }}
-                    </label>
-                </div>
+                <Popper v-if="!$root.user.is_package_active || !['standart-plus', 'standart-maximum'].includes($root.user.package_slug)" placement="top-start" class="" hover>
+                    <div>
+                        <div class="form-check form-switch form-check-custom form-check-solid mb-5">
+                            <input class="form-check-input" disabled="" type="checkbox" value="1" id="post-push"/>
+                            <label class="form-check-label text-gray-700" for="post-push">
+                                {{ $t('Send Notifications To Fcm') }}
+                            </label>
+                        </div>
+                        <div class="form-check form-switch form-check-custom form-check-solid mb-5">
+                            <input class="form-check-input" disabled="" type="checkbox" value="1" id="post-tg"/>
+                            <label class="form-check-label text-gray-800" for="post-tg">
+                                {{ $t('Send Notifications To Telegram') }}
+                            </label>
+                        </div>
+                    </div>
+    
+                    <template #content="{ close }">
+                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold mw-350px min-w-325px w-auto d-block p-5">
+                            <div class="d-flex">
+                                <i class="ki-duotone ki-notification-bing fs-1 text-primary me-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                <span class="fs-4">{{ $t('Select package') }}</span>
+                            </div>
 
-                <div class="form-check form-switch form-check-custom form-check-solid mb-5">
-                    <input class="form-check-input" type="checkbox" v-model="post.to_telegram" :value="1" id="post-tg"/>
-                    <label class="form-check-label text-gray-800" for="post-tg">
-                        {{ $t('Send Notifications To Telegram') }}
-                    </label>
+                            <hr class="text-gray-500 my-3"/>
+
+                            <div class="fw-semibold mb-3 fs-6">{{ $t('To be able to send notifications, you need to purchase the "Standart Plus" or "Standart Maximum" service package.') }}</div>
+        
+                            <app-link :to="{name: 'packages'}" class="btn btn-sm fs-6 fw-bold btn-primary w-100">
+                                {{ $t('Select') }}
+                            </app-link>
+                        </div>
+                    </template>
+                </Popper>
+                <div v-else>
+                    <div class="form-check form-switch form-check-custom form-check-solid mb-5">
+                        <input class="form-check-input" type="checkbox" v-model="post.to_fcm" :value="1" id="post-push"/>
+                        <label class="form-check-label text-gray-800" for="post-push">
+                            {{ $t('Send Notifications To Fcm') }}
+                        </label>
+                    </div>
+
+                    <div class="form-check form-switch form-check-custom form-check-solid mb-5">
+                        <input class="form-check-input" type="checkbox" v-model="post.to_telegram" :value="1" id="post-tg"/>
+                        <label class="form-check-label text-gray-800" for="post-tg">
+                            {{ $t('Send Notifications To Telegram') }}
+                        </label>
+                    </div>
                 </div>
 
                 <!-- <div class="form-check form-switch form-check-custom form-check-solid">
