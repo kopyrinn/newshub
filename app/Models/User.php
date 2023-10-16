@@ -41,6 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'public_token',
         'remember_token',
         'email_verify_token',
+        'is_auto_moderate',
     ];
 
     /**
@@ -52,6 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'package_expired_at' => 'datetime',
         'newsletter' => 'boolean',
+        'is_auto_moderate' => 'boolean',
     ];
 
     protected function avatarSm(): Attribute

@@ -55,7 +55,7 @@ class VacancyController extends Controller
         $user = auth('sanctum')->user();
 
         $vacancy = new Vacancy;
-        $vacancy->status = 0;
+        $vacancy->status = $user->is_auto_moderate? 1: 0;
         $vacancy->user_id = $user->id;
 
         foreach ($request->job_title as $locale => $value) {

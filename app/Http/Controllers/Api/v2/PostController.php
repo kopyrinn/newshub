@@ -393,7 +393,7 @@ class PostController extends Controller
         // dd($request->all());
 
         $post = new Post;
-        $post->status = 0;
+        $post->status = $user->is_auto_moderate? 1: 0;
 
         if ($request->image) {
             $image = strtr($request->image, [
@@ -570,6 +570,10 @@ class PostController extends Controller
         abort_if(!$post, 404);
 
         $category = Category::find($request->category_id);
+
+        if (!$post->status && $user->is_auto_moderate) {
+            $post->status = 1;
+        }
 
         if ($request->image) {
             $image = strtr($request->image, [

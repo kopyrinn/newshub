@@ -81,6 +81,11 @@ class PostObserver
         if (!$post->uuid) {
             $post->uuid = \Str::uuid()->toString();
         }
+
+        if (!$post->status) {
+            $user = auth('sanctum')->user();
+            $post->status = $user->is_auto_moderate? 1: 0;
+        }
     }
 
     public function created(Post $post)
