@@ -63,7 +63,7 @@
                         <div v-if="user" class="app-navbar-item align-items-stretch ms-1 ms-md-3">
                             <Popper placement="bottom-end" class="d-block">
                                 <button type="button" class="btn btn-icon btn-custom btn-active-light w-30px h-30px w-md-40px h-md-40px " @click="getNotifications" :class="{'btn-active-light-danger btn-icon-danger': user.notifications_count}">
-                                    <i class="ki-duotone ki-notification-on fs-2 fs-lg-1"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i></i>
+                                    <i class="ki-duotone ki-notification-on fs-2 fs-lg-1" :class="{'fa-beat-fade': user.notifications_count}"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i></i>
                                 </button>
 
                                 <template #content="{ close }">
