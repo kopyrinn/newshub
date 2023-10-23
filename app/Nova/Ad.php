@@ -101,6 +101,9 @@ class Ad extends Resource
             Number::make(__('Clicks'), 'clicks')
                 ->sortable()
             ,
+            Number::make(__('Views'), 'views')
+                ->sortable()
+            ,
             Image::make(__('Image'), 'image')
                 ->rules('required')
                 ->path('ads')

@@ -75,6 +75,7 @@
                                     <RecommendedVacancies v-if="index === 1"/>
                                     <RecommendedPosts v-if="index === 3 && $root.config.lastEvents.length" :items="$root.config.lastEvents" :title="$t('Events')" :isEvent="true"/>
                                     <RecommendedPosts v-if="index === 6 && $root.config.lastArticles.length" :items="$root.config.lastArticles" :title="$t('Articles')"/>
+                                    <Banner v-if="index && (index === 2 || index % 6 === 0)" location="category.view" class="mb-6"/>
 
                                     <intersection-observer
                                         v-if="index == posts.length - 9 && cursor"
@@ -100,6 +101,7 @@ import VLazyImage from "v-lazy-image"
 import { Carousel, Slide } from 'vue3-carousel'
 import Card from "@/components/Post/Card.vue"
 import RecommendedPosts from "@/components/Post/RecommendedPosts.vue"
+import Banner from "@/components/Ad/Banner.vue"
 import RecommendedVacancies from "@/components/Vacancy/RecommendedVacancies.vue"
 import CardSkeleton from "@/components/Post/CardSkeleton.vue"
 import Sidebar from "@/components/Sidebar.vue"
@@ -114,6 +116,7 @@ export default defineComponent({
         CardSkeleton,
         Card,
         RecommendedPosts,
+        Banner,
         RecommendedVacancies,
         Sidebar,
         IntersectionObserver,

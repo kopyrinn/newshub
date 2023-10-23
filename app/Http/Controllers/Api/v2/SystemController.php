@@ -284,4 +284,36 @@ class SystemController extends Controller
             'ok' => true
         ]);
     }
+
+    public function viewed(Request $request)
+    {
+        $ad = Ad::select('id', 'views')
+            ->where('uuid', $request->uuid)
+            ->first();
+
+        if ($ad) {
+            $ad->views += 1;
+            $ad->update();
+        }
+
+        return response([
+            'ok' => true
+        ]);
+    }
+
+    public function clicked(Request $request)
+    {
+        $ad = Ad::select('id', 'clicks')
+            ->where('uuid', $request->uuid)
+            ->first();
+
+        if ($ad) {
+            $ad->clicks += 1;
+            $ad->update();
+        }
+
+        return response([
+            'ok' => true
+        ]);
+    }
 }

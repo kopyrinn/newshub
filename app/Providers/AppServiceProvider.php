@@ -100,7 +100,7 @@ class AppServiceProvider extends ServiceProvider
                     return $item->created_at->format('Y-m-d');
                 });
 
-            $banners = Ad::select('image', 'location', 'url')
+            $banners = Ad::select('uuid', 'image', 'location', 'url')
                 ->where('expired_at', '>', Carbon::now())
                 ->get()
                 ->map(function($item) {

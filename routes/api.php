@@ -87,6 +87,8 @@ Route::prefix('v2')->group(function () {
     Route::post('package/{slug}', [SystemController::class, 'packagesPay']);
     Route::get('search', [SystemController::class, 'search'])->name('search');
     Route::get('unsubscribe/{slug}', [SystemController::class, 'unsubscribe']);
+    Route::post('clicked', [SystemController::class, 'clicked']);
+    Route::post('viewed', [SystemController::class, 'viewed']);
 
     Route::post('image/{figure}', [UploadController::class, 'image'])->name('upload.image');
     Route::post('upload', [UploadController::class, 'upload'])->name('upload.default');

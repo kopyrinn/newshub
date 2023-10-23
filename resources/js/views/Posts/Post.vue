@@ -65,6 +65,8 @@
 
                             <div class="fs-5 fw-medium text-gray-900 mb-10 article" v-html="post.content" ref="articleBody"></div>
 
+                            <Banner location="post.view" class="mb-6"/>
+
                             <intersection-observer
                                 :sentinal-name="'footer' + post.slug"
                                 @on-intersection-element="updatePage(post)"
@@ -132,7 +134,7 @@
                     ></intersection-observer>
                 </div>
 
-                <div v-for="item in posts" class="card mb-7">
+                <div v-for="(item, index) in posts" class="card mb-7">
                     <intersection-observer
                         v-if="!loading && item.next && !slugs.includes(item.next)"
                         :sentinal-name="'top' + item.slug"
@@ -189,6 +191,8 @@
                             </div>
 
                             <div class="fs-5 fw-medium text-gray-900 mb-10 article" v-html="item.content"></div>
+
+                            <Banner v-if="index && index % 4 === 0" location="post.view" class="mb-6"/>
 
                             <intersection-observer
                                 :sentinal-name="'footer' + item.slug"
@@ -308,6 +312,7 @@ import { defineComponent } from "vue";
 import Sidebar from "@/components/Sidebar.vue"
 import Modal from "@/components/Modal.vue"
 import ViewSkeleton from "@/components/Post/ViewSkeleton.vue"
+import Banner from "@/components/Ad/Banner.vue"
 import IntersectionObserver from "@/components/IntersectionObserver.vue"
 import { ElNotification } from 'element-plus'
 
@@ -315,6 +320,7 @@ export default defineComponent({
     name: "Post",
     components: {
         ViewSkeleton,
+        Banner,
         IntersectionObserver,
         Sidebar,
         Modal,
