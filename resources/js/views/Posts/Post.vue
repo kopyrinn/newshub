@@ -40,11 +40,10 @@
                                         <i class="ki-duotone ki-eye fs-2 me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                         <span class="fw-bold text-gray-400 fs-7">{{ post.pageviews }}</span>
                                     </div>
-                                    <!-- <div class="my-1 d-flex align-items-center">
-                                        <i class="ki-duotone ki-message-text-2 text-primary fs-2 me-1"><span
-                                                class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-                                        <span class="fw-bold text-gray-400">24 Comments</span>
-                                    </div> -->
+                                    <router-link v-if="$root.user" to="" @click.prevent="$root.toggleFavorite(post)" class="d-flex align-items-center me-5">
+                                        <i class="ki-duotone ki-star fs-2 me-2" :class="{'text-warning': post.is_favorite}"><i class="path1"></i><i class="path2"></i></i>
+                                        <span class="fw-bold text-gray-400">{{ $t('Favorite') }}</span>
+                                    </router-link>
                                 </div>
 
                                 <intersection-observer
@@ -172,6 +171,10 @@
                                         <i class="ki-duotone ki-eye fs-2 me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                                         <span class="fw-bold text-gray-400 fs-7">{{ item.pageviews }}</span>
                                     </div>
+                                    <router-link v-if="$root.user" to="" @click.prevent="$root.toggleFavorite(item)" class="d-flex align-items-center me-5">
+                                        <i class="ki-duotone ki-star fs-2 me-2" :class="{'text-warning': item.is_favorite}"><i class="path1"></i><i class="path2"></i></i>
+                                        <span class="fw-bold text-gray-400">{{ $t('Favorite') }}</span>
+                                    </router-link>
                                 </div>
 
                                 <intersection-observer
@@ -458,7 +461,7 @@ export default defineComponent({
 
             this.loading = true
 
-            this.$api(`post/${this.slug}`, false).then(({data}) => {
+            this.$api(`post/${this.slug}`, !!this.$root.user).then(({data}) => {
                 this.loading = false
 
                 if (!data.ok) return
@@ -476,6 +479,8 @@ export default defineComponent({
                     ogImage: this.post.image? this.$storage(this.post.image): '',
                     twitterCard: 'summary_large_image',
                 })
+
+                this.$root.getNotifications()
 
                 this.renderTelegram()
             })
@@ -534,7 +539,7 @@ export default defineComponent({
         fetchNext(next) {
             this.slugs.push(next)
 
-            this.$api(`post/${next}`, false).then(({data}) => {
+            this.$api(`post/${next}`, !!this.$root.user).then(({data}) => {
                 if (!data.ok) return
 
                 data.post.url = this.$base(this.$router.resolve({name: 'post', params: {slug: data.post.slug, locale: this.$root.locale != 'ru'? this.$root.locale: ''}}).fullPath)

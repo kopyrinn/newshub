@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v2;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\UserImageJob;
+use App\Models\Post;
 use App\Models\User;
 use App\Notifications\VerifyEmail;
 use Carbon\Carbon;
@@ -41,14 +42,71 @@ class AccountController extends Controller
             ->paginate($request->per_page?: 15)
             ->withQueryString();
 
-        $user->notifications()->whereNull('read_at')->update([
-            'read_at' => Carbon::now(),
-        ]);
-
         return response()->json([
             'ok' => true,
             'notifications' => $notifications,
         ]);
+    }
+
+    public function favoriteToggle(Request $request)
+    {
+        $request->validate([
+            'slug' => 'required|exists:posts,slug',
+        ]);
+
+        $post = Post::select('id')->where('slug', $request->slug)->firstOrFail();
+
+        $user = auth('sanctum')->user();
+
+        if ($user->favorites()->where('post_id', $post->id)->exists()) {
+            $user->favorites()->detach($post->id);
+        } else {
+            $user->favorites()->attach($post->id);
+        }
+
+        return response()->json([
+            'ok' => true,
+        ]);
+    }
+
+    public function favorite(Request $request)
+    {
+        $request->validate([
+            'per_page' => 'nullable|integer|min:1|max:100',
+        ]);
+
+        $user = auth('sanctum')->user();
+
+        $query = $user->favorites()
+            ->select('posts.id', 'posts.title', 'posts.slug', 'posts.created_at')
+            ->where('posts.status', 1)
+            ->where('posts.created_at', '<', Carbon::now());
+
+        $query->selectRaw("(SELECT 1 FROM post_favorite WHERE post_favorite.user_id = {$user->id} AND post_favorite.post_id = posts.id) as is_favorite");
+
+        if ($request->search) {
+            $token = $request->search;
+            $query->where(function($query) use ($token) {
+                $query->where("posts.title", "like", "%{$token}%")
+                    ->orWhere("posts.summary", "like", "%{$token}%")
+                    ->orWhere("posts.content", "like", "%{$token}%");
+            });
+        }
+
+        if ($request->sort) {
+            $query->orderBy($request->sort, $request->order? $request->order: 'asc');
+        } else {
+            $query->orderByDesc('posts.id');
+        }
+
+        $posts = $query
+            ->paginate($request->per_page?: 15)
+            ->withQueryString();
+
+        return response()->json([
+            'ok' => true,
+            'posts' => $posts,
+        ], 200, [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     public function settings(Request $request)

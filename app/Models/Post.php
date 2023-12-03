@@ -6,13 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasTranslations;
 use Mews\Purifier\Casts\CleanHtml;
 use Illuminate\Support\Str;
-use Illuminate\Notifications\Notifiable;
-use \DateTimeInterface;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Post extends Model
 {
-    use HasTranslations, Notifiable;
+    use HasTranslations;
 
     public $translatable = ['title', 'summary', 'content'];
 
@@ -101,6 +100,26 @@ class Post extends Model
     {
         return $this->belongsToMany(Rubric::class)
             ->using(PostRubric::class);
+    }
+
+    /**
+     * Get the entity's notifications.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function notifications(): MorphMany
+    {
+        return $this->morphMany(Notification::class, 'targetable')->latest();
+    }
+
+    /**
+     * Get the entity's notifications.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function unreadNotifications(): MorphMany
+    {
+        return $this->notifications()->where('notifications.read_at', null);
     }
 
     public function getFiles()

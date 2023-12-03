@@ -60,6 +60,26 @@ class CampaignJob implements ShouldQueue
                 }
             });
         }
+
+        if ($this->campaign->package_state && $this->campaign->package_state !== 'all') {
+            if ($this->campaign->package_state === 'active') {
+                $query->where('users.package_expired_at', '>', Carbon::now());
+
+                if ($this->campaign->has_package_expires && ($this->campaign->package_gte || $this->campaign->package_lte)) {
+                    $query->whereExists(function($query) {
+                        if ($this->campaign->package_gte) {
+                            $query->where('users.package_expired_at', '<=', Carbon::now()->sub($this->campaign->package_gte));
+                        }
+
+                        if ($this->campaign->package_lte) {
+                            $query->where('users.package_expired_at', '>=', Carbon::now()->sub($this->campaign->package_lte));
+                        }
+                    });
+                }
+            } else {
+                $query->where('users.package_expired_at', '<=', Carbon::now());
+            }
+        }
     
         $query->whereExists(function($query) use ($roles) {
             $query->selectRaw(1)

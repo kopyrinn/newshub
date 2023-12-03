@@ -104,6 +104,12 @@ class User extends Authenticatable implements MustVerifyEmail
             ->using(Follower::class);
     }
 
+    public function favorites()
+    {
+        return $this->belongsToMany(Post::class, 'post_favorite', 'user_id', 'post_id')
+            ->using(PostFavorite::class);
+    }
+
     public function posts()
     {
         return $this->hasMany(Post::class);
@@ -300,4 +306,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $this->notify(new ResetPassword($token));
     }
+
+    // public function routeNotificationForDatabase($notification)
+    // {
+    //     // dd($notification);
+    //     $notification->targetable()->associate($notification->post);
+
+    //     return $notification;
+    // }
 }

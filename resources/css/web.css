@@ -201,6 +201,7 @@ body {
   -moz-text-size-adjust:none;
   text-size-adjust:none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  overscroll-behavior-y: none;
 }
 
 /* [data-bs-theme=light] ::-webkit-scrollbar {
@@ -47290,6 +47291,7 @@ body[data-kt-sticky-landing-header=on] {
 html {
   font-family: sans-serif;
   text-size-adjust: 100%;
+  overscroll-behavior-y: none;
 }
 
 html,
@@ -62688,7 +62690,7 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-end, body.swal2-toast-shown
 
 .ki-notification-on .path1:before {
   content: "\ed7a";
-  opacity: 0.3;
+  opacity: 0.7;
 }
 
 .ki-notification-on .path2:before {
@@ -87036,15 +87038,22 @@ readers do not read off random characters that represent icons */
 .fa-shake {
   -webkit-animation-name: fa-shake;
   animation-name: fa-shake;
-  -webkit-animation-duration: var(--fa-animation-duration, 1s);
-  animation-duration: var(--fa-animation-duration, 1s);
+  -webkit-animation-duration: var(--fa-animation-duration, 2s);
+  animation-duration: var(--fa-animation-duration, 2s);
   -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
   animation-iteration-count: var(--fa-animation-iteration-count, infinite);
   -webkit-animation-timing-function: var(--fa-animation-timing, linear);
   animation-timing-function: var(--fa-animation-timing, linear);
 }
 
-.fa-shake, .fa-spin {
+.fa-shake {
+  -webkit-animation-delay: var(--fa-animation-delay, 2s);
+  animation-delay: var(--fa-animation-delay, 2s);
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+  animation-direction: var(--fa-animation-direction, normal);
+}
+
+.fa-spin {
   -webkit-animation-delay: var(--fa-animation-delay, 0s);
   animation-delay: var(--fa-animation-delay, 0s);
   -webkit-animation-direction: var(--fa-animation-direction, normal);
@@ -98199,6 +98208,9 @@ body {
   margin: 0 auto;
   display: block;
 }
+.article iframe {
+  margin: 10px auto;
+}
 .article picture,
 .article img {
   height: auto;
@@ -98297,4 +98309,11 @@ body {
   .featured-card:nth-child(n+3) {
     display: none !important;
   }
+}
+
+.fullscreen {
+  background: #0000009e;
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  transition: all .3s ease;
 }

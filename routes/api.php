@@ -69,6 +69,8 @@ Route::prefix('v2')->group(function () {
     Route::post('user/{id}/follow', [UserController::class, 'follow'])->name('user.follow');
 
     Route::get('account/notifications', [AccountController::class, 'notifications'])->name('account.notifications');
+    Route::get('account/favorite', [AccountController::class, 'favorite'])->name('account.favorite');
+    Route::post('account/toggle-favorite', [AccountController::class, 'favoriteToggle'])->name('account.favorite.toggle');
     Route::post('account/settings', [AccountController::class, 'settings'])->name('account.settings');
     Route::post('account/email', [AccountController::class, 'email'])->name('account.email');
     Route::post('account/verify-resend', [AccountController::class, 'resendVerificationLink'])->name('account.verify.resend');
@@ -93,8 +95,9 @@ Route::prefix('v2')->group(function () {
     Route::post('image/{figure}', [UploadController::class, 'image'])->name('upload.image');
     Route::post('upload', [UploadController::class, 'upload'])->name('upload.default');
 
+    Route::get('post/{slug}', [PostController::class, 'post'])->name('post');
+
     Route::middleware('cache.headers:public;max_age=15;etag')->group(function () {
-        Route::get('post/{slug}', [PostController::class, 'post'])->name('post');
         Route::get('user', [V2AuthController::class, 'user']);
         Route::get('user/{id}', [UserController::class, 'user'])->name('user');
         Route::get('fields', [V2AuthController::class, 'fields']);

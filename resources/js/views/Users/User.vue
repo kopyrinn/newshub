@@ -55,6 +55,9 @@
                             <app-link :to="{name: 'user', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user'}" href="">{{ $t('Overview') }}</app-link>
                         </li>
                         <li v-if="isOwner" class="nav-item">
+                            <app-link :to="{name: 'user-favorite', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-favorite'}" href="">{{ $t('Favorite') }}</app-link>
+                        </li>
+                        <li v-if="isOwner" class="nav-item">
                             <app-link :to="{name: 'user-settings', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-settings'}" href="">{{ $t('Settings') }}</app-link>
                         </li>
                         <li v-if="isOwner && !$root.user.is_journalist" class="nav-item">

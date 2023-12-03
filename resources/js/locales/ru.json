@@ -1000,5 +1000,8 @@
     "We cant find that page": "Мы не можем найти страницу",
     "Return home": "Вернуться на главную",
     "User agreement": "Пользовательское соглашение",
-    "Please read our user agreement carefully.": "Пожалуйста, внимательно ознакомьтесь с нашим пользовательским соглашением."
+    "Please read our user agreement carefully.": "Пожалуйста, внимательно ознакомьтесь с нашим пользовательским соглашением.",
+    "Favorite": "Избранное",
+    "Added to favorites": "Добавлено в избранное",
+    "Removed from favorites": "Удалено из избранного"
 }

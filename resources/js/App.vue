@@ -63,7 +63,7 @@
                         <div v-if="user" class="app-navbar-item align-items-stretch ms-1 ms-md-3">
                             <Popper placement="bottom-end" class="d-block">
                                 <button type="button" class="btn btn-icon btn-custom btn-active-light w-30px h-30px w-md-40px h-md-40px " @click="getNotifications" :class="{'btn-active-light-danger btn-icon-danger': user.notifications_count}">
-                                    <i class="ki-duotone ki-notification-on fs-2 fs-lg-1" :class="{'fa-beat-fade': user.notifications_count}"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i></i>
+                                    <i class="ki-duotone ki-notification-on fs-2 fs-lg-1" :class="{'fa-shake': user.notifications_count}"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i></i>
                                 </button>
 
                                 <template #content="{ close }">
@@ -232,6 +232,15 @@
                                         <i class="ki-duotone ki-flash-circle fs-2"><i class="path1 text-warning"></i><i class="path2 text-warning"></i></i>
                                     </span>
                                     <span class="menu-title">{{ $t('My Feed') }}</span>
+                                </app-link>
+                            </div>
+
+                            <div v-if="token" class="menu-item" :class="{'here': $route.name == 'user-favorite'}">
+                                <app-link :to="`/user/${user.id}/favorite`" class="menu-link">
+                                    <span class="menu-icon">
+                                        <i class="ki-duotone ki-star fs-2 text-warning"><i class="path1"></i><i class="path2"></i></i>
+                                    </span>
+                                    <span class="menu-title">{{ $t('Favorite') }}</span>
                                 </app-link>
                             </div>
 
@@ -520,7 +529,7 @@
         </div>
         <!--end::Cookie alert-->
     </div>
-    <fullscreen v-model="fullscreen" class="d-flex align-items-center justify-content-center">
+    <fullscreen v-model="fullscreen" class="d-flex align-items-center justify-content-center" :page-only="true" :teleport="true">
         <img v-if="fullscreenImage" :src="fullscreenImage" loading="lazy" class="mh-100 mw-100 cursor-zoom-out rounded-3" @click="fullscreen = false"/>
     </fullscreen>
     <Confirm ref="confirm"/>
@@ -827,6 +836,26 @@ export default defineComponent({
                 this.$store.commit('updateCacheKey')
                 this.getUser()
             })
+        },
+        toggleFavorite(post) {
+            post.is_favorite = !post.is_favorite
+            this.$post('account/toggle-favorite', {slug: post.slug}, true);
+            
+            if (post.is_favorite) {
+                ElNotification({
+                    type: 'info',
+                    title: this.$t('Notification'),
+                    message: this.$t('Added to favorites'),
+                    duration: 2000,
+                })
+            } else {
+                ElNotification({
+                    type: 'info',
+                    title: this.$t('Notification'),
+                    message: this.$t('Removed from favorites'),
+                    duration: 2000,
+                })
+            }
         },
         async getUser() {
             return await this.$api('user', true)

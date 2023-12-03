@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Channels\DatabaseChannel;
 use App\Channels\FcmSingleChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -34,7 +35,7 @@ class NewPost extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['database', 'mail', FcmSingleChannel::class];
+        return [DatabaseChannel::class, 'mail', FcmSingleChannel::class];
     }
 
     /**
@@ -76,6 +77,7 @@ class NewPost extends Notification implements ShouldQueue
     {
         return [
             'post_id' => $this->post->id,
+            'targetable' => $this->post,
         ];
     }
 

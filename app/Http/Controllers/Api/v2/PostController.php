@@ -11,6 +11,7 @@ use App\Models\Widget;
 use App\Notifications\ChannelNotification;
 use App\Notifications\NewPost;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 
@@ -95,24 +96,32 @@ class PostController extends Controller
 
     public function post(Request $request, $slug)
     {
-        $post = Post::select('posts.*', 'users.avatar', 'users.avatar_sm', 'users.name', 'users.description')
+        $query = Post::select('posts.*', 'users.avatar', 'users.avatar_sm', 'users.name', 'users.description')
             ->join('users', 'users.id', 'posts.user_id')
-            ->where('posts.slug', $slug)
-            ->first();
+            ->where('posts.slug', $slug);
 
+        $user = auth('sanctum')->user();
+        if ($user) {
+            $query->selectRaw("(SELECT 1 FROM post_favorite WHERE post_favorite.user_id = {$user->id} AND post_favorite.post_id = posts.id) as is_favorite");
+        }
+
+        $post = $query->first();
         abort_if(!$post, 404);
 
-        $post->update([
-            'pageviews' => $post->pageviews + 1
-        ]);
+        $post->pageviews++;
+        $post->save(['timestamps' => false]);
 
-        if (!auth('sanctum')->guest()) {
-            $notifications = auth('sanctum')->user()->unreadNotifications()->get();
-            foreach ($notifications as $notification) {
-                if (!empty($notification->data['post_id']) && $notification->data['post_id'] == $post->id) {
-                    $notification->markAsRead();
-                    break;
-                }
+        if ($user) {
+            $notification = $post
+                ->unreadNotifications()
+                ->select('id', 'read_at')
+                ->whereHasMorph('notifiable', $user::class, function (Builder $query) use ($user) {
+                    $query->where('notifiable_id', $user->id);
+                })
+                ->first();
+
+            if ($notification) {
+                $notification->markAsRead();
             }
         }
 
@@ -209,17 +218,22 @@ class PostController extends Controller
                 '@id' => url("post/{$post->slug}"),
             ]);
 
-        $post->update([
-            'pageviews' => $post->pageviews + 1
-        ]);
+        $post->pageviews++;
+        $post->save(['timestamps' => false]);
 
         if (!auth('sanctum')->guest()) {
-            $notifications = auth('sanctum')->user()->unreadNotifications()->get();
-            foreach ($notifications as $notification) {
-                if (!empty($notification->data['post_id']) && $notification->data['post_id'] == $post->id) {
-                    $notification->markAsRead();
-                    break;
-                }
+            $user = auth('sanctum')->user();
+
+            $notification = $post
+                ->unreadNotifications()
+                ->select('id', 'read_at')
+                ->whereHasMorph('notifiable', $user::class, function (Builder $query) use ($user) {
+                    $query->where('notifiable_id', $user->id);
+                })
+                ->first();
+
+            if ($notification) {
+                $notification->markAsRead();
             }
         }
 
@@ -259,9 +273,8 @@ class PostController extends Controller
         $prevPost = $post->previous();
 
         if ($prevPost) {
-            $prevPost->update([
-                'pageviews' => $prevPost->pageviews + 1
-            ]);
+            $prevPost->pageviews++;
+            $prevPost->save(['timestamps' => false]);
 
             return response()->json([
                 'ok' => true,

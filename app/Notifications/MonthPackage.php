@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Channels\DatabaseChannel;
+use App\Models\Package;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -31,7 +33,7 @@ class MonthPackage extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return [DatabaseChannel::class];
     }
 
     /**
@@ -44,6 +46,7 @@ class MonthPackage extends Notification
     {
         return [
             'package' => $this->package,
+            'targetable' => Package::whereSlug($this->package)->first(),
         ];
     }
 }

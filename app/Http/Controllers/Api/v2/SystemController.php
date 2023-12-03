@@ -163,12 +163,16 @@ class SystemController extends Controller
     public function packages(Request $request)
     {
         if (!auth('sanctum')->guest()) {
-            $notifications = auth('sanctum')->user()->unreadNotifications()->get();
+            $user = auth('sanctum')->user();
+
+            $notifications = $user
+                ->unreadNotifications()
+                ->select('id', 'read_at')
+                ->whereTargetableType(Package::class)
+                ->get();
+
             foreach ($notifications as $notification) {
-                if (!empty($notification->data['package']) && $notification->data['package']) {
-                    $notification->markAsRead();
-                    break;
-                }
+                $notification->markAsRead();
             }
         }
 
@@ -201,12 +205,14 @@ class SystemController extends Controller
 
         abort_if(!$package, 404);
 
-        $notifications = $user->unreadNotifications()->get();
+        $notifications = $user
+            ->unreadNotifications()
+            ->select('id', 'read_at')
+            ->whereTargetableType(Package::class)
+            ->get();
+
         foreach ($notifications as $notification) {
-            if (!empty($notification->data['package'])) {
-                $notification->markAsRead();
-                break;
-            }
+            $notification->markAsRead();
         }
 
         if ($request->method() == 'POST') {

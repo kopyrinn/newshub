@@ -25,6 +25,10 @@
                     <i class="ki-duotone ki-eye fs-2 me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                     <span class="fw-bold text-gray-400 fs-7"><Skeletor width="20"/></span>
                 </div>
+                <div class="d-flex align-items-center me-5">
+                    <i class="ki-duotone ki-star fs-2 me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                    <span class="fw-bold text-gray-400 fs-7"><Skeletor width="60"/></span>
+                </div>
             </div>
 
             <div class="mt-8">

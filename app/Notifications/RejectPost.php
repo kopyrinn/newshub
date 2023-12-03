@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Channels\DatabaseChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -32,7 +33,7 @@ class RejectPost extends Notification
      */
     public function via($notifiable)
     {
-        return ['database', 'mail'];
+        return [DatabaseChannel::class, 'mail'];
     }
 
     public function shouldSend($notifiable, $channel)
@@ -64,6 +65,7 @@ class RejectPost extends Notification
     {
         return [
             'post_id' => $this->post->id,
+            'targetable' => $this->post,
         ];
     }
 }

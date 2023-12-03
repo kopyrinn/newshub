@@ -144,6 +144,16 @@ const routes = [
                         },
                     },
                     {
+                        path: "favorite",
+                        name: "user-favorite",
+                        component: () => import("@/views/Users/Account/Favorite.vue"),
+                        meta: {
+                            noSsr: true,
+                            toolbar: false,
+                            animate: false,
+                        },
+                    },
+                    {
                         path: "workspace",
                         name: "user-workspace",
                         component: () => import("@/views/Users/Account/Workspace.vue"),

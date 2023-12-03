@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Notifications\DatabaseNotification;
 use App\Notifications;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Notification extends DatabaseNotification
 {
@@ -12,6 +13,8 @@ class Notification extends DatabaseNotification
         'type',
         'notifiable_id',
         'notifiable_type',
+        'targetable_id',
+        'targetable_type',
         'read_at',
         'updated_at',
     ];
@@ -77,5 +80,15 @@ class Notification extends DatabaseNotification
         } catch (\Exception $e) {
             return '';
         }
+    }
+
+    /**
+     * Get the notifiable entity that the notification belongs to.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\c
+     */
+    public function targetable(): MorphTo
+    {
+        return $this->morphTo();
     }
 }

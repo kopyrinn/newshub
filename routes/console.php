@@ -1,6 +1,7 @@
 <?php
 
 use App\Helpers\Util;
+use App\Models\Package;
 use App\Models\Poll;
 use App\Models\Post;
 use App\Models\User;
@@ -21,6 +22,26 @@ use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 
 Artisan::command('test', function () {
     //
+});
+
+Artisan::command('update:notifications', function () {
+    $packages = Package::select('id', 'slug')->get();
+    $notifications = \App\Models\Notification::whereNull('targetable_id')->get();
+
+    foreach ($notifications as $notification) {
+        if (isset($notification->data['post_id'])) {
+            $notification->targetable_id = $notification->data['post_id'];
+            $notification->targetable_type = Post::class;
+        } else if (isset($notification->data['package'])) {
+            $package = $packages->where('slug', $notification->data['package'])->first();
+            $notification->targetable_id = $package->id;
+            $notification->targetable_type = Package::class;
+        } else {
+            continue;
+        }
+
+        $notification->save();
+    }
 });
 
 Artisan::command('optimize:images', function () {
