@@ -36,6 +36,12 @@ class AccountController extends Controller
     {
         $user = auth('sanctum')->user();
 
+        if (!$user) {
+            return response()->json([
+                'ok' => false,
+            ]);
+        }
+
         $query = $user->notifications()->where('created_at', '<=', Carbon::now());
 
         $notifications = $query

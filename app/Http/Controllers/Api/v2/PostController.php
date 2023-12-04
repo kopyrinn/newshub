@@ -113,7 +113,7 @@ class PostController extends Controller
 
         if ($user) {
             $notification = $post
-                ->unreadNotifications()
+                ->getUnreadNotifications()
                 ->select('id', 'read_at')
                 ->whereHasMorph('notifiable', $user::class, function (Builder $query) use ($user) {
                     $query->where('notifiable_id', $user->id);
@@ -225,7 +225,7 @@ class PostController extends Controller
             $user = auth('sanctum')->user();
 
             $notification = $post
-                ->unreadNotifications()
+                ->getUnreadNotifications()
                 ->select('id', 'read_at')
                 ->whereHasMorph('notifiable', $user::class, function (Builder $query) use ($user) {
                     $query->where('notifiable_id', $user->id);

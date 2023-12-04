@@ -8,10 +8,11 @@ use Mews\Purifier\Casts\CleanHtml;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Notifications\Notifiable;
 
 class Post extends Model
 {
-    use HasTranslations;
+    use Notifiable, HasTranslations;
 
     public $translatable = ['title', 'summary', 'content'];
 
@@ -107,7 +108,7 @@ class Post extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function notifications(): MorphMany
+    public function getNotifications(): MorphMany
     {
         return $this->morphMany(Notification::class, 'targetable')->latest();
     }
@@ -117,7 +118,7 @@ class Post extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function unreadNotifications(): MorphMany
+    public function getUnreadNotifications(): MorphMany
     {
         return $this->notifications()->where('notifications.read_at', null);
     }
