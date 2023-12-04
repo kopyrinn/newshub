@@ -1,30 +1,28 @@
 <template>
     <div class="row">
         <div class="col-lg-7">
-            <PullRefresh v-model="loadingPull" @refresh="pullRefresh" :pulling-text="$t('Pull down to refresh...')" :loosing-text="$t('Release to refresh...')" :loading-text="$t('Loading...')" success-text="">
-                <div v-if="loading && !vacancies.length">
-                    <div v-for="n in 4">
-                        <CardSkeleton/>
-                    </div>
+            <div v-if="loading && !vacancies.length">
+                <div v-for="n in 4">
+                    <CardSkeleton/>
                 </div>
-                <div v-else>
-                    <div v-for="(item, index) in vacancies" :key="item.uuid">
-                        <intersection-observer
-                            v-if="index == vacancies.length - 9 && cursor && !loading"
-                            :sentinal-name="'vacancies' + cursor"
-                            @on-intersection-element="fetchData"
-                        ></intersection-observer>
-
-                        <Card :item="item" :is="item.uuid"/>
-                    </div>
-
+            </div>
+            <div v-else>
+                <div v-for="(item, index) in vacancies" :key="item.uuid">
                     <intersection-observer
-                        v-if="cursor && !loading"
+                        v-if="index == vacancies.length - 9 && cursor && !loading"
                         :sentinal-name="'vacancies' + cursor"
                         @on-intersection-element="fetchData"
                     ></intersection-observer>
+
+                    <Card :item="item" :is="item.uuid"/>
                 </div>
-            </PullRefresh>
+
+                <intersection-observer
+                    v-if="cursor && !loading"
+                    :sentinal-name="'vacancies' + cursor"
+                    @on-intersection-element="fetchData"
+                ></intersection-observer>
+            </div>
         </div>
         <div class="col-lg-5">
             <Sidebar/>
@@ -38,7 +36,6 @@ import Card from "@/components/Vacancy/Card.vue"
 import CardSkeleton from "@/components/Vacancy/CardSkeleton.vue"
 import IntersectionObserver from "@/components/IntersectionObserver.vue"
 import Sidebar from "@/components/Sidebar.vue"
-import PullRefresh from '@/components/PullRefresh.vue'
 
 export default defineComponent({
     name: "Vacancies",
@@ -47,12 +44,10 @@ export default defineComponent({
         CardSkeleton,
         IntersectionObserver,
         Sidebar,
-        PullRefresh,
     },
     data() {
         return {
             loading: false,
-            loadingPull: false,
             vacancies: [],
             cursor: null,
         }
@@ -89,17 +84,10 @@ export default defineComponent({
         }
     },
     methods: {
-        async pullRefresh() {
-            this.loadingPull = true
-            this.vacancies = []
-            this.cursor = null
-            await this.fetchData()
-            this.loadingPull = false
-        },
         fetchData() {
             this.loading = true
 
-            return this.$api('vacancies', false, {
+            this.$api('vacancies', false, {
                 params: {
                     cursor: this.cursor
                 }

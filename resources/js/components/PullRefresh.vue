@@ -8,11 +8,12 @@
       @touchend="onTouchEnd"
       @touchcancel="onTouchend"
     >
-      <div :style="getHeadStyle" class="lb-pull-refresh__head text-muted">
+      <div :style="getHeadStyle" class="lb-pull-refresh__head text-muted d-flex justify-content-center w-100 align-items-center">
         <div v-if="status === 'pulling'" class="pull-text">
           <i class="ki-duotone ki-double-down fs-2x"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
         </div>
         <div v-else-if="status === 'loosing'" class="pull-text">
+          
           <i class="ki-duotone ki-double-up fs-2x"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
         </div>
         <div v-else-if="status === 'loading'" class="pull-text-loading">
@@ -252,7 +253,7 @@ export default defineComponent({
 
 <style>
 :root {
-  --lb-pull-refresh-head-height: 45px;
+  --lb-pull-refresh-head-height: 50px;
 }
 
 .lb-pull-refresh {
