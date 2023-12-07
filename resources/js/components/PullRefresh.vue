@@ -257,7 +257,6 @@ export default defineComponent({
 }
 
 .lb-pull-refresh {
-  user-select: none;
   height: 100%;
 }
 .lb-pull-refresh__track {
