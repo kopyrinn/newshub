@@ -75,7 +75,7 @@
                                                         {{ $t('Notifications') }} <span v-if="user.notifications_count" class="fs-8 badge badge-danger  opacity-75 ms-3">{{ user.notifications_count }}</span>
                                                     </div>
                                                     <div v-if="user.notifications_count" class="fs-sm text-end fw-bold">
-                                                        <button class="btn btn-sm px-3 btn-primary d-flex flex-center h-30px h-lg-40px" @click="markAsRead" :disabled="user.read_notifications_loading">
+                                                        <button class="btn btn-sm px-3 btn-primary d-flex flex-center h-30px" @click="markAsRead" :disabled="user.read_notifications_loading">
                                                             <i class="ki-duotone ki-double-check fs-2"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>{{ $t('Mark read') }}
                                                         </button>
                                                     </div>
