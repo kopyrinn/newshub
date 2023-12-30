@@ -54,6 +54,25 @@ class AccountController extends Controller
         ]);
     }
 
+    public function notificationsRead(Request $request)
+    {
+        $user = auth('sanctum')->user();
+
+        if (!$user) {
+            return response()->json([
+                'ok' => false,
+            ]);
+        }
+
+        $user->unreadNotifications()->update([
+            'read_at' => Carbon::now(),
+        ]);
+
+        return response()->json([
+            'ok' => true,
+        ]);
+    }
+
     public function favoriteToggle(Request $request)
     {
         $request->validate([

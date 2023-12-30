@@ -70,8 +70,15 @@
                                     <template #content="{ close }">
                                         <div class="menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-375px show">
                                             <div class="d-flex flex-column bgi-no-repeat rounded-top" :style="{backgroundImage: 'url(' + $media('patterns/menu-header-bg.jpg') + ')'}">
-                                                <h3 class="text-white d-flex align-items-center fw-semibold px-9 mt-10 mb-9">
-                                                    {{ $t('Notifications') }} <span v-if="user.notifications_count" class="fs-8 badge badge-danger  opacity-75 ms-3">{{ user.notifications_count }}</span>
+                                                <h3 class="text-white d-flex align-items-center justify-content-between fw-semibold px-9 mt-10 mb-9">
+                                                    <div class="d-flex align-items-center">
+                                                        {{ $t('Notifications') }} <span v-if="user.notifications_count" class="fs-8 badge badge-danger  opacity-75 ms-3">{{ user.notifications_count }}</span>
+                                                    </div>
+                                                    <div v-if="user.notifications_count" class="fs-sm text-end fw-bold">
+                                                        <button class="btn btn-sm px-3 btn-primary d-flex flex-center h-30px h-lg-40px" @click="markAsRead" :disabled="user.read_notifications_loading">
+                                                            <i class="ki-duotone ki-double-check fs-2"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>{{ $t('Mark read') }}
+                                                        </button>
+                                                    </div>
                                                 </h3>
 
                                                 <!-- <ul class="nav nav-line-tabs nav-line-tabs-2x nav-stretch fw-semibold px-9">
@@ -847,13 +854,23 @@ export default defineComponent({
             setTimeout(this.getSubscriptions, 1 * 1000)
         },
         getNotifications() {
-            this.$api('account/notifications', true)
-            .then(({data}) => {
+            return this.$api('account/notifications', true).then(({data}) => {
                 if (!data.ok) return
 
                 this.notifications = data.notifications.data
                 this.$store.commit('updateCacheKey')
                 this.getUser()
+            })
+        },
+        markAsRead() {
+            this.user.read_notifications_loading = true
+            this.$post('account/notifications-read', {}, true).then(async ({data}) => {
+                if (data.ok) {
+                    await this.getNotifications()
+                    await this.getUser()
+                }
+
+                this.user.read_notifications_loading = false
             })
         },
         toggleFavorite(post) {

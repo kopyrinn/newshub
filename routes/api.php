@@ -70,6 +70,7 @@ Route::prefix('v2')->group(function () {
 
     Route::get('account/notifications', [AccountController::class, 'notifications'])->name('account.notifications');
     Route::get('account/favorite', [AccountController::class, 'favorite'])->name('account.favorite');
+    Route::post('account/notifications-read', [AccountController::class, 'notificationsRead'])->name('account.notifications.read');
     Route::post('account/toggle-favorite', [AccountController::class, 'favoriteToggle'])->name('account.favorite.toggle');
     Route::post('account/settings', [AccountController::class, 'settings'])->name('account.settings');
     Route::post('account/email', [AccountController::class, 'email'])->name('account.email');
