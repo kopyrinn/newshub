@@ -112,11 +112,11 @@ class PostController extends Controller
         $post->save(['timestamps' => false]);
 
         if ($user) {
-            $notification = $post
-                ->getUnreadNotifications()
+            $notification = $user
+                ->unreadNotifications()
                 ->select('id', 'read_at')
-                ->whereHasMorph('notifiable', $user::class, function (Builder $query) use ($user) {
-                    $query->where('notifiable_id', $user->id);
+                ->whereHasMorph('targetable', $post::class, function (Builder $query) use ($post) {
+                    $query->where('targetable_id', $post->id);
                 })
                 ->first();
 
