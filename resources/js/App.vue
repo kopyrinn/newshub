@@ -724,11 +724,11 @@ export default defineComponent({
             setInterval(this.getConfig, 60 * 1000)
         }
     },
-    async serverPrefetch() {
-        await this.$api('config').then(({data}) => {
-            this.$store.commit('setConfig', data)
-        }).catch((e) => {})
-    },
+    // async serverPrefetch() {
+    //     await this.$api('config').then(({data}) => {
+    //         this.$store.commit('setConfig', data)
+    //     }).catch((e) => {})
+    // },
     computed: {
         menu() {
             return this.$route.name? this.$store.getters.getMenu: ''

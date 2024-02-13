@@ -72,22 +72,34 @@ export default defineComponent({
     components: {
         Banner,
     },
-    data() {
-        return {
-            postLatestChunk1: {},
-            postLatestChunk2: {},
-        }
-    },
-    created() {
-        try {
-            let firstDay = Object.keys(this.$root.config.postLatest)[0]
-            this.postLatestChunk1[firstDay] = this.$root.config.postLatest[firstDay]
+    computed: {
+        firstDay() {
+            if (this.$root.config?.postLatest) {
+                let firstDay = Object.keys(this.$root.config.postLatest)[0]
 
-            const chunk2 = {...this.$root.config.postLatest}
-            delete chunk2[firstDay]
-            this.postLatestChunk2 = chunk2
-        } catch (e) {
+                return firstDay
+            } else {
+                return null
+            }
+        },
+        postLatestChunk1() {
+            if (this.$root.config?.postLatest) {
+                const chunk = {}
+                chunk[this.firstDay] = this.$root.config.postLatest[this.firstDay]
 
+                return chunk
+            } else {
+                return {}
+            }
+        },
+        postLatestChunk2() {
+            if (this.$root.config?.postLatest) {
+                const chunk2 = {...this.$root.config.postLatest}
+                delete chunk2[this.firstDay]
+                return chunk2
+            } else {
+                return {}
+            }
         }
     },
 })
