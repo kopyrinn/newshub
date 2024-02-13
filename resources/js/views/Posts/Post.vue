@@ -196,7 +196,7 @@
 
                             <div class="fs-5 fw-medium text-gray-900 mb-10 article" v-html="item.content"></div>
 
-                            <div id="yandex_rtb_R-A-4914826-1"></div>
+                            <div :id="'yandex_rtb_R-A-4914826-1-' + item.slug"></div>
                             <Banner v-if="index && index % 4 === 0" location="post.view" class="mb-6"/>
 
                             <intersection-observer
@@ -560,7 +560,7 @@ export default defineComponent({
                     window.yaContextCb.push(()=>{
                         Ya.Context.AdvManager.render({
                             "blockId": "R-A-4914826-1",
-                            "renderTo": "yandex_rtb_R-A-4914826-1"
+                            "renderTo": `yandex_rtb_R-A-4914826-1-${data.post.slug}`
                         })
                     })
                 }, 1000)
