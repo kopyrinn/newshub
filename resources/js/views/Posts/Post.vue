@@ -196,6 +196,7 @@
 
                             <div class="fs-5 fw-medium text-gray-900 mb-10 article" v-html="item.content"></div>
 
+                            <div id="yandex_rtb_R-A-4914826-1"></div>
                             <Banner v-if="index && index % 4 === 0" location="post.view" class="mb-6"/>
 
                             <intersection-observer
@@ -554,6 +555,15 @@ export default defineComponent({
 
                 data.post.url = this.$base(this.$router.resolve({name: 'post', params: {slug: data.post.slug, locale: this.$root.locale != 'ru'? this.$root.locale: ''}}).fullPath)
                 this.posts.push(data.post)
+
+                setTimeout(() => {
+                    window.yaContextCb.push(()=>{
+                        Ya.Context.AdvManager.render({
+                            "blockId": "R-A-4914826-1",
+                            "renderTo": "yandex_rtb_R-A-4914826-1"
+                        })
+                    })
+                }, 1000)
             })
         },
         reset() {
