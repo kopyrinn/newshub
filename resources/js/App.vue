@@ -671,7 +671,7 @@ export default defineComponent({
             }
         }
     },
-    created() {
+    async created() {
         this.$i18n.locale = this.locale
 
         this.$router.beforeEach((to, from, next) => {
@@ -717,9 +717,9 @@ export default defineComponent({
 
             }
 
-            if (import.meta.env.VITE_APP_ENV != 'production' || this.$isApp) {
-                this.getConfig()
-            }
+            // if (import.meta.env.VITE_APP_ENV != 'production' || this.$isApp) {
+                await this.getConfig()
+            // }
 
             setInterval(this.getConfig, 60 * 1000)
         }
@@ -835,8 +835,8 @@ export default defineComponent({
                 }
             }
         },
-        getConfig() {
-            this.$api('config').then(({data}) => {
+        async getConfig() {
+            await this.$api('config').then(({data}) => {
                 this.$store.commit('setConfig', data)
             }).catch((e) => {})
         },
