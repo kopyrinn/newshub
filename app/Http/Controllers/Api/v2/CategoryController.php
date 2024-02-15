@@ -17,7 +17,6 @@ class CategoryController extends Controller
         $request->validate([
             'slug' => 'required',
         ]);
-        sleep(1);
 
         $query = Post::select(
                 'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.image_md', 'posts.image_sm', 'posts.image_blur', 'posts.pageviews', 'posts.summary', 'posts.created_at', 'users.name', 'users.avatar', 'users.avatar_sm',
