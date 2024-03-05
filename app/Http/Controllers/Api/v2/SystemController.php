@@ -235,26 +235,26 @@ class SystemController extends Controller
             $user->package_id = $package->id;
 
             if ($slug == 'standart') {
-                $user->package_press = 15;
+                $user->package_press = 15 * $request->period;
                 $user->package_events = 0;
                 $user->package_vacancies = 0;
                 $user->package_help = 0;
                 $user->package_translate = 0;
                 $user->package_pr = 0;
             } else if ($slug == 'standart-plus') {
-                $user->package_press = 25;
-                $user->package_events = 15;
-                $user->package_vacancies = 10;
-                $user->package_help = 2;
+                $user->package_press = 25 * $request->period;
+                $user->package_events = 15 * $request->period;
+                $user->package_vacancies = 10 * $request->period;
+                $user->package_help = 2 * $request->period;
                 $user->package_translate = 0;
                 $user->package_pr = 0;
             } else if ($slug == 'standart-maximum') {
-                $user->package_press = 50;
-                $user->package_events = 25;
-                $user->package_vacancies = 25;
-                $user->package_help = 4;
-                $user->package_translate = 4;
-                $user->package_pr = 2;
+                $user->package_press = 50 * $request->period;
+                $user->package_events = 25 * $request->period;
+                $user->package_vacancies = 25 * $request->period;
+                $user->package_help = 4 * $request->period;
+                $user->package_translate = 4 * $request->period;
+                $user->package_pr = 2 * $request->period;
             }
 
             $user->package_expired_at = date('Y-m-d H:i:s', strtotime("+{$request->period} month"));
