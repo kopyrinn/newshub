@@ -120,7 +120,7 @@ class AppServiceProvider extends ServiceProvider
             $lastVacancies = Vacancy::select('vacancies.id', 'vacancies.job_title', 'vacancies.task', 'vacancies.user_id', 'vacancies.created_at', 'users.name', 'users.avatar', 'users.avatar_sm')
                 ->join('users', 'users.id', 'vacancies.user_id')
                 ->where('vacancies.status', 1)
-                ->inRandomOrder()
+                ->orderBy('vacancies.created_at', 'DESC')
                 ->take(3)
                 ->get();
 
@@ -134,7 +134,7 @@ class AppServiceProvider extends ServiceProvider
                         ->whereColumn('category_post.post_id', 'posts.id')
                         ->where('category_post.category_id', 2);
                 })
-                ->inRandomOrder()
+                ->orderBy('posts.created_at', 'DESC')
                 ->take(3)
                 ->get();
 
@@ -147,7 +147,7 @@ class AppServiceProvider extends ServiceProvider
                         ->whereColumn('category_post.post_id', 'posts.id')
                         ->where('category_post.category_id', 8);
                 })
-                ->inRandomOrder()
+                ->orderBy('posts.created_at', 'DESC')
                 ->take(3)
                 ->get();
 
