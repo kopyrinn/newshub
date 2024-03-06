@@ -4,16 +4,16 @@
             {{ vacancy.uuid? $t('Modify vacancy'): $t('Create vacancy') }}
             <Popper placement="bottom" class="ms-2">
                 <button type="button" class="btn btn-light-secondary btn-sm text-gray-700 fs-8 py-2 px-3 d-flex align-items-center">
-                    {{ $root.languages[locale].name }}<img class="w-15px h-15px rounded-1 ms-2" :src="$root.icons[locale]" alt="">
+                    {{ $root.languages[locale].name }} <!-- <img class="w-15px h-15px rounded-1 ms-2" :src="$root.icons[locale]" alt=""> -->
                 </button>
 
                 <template #content="{ close }">
                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-2 fs-7 mw-125px min-w-125px w-100 show">
                         <div v-for="(lang, key) in $root.languages" class="menu-item py-0">
                             <a href="" @click.prevent="locale = key, close()" class="menu-link rounded-0 px-3">
-                                <span class="menu-icon">
+                               <!-- <span class="menu-icon">
                                     <img class="w-15px h-15px rounded-1" :src="$root.icons[key]" alt="">
-                                </span>
+                                </span> -->
                                 <span class="menu-title">{{ lang.name }}</span>
                             </a>
                         </div>
