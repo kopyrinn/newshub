@@ -11,9 +11,9 @@
                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-2 fs-7 mw-125px min-w-125px w-100 show">
                         <div v-for="(lang, key) in $root.languages" class="menu-item py-0">
                             <a href="" @click.prevent="setLocale(key), close()" class="menu-link rounded-0 px-3">
-                                <span class="menu-icon">
+                                <!--<span class="menu-icon">
                                     <img class="w-15px h-15px rounded-1" :src="$root.icons[key]" alt="">
-                                </span>
+                                </span> -->
                                 <span class="menu-title">{{ lang.name }}</span>
                             </a>
                         </div>
