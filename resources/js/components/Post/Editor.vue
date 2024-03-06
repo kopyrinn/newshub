@@ -4,7 +4,7 @@
             {{ post.uuid? $t('Modify post'): $t('Create post') }}
             <Popper placement="bottom" class="ms-2">
                 <button type="button" class="btn btn-light-secondary btn-sm text-gray-700 fs-8 py-2 px-3 d-flex align-items-center">
-                    {{ $root.languages[locale].name }}<img class="w-15px h-15px rounded-1 ms-2" :src="$root.icons[locale]" alt="">
+                    {{ $root.languages[locale].name }} <!-- <img class="w-15px h-15px rounded-1 ms-2" :src="$root.icons[locale]" alt=""> -->
                 </button>
 
                 <template #content="{ close }">
