@@ -38,6 +38,8 @@ export default defineConfig(({ command, mode }) => {
         purge({
             templates: ['blade', 'vue'],
             safelist: [
+                /d-/,
+                /mx/,
                 /carousel/,
                 /ProseMirror/,
                 /v-lazy-image/,
