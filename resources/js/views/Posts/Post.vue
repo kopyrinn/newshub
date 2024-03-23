@@ -440,6 +440,8 @@ export default defineComponent({
         if (this.$isSsr) return
 
         setTimeout(() => {
+            if (!window.yaContextCb) return
+
             window.yaContextCb.push(()=>{
                 Ya.Context.AdvManager.render({
                     "blockId": "R-A-4914826-1",
@@ -557,6 +559,8 @@ export default defineComponent({
                 this.posts.push(data.post)
 
                 setTimeout(() => {
+                    if (!window.yaContextCb) return
+
                     window.yaContextCb.push(()=>{
                         Ya.Context.AdvManager.render({
                             "blockId": "R-A-4914826-1",
