@@ -349,8 +349,7 @@
     "Mongolia": "Моңғолия",
     "Montenegro": "Черногория",
     "Month To Date": "Осы Уақытқа Дейін Бір Ай",
-    "Monthly": "Monthly",
-    "monthly": "monthly",
+    "monthly": "1 айға",
     "Montserrat": "Монтсеррат",
     "Morocco": "Марокко",
     "Mozambique": "Мозамбик",
@@ -899,10 +898,14 @@
     "Useful information": "Пайдалы ақпарат",
     "Your package": "Сіздің пакетіңіз",
     "Service": "Қызмет",
-    "Select package": "Тарифті таңдаңыз"
+    "Select package": "Тарифті таңдаңыз",
     "Available": "Қол жетімді",
     "About packages": "Тарифтер туралы",
-    "All packages": "Барлық тарифтер"
-    
-    
+    "All packages": "Барлық тарифтер",
+    "article_type_promoted": "Жарнамалық материал",
+    "article_type_partner": "Серіктестік материал",
+    "article_type_sponsored": "Демеушілік материал",
+    "article_type_advertising": "Жарнама құқығында",
+    "article_type_paid_sponsor":"Демеуші төледі",
+    "article_type_rights_pr":"PR құқықтарында"
 }

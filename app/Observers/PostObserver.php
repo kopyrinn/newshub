@@ -100,6 +100,11 @@ class PostObserver
             unset($post->selected_rubrics);
         }
 
+        if ($post->image === 'news.jpg' && $post->categories()->where('slug', 'sobitiya')->exists()) {
+            $post->image = 'event.jpg';
+            $post->update();
+        }
+
         $user = auth('sanctum')->user();
 
         if ($user && $user->isModerator()) {

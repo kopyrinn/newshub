@@ -88,13 +88,13 @@ class Post extends Resource
             ,
             Image::make(__('Image'), 'image_blur')
                 ->exceptOnForms()
-                ->creationRules('required')
+                // ->creationRules('required')
                 ->path('img/blurry')
                 ->nullable()
             ,
             Image::make(__('Image'), 'image')
                 ->onlyOnForms()
-                ->creationRules('required')
+                // ->creationRules('required')
                 ->path('img/large')
                 ->nullable()
             ,
@@ -182,6 +182,18 @@ class Post extends Resource
             Boolean::make(__('Is Styled'), 'is_styled')
                 ->default(0)
                 ->hideFromIndex()
+            ,
+            Select::make(__('PR'), 'article_type')
+                ->hideFromIndex()
+                ->options([
+                    "promoted" => "Рекламный материал",
+                    "partner" => "Партнерский материал",
+                    "sponsored" => "Спонсорский материал",
+                    "advertising" => "На правах рекламы",
+                    "paid_sponsor" => "Оплачено спонсором",
+                    "rights_pr" => "На правах PR",
+                ])
+                ->displayUsingLabels()
             ,
             Select::make(__('Style Color'), 'style_color')
                 ->hideFromIndex()

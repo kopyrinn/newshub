@@ -1,4 +1,10 @@
 {
     "services for work in the Information Hub \"NewsHub.kz\"": "Services for working in the Information Hub \"NewsHub.kz\"",
-    "Subscribe-info": "Subscribe to news"
+    "Subscribe-info": "Subscribe to news",
+    "article_type_promoted": "Promotional material",
+    "article_type_partner": "Partner material",
+    "article_type_sponsored": "Sponsored material",
+    "article_type_advertising": "On the rights of advertising",
+    "article_type_paid_sponsor": "Paid by the sponsor",
+    "article_type_rights_pr": "On the rights of PR"
 }

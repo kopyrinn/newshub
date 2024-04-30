@@ -14,7 +14,7 @@
                         <div v-else class="mb-17">
                             <div class="mb-8">
                                 <h1 class="text-dark fs-1 fw-bold">
-                                    {{ post.title }}
+                                    {{ post.title }} <span v-if="post.article_type" class="badge badge-primary align-middle">{{ $t(`article_type_${post.article_type}`) }}</span>
                                 </h1>
                                 <div class="d-flex flex-wrap">
                                     <div class="me-5 my-1 d-flex align-items-center">
@@ -146,7 +146,7 @@
                         <div v-else class="mb-17">
                             <div class="mb-8">
                                 <h1 class="text-dark fs-1 fw-bold">
-                                    {{ item.title }}
+                                    {{ item.title }} <span v-if="item.article_type" class="badge badge-primary align-middle">{{ $t(`article_type_${item.article_type}`) }}</span>
                                 </h1>
                                 <div class="d-flex flex-wrap">
                                     <div class="me-5 my-1 d-flex align-items-center">

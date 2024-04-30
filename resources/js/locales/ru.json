@@ -1010,6 +1010,11 @@
     "No posts yet": "Не найдено результатов",
     "Subscribe or follow our news on social networks": "Подписывайтесь и следите за нашими новостями в социальных сетях",
     "Your latest notifications": "Ваши последние уведомления",
-    "Chronology of actions in your account": "Хронология действий в вашем аккаунте"
-    
+    "Chronology of actions in your account": "Хронология действий в вашем аккаунте",
+    "article_type_promoted": "Рекламный материал",
+    "article_type_partner": "Партнерский материал",
+    "article_type_sponsored": "Спонсорский материал",
+    "article_type_advertising": "На правах рекламы",
+    "article_type_paid_sponsor": "Оплачено спонсором",
+    "article_type_rights_pr": "На правах PR"
 }
