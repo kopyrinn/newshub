@@ -19,7 +19,7 @@ class CategoryController extends Controller
         ]);
 
         $query = Post::select(
-                'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.image_md', 'posts.image_sm', 'posts.image_blur', 'posts.pageviews', 'posts.summary', 'posts.created_at', 'posts.event_date', 'users.name', 'users.avatar', 'users.avatar_sm',
+                'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.image_md', 'posts.image_sm', 'posts.image_blur', 'posts.pageviews', 'posts.summary', 'posts.created_at', 'posts.event_date', 'posts.article_type', 'users.name', 'users.avatar', 'users.avatar_sm',
             )
             // ->join('category_post', 'category_post.post_id', 'posts.id')
             ->join('users', 'users.id', 'posts.user_id')
@@ -98,7 +98,7 @@ class CategoryController extends Controller
 
         $posts = $category->posts()
             ->select(
-                'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.image_md', 'posts.image_sm', 'posts.image_blur', 'posts.pageviews', 'posts.summary', 'posts.created_at', 'posts.event_date', 'users.name', 'users.avatar', 'users.avatar_sm',
+                'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.image_md', 'posts.image_sm', 'posts.image_blur', 'posts.pageviews', 'posts.summary', 'posts.created_at', 'posts.event_date', 'posts.article_type', 'users.name', 'users.avatar', 'users.avatar_sm',
             )
             ->join("post_rubric", "posts.id", "=", "post_rubric.post_id")
             ->join("rubrics", "rubrics.id", "=", "post_rubric.rubric_id")

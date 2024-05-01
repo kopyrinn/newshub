@@ -2,7 +2,7 @@
     <div v-if="$route.name === 'category' && item.categoriesSlugs?.length && item.categoriesSlugs.includes('sobitiya')" class="card card-flush overflow-hidden mb-6">
         <div class="card-body px-0 py-0">
             <div class="d-block d-xl-none pt-5">
-                <app-link :to="{name: 'post', params: {slug: item.slug}}" class="fs-1 fw-semibold text-gray-900 text-hover-primary d-block px-6 mb-3">{{ item.title }}</app-link>
+                <app-link :to="{name: 'post', params: {slug: item.slug}}" class="fs-1 fw-semibold text-gray-900 text-hover-primary d-block px-6 mb-3">{{ item.title }} <span v-if="item.article_type" class="badge badge-primary align-middle">{{ $t(`article_type_${item.article_type}`) }}</span></app-link>
 
                 <div class="alert bg-light-primary d-flex flex-row align-items-center mx-6 p-4 mb-4 rounded-3">
                     <i class="ki-duotone ki-notification-bing fs-2hx text-primary me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
@@ -28,7 +28,7 @@
                 </app-link>
                 
                 <div class="py-4">
-                    <app-link :to="{name: 'post', params: {slug: item.slug}}" class="fs-3 fw-semibold text-gray-900 text-hover-primary d-block px-4 mb-3">{{ item.title }}</app-link>
+                    <app-link :to="{name: 'post', params: {slug: item.slug}}" class="fs-3 fw-semibold text-gray-900 text-hover-primary d-block px-4 mb-3">{{ item.title }} <span v-if="item.article_type" class="badge badge-primary align-middle">{{ $t(`article_type_${item.article_type}`) }}</span></app-link>
                     <div v-if="item.summary" class="fs-6 fw-normal text-gray-800 px-4 mb-4" v-html="item.summary"></div>
                 </div>
                 <app-link :to="{name: 'post', params: {slug: item.slug}}" class="w-100px flex-shrink-0 d-flex flex-column justify-content-center align-items-center bg-light-primary text-primary fs-1 fw-bolder text-capitalize">
@@ -57,7 +57,7 @@
         </div>
 
         <div class="card-body px-0 py-0">
-            <app-link :to="{name: 'post', params: {slug: item.slug}}" class="fs-3 fw-semibold text-gray-900 text-hover-primary d-block px-6 mb-3">{{ item.title }}</app-link>
+            <app-link :to="{name: 'post', params: {slug: item.slug}}" class="fs-3 fw-semibold text-gray-900 text-hover-primary d-block px-6 mb-3">{{ item.title }} <span v-if="item.article_type" class="badge badge-primary align-middle">{{ $t(`article_type_${item.article_type}`) }}</span></app-link>
             <div v-if="item.summary" class="fs-6 fw-normal text-gray-800 px-6 mb-4" v-html="item.summary"></div>
             <app-link v-if="item.image" :to="{name: 'post', params: {slug: item.slug}}" class="d-block position-relative overflow-hidden">
                 <picture>

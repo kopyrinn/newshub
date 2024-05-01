@@ -93,7 +93,7 @@
             </div>
             <div class="col-xl-4">
                 <div class="form-floating mb-5">
-                    <select class="form-select" id="post-category" v-model="post.category_id">
+                    <select class="form-select" id="post-category" v-model="post.category_id" @change="updateCategory">
                         <option v-for="(name, key) in $root.user.allowed_categories" :value="key">{{ name }}</option>
                     </select>
                     <label for="post-category" class="form-label required">{{ $t('Category') }}</label>
@@ -501,6 +501,13 @@ export default defineComponent({
                 }
             }
         },
+        updateCategory() {
+            if (!this.post.image && parseInt(this.post.category_id) === 8) {
+                this.post.image = 'event.jpg';
+            } else if (this.post.category_id !== 8 && (!this.post.image || this.post.image === 'event.jpg')) {
+                this.post.image = '';
+            }
+        }
     },
 });
 </script>
