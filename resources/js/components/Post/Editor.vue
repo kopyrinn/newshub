@@ -349,9 +349,11 @@ export default defineComponent({
 
             if (this.$root.postEditorEvent) {
                 this.post.category_id = 8
+                this.post.image = 'event.jpg';
                 this.$root.postEditorEvent = false
             } else if (this.$root.user.allowed_categories) {
                 this.post.category_id = Object.keys(this.$root.user.allowed_categories)[0]
+                this.post.image = '';
             }
 
             this.loading = false
