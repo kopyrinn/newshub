@@ -160,6 +160,39 @@ class SystemController extends Controller
         ]);
     }
 
+    public function searchV2(Request $request)
+    {
+        $request->validate([
+            'q' => 'required',
+        ]);
+
+        $query = Post::select(
+                'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.image_md', 'posts.image_sm', 'posts.image_blur', 'posts.pageviews', 'posts.summary', 'posts.created_at', 'posts.event_date', 'posts.article_type', 'users.name', 'users.avatar', 'users.avatar_sm',
+            )
+            // ->join('category_post', 'category_post.post_id', 'posts.id')
+            ->join('users', 'users.id', 'posts.user_id')
+            ->where('posts.status', 1)
+            ->where('posts.created_at', '<', Carbon::now());
+
+        if ($request->q) {
+            $token = $request->q;
+            $query->where('title', 'like', "%{$token}%");
+        }
+
+        $posts = $query
+            ->orderByDesc('posts.id')
+            ->paginate(10);
+
+        foreach ($posts as $post) {
+            $post->categoriesSlugs = $post->categories()->select('slug')->groupBy('slug')->pluck('slug')->toArray(); 
+        }
+
+        return response()->json([
+            'ok' => true,
+            'posts' => $posts,
+        ], 200, [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
     public function packages(Request $request)
     {
         if (!auth('sanctum')->guest()) {

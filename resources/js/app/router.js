@@ -27,6 +27,16 @@ const routes = [
                 },
             },
             {
+                path: "search",
+                name: "search",
+                component: () => import("@/views/Posts/Search.vue"),
+                meta: {
+                    title: 'Search',
+                    toolbar: true,
+                    animate: true,
+                },
+            },
+            {
                 path: "login",
                 name: "login",
                 component: () => import("@/views/Auth/Auth.vue"),

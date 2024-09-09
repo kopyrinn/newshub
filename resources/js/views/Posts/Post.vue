@@ -22,13 +22,13 @@
 
                                         <span class="fw-bold text-gray-400"><VDate :datetime="new Date(post.created_at)"/></span>
                                     </div>
-                                    <div v-if="post.categories.length" class="me-5 my-1 d-flex align-items-center">
+                                    <div v-if="post.categories?.length" class="me-5 my-1 d-flex align-items-center">
                                         <i class="ki-duotone ki-briefcase fs-2 me-2"><span
                                                 class="path1"></span><span class="path2"></span></i>
 
                                         <span class="fw-bold text-gray-400"><span v-for="(category, index) in post.categories"><app-link :to="{name: 'category', params: {slug: category.slug}}">{{ category.name }}</app-link><span v-if="index + 1 < post.categories.length" class="me-1">,</span></span></span>
                                     </div>
-                                    <div v-if="post.categories.length && post.rubrics.length" class="me-5 my-1 d-flex align-items-center">
+                                    <div v-if="post.categories?.length && post.rubrics.length" class="me-5 my-1 d-flex align-items-center">
                                         <i class="ki-duotone ki-price-tag fs-2 me-2"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
                                         <span class="fw-bold text-gray-400"><span v-for="(rubric, index) in post.rubrics"><app-link :to="{name: 'category', params: {slug: post.categories[0].slug, rubric: rubric.slug}}">{{ rubric.name }}</app-link><span v-if="index + 1 < post.rubrics.length" class="me-1">,</span></span></span>
                                     </div>

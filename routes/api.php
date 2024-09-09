@@ -89,6 +89,7 @@ Route::prefix('v2')->group(function () {
     Route::get('package/{slug}', [SystemController::class, 'packagesPay'])->name('packages.pay');
     Route::post('package/{slug}', [SystemController::class, 'packagesPay']);
     Route::get('search', [SystemController::class, 'search'])->name('search');
+    Route::get('search-v2', [SystemController::class, 'searchV2'])->name('search.v2');
     Route::get('unsubscribe/{slug}', [SystemController::class, 'unsubscribe']);
     Route::post('clicked', [SystemController::class, 'clicked']);
     Route::post('viewed', [SystemController::class, 'viewed']);

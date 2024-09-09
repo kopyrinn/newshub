@@ -35,6 +35,10 @@ export const store = createStore({
       },
       feeds: [],
       post: {},
+      paginate: {
+        page: 1,
+        lastPage: 0,
+      }
     }
   },
   getters: {
@@ -73,6 +77,12 @@ export const store = createStore({
     },
     getPlatform (state) {
       return state.platform
+    },
+    getPaginatePage (state) {
+      return state.paginate.page
+    },
+    getPaginateLastPage (state) {
+      return state.paginate.lastPage
     },
   },
   mutations: {
@@ -123,6 +133,12 @@ export const store = createStore({
     },
     setPlatform (state, payload) {
       state.platform = payload
+    },
+    setPaginatePage (state, payload) {
+      state.paginate.page = payload
+    },
+    setPaginateLastPage (state, payload) {
+      state.paginate.lastPage = payload
     },
   },
   plugins,

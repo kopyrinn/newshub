@@ -42,7 +42,6 @@
 <script>
 import { defineComponent } from "vue";
 import VLazyImage from "v-lazy-image"
-import { Carousel, Slide } from 'vue3-carousel'
 import Card from "@/components/Post/Card.vue"
 import RecommendedPosts from "@/components/Post/RecommendedPosts.vue"
 import Banner from "@/components/Ad/Banner.vue"
@@ -55,8 +54,6 @@ export default defineComponent({
     name: "Index",
     components: {
         VLazyImage,
-        Carousel,
-        Slide,
         CardSkeleton,
         Card,
         RecommendedPosts,
@@ -67,7 +64,6 @@ export default defineComponent({
     },
     data() {
         return {
-            currentSlide: null,
             loading: false,
             posts: [],
             cursor: null,
