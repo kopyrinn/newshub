@@ -33,6 +33,7 @@ import { renderSSRHead } from '@unhead/ssr'
 import { createHead, VueHeadMixin } from "@unhead/vue"
 import { SchemaOrgUnheadPlugin } from '@unhead/schema-org-vue'
 import 'regenerator-runtime'
+import { setupCalendar } from 'v-calendar';
 
 export async function render(url, manifest = null) {
     global.url = url
@@ -156,6 +157,7 @@ export async function render(url, manifest = null) {
     app
         .directive('debounce', {})
         .use(i18n)
+        .use(setupCalendar)
         .use(VueSnip)
         .use(router)
         .use(store)

@@ -37,6 +37,16 @@ const routes = [
                 },
             },
             {
+                path: "archive",
+                name: "archive",
+                component: () => import("@/views/Posts/Archive.vue"),
+                meta: {
+                    title: 'Archive',
+                    toolbar: true,
+                    animate: true,
+                },
+            },
+            {
                 path: "login",
                 name: "login",
                 component: () => import("@/views/Auth/Auth.vue"),

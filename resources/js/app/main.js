@@ -25,6 +25,7 @@ import { createHead, VueHeadMixin } from "@unhead/vue"
 import { SchemaOrgUnheadPlugin } from '@unhead/schema-org-vue'
 import { vMaska } from "maska"
 import VueAnalytics from '@morr/vue3-analytics'
+import { setupCalendar } from 'v-calendar';
 
 // import * as Sentry from "@sentry/vue";
 // import { BrowserTracing } from "@sentry/tracing";
@@ -164,6 +165,7 @@ app
     }))
     // .use(VueApexCharts)
     .use(VueSnip)
+    .use(setupCalendar)
     .use(VueFullscreen)
     .use(router)
     .use(store)

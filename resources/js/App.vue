@@ -334,6 +334,18 @@
                                 <!--end::Heading-->
                                 
                                 <!--begin:Menu item-->
+                                <div class="menu-item" :class="{'here': $route.name == 'archive'}">
+                                    <!--begin:Menu link-->
+                                    <app-link to="/archive" class="menu-link">
+                                        <span class="menu-icon">
+                                            <i class="ki-duotone ki-book-square fs-2"><i class="path1 text-success"></i><i class="path2 text-success"></i><i class="path3 text-success"></i></i>
+                                        </span>
+                                        <span class="menu-title">{{ $t('Archive') }}</span>
+                                    </app-link>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
                                 <div class="menu-item" :class="{'here': $route.name == 'page' && $route.params.slug == 'about-project'}">
                                     <!--begin:Menu link-->
                                     <app-link to="/page/about-project" class="menu-link">

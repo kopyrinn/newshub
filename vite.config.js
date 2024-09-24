@@ -40,6 +40,7 @@ export default defineConfig(({ command, mode }) => {
             safelist: [
                 /d-/,
                 /mx/,
+                /vc-/,
                 /carousel/,
                 /ProseMirror/,
                 /v-lazy-image/,

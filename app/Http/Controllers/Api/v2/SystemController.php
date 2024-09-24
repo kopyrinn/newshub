@@ -193,6 +193,41 @@ class SystemController extends Controller
         ], 200, [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
+    public function archive(Request $request)
+    {
+        $request->validate([
+            'date' => 'nullable|date',
+        ]);
+
+        $query = Post::select(
+                'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.image_md', 'posts.image_sm', 'posts.image_blur', 'posts.pageviews', 'posts.summary', 'posts.created_at', 'posts.event_date', 'posts.article_type', 'users.name', 'users.avatar', 'users.avatar_sm',
+            )
+            // ->join('category_post', 'category_post.post_id', 'posts.id')
+            ->join('users', 'users.id', 'posts.user_id')
+            ->where('posts.status', 1)
+            ->where('posts.created_at', '<', Carbon::now());
+
+        if ($request->date) {
+            $date = now()->parse($request->date);
+
+            $query->where('posts.created_at', '>=', $date->format('Y-m-d 00:00:00'));
+            $query->where('posts.created_at', '<=', $date->format('Y-m-d 23:59:59'));
+        }
+
+        $posts = $query
+            ->orderByDesc('posts.created_at')
+            ->paginate(10);
+
+        foreach ($posts as $post) {
+            $post->categoriesSlugs = $post->categories()->select('slug')->groupBy('slug')->pluck('slug')->toArray(); 
+        }
+
+        return response()->json([
+            'ok' => true,
+            'posts' => $posts,
+        ], 200, [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
     public function packages(Request $request)
     {
         if (!auth('sanctum')->guest()) {

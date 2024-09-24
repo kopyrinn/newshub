@@ -1016,5 +1016,7 @@
     "article_type_sponsored": "Спонсорский материал",
     "article_type_advertising": "На правах рекламы",
     "article_type_paid_sponsor": "Оплачено спонсором",
-    "article_type_rights_pr": "На правах PR"
+    "article_type_rights_pr": "На правах PR",
+    "Archive": "Архив",
+    "News Archive": "Архив Новостей"
 }

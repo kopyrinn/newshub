@@ -98317,3 +98317,21 @@ body {
   z-index: 1000;
   transition: all .3s ease;
 }
+.vc-header button.vc-title  {
+  background-color: unset;
+}
+.vc-header button.vc-arrow  {
+  background-color: unset;
+}
+.vc-primary-blue {
+  --vc-accent-50: #eef7ff;
+  --vc-accent-100: #d9edff;
+  --vc-accent-200: #bce0ff;
+  --vc-accent-300: #8eceff;
+  --vc-accent-400: #3e97ff;
+  --vc-accent-500: #3e97ff;
+  --vc-accent-600: #3e97ff;
+  --vc-accent-700: #145be1;
+  --vc-accent-800: #1749b6;
+  --vc-accent-900: #142857;
+}
