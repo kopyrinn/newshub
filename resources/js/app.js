@@ -110,13 +110,17 @@ if (['ios', 'android'].includes(platform)) {
         }
     })
 
-    const info = await Device.getInfo()
+    const fixTextZoom = async () => {
+        const info = await Device.getInfo()
+    
+        if (['ios', 'android'].includes(info.operatingSystem)) {
+            TextZoom.set({
+                value: 1.0
+            })
+        }
+    };
 
-    if (['ios', 'android'].includes(info.operatingSystem)) {
-        TextZoom.set({
-            value: 1.0
-        })
-    }
+    fixTextZoom();
 }
 
 router.isReady().then(() => app.mount('#kt_app_root'))
