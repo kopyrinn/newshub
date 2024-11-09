@@ -39,6 +39,7 @@ class Post extends Model implements Feedable
             ->where('created_at', '>=', now()->subWeek())
             ->where('status', 1)
             ->with('author')
+            ->latest('created_at')
             ->get();
     }
 
