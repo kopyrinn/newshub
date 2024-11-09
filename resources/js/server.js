@@ -87,6 +87,7 @@ async function start() {
                 .replace('<!--store-state-->', stateHtml)
                 .replace(`{LOCALE}`, locale)
                 .replaceAll(`{URL}`, 'https://newshub.kz/')
+                .replaceAll(`{APIURL}`, 'https://api.newshub.kz')
 
             res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
         } catch (e) {

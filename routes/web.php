@@ -20,4 +20,5 @@ Route::domain('m.newshub.kz')->group(function () {
     Route::get('turbo', 'App\Http\Controllers\RssFeedController@turbo');
 });
 
+Route::feeds();
 Auth::routes(['verify' => true]);
