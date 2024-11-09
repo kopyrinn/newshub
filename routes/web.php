@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\v2\SystemController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MobileHomeController;
 use Illuminate\Support\Facades\Auth;
@@ -20,5 +21,6 @@ Route::domain('m.newshub.kz')->group(function () {
     Route::get('turbo', 'App\Http\Controllers\RssFeedController@turbo');
 });
 
-Route::feeds();
+Route::get('feed', [SystemController::class, 'feed'])->name('rss.feed');
+
 Auth::routes(['verify' => true]);

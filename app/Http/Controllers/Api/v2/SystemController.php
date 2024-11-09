@@ -20,6 +20,22 @@ use Illuminate\Support\Facades\Cache;
 
 class SystemController extends Controller
 {
+    public function feed(Request $request)
+    {
+        $posts = Post::query()
+            ->where('created_at', '<=', now())
+            ->where('created_at', '>=', now()->subWeeks(1))
+            ->where('status', 1)
+            ->with('user')
+            ->latest('created_at')
+            ->take(500)
+            ->get();
+
+        return response()->view('rss.feed', [
+            'posts' => $posts,
+        ])->header('Content-Type', 'application/xml');
+    }
+
     public function map(Request $request)
     {
         $regions = Region::all()->map(function($item) {
