@@ -36,10 +36,11 @@ class Post extends Model implements Feedable
     {
         return Post::query()
             ->where('created_at', '<=', now())
-            ->where('created_at', '>=', now()->subWeek())
+            ->where('created_at', '>=', now()->subWeeks(1))
             ->where('status', 1)
             ->with('author')
             ->latest('created_at')
+            ->take(500)
             ->get();
     }
 
