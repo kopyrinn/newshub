@@ -66,6 +66,7 @@
 
                             <div id="yandex_rtb_R-A-4914826-1"></div>
                             <Banner location="post.view" class="mb-6"/>
+                            <div :data-smi-widget-id="post.slug"></div> 
 
                             <intersection-observer
                                 :sentinal-name="'footer' + post.slug"
@@ -496,6 +497,8 @@ export default defineComponent({
                 this.$root.getNotifications()
 
                 this.renderTelegram()
+
+                Smi24.init(`[data-smi-widget-id="${this.post.slug}"]`)
             })
         },
         async updatePage(item) {
