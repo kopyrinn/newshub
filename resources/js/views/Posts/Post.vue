@@ -66,7 +66,7 @@
 
                             <div id="yandex_rtb_R-A-4914826-1"></div>
                             <Banner location="post.view" class="mb-6"/>
-                            <amp-iframe src="https://smi24.kz/api/get/widget/iframe/136" width="1" height="2.58" sandbox="allow-scripts allow-same-origin allow-popups" layout="responsive" ></amp-iframe>
+                            <iframe src="https://smi24.kz/api/get/widget/iframe/136" width="1" height="2.58" sandbox="allow-scripts allow-same-origin allow-popups" layout="responsive" class="mb-6 w-100 h-500px"></iframe>
 
                             <intersection-observer
                                 :sentinal-name="'footer' + post.slug"
