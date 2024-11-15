@@ -66,7 +66,7 @@
 
                             <div id="yandex_rtb_R-A-4914826-1"></div>
                             <Banner location="post.view" class="mb-6"/>
-                            <div :data-smi-widget-id="post.slug"></div> 
+                            <amp-iframe src="https://smi24.kz/api/get/widget/iframe/136" width="1" height="2.58" sandbox="allow-scripts allow-same-origin allow-popups" layout="responsive" ></amp-iframe>
 
                             <intersection-observer
                                 :sentinal-name="'footer' + post.slug"
@@ -497,8 +497,6 @@ export default defineComponent({
                 this.$root.getNotifications()
 
                 this.renderTelegram()
-
-                Smi24.init(`[data-smi-widget-id="${this.post.slug}"]`)
             })
         },
         async updatePage(item) {
