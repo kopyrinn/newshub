@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-lg-7">
+        <div class="col-lg-7 order-lg-1 order-2">
             <div v-if="loading && !posts.length">
                 <CardSkeleton v-for="n in 4"/>
             </div>
@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-5 order-lg-2 order-1">
             <div class="card card-flush mb-6">
                 <div class="card-header pt-5">
                     <h3 class="card-title align-items-start flex-column">
@@ -58,7 +58,7 @@
                     <DatePicker v-model="date" :is-dark="$root.isDark" :locale="$root.locale" color="primary-blue" :min-date="new Date('2022-05-07')" :max-date="new Date" transparent borderless expanded/>
                 </div>
             </div>
-            <Sidebar/>
+            <Sidebar class="d-none d-lg-flex"/>
             <SchemaOrgWebPage type="CollectionPage" :name="$root.meta.title" />
         </div>
     </div>
