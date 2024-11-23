@@ -5,7 +5,7 @@ import { store, getCurrentLocale } from './store'
 
 export const api = async (endpoint = 'user', useAuth, config = {}) => {
     if (import.meta.env.SSR) {
-        config.url = `http://newshub-api.homelab.lan/api/v2/${endpoint}`
+        config.url = `http://127.0.0.1:8002/api/v2/${endpoint}`
     } else {
         config.url = `${import.meta.env.VITE_APP_URL}/api/v2/${endpoint}`
     }
