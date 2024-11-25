@@ -35,27 +35,28 @@ export default defineConfig(({ command, mode }) => {
           ],
         }),
         UnheadVite(),
-        purge({
-            templates: ['blade', 'vue'],
-            safelist: [
-                /d-/,
-                /mx/,
-                /vc-/,
-                /carousel/,
-                /ProseMirror/,
-                /v-lazy-image/,
-                /lang-/,
-                /popper/,
-                /skeletor/,
-                /article/,
-                /video/,
-                /embed/,
-                /iframe/,
-                /fade-enter/,
-                /fade-leave/,
-                /drawer/, /el-pager/, /el-scrollbar/, /el-pagination/, /el-loading/, /circular/, /el-icon/, /el-notification/, /swal2/, /van(?!-(coupon|tag|badge|picker|button|submit|contact|popover|notify|dialog|toast|calendar|address|checkbox|radio|uploader|cascader|dropdown|password|progress|sidebar|tree|stepper|steps|step|index|number|key))/, /el-popper/, /el-scrollbar/, /el-select/, /el-input/, /el-tag/, /is-dark/, /modal/, /ql-/, /ki-/, /btn-/, /dropzone/, /dz-message/,
-            ]
-        }),
+        // purge({
+        //     templates: ['blade', 'vue'],
+        //     safelist: [
+        //         /d-/,
+        //         /mx/,
+        //         /vc-/,
+        //         /carousel/,
+        //         /ProseMirror/,
+        //         /v-lazy-image/,
+        //         /lang-/,
+        //         /popper/,
+        //         /skeletor/,
+        //         /article/,
+        //         /video/,
+        //         /embed/,
+        //         /iframe/,
+        //         /fade-enter/,
+        //         /fade-leave/,
+        //         /order/,
+        //         /drawer/, /el-pager/, /el-scrollbar/, /el-pagination/, /el-loading/, /circular/, /el-icon/, /el-notification/, /swal2/, /van(?!-(coupon|tag|badge|picker|button|submit|contact|popover|notify|dialog|toast|calendar|address|checkbox|radio|uploader|cascader|dropdown|password|progress|sidebar|tree|stepper|steps|step|index|number|key))/, /el-popper/, /el-scrollbar/, /el-select/, /el-input/, /el-tag/, /is-dark/, /modal/, /ql-/, /ki-/, /btn-/, /dropzone/, /dz-message/,
+        //     ]
+        // }),
     ]
 
     if (!isSsr) {
@@ -72,7 +73,7 @@ export default defineConfig(({ command, mode }) => {
         plugins.push(
             VitePWA({
                 base: "/",
-                strategies: "injectManifest",
+                strategies: "generateSW",
                 srcDir: 'resources/js/app',
                 outDir: 'dist/client',
                 filename: 'sw.js',
@@ -155,15 +156,20 @@ export default defineConfig(({ command, mode }) => {
 
     const build = {
         rollupOptions: {
-            output: isSsr? {
+            output: {
                 entryFileNames: `[name].js`,
                 chunkFileNames: `[name].js`,
                 assetFileNames: `[name].[ext]`
-            }: {
-                entryFileNames: `assets/[hash].js`,
-                chunkFileNames: `assets/[hash].js`,
-                assetFileNames: `assets/[hash].[ext]`
             },
+            // output: isSsr? {
+            //     entryFileNames: `[name].js`,
+            //     chunkFileNames: `[name].js`,
+            //     assetFileNames: `[name].[ext]`
+            // }: {
+            //     entryFileNames: `assets/[hash].js`,
+            //     chunkFileNames: `assets/[hash].js`,
+            //     assetFileNames: `assets/[hash].[ext]`
+            // },
             input: {
                 main: resolve(__dirname, 'index.html'),
             }
