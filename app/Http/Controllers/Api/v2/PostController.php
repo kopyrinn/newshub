@@ -112,8 +112,10 @@ class PostController extends Controller
         $post = $query->first();
         abort_if(!$post, 404);
 
-        $post->pageviews++;
-        $post->save(['timestamps' => false]);
+        dispatch(function() use ($post) {
+            $post->pageviews++;
+            $post->save(['timestamps' => false]);
+        })->afterResponse();
 
         if ($user) {
             $notification = $user
