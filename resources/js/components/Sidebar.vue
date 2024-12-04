@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex flex-column-reverse h-100">
+    <div class="d-none d-sm-flex flex-column-reverse h-100">
         <div class="pb-10 position-sticky bottom-0">
             <div class="card card-flush mb-6">
                 <div class="card-header pt-5">
