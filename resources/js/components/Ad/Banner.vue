@@ -1,6 +1,6 @@
 <template>
-    <div class="card card-flush overflow-hidden">
-        <app-link v-if="item" :to="item.url" class="w-100" @click="onClicked">
+    <div v-if="item" class="card card-flush overflow-hidden">
+        <app-link :to="item.url" class="w-100" @click="onClicked">
             <intersection-observer
                 v-if="!isViewed"
                 :sentinal-name="'banner-' + id"
