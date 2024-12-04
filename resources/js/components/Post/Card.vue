@@ -98,10 +98,9 @@
                             <VDate :datetime="new Date(item.event_date)" :dateOnly="true"/>
                         </div>
                         <app-link :to="{name: 'post', params: {slug: item.slug}}" class="fs-5 fw-semibold text-gray-900 text-hover-primary d-block px-4 mb-3">{{ item.title }} <span v-if="item.article_type" class="badge badge-primary align-middle">{{ $t(`article_type_${item.article_type}`) }}</span></app-link>
-                        <!-- <div v-if="item.summary" class="fs-8 fw-normal text-gray-800 px-4 mb-4 text-truncate" v-html="item.summary"></div> -->
 
-                        <div class="px-4 d-flex align-items-center ">   
-                            <app-link :to="{name: 'user', params: {slug: item.user_id}}" class="text-gray-800 text-hover-primary fs-6 fw-bold text-truncate me-2">
+                        <div class="px-4 d-flex align-items-center flex-wrap">   
+                            <app-link :to="{name: 'user', params: {slug: item.user_id}}" class="text-gray-800 text-hover-primary fs-6 fw-bold me-2">
                                 {{ item.name }}
                             </app-link>
                             <VDate class="text-gray-600 fw-semibold d-block" :datetime="new Date(item.created_at)"/>
