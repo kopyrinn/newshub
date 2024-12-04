@@ -39,13 +39,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Http::macro('fcm', function () {
-            $apiKey = config('services.fcm');
+            // $apiKey = config('services.fcm');
 
             return Http::acceptJson()
-                ->withHeaders([
-                    'Authorization' => "key={$apiKey}",
-                ])
-                ->baseUrl('https://fcm.googleapis.com/fcm')
+                // ->withHeaders([
+                //     'Authorization' => "key={$apiKey}",
+                // ])
+                ->baseUrl('https://fcm.googleapis.com/v1/projects/newshub-328410')
                 ->connectTimeout(15)
                 ->timeout(15);
         });

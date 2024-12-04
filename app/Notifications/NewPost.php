@@ -96,18 +96,33 @@ class NewPost extends Notification implements ShouldQueue
         $messages = [];
 
         foreach ($tokens as $token) {
+            
             $messages[] = [
-                'to' => $token,
-                'notification' => [
-                    'body' => $this->post->getSummary(100),
-                    'title' => __('New Post') . ': ' . $this->post->title,
-                    'url' => config('app.origin') . "/post/{$this->post->slug}",
-                    'link' => config('app.origin') . "/post/{$this->post->slug}",
-                    'sound' => 'default',
-                    'content_available' => true,
-                    'image' => asset("storage/{$this->post->image_sm}"),
-                ],
+                'message' => [
+                    'token' => $token,
+                    'notification' => [
+                        'title' => __('New Post') . ': ' . $this->post->title,
+                        'body' => $this->post->getSummary(100),
+                        'image' => asset("storage/{$this->post->image_sm}"),
+                    ],
+                    // 'fcm_options' => [
+                    //     'link' => config('app.origin') . "/post/{$post->slug}",
+                    // ]
+                ]
             ];
+
+            // $messages[] = [
+            //     'to' => $token,
+            //     'notification' => [
+            //         'body' => $this->post->getSummary(100),
+            //         'title' => __('New Post') . ': ' . $this->post->title,
+            //         'url' => config('app.origin') . "/post/{$this->post->slug}",
+            //         'link' => config('app.origin') . "/post/{$this->post->slug}",
+            //         'sound' => 'default',
+            //         'content_available' => true,
+            //         'image' => asset("storage/{$this->post->image_sm}"),
+            //     ],
+            // ];
         }
 
         return $messages;

@@ -5,6 +5,8 @@ use App\Models\Package;
 use App\Models\Poll;
 use App\Models\Post;
 use App\Models\User;
+use App\Notifications\ChannelNotification;
+use App\Notifications\NewPost;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
@@ -21,7 +23,12 @@ use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 */
 
 Artisan::command('test', function () {
-    //
+    $post = Post::find(12079);
+    // $post->to_fcm = 1;
+    // $post->notify(new ChannelNotification($post));
+        
+    $user = User::find(1);
+    $user->notify(new NewPost($post));
 });
 
 Artisan::command('update:notifications', function () {

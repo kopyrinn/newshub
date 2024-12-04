@@ -4,7 +4,9 @@ namespace App\Channels;
 
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\PersonalAccessToken;
+use Kedniko\FCM\FCM;
 
 class FcmSingleChannel
 {
@@ -19,24 +21,32 @@ class FcmSingleChannel
     {
         $messages = $notification->toFcm($notifiable);
 
+        $authKeyContent = json_decode(file_get_contents(Storage::path('newshub-328410-8828c1d2f287.json')), true);
+        $bearerToken = FCM::getBearerToken($authKeyContent);
+
+        // dump($messages);
         foreach ($messages as $message) {
             try {
-                $response = Http::fcm()->post('/send', $message);
+                $response = Http::fcm()
+                    ->withToken($bearerToken)
+                    ->post('/messages:send', $message);
                 $data = $response->json();
 
-                if (isset($data['failure']) && $data['failure'] === 1) {
-                    $tokens = PersonalAccessToken::where('app_token', $message['to'])->get();
+                logger('fcm', [$response->body()]);
 
-                    if ($tokens->count()) {
-                        foreach ($tokens as $token) {
-                            $token->app_token = null;
-                            $token->platform = 'web';
-                            $token->update();
-                        }
-                    }
+                // if (isset($data['failure']) && $data['failure'] === 1) {
+                //     $tokens = PersonalAccessToken::where('app_token', $message['to'])->get();
 
-                    \Log::error('FCM single failure', [$message, $response->body()]);
-                }
+                //     if ($tokens->count()) {
+                //         foreach ($tokens as $token) {
+                //             $token->app_token = null;
+                //             $token->platform = 'web';
+                //             $token->update();
+                //         }
+                //     }
+
+                //     \Log::error('FCM single failure', [$message, $response->body()]);
+                // }
             } catch (\Exception $e) {
                 \Log::error('FCM single error', [$e->getMessage()]);
             }

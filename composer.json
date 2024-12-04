@@ -11,6 +11,7 @@
         "guzzlehttp/guzzle": "^7.7",
         "gwd/seo-meta-nova-field": "^1.2",
         "halimtuhu/array-files": "^1.0",
+        "kedniko/firebase-cloud-messaging-http-v1-php": "^0.0.2",
         "kongulov/nova-tab-translatable": "^2.1.1",
         "laravel-lang/lang": "~12.22.1",
         "laravel-notification-channels/telegram": "^4.0.0",

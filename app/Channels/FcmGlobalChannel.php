@@ -4,6 +4,8 @@ namespace App\Channels;
 
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use Kedniko\FCM\FCM;
 
 class FcmGlobalChannel
 {
@@ -17,43 +19,30 @@ class FcmGlobalChannel
     public function send($notifiable, Notification $notification)
     {
         $post = $notification->toFcm($notifiable);
-        $url = config('app.origin') . "/post/{$post->slug}";
 
         $payload = [
-            'to'                    => '/topics/all',
-            'collapse_key'          => 'type_a',
-            'notification'          => [
-                'title'                 => $post->title,
-                'body'                  => $post->getSummary(55),
-                'content_available'     => true,
-                'android_channel_id'    => 'all',
-                'url'                   => $url,
-                'link'                  => $url,
-                'sound'                 => 'default',
-                'image'                 => asset("storage/{$post->image_sm}"),
-            ],
-            'priority'              => 'high',
-            'data'                  => [
-                'link'                  => $url,
-                'message'               => $post->getSummary(55),
-                'post_type'             => 'article',
-                'post_id'               => $post->id,
-                'title'                 => $post->title,
-                'image'                 => asset("storage/{$post->image_sm}"),
-                'url'                   => $url,
-                'show_in_notification'  => true,
-                'dialog_title'          => $post->title,
-                'dialog_text'           => $post->getSummary(100),
-                'dialog_image'          => asset("storage/{$post->image_sm}"),
-                'sound'                 => 'default',
-            ],
-            'timeToLive'            => 10,
+            'message' => [
+                'topic' => 'all',
+                'notification' => [
+                    'title' => $post->title,
+                    'body' => $post->getSummary(55),
+                    'image' => asset("storage/{$post->image_sm}"),
+                ],
+                // 'fcm_options' => [
+                //     'link' => config('app.origin') . "/post/{$post->slug}",
+                // ]
+            ]
         ];
 
+        $authKeyContent = json_decode(file_get_contents(Storage::path('newshub-328410-8828c1d2f287.json')), true);
+        $bearerToken = FCM::getBearerToken($authKeyContent);
+
         try {
-            Http::fcm()->post('/send', $payload);
+            $response = Http::fcm()
+                ->withToken($bearerToken)
+                ->post('/messages:send', $payload);
         } catch (\Exception $e) {
-            \Log::error('FCM Global', [$e->getMessage()]);
+            logger('fcm', [$e->getMessage()]);
         }
     }
 }
