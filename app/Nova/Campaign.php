@@ -8,7 +8,6 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Manogi\Tiptap\Tiptap;
 use Alexwenzel\DependencyContainer\HasDependencies;
 use App\Models\Package;
 use App\Models\Region;

@@ -10,7 +10,6 @@ use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\Slug;
 use Kongulov\NovaTabTranslatable\NovaTabTranslatable;
 use Kongulov\NovaTabTranslatable\TranslatableTabToRowTrait;
-use Manogi\Tiptap\Tiptap;
 use Murdercode\TinymceEditor\TinymceEditor;
 
 class Page extends Resource

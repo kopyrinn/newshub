@@ -1,31 +1,31 @@
 PODS:
   - AashuDubeyCapacitorStatusbarSafeArea (2.1.2):
     - Capacitor
-  - Capacitor (6.1.2):
+  - Capacitor (6.2.1):
     - CapacitorCordova
-  - CapacitorApp (6.0.1):
+  - CapacitorApp (6.0.3):
     - Capacitor
-  - CapacitorBrowser (6.0.2):
+  - CapacitorBrowser (6.0.6):
     - Capacitor
-  - CapacitorClipboard (6.0.1):
+  - CapacitorClipboard (6.0.3):
     - Capacitor
-  - CapacitorCommunityFcm (6.0.0):
+  - CapacitorCommunityFcm (6.0.1):
     - Capacitor
     - Firebase/Messaging
-  - CapacitorCordova (6.1.2)
-  - CapacitorDevice (6.0.1):
+  - CapacitorCordova (6.2.1)
+  - CapacitorDevice (6.0.3):
     - Capacitor
-  - CapacitorDialog (6.0.1):
+  - CapacitorDialog (6.0.3):
     - Capacitor
-  - CapacitorPushNotifications (6.0.2):
+  - CapacitorPushNotifications (6.0.5):
     - Capacitor
-  - CapacitorShare (6.0.2):
+  - CapacitorShare (6.0.4):
     - Capacitor
-  - CapacitorSplashScreen (6.0.2):
+  - CapacitorSplashScreen (6.0.4):
     - Capacitor
-  - CapacitorStatusBar (6.0.1):
+  - CapacitorStatusBar (6.0.3):
     - Capacitor
-  - CapacitorTextZoom (6.0.2):
+  - CapacitorTextZoom (6.0.4):
     - Capacitor
   - Firebase/CoreOnly (10.13.0):
     - FirebaseCore (= 10.13.0)
@@ -139,20 +139,20 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/text-zoom"
 
 SPEC CHECKSUMS:
-  AashuDubeyCapacitorStatusbarSafeArea: e62fcce2cbd8e1b9ea953cad1831687d8791c3a2
-  Capacitor: 679f9673fdf30597493a6362a5d5bf233d46abc2
-  CapacitorApp: 0bc633b4eae40a1f32cd2834788fad3bc42da6a1
-  CapacitorBrowser: 83ec661a9ccd56c28a6851e4dd1ac33b181227ec
-  CapacitorClipboard: 756cd7e83e8d5d19b0c74f40b57517c287bd5fe2
-  CapacitorCommunityFcm: a4a524712c41db0a97e23f7f7d4b38b5d33de7a0
-  CapacitorCordova: f48c89f96c319101cd2f0ce8a2b7449b5fb8b3dd
-  CapacitorDevice: 7097a1deb4224b77fd13a6e60a355d0062a5d772
-  CapacitorDialog: ad752191fdb22a8d0ac199b0754b8a021d86dbf9
-  CapacitorPushNotifications: ccd797926c030acad3d5498ef452c735c90a2c89
-  CapacitorShare: 591ae4693d85686ceb590db8e8b44aa014ec6490
-  CapacitorSplashScreen: 250df9ef8014fac5c7c1fd231f0f8b1d8f0b5624
-  CapacitorStatusBar: b81d4fb5d4e0064c712018071b3ab4b810b39a63
-  CapacitorTextZoom: 013a8dd0887f6bd103171768c91845f2354414b6
+  AashuDubeyCapacitorStatusbarSafeArea: 4a80173c9dc715fcd3ccd80738beb64a748de947
+  Capacitor: c95400d761e376be9da6be5a05f226c0e865cebf
+  CapacitorApp: a19ccb4f5f32d2534be5c6f524d5a9b614a1e8a7
+  CapacitorBrowser: 825163a1d6adce944ac7b9e3cab101146b5a9df8
+  CapacitorClipboard: 6479f3d5c20e5f985cb72e620e11f20a351777e2
+  CapacitorCommunityFcm: cbb6d5cf251988ae4cff3e58ce574fba8cd4389f
+  CapacitorCordova: 8d93e14982f440181be7304aa9559ca631d77fff
+  CapacitorDevice: 3ec44d26b51986119a1987fad1253609d5aacb68
+  CapacitorDialog: ee2e2bf8684020da1f64a7185a337405046acd23
+  CapacitorPushNotifications: 35abece14371c57172e8321c9ccc8b6fa35fabfe
+  CapacitorShare: 77ff779e3b7c6ae9fb5461e52cf7ef805d429491
+  CapacitorSplashScreen: ef140a8b1ea7244e0c245ce2dd4ce5251e7ab86a
+  CapacitorStatusBar: 149cde8f1328ec3aa6cbdd872a55137ae3f98b16
+  CapacitorTextZoom: e6c6f7b4b742654d86a3b486200b58fef6214a2b
   Firebase: 343d7539befb614d22b2eae24759f6307b1175e9
   FirebaseCore: 9948a31ff2c6cf323f9b040068201a95d271b68d
   FirebaseCoreInternal: b342e37cd4f5b4454ec34308f073420e7920858e
@@ -165,4 +165,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 8082c25b86c1a5fbc924dc50c86799e9514d8032
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

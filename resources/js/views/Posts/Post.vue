@@ -64,9 +64,7 @@
 
                             <div class="fs-5 fw-medium text-gray-900 mb-10 article" v-html="post.content" ref="articleBody"></div>
 
-                            <div id="yandex_rtb_R-A-4914826-1"></div>
                             <Banner location="post.view" class="mb-6"/>
-                            <iframe src="https://smi24.kz/api/get/widget/iframe/136" sandbox="allow-scripts allow-same-origin allow-popups" layout="responsive" class="mb-6 w-100" style="height: 500px;"></iframe>
 
                             <intersection-observer
                                 :sentinal-name="'footer' + post.slug"
@@ -197,7 +195,6 @@
 
                             <div class="fs-5 fw-medium text-gray-900 mb-10 article" v-html="item.content"></div>
 
-                            <div :id="'yandex_rtb_R-A-4914826-1-' + item.slug"></div>
                             <Banner v-if="index && index % 4 === 0" location="post.view" class="mb-6"/>
 
                             <intersection-observer
@@ -440,17 +437,6 @@ export default defineComponent({
     mounted() {
         if (this.$isSsr) return
 
-        setTimeout(() => {
-            if (!window.yaContextCb) return
-
-            window.yaContextCb.push(()=>{
-                Ya.Context.AdvManager.render({
-                    "blockId": "R-A-4914826-1",
-                    "renderTo": "yandex_rtb_R-A-4914826-1"
-                })
-            })
-        }, 1000)
-
         this.renderTelegram()
     },
     beforeUnmount() {
@@ -558,17 +544,6 @@ export default defineComponent({
 
                 data.post.url = this.$base(this.$router.resolve({name: 'post', params: {slug: data.post.slug, locale: this.$root.locale != 'ru'? this.$root.locale: ''}}).fullPath)
                 this.posts.push(data.post)
-
-                setTimeout(() => {
-                    if (!window.yaContextCb) return
-
-                    window.yaContextCb.push(()=>{
-                        Ya.Context.AdvManager.render({
-                            "blockId": "R-A-4914826-1",
-                            "renderTo": `yandex_rtb_R-A-4914826-1-${data.post.slug}`
-                        })
-                    })
-                }, 1000)
             })
         },
         reset() {

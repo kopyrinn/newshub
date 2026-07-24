@@ -5,7 +5,6 @@ namespace App\Nova;
 use App\Models\Category;
 use App\Models\Rubric;
 use Illuminate\Http\Request;
-use Manogi\Tiptap\Tiptap;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;

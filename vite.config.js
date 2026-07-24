@@ -190,6 +190,9 @@ export default defineConfig(({ command, mode }) => {
                 '@': '/resources/js',
             }
         },
+        ssr: {
+            noExternal: ['element-plus', '@popperjs/core'],
+        },
         build: build
     }
 })

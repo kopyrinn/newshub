@@ -24,5 +24,4 @@ yarn-error.log
 /dist/sw.js
 package-lock.json
 yarn.lock
-composer.lock
 .DS_Store

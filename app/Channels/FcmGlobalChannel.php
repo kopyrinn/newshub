@@ -2,10 +2,10 @@
 
 namespace App\Channels;
 
+use App\Services\FirebaseAccessToken;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Kedniko\FCM\FCM;
 
 class FcmGlobalChannel
 {
@@ -34,8 +34,13 @@ class FcmGlobalChannel
             ]
         ];
 
-        $authKeyContent = json_decode(file_get_contents(Storage::path('newshub-328410-8828c1d2f287.json')), true);
-        $bearerToken = FCM::getBearerToken($authKeyContent);
+        $authKeyContent = json_decode(
+            file_get_contents(Storage::path('newshub-328410-8828c1d2f287.json')),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
+        $bearerToken = app(FirebaseAccessToken::class)->get($authKeyContent);
 
         try {
             $response = Http::fcm()
