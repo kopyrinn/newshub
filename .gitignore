@@ -22,6 +22,5 @@ yarn-error.log
 /dist/server
 /dist/mobile
 /dist/sw.js
-package-lock.json
 yarn.lock
 .DS_Store
