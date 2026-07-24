@@ -78,14 +78,13 @@ export default defineConfig(({ command, mode }) => {
                 outDir: 'dist/client',
                 filename: 'sw.js',
                 registerType: 'autoUpdate',
-                injectManifest: {
+                workbox: {
                     globPatterns: [
                         'assets/**',
                         '*.{js,css,ico,xml,png,svg,webp,jpeg,jpg,gif}',
-                    ]
-                },
-                workbox: {
-                  cleanupOutdatedCaches: true
+                    ],
+                    cleanupOutdatedCaches: true,
+                    navigateFallback: null,
                 },
                 manifest: {
                     "display": "standalone",
@@ -156,20 +155,15 @@ export default defineConfig(({ command, mode }) => {
 
     const build = {
         rollupOptions: {
-            output: {
+            output: isSsr? {
                 entryFileNames: `[name].js`,
                 chunkFileNames: `[name].js`,
                 assetFileNames: `[name].[ext]`
+            }: {
+                entryFileNames: `assets/[name]-[hash].js`,
+                chunkFileNames: `assets/[name]-[hash].js`,
+                assetFileNames: `assets/[name]-[hash].[ext]`
             },
-            // output: isSsr? {
-            //     entryFileNames: `[name].js`,
-            //     chunkFileNames: `[name].js`,
-            //     assetFileNames: `[name].[ext]`
-            // }: {
-            //     entryFileNames: `assets/[hash].js`,
-            //     chunkFileNames: `assets/[hash].js`,
-            //     assetFileNames: `assets/[hash].[ext]`
-            // },
             input: {
                 main: resolve(__dirname, 'index.html'),
             }

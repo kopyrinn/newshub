@@ -35,8 +35,21 @@ async function start() {
     let vite = null
     if (isProd) {
         const clientDistPath = resolve('../../dist/client')
-        // app.use('/assets', express.static(clientDistPath + '/assets'));
-        app.use(express.static(clientDistPath, { index: false }))
+        const noCacheFiles = new Set([
+            'sw.js',
+            'firebase-messaging-sw.js',
+            'manifest.webmanifest',
+        ])
+
+        app.use(express.static(clientDistPath, {
+            index: false,
+            setHeaders(res, filePath) {
+                if (noCacheFiles.has(path.basename(filePath))) {
+                    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
+                    res.setHeader('Expires', '0')
+                }
+            },
+        }))
     } else {
         vite = await createServer({
             // eslint-disable-next-line no-undef

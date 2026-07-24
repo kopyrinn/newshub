@@ -14,7 +14,12 @@ import { SafeAreaController } from '@aashu-dubey/capacitor-statusbar-safe-area';
 import { TextZoom } from "@capacitor/text-zoom"
 import { Device } from '@capacitor/device'
 
-registerSW({ immediate: true })
+registerSW({
+    immediate: true,
+    onRegisteredSW(_swUrl, registration) {
+        registration?.update()
+    },
+})
 
 const platform = Capacitor.getPlatform()
 
