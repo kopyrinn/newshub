@@ -35,8 +35,6 @@ class UploadController extends Controller
             ];
         }
 
-        $path = Storage::disk('public')->path("img/large");
-
         $source = $request->file('image');
         $resize = ImageInvertation::make($source->path());
         $resize->orientate();
@@ -45,7 +43,9 @@ class UploadController extends Controller
         $h = $resize->height();
 
         foreach ($sizes as $size => $dimension) {
-            $path = Storage::disk('public')->path("img/{$size}");
+            $directory = "img/{$size}";
+            Storage::disk('public')->makeDirectory($directory);
+            $path = Storage::disk('public')->path($directory);
 
             if (in_array($figure, ['original', 'comment'])) {
                 if ($w > $h) {
@@ -140,6 +140,7 @@ class UploadController extends Controller
             });
         }
 
+        Storage::disk('public')->makeDirectory($imageFolder);
         $path = Storage::disk('public')->path($imageFolder);
 
         $resize->save("{$path}/{$name}", 95);
