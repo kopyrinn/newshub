@@ -110,6 +110,9 @@ composer install \
     --no-interaction \
     --no-progress
 
+log "Creating the isolated ad statistics table (does not touch other tables)."
+php artisan migrate --path=database/migrations/2026_07_27_000000_create_ad_stats_table.php --force
+
 log "Installing Node.js dependencies."
 npm ci --legacy-peer-deps --no-audit --no-fund
 

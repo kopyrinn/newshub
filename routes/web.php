@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\v2\SystemController;
+use App\Http\Controllers\AdReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MobileHomeController;
 use Illuminate\Support\Facades\Auth;
@@ -22,5 +23,10 @@ Route::domain('m.newshub.kz')->group(function () {
 });
 
 Route::get('feed', [SystemController::class, 'feed'])->name('rss.feed');
+
+// PDF-отчёт по баннеру за конкретный день (доступен только авторизованным)
+Route::get('report/ad-day/{ad}/{date}', [AdReportController::class, 'day'])
+    ->middleware('auth')
+    ->name('report.ad.day');
 
 Auth::routes(['verify' => true]);

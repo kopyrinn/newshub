@@ -17,6 +17,7 @@ use App\Models\Vacancy;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class SystemController extends Controller
 {
@@ -384,6 +385,8 @@ class SystemController extends Controller
         if ($ad) {
             $ad->views += 1;
             $ad->update();
+
+            $this->recordDailyStat($ad->id, 'views');
         }
 
         return response([
@@ -400,10 +403,41 @@ class SystemController extends Controller
         if ($ad) {
             $ad->clicks += 1;
             $ad->update();
+
+            $this->recordDailyStat($ad->id, 'clicks');
         }
 
         return response([
             'ok' => true
         ]);
+    }
+
+    /**
+     * Атомарно инкрементирует дневную статистику баннера (показы или клики).
+     * Одна строка на пару баннер + дата; при повторе за тот же день значение растёт.
+     */
+    private function recordDailyStat(int $adId, string $field): void
+    {
+        if (!in_array($field, ['views', 'clicks'], true)) {
+            return;
+        }
+
+        // Статистика вторична: любая ошибка записи не должна ронять показ/клик баннера.
+        try {
+            DB::table('ad_stats')->upsert(
+                [[
+                    'ad_id'      => $adId,
+                    'date'       => now()->toDateString(),
+                    'views'      => $field === 'views' ? 1 : 0,
+                    'clicks'     => $field === 'clicks' ? 1 : 0,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]],
+                ['ad_id', 'date'],
+                [$field => DB::raw("{$field} + 1"), 'updated_at' => now()]
+            );
+        } catch (\Throwable $e) {
+            report($e);
+        }
     }
 }

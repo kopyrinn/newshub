@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\HasMany;
 
 class Ad extends Resource
 {
@@ -111,6 +112,7 @@ class Ad extends Resource
             DateTime::make(__('Expired At'), 'expired_at')
                 ->sortable()
             ,
+            HasMany::make(__('Статистика по дням'), 'stats', \App\Nova\AdStat::class),
         ];
     }
 

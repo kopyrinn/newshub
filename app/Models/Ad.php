@@ -17,4 +17,8 @@ class Ad extends Model
         'updated_at' => 'datetime',
     ];
 
+    public function stats()
+    {
+        return $this->hasMany(AdStat::class)->orderByDesc('date');
+    }
 }
