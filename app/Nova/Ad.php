@@ -64,36 +64,17 @@ class Ad extends Resource
      */
     public function fields(Request $request)
     {
-        $locations = [
-            'header' => 'БГВ-1',
-            //'post.new' => 'В форме добавления новости',
-            //'post.edit' => 'В форме редактирования новости',
-            'post.view' => 'В новости',
-           // 'page.view' => 'На статичной странице',
-            //'vacancy.new' => 'В форме добавления вакансии',
-            //'vacancy.view' => 'В вакансии',
-            //'packages.view' => 'На странице услуг',
-            'category.view' => 'В категории новости',
-            //'rubric.view' => 'На страницах рубрик',
-            'sidebar.view' => 'БГП-1',
-            'sidebar2.view' => 'БГП-2',
-            'sidebar_alt' => 'БГП-3',
-        ];
-
-        foreach (\App\Models\Category::pluck('name', 'slug') as $slug => $name) {
-            $locations["home.{$slug}"] = "БГЛ: {$name}";
-        }
-
         return [
             ID::make(__('Id'), 'id')
                 ->rules('required')
                 ->sortable()
             ,
-            Select::make(__('Location'), 'location')
+            Select::make('Место размещения', 'location')
                 ->rules('required')
                 ->sortable()
-                ->options($locations)
+                ->options(\App\Models\Ad::locationOptions())
                 ->displayUsingLabels()
+                ->help('В списке показаны только позиции, которые реально используются на сайте.')
             ,
             Text::make(__('Url'), 'url')
                 ->rules('required')
