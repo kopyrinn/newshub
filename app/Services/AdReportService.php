@@ -8,10 +8,21 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
 use Throwable;
 
 class AdReportService
 {
+    private const BANNER_CACHE_DIRECTORY = 'cache/ad-report-banners';
+
+    private const BANNER_CACHE_VERSION = 'jpeg-800x400-q65-v1';
+
+    private const BANNER_MAX_HEIGHT = 400;
+
+    private const BANNER_MAX_WIDTH = 800;
+
+    private const BANNER_QUALITY = 65;
+
     /**
      * Человекочитаемые названия позиций баннера (совпадают с админкой).
      */
@@ -111,7 +122,43 @@ class AdReportService
                 return null;
             }
 
-            return 'data:'.$mimeType.';base64,'.base64_encode($disk->get($image));
+            $cacheDisk = Storage::disk('local');
+            $cacheKey = hash('sha256', implode('|', [
+                self::BANNER_CACHE_VERSION,
+                $image,
+                $disk->lastModified($image),
+                $disk->size($image),
+            ]));
+            $cachePath = self::BANNER_CACHE_DIRECTORY.'/'.$cacheKey.'.jpg';
+
+            if (! $cacheDisk->exists($cachePath)) {
+                $manager = new ImageManager(['driver' => 'gd']);
+                $source = $manager->make($disk->path($image))->orientate();
+
+                $scale = min(
+                    self::BANNER_MAX_WIDTH / $source->width(),
+                    self::BANNER_MAX_HEIGHT / $source->height(),
+                    1
+                );
+
+                if ($scale < 1) {
+                    $source->resize(
+                        max(1, (int) round($source->width() * $scale)),
+                        max(1, (int) round($source->height() * $scale))
+                    );
+                }
+
+                $preview = $manager
+                    ->canvas($source->width(), $source->height(), '#ffffff')
+                    ->insert($source)
+                    ->encode('jpg', self::BANNER_QUALITY);
+
+                if (! $cacheDisk->put($cachePath, (string) $preview)) {
+                    return null;
+                }
+            }
+
+            return 'data:image/jpeg;base64,'.base64_encode($cacheDisk->get($cachePath));
         } catch (Throwable) {
             return null;
         }
