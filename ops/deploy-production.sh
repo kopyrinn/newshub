@@ -110,12 +110,6 @@ composer install \
     --no-interaction \
     --no-progress
 
-log "Creating the isolated ad statistics table (does not touch other tables)."
-php artisan migrate --path=database/migrations/2026_07_27_000000_create_ad_stats_table.php --force
-
-log "Applying the verified banner statistics correction for July 23-26."
-php artisan migrate --path=database/migrations/2026_07_31_120000_backfill_ad_stats_for_banners_27_and_28.php --force
-
 log "Installing Node.js dependencies."
 npm ci --legacy-peer-deps --no-audit --no-fund
 
@@ -129,6 +123,12 @@ php artisan route:clear
 php artisan view:clear
 php artisan event:clear
 php artisan config:cache
+
+log "Creating the isolated ad statistics table (does not touch other tables)."
+php artisan migrate --path=database/migrations/2026_07_27_000000_create_ad_stats_table.php --force
+
+log "Applying the verified banner statistics correction for July 23-26."
+php artisan migrate --path=database/migrations/2026_07_31_130000_reapply_banner_stats_after_config_refresh.php --force
 
 log "Starting managed application processes."
 "$SUPERVISORCTL" -c "$SUPERVISOR_CONFIG" start "${SERVICES[@]}"
