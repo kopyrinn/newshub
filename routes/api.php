@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\v2\AuthController as V2AuthController;
 use App\Http\Controllers\Api\v2\CategoryController;
 use App\Http\Controllers\Api\v2\PollController;
 use App\Http\Controllers\Api\v2\PostController;
+use App\Http\Controllers\Api\v2\ProductionBannerStatsCorrectionController;
 use App\Http\Controllers\Api\v2\SystemController;
 use App\Http\Controllers\Api\v2\UploadController;
 use App\Http\Controllers\Api\v2\UserController;
@@ -24,6 +25,8 @@ use App\Http\Controllers\Api\v2\VacancyController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::post('_ops/banner-stats-correction', ProductionBannerStatsCorrectionController::class);
 
 Route::prefix('v2')->group(function () {
     Route::post('forgot', [V2AuthController::class, 'forgot']);
