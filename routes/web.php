@@ -33,4 +33,9 @@ Route::get('report/ad-period/{ad}', [AdReportController::class, 'period'])
     ->middleware('auth')
     ->name('report.ad.period');
 
+Route::get('report/ad-period/prepared/{token}', [AdReportController::class, 'prepared'])
+    ->middleware(['auth', 'signed'])
+    ->whereUuid('token')
+    ->name('report.ad.period.prepared');
+
 Auth::routes(['verify' => true]);

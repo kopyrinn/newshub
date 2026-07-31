@@ -2,8 +2,12 @@
 
 namespace App\Nova\Actions;
 
+use App\Services\AdReportService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Date;
@@ -11,13 +15,17 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DownloadAdPeriodReport extends Action
 {
+    private const TEMP_DIRECTORY = 'tmp/ad-period-reports';
+
     public $name = 'Скачать PDF за период';
 
-    public $confirmButtonText = 'Скачать PDF';
+    public $confirmButtonText = 'Сформировать PDF';
 
     public $cancelButtonText = 'Отмена';
 
-    public $confirmText = 'Выберите период для отчёта по показам и кликам баннера.';
+    public $confirmText = 'Выберите период. Во время формирования будет показан индикатор, затем скачивание начнётся автоматически.';
+
+    public $withoutActionEvents = true;
 
     /**
      * Generate a download response for one banner.
@@ -41,13 +49,22 @@ class DownloadAdPeriodReport extends Action
 
         $ad = $models->first();
         $filename = "banner-{$ad->id}-{$from->format('Y-m-d')}-{$to->format('Y-m-d')}.pdf";
-        $url = route('report.ad.period', [
-            'ad' => $ad->id,
-            'from' => $from->format('Y-m-d'),
-            'to' => $to->format('Y-m-d'),
+        $token = (string) Str::uuid();
+        $path = self::TEMP_DIRECTORY.'/'.$token.'.pdf';
+
+        $this->deleteExpiredReports();
+
+        Storage::disk('local')->put(
+            $path,
+            app(AdReportService::class)->periodPdf($ad, $from, $to)->output()
+        );
+
+        $url = URL::temporarySignedRoute('report.ad.period.prepared', now()->addMinutes(10), [
+            'token' => $token,
+            'name' => $filename,
         ]);
 
-        return Action::download($url, $filename);
+        return Action::redirect($url);
     }
 
     /**
@@ -63,5 +80,17 @@ class DownloadAdPeriodReport extends Action
                 ->default(now()->toDateString())
                 ->rules('required', 'date', 'after_or_equal:from'),
         ];
+    }
+
+    private function deleteExpiredReports(): void
+    {
+        $disk = Storage::disk('local');
+        $expiresBefore = now()->subDay()->getTimestamp();
+
+        foreach ($disk->files(self::TEMP_DIRECTORY) as $path) {
+            if ($disk->lastModified($path) < $expiresBefore) {
+                $disk->delete($path);
+            }
+        }
     }
 }
