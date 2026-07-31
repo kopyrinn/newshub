@@ -19,6 +19,8 @@ class AdStat extends Resource
 
     public static $search = [];
 
+    public static $perPageViaRelationship = 25;
+
     /**
      * Не показывать отдельным пунктом в меню — статистика видна внутри баннера.
      */
