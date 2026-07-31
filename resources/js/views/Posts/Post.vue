@@ -103,9 +103,11 @@
                                 {{ $t('Subscribe or follow our news on social networks') }}
                             </div>
                             <div class="d-flex flex-center mb-5">
-                                <a href="" @click.prevent="share(post)" class="btn btn-sm btn-icon btn-primary mx-3 p-0 w-20px h-20px">
-                                    <i class="ki-duotone ki-share fs-5"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i><i class="path6"></i></i>
-                                </a>
+                                <button type="button" @click="share(post)" class="btn btn-sm btn-icon btn-color-primary btn-active-color-primary mx-3 p-0 w-35px h-35px" :aria-label="$t('Share')" :title="$t('Share')">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M12 16V4M12 4L8 8M12 4L16 8M5 13V19C5 19.5523 5.44772 20 6 20H18C18.5523 20 19 19.5523 19 19V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
                                 <a :href="$root.shareWith('tg', post.url)" class="mx-4">
                                     <img :src="$media('svg/brand-logos/telegram.svg')" class="h-20px my-2" alt="" loading="lazy">
                                 </a>
@@ -234,9 +236,11 @@
                                 {{ $t('Subscribe or follow our news on social networks') }}
                             </div>
                             <div class="d-flex flex-center mb-5">
-                                <a href="" @click.prevent="share(item)" class="btn btn-sm btn-icon btn-primary mx-3 p-0 w-20px h-20px">
-                                    <i class="ki-duotone ki-share fs-5"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i><i class="path6"></i></i>
-                                </a>
+                                <button type="button" @click="share(item)" class="btn btn-sm btn-icon btn-color-primary btn-active-color-primary mx-3 p-0 w-35px h-35px" :aria-label="$t('Share')" :title="$t('Share')">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M12 16V4M12 4L8 8M12 4L16 8M5 13V19C5 19.5523 5.44772 20 6 20H18C18.5523 20 19 19.5523 19 19V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
                                 <a :href="$root.shareWith('tg', item.url)" class="mx-4">
                                     <img :src="$media('svg/brand-logos/telegram.svg')" class="h-20px" alt="" loading="lazy">
                                 </a>

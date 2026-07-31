@@ -62,7 +62,13 @@ app.config.globalProperties.$storage = (path) => {
     // return import.meta.env.VITE_APP_URL + '/storage/' + path
     return 'https://api.newshub.kz/storage/' + path
 }
-app.config.globalProperties.$media = (path) => import.meta.env.VITE_ORIGIN_URL + '/assets/media/' + path
+app.config.globalProperties.$media = (path) => {
+    const mediaRoot = import.meta.env.DEV
+        ? '/client/assets/media/'
+        : import.meta.env.VITE_ORIGIN_URL + '/assets/media/'
+
+    return mediaRoot + path
+}
 app.config.globalProperties.$decimal = (num, digits = 2) => Number(num).toLocaleString(getLongLocale(), { maximumFractionDigits: digits, minimumFractionDigits: digits })
 app.config.globalProperties.$math = function() {
   if (Number.EPSILON === undefined) {
