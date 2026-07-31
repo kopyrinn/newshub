@@ -505,6 +505,17 @@
             </div>
             <!--end::Wrapper-->
         </PullRefresh>
+        <button
+            v-if="showMobileBack && !sideOpen && !modal"
+            type="button"
+            @click="navigateBack"
+            class="position-fixed btn btn-icon btn-primary rounded-circle w-40px h-40px shadow d-lg-none"
+            style="right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(88px + env(safe-area-inset-bottom, 0px)); z-index: 106;"
+            :aria-label="$t('Back')"
+            :title="$t('Back')"
+        >
+            <i class="ki-duotone ki-arrow-left fs-2 text-white"><i class="path1"></i><i class="path2"></i></i>
+        </button>
         <!--begin::Cookie alert-->
         <div class="d-flex justify-content-around d-lg-none app-footer-menu px-3 py-5" style="z-index: 105;">
             <app-link
@@ -742,6 +753,9 @@ export default defineComponent({
     //     }).catch((e) => {})
     // },
     computed: {
+        showMobileBack() {
+            return this.isMobile && Boolean(this.$route.meta.mobileBack)
+        },
         menu() {
             return this.$route.name? this.$store.getters.getMenu: ''
         },
@@ -788,6 +802,19 @@ export default defineComponent({
         }
     },
     methods: {
+        navigateBack() {
+            if (!import.meta.env.SSR && window.history?.state?.back) {
+                this.$router.back()
+                return
+            }
+
+            this.$router.push({
+                name: this.$route.meta.mobileBackFallback || 'index',
+                params: {
+                    locale: this.locale !== 'ru' ? this.locale : '',
+                },
+            })
+        },
         async pullRefresh() {
             this.loadingPull = true
             this.appKey = Math.random().toString(36).slice(2, 7)

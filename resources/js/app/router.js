@@ -105,6 +105,8 @@ const routes = [
                     title: 'Polls',
                     toolbar: false,
                     animate: true,
+                    mobileBack: true,
+                    mobileBackFallback: 'polls',
                 },
             },
             {
@@ -124,6 +126,8 @@ const routes = [
                 meta: {
                     toolbar: true,
                     animate: true,
+                    mobileBack: true,
+                    mobileBackFallback: 'users',
                 },
             },
             {
@@ -142,6 +146,8 @@ const routes = [
                 meta: {
                     toolbar: false,
                     animate: true,
+                    mobileBack: true,
+                    mobileBackFallback: 'users',
                 },
                 children: [
                     {
@@ -252,6 +258,8 @@ const routes = [
                 meta: {
                     toolbar: false,
                     animate: true,
+                    mobileBack: true,
+                    mobileBackFallback: 'vacancies',
                 },
             },
             {
@@ -261,6 +269,8 @@ const routes = [
                 meta: {
                     toolbar: true,
                     animate: true,
+                    mobileBack: true,
+                    mobileBackFallback: 'index',
                 },
             },
             {
@@ -270,6 +280,8 @@ const routes = [
                 meta: {
                     toolbar: false,
                     animate: false,
+                    mobileBack: true,
+                    mobileBackFallback: 'index',
                 },
             },
             {
@@ -297,6 +309,8 @@ const routes = [
                 meta: {
                     toolbar: true,
                     animate: true,
+                    mobileBack: true,
+                    mobileBackFallback: 'index',
                 },
             },
         ]

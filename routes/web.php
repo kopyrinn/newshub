@@ -1,10 +1,9 @@
 <?php
 
-use App\Http\Controllers\Api\v2\SystemController;
 use App\Http\Controllers\AdReportController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MobileHomeController;
+use App\Http\Controllers\Api\v2\SystemController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +26,11 @@ Route::get('feed', [SystemController::class, 'feed'])->name('rss.feed');
 // PDF-отчёт по баннеру за конкретный день (доступен только авторизованным)
 Route::get('report/ad-day/{ad}/{date}', [AdReportController::class, 'day'])
     ->middleware('auth')
+    ->where('date', '\d{4}-\d{2}-\d{2}')
     ->name('report.ad.day');
+
+Route::get('report/ad-period/{ad}', [AdReportController::class, 'period'])
+    ->middleware('auth')
+    ->name('report.ad.period');
 
 Auth::routes(['verify' => true]);
