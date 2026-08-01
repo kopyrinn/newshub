@@ -80,7 +80,12 @@
                                 <!--end::Features-->
 
                                 <!--begin::Select-->
-                                <button type="button" class="btn btn-primary" @click="choosePackage(item)">{{ $t('Select') }}</button>
+                                <div v-if="isCurrentPackage(item)" class="fw-semibold text-success mb-3">
+                                    {{ $t('This package is already active') }}
+                                </div>
+                                <button type="button" class="btn btn-primary" @click="choosePackage(item)">
+                                    {{ isCurrentPackage(item) ? $t('Prolong package') : $t('Select') }}
+                                </button>
                                 <!--end::Select-->
                             </div>
                             <!--end::Option-->
@@ -94,6 +99,13 @@
                 <div class="fs-3 fw-bold mb-7 d-flex align-items-center">
                     <button type="button" @click="back" class="btn btn-icon w-30px h-30px bg-light rounded-circle me-4"><i class="ki-duotone ki-black-left fs-2 text-gray-800"></i></button>
                     {{ plan.name }}
+                </div>
+
+                <div v-if="isCurrentPackage(plan)" class="notice d-flex bg-light-success rounded border-success border border-dashed rounded-3 p-6 mb-7">
+                    <div class="fw-semibold fs-5 text-success">
+                        <div>{{ $t('This package is already active') }}</div>
+                        <div class="fs-6 mt-1">{{ $t('The selected period will be added to the current expiration date') }}</div>
+                    </div>
                 </div>
 
                 <div class="form-floating mb-7">
@@ -110,30 +122,30 @@
                     <div class="d-flex flex-stack flex-grow-1 ">
                         <div class=" fw-semibold">
                             <h4 class="text-gray-900 fw-bold">{{ $t('This is a very important notice!') }}</h4>
-                            <div class="fs-6 text-gray-700 ">{{ $t('If you continue, the amount will be debited from your balance and an automatic subscription will be activated.') }}</div> 
+                            <div class="fs-6 text-gray-700 ">{{ $t('If you continue, the amount will be debited from your balance and an automatic subscription will be activated.') }}</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- <div class="d-flex flex-column"> -->
-                    <div class="mb-7 d-flex justify-content-between align-items-center w-100">
-                        <div class="fw-semibold fs-3">
-                            {{ $t('Total') }}
-                        </div>
-                        <div class="text-end">
-                            <span class="mb-2 text-primary fw-bold me-2">₸</span>
-                            <span class="fs-2x fw-bold text-primary">{{ $decimal(plan[`price_${period}`], 0) }}</span>
-
-                            <span class="fs-7 ms-1 fw-semibold opacity-50">/
-                                <span v-if="period === 1">{{ $t('Month') }}</span>
-                                <span v-else-if="period === 3">{{ $t('3 Month') }}</span>
-                                <span v-else-if="period === 6">{{ $t('6 Month') }}</span>
-                                <span v-else-if="period === 12">{{ $t('Annual') }}</span>
-                            </span>
-                        </div>
+                <div class="mb-7 d-flex justify-content-between align-items-center w-100">
+                    <div class="fw-semibold fs-3">
+                        {{ $t('Total') }}
                     </div>
-                    <button type="button" @click="buy" class="btn btn-success w-100">{{ $t('Buy') }}</button>
-                <!-- </div> -->
+                    <div class="text-end">
+                        <span class="mb-2 text-primary fw-bold me-2">₸</span>
+                        <span class="fs-2x fw-bold text-primary">{{ $decimal(plan[`price_${period}`], 0) }}</span>
+
+                        <span class="fs-7 ms-1 fw-semibold opacity-50">/
+                            <span v-if="period === 1">{{ $t('Month') }}</span>
+                            <span v-else-if="period === 3">{{ $t('3 Month') }}</span>
+                            <span v-else-if="period === 6">{{ $t('6 Month') }}</span>
+                            <span v-else-if="period === 12">{{ $t('Annual') }}</span>
+                        </span>
+                    </div>
+                </div>
+                <button type="button" @click="buy" class="btn btn-success w-100" :disabled="isSend">
+                    {{ isCurrentPackage(plan) ? $t('Prolong package') : $t('Buy') }}
+                </button>
             </div>
             <SchemaOrgWebPage :name="$root.meta.title" />
         </div>
@@ -155,6 +167,7 @@ export default defineComponent({
             loading: true,
             items: [],
             period: 1,
+            isSend: false,
         }
     },
     head() {
@@ -183,6 +196,10 @@ export default defineComponent({
             })
         },
         buy() {
+            if (this.isSend) return
+
+            this.isSend = true
+
             this.$store.commit('updateCacheKey')
 
             this.$api(`package/${this.slug}`, true, {
@@ -212,8 +229,10 @@ export default defineComponent({
                 }
             })
             .catch((e) => {
-                this.isSend = false
                 showErrors(e.response)
+            })
+            .finally(() => {
+                this.isSend = false
             })
         },
         choosePackage(item) {
@@ -226,6 +245,14 @@ export default defineComponent({
         back() {
             this.plan = {}
             this.slug = null
+        },
+        isCurrentPackage(item) {
+            return Boolean(
+                item &&
+                this.$root.user &&
+                this.$root.user.is_package_active &&
+                this.$root.user.package_slug === item.slug
+            )
         },
         reset() {
             this.loading = true

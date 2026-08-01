@@ -918,6 +918,8 @@
     "Title, Category, Photo": "Добавить материал",
     "Service packages are available for purchase only for press centers": "Пакеты услуг доступны для покупки только для пресс-центров",
     "Insufficient funds on the balance sheet. Top up the balance in your account and try again.": "Недостаточно средств на счете. Пополните счет своего аккаунта и повторите попытку.",
+    "This package is already active": "Тариф уже действует у вас",
+    "The selected period will be added to the current expiration date": "Выбранный период добавится к текущей дате окончания",
     "Your package has been successfully activated": "Ваш пакет успешно активирован",
     "Add Translate": "Добавить перевод материала",
     "Post Content": "Содержимое материала",

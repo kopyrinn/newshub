@@ -308,48 +308,57 @@ class SystemController extends Controller
                 ]);
             }
 
-            $price = $package->{"price_{$request->period}"};
+            return DB::transaction(function () use ($user, $package, $slug, $request) {
+                $user = User::whereKey($user->id)->lockForUpdate()->firstOrFail();
+                $period = (int) $request->period;
+                $price = $package->{"price_{$period}"};
 
-            if ($user->balance < $price) {
+                if ($user->balance < $price) {
+                    return response()->json([
+                        'ok' => false,
+                        'message' => __("Insufficient funds on the balance sheet. Top up the balance in your account and try again."),
+                    ]);
+                }
+
+                $isExtension = $user->packageActive() && (int) $user->package_id === (int) $package->id;
+                $limits = match ($slug) {
+                    'standart' => [15, 0, 0, 0, 0, 0],
+                    'standart-plus' => [25, 15, 10, 2, 0, 0],
+                    'standart-maximum' => [50, 25, 25, 4, 4, 2],
+                    default => [0, 0, 0, 0, 0, 0],
+                };
+                $fields = [
+                    'package_press',
+                    'package_events',
+                    'package_vacancies',
+                    'package_help',
+                    'package_translate',
+                    'package_pr',
+                ];
+
+                $user->package_id = $package->id;
+
+                foreach ($fields as $index => $field) {
+                    $remaining = $isExtension ? (int) $user->{$field} : 0;
+                    $user->{$field} = $remaining + ($limits[$index] * $period);
+                }
+
+                $expiresFrom = $isExtension
+                    ? $user->package_expired_at->copy()
+                    : Carbon::now();
+
+                $user->package_expired_at = $expiresFrom->addMonthsNoOverflow($period);
+                $reason = $isExtension ? 'Продление' : 'Оплата';
+                $user->subBalance($price, "{$reason} тарифа {$package->name} на {$period} мес.");
+                $user->update();
+
                 return response()->json([
-                    'ok' => false,
-                    'message' => __("Insufficient funds on the balance sheet. Top up the balance in your account and try again."),
+                    'ok' => true,
+                    'message' => __($isExtension
+                        ? "Your package has been successfully extended"
+                        : "Your package has been successfully activated"),
                 ]);
-            }
-
-            $user->package_id = $package->id;
-
-            if ($slug == 'standart') {
-                $user->package_press = 15 * $request->period;
-                $user->package_events = 0;
-                $user->package_vacancies = 0;
-                $user->package_help = 0;
-                $user->package_translate = 0;
-                $user->package_pr = 0;
-            } else if ($slug == 'standart-plus') {
-                $user->package_press = 25 * $request->period;
-                $user->package_events = 15 * $request->period;
-                $user->package_vacancies = 10 * $request->period;
-                $user->package_help = 2 * $request->period;
-                $user->package_translate = 0;
-                $user->package_pr = 0;
-            } else if ($slug == 'standart-maximum') {
-                $user->package_press = 50 * $request->period;
-                $user->package_events = 25 * $request->period;
-                $user->package_vacancies = 25 * $request->period;
-                $user->package_help = 4 * $request->period;
-                $user->package_translate = 4 * $request->period;
-                $user->package_pr = 2 * $request->period;
-            }
-
-            $user->package_expired_at = date('Y-m-d H:i:s', strtotime("+{$request->period} month"));
-            $user->subBalance($price, "Оплата тарифа {$package->name} на {$request->period} мес.");
-            $user->update();
-
-            return response()->json([
-                'ok' => true,
-                'message' => __("Your package has been successfully activated")
-            ]);
+            });
             // return redirect('profile')->with('success', );
         }
 
