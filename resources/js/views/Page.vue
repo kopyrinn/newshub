@@ -56,6 +56,7 @@
 <script>
 import { defineComponent } from "vue";
 import VDate from "@/components/VDate.vue"
+import { sanitizePageContent } from "@/app/pageContent.js"
 
 export default defineComponent({
     name: 'Page',
@@ -94,7 +95,7 @@ export default defineComponent({
             if (!data.ok) return
 
             this.title = data.page.title
-            this.content = data.page.page_content
+            this.content = sanitizePageContent(this.$route.params.slug, data.page.page_content)
             this.updated_at = data.page.updated_at
 
             this.$store.commit('setMeta', {
@@ -128,7 +129,7 @@ export default defineComponent({
                 if (!data.ok) return
 
                 this.title = data.page.title
-                this.content = data.page.page_content
+                this.content = sanitizePageContent(this.$route.params.slug, data.page.page_content)
                 this.updated_at = data.page.updated_at
 
                 this.$store.commit('setMeta', {
