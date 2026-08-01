@@ -133,6 +133,9 @@ php artisan migrate --path=database/migrations/2026_07_31_130000_reapply_banner_
 log "Removing the obsolete advertising microsite link."
 php artisan migrate --path=database/migrations/2026_08_01_120000_remove_obsolete_advertising_link_from_ads_page.php --force
 
+log "Verifying and force-removing any remaining obsolete advertising link markup."
+php artisan migrate --path=database/migrations/2026_08_01_120100_force_remove_obsolete_advertising_link.php --force
+
 log "Starting managed application processes."
 "$SUPERVISORCTL" -c "$SUPERVISOR_CONFIG" start "${SERVICES[@]}"
 services_stopped=0
