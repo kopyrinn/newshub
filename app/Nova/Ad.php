@@ -87,7 +87,8 @@ class Ad extends Resource
                 ->sortable()
             ,
             Image::make(__('Image'), 'image')
-                ->rules('required')
+                ->creationRules('required')
+                ->updateRules('nullable')
                 ->path('ads')
             ,
             DateTime::make(__('Expired At'), 'expired_at')
