@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Permission;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Panel;
 use Laravel\Nova\NovaApplicationServiceProvider;
@@ -54,8 +55,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             Nova::remoteScript('https://cdn.jsdelivr.net/npm/tinymce@6.8.6/tinymce.min.js');
         }
 
-        Nova::script('news-hub-post-preview-v1', resource_path('js/nova-post-preview.js'));
-        Nova::style('news-hub-post-preview-v1', resource_path('css/nova-post-preview.css'));
+        Nova::serving(function (ServingNova $event) {
+            Nova::script('news-hub-post-preview-v1', resource_path('js/nova-post-preview.js'));
+            Nova::style('news-hub-post-preview-v1', resource_path('css/nova-post-preview.css'));
+        });
     }
 
     /**
