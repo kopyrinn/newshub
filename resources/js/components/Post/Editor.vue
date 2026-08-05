@@ -124,6 +124,32 @@
                     <label for="post-schedule" class="form-label">{{ $t('Scheduled Post') }}</label>
                 </div>
 
+                <div v-if="canManageNewsHubSignature" class="border border-dashed border-primary rounded-3 bg-light-primary p-4 mb-7">
+                    <div class="d-flex align-items-start justify-content-between gap-3 mb-2">
+                        <div class="form-check form-switch form-check-custom form-check-solid">
+                            <input class="form-check-input" type="checkbox" v-model="post.append_newshub_signature" id="post-newshub-signature"/>
+                            <label class="form-check-label text-gray-900 fw-bold" for="post-newshub-signature">
+                                {{ $t('Add NewsHub signature') }}
+                            </label>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-light-primary text-nowrap py-2 px-3" @click="signatureEditorOpen = !signatureEditorOpen">
+                            <i class="ki-duotone ki-pencil fs-4"><i class="path1"></i><i class="path2"></i></i>
+                            {{ $t('Edit signature') }}
+                        </button>
+                    </div>
+                    <div class="text-gray-700 fs-8">{{ $t('Adds links to Telegram, Instagram, Android and iOS at the end of the publication') }}</div>
+
+                    <div v-if="signatureEditorOpen" class="mt-4 pt-4 border-top border-primary border-opacity-25">
+                        <label for="post-newshub-signature-text" class="form-label text-gray-900 fw-bold">{{ $t('Signature template') }}</label>
+                        <textarea id="post-newshub-signature-text" class="form-control bg-body mb-2" rows="5" maxlength="1000" v-model="post.newshub_signature"></textarea>
+                        <div class="text-gray-600 fs-9 mb-3">{{ $t('Keep link placeholders') }}: {telegram}, {instagram}, {android}, {ios}</div>
+                        <div class="d-flex justify-content-between align-items-center gap-3">
+                            <button type="button" class="btn btn-sm btn-light" @click="resetNewsHubSignature">{{ $t('Reset signature') }}</button>
+                            <div class="text-gray-800 fs-8 text-end" v-html="signaturePreviewHtml"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="mb-7" data-kt-buttons="true">
                     <label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex flex-stack text-start px-5 py-3 mb-3">
                         <div class="d-flex align-items-center me-2">
@@ -257,6 +283,10 @@
                 <!-- <button type="button" class="btn btn-sm rounded-2 btn-light-danger py-1 px-2 fs-8" @click="">{{ $t('Clear draft') }}</button> -->
             </div>
             <div>
+                <button :disabled="isSend" type="button" class="btn rounded-2 btn-light-primary me-2" @click="openPreview">
+                    <i class="ki-duotone ki-eye fs-2"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
+                    {{ $t('Preview') }}
+                </button>
                 <button :disabled="isSend" type="button" class="btn rounded-2 btn-light me-2" @click="$root.closeModal('post-editor')">{{ $t('Close') }}</button>
                 <button :disabled="isSend || !$root.user.is_package_active" type="button" class="btn rounded-2 btn-light-success" @click="save">{{ post.uuid? $t('Update'): $t('Publish') }}</button>
             </div>
@@ -273,6 +303,43 @@
             </div>
         </div> -->
     </Modal>
+
+    <Teleport to="body">
+        <div v-if="previewOpen" class="post-preview-backdrop" @click.self="previewOpen = false">
+            <div class="post-preview-dialog bg-body shadow">
+                <div class="post-preview-header d-flex align-items-center justify-content-between gap-3 px-5 px-md-8 py-4 border-bottom">
+                    <div>
+                        <div class="text-primary text-uppercase fs-8 fw-bold mb-1">{{ $t('Preview') }}</div>
+                        <div class="text-gray-600 fs-7">{{ $t('The post has not been published yet') }}</div>
+                    </div>
+                    <button type="button" class="btn btn-icon btn-sm btn-active-light-primary" @click="previewOpen = false" :aria-label="$t('Close')">
+                        <i class="ki-duotone ki-cross fs-1"><i class="path1"></i><i class="path2"></i></i>
+                    </button>
+                </div>
+
+                <div class="post-preview-scroll">
+                    <article class="post-preview-content mx-auto px-5 px-md-8 py-7 py-md-10">
+                        <div class="d-flex align-items-center flex-wrap gap-2 text-gray-600 fs-7 mb-4">
+                            <span class="badge badge-light-primary">{{ previewCategory }}</span>
+                            <span>{{ $root.user?.name }}</span>
+                            <span>•</span>
+                            <span>{{ $dayjs(post.created_at || new Date()).format('DD MMMM YYYY, HH:mm') }}</span>
+                        </div>
+
+                        <h1 class="text-gray-900 fw-bold mb-5">{{ post.title?.[locale] || $t('Title') }}</h1>
+                        <div v-if="post.summary?.[locale]" class="text-gray-700 fs-4 fw-medium mb-6">{{ post.summary[locale] }}</div>
+
+                        <div v-if="previewImage" class="rounded-3 overflow-hidden bg-light mb-2">
+                            <img :src="previewImage" :alt="post.title?.[locale] || ''" class="w-100 mh-500px object-fit-contain"/>
+                        </div>
+                        <div v-if="post.image_caption" class="text-gray-600 fs-7 mb-7">{{ post.image_caption }}</div>
+
+                        <div class="article text-gray-900 fs-5" v-html="previewContent"></div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </Teleport>
 </template>
 <script>
 import { defineComponent } from "vue"
@@ -295,6 +362,11 @@ import VImageUpload from '@/components/VImageUpload.vue'
 import Modal from '@/components/Modal.vue'
 import Popper from "vue3-popper"
 import showErrors from "@/helpers/notify"
+import {
+    DEFAULT_NEWSHUB_SIGNATURE,
+    applyNewsHubSignature,
+    newsHubSignatureHtml,
+} from "@/helpers/newsHubSignature"
 import { ElNotification} from 'element-plus'
 
 export default defineComponent({
@@ -326,12 +398,16 @@ export default defineComponent({
             },
             files: [],
             category_id: '',
+            append_newshub_signature: false,
+            newshub_signature: DEFAULT_NEWSHUB_SIGNATURE,
         }
 
         return {
             editor: null,
             photoEditorUploading: false,
             editorUploadError: false,
+            previewOpen: false,
+            signatureEditorOpen: false,
             isSend: false,
             saveError: false,
             loading: true,
@@ -344,6 +420,30 @@ export default defineComponent({
     computed: {
         ready() {
             return this.inited && !this.loading
+        },
+        canManageNewsHubSignature() {
+            return Boolean(this.$root.user?.is_admin || this.$root.user?.is_moderator)
+        },
+        signaturePreviewHtml() {
+            return newsHubSignatureHtml(this.post.newshub_signature)
+        },
+        previewContent() {
+            return applyNewsHubSignature(
+                this.post.content?.[this.locale] || '',
+                this.canManageNewsHubSignature && Boolean(this.post.append_newshub_signature),
+                this.post.newshub_signature,
+            )
+        },
+        previewImage() {
+            const image = this.post.image
+            if (!image) return ''
+            if (/^(https?:|data:|blob:)/.test(image)) return image
+            if (parseInt(this.post.category_id) === 8) return this.$eventImage(image)
+
+            return this.$storage(image)
+        },
+        previewCategory() {
+            return this.$root.user?.allowed_categories?.[this.post.category_id] || this.$t('Category')
         }
     },
     created() {
@@ -413,6 +513,16 @@ export default defineComponent({
         this.editor.destroy()
     },
     methods: {
+        openPreview() {
+            if (this.editor) {
+                this.post.content[this.locale] = this.editor.getHTML()
+            }
+
+            this.previewOpen = true
+        },
+        resetNewsHubSignature() {
+            this.post.newshub_signature = DEFAULT_NEWSHUB_SIGNATURE
+        },
         fetchData() {
             this.loading = true
 
@@ -435,6 +545,7 @@ export default defineComponent({
                     post.event_date = this.$dayjs(post.event_date).format('YYYY-MM-DDTHH:mm')
                 }
                 this.post = post
+                this.post.newshub_signature = this.post.newshub_signature || DEFAULT_NEWSHUB_SIGNATURE
                 this.editor.commands.setContent(this.post.content[this.locale])
             })
         },
@@ -521,3 +632,56 @@ export default defineComponent({
     },
 });
 </script>
+
+<style scoped>
+.post-preview-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 2100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background: rgba(15, 23, 42, .72);
+    backdrop-filter: blur(4px);
+}
+
+.post-preview-dialog {
+    display: flex;
+    flex-direction: column;
+    width: min(1100px, 100%);
+    max-height: calc(100vh - 24px);
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+.post-preview-header {
+    flex: 0 0 auto;
+}
+
+.post-preview-scroll {
+    overflow-y: auto;
+}
+
+.post-preview-content {
+    width: min(820px, 100%);
+}
+
+.post-preview-content h1 {
+    font-size: clamp(1.8rem, 3vw, 3rem);
+    line-height: 1.15;
+}
+
+@media (max-width: 575.98px) {
+    .post-preview-backdrop {
+        padding: 0;
+    }
+
+    .post-preview-dialog {
+        width: 100%;
+        max-height: 100vh;
+        min-height: 100vh;
+        border-radius: 0;
+    }
+}
+</style>

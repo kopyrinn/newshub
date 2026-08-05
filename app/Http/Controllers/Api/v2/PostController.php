@@ -10,6 +10,7 @@ use App\Models\Post;
 use App\Models\Widget;
 use App\Notifications\ChannelNotification;
 use App\Notifications\NewPost;
+use App\Support\NewsHubEditorialSignature;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -174,6 +175,10 @@ class PostController extends Controller
         if ($category) {
             $data['category_id'] = $category->id;
         }
+
+        $data['append_newshub_signature'] = NewsHubEditorialSignature::containsTranslations(
+            $post->getTranslations('content'),
+        );
 
         return response()->json([
             'ok' => true,
@@ -402,6 +407,7 @@ class PostController extends Controller
             'image' => 'required',
             'image_caption' => 'required',
             'content' => 'required',
+            'newshub_signature' => 'nullable|string|max:1000',
         ]);
 
         $user = auth('sanctum')->user();
@@ -456,8 +462,25 @@ class PostController extends Controller
             $post->setTranslation('summary', $locale, $value);
         }
 
+        $canManageNewsHubSignature = $user->isAdmin() || $user->isModerator();
+        $appendNewsHubSignature = $canManageNewsHubSignature
+            && $request->boolean('append_newshub_signature');
+        $post->newshub_signature = $appendNewsHubSignature
+            ? NewsHubEditorialSignature::normalizeTemplate($request->input('newshub_signature'))
+            : null;
+
         foreach ($request->content as $locale => $value) {
-            $post->setTranslation('content', $locale, clean($value));
+            $content = clean($value);
+
+            if ($canManageNewsHubSignature) {
+                $content = NewsHubEditorialSignature::apply(
+                    $content,
+                    $appendNewsHubSignature,
+                    $post->newshub_signature,
+                );
+            }
+
+            $post->setTranslation('content', $locale, $content);
         }
 
         if ($user->isModerator() || $user->isAdmin() || ($user->packageActive() && in_array($user->package->slug, ['standart-plus', 'standart-maximum']))) {
@@ -586,6 +609,7 @@ class PostController extends Controller
             'title' => 'required',
             'image' => 'required',
             'content' => 'required',
+            'newshub_signature' => 'nullable|string|max:1000',
         ]);
 
         $user = auth('sanctum')->user();
@@ -639,8 +663,25 @@ class PostController extends Controller
             $post->setTranslation('summary', $locale, $value);
         }
 
+        $canManageNewsHubSignature = $user->isAdmin() || $user->isModerator();
+        $appendNewsHubSignature = $canManageNewsHubSignature
+            && $request->boolean('append_newshub_signature');
+        $post->newshub_signature = $appendNewsHubSignature
+            ? NewsHubEditorialSignature::normalizeTemplate($request->input('newshub_signature'))
+            : null;
+
         foreach ($request->content as $locale => $value) {
-            $post->setTranslation('content', $locale, clean($value));
+            $content = clean($value);
+
+            if ($canManageNewsHubSignature) {
+                $content = NewsHubEditorialSignature::apply(
+                    $content,
+                    $appendNewsHubSignature,
+                    $post->newshub_signature,
+                );
+            }
+
+            $post->setTranslation('content', $locale, $content);
         }
 
         // if ($request->get('files')) {

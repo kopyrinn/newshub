@@ -65,7 +65,11 @@
                                 <Popper placement="bottom-end" class="d-block">
                                     <button type="button" class="btn btn-icon btn-custom btn-active-light position-relative w-30px h-30px w-md-40px h-md-40px" @click="getNotifications" :class="{'btn-active-light-danger btn-icon-danger': user.notifications_count}" :aria-label="$t('Notifications')">
                                         <i class="ki-duotone ki-notification-on fs-2 fs-lg-1" :class="{'fa-shake': user.notifications_count}"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i></i>
-                                        <span v-if="user.notifications_count" class="notification-count-badge badge badge-circle badge-danger">{{ notificationCountLabel }}</span>
+                                        <span
+                                            v-if="user.notifications_count"
+                                            class="notification-count-badge badge badge-danger"
+                                            :class="{'notification-count-badge--wide': Number(user.notifications_count) > 9}"
+                                        >{{ notificationCountLabel }}</span>
                                     </button>
 
                                     <template #content="{ close }">
@@ -1240,15 +1244,28 @@ export default defineComponent({
 <style scoped>
 .notification-count-badge {
     position: absolute;
-    top: -4px;
-    right: -7px;
-    min-width: 19px;
-    height: 19px;
-    padding: 0 5px;
+    top: -3px;
+    right: -8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
     border: 2px solid var(--bs-body-bg);
-    font-size: 10px;
-    line-height: 15px;
+    border-radius: 999px;
+    font-size: 9px;
+    line-height: 1;
+    letter-spacing: -.2px;
+    white-space: nowrap;
     pointer-events: none;
+}
+
+.notification-count-badge--wide {
+    min-width: 21px;
+    padding-right: 3px;
+    padding-left: 3px;
+    font-size: 8px;
 }
 
 .notification-dropdown-item {

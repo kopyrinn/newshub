@@ -266,6 +266,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->is_package_active = $this->packageActive();
         $this->is_journalist = $this->isUser();
         $this->is_admin = $this->isAdmin();
+        $this->is_moderator = $this->isModerator();
         $this->notifications_count = $this->unreadNotifications()
             ->where('created_at', '<=', Carbon::now())
             ->count();

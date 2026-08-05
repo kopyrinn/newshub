@@ -25,5 +25,13 @@
     "Posted by": "Posted by",
     "Contacts": "Contacts",
     "Not specified": "Not specified",
-    "Event location": "Event location"
+    "Event location": "Event location",
+    "Add NewsHub signature": "Add NewsHub signature",
+    "Adds links to Telegram, Instagram, Android and iOS at the end of the publication": "Adds links to Telegram, Instagram, Android and iOS at the end of the publication",
+    "Preview": "Preview",
+    "Edit signature": "Edit signature",
+    "Signature template": "Signature text",
+    "Keep link placeholders": "Keep link placeholders",
+    "Reset signature": "Reset signature",
+    "The post has not been published yet": "The post has not been published yet"
 }

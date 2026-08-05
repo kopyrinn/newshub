@@ -931,5 +931,12 @@
     "article_type_paid_sponsor":"Демеуші төледі",
     "article_type_rights_pr":"PR құқықтарында",
     "Archive": "Мұрағат",
-    "News Archive": "Жаңалықтар мұрағаты"
+    "News Archive": "Жаңалықтар мұрағаты",
+    "Add NewsHub signature": "NewsHub фирмалық қолтаңбасын қосу",
+    "Adds links to Telegram, Instagram, Android and iOS at the end of the publication": "Жарияланым соңына Telegram, Instagram, Android және iOS сілтемелерін қосады",
+    "Edit signature": "Қолтаңбаны өңдеу",
+    "Signature template": "Қолтаңба мәтіні",
+    "Keep link placeholders": "Сілтеме маркерлерін сақтаңыз",
+    "Reset signature": "Қолтаңбаны қалпына келтіру",
+    "The post has not been published yet": "Материал әлі жарияланған жоқ"
 }
