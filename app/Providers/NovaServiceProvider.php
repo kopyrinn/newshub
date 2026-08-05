@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Permission;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Panel;
 use Laravel\Nova\NovaApplicationServiceProvider;
@@ -49,9 +50,12 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         ]);
 
         parent::boot();
-        Nova::style('custom', public_path('assets/css/custom_nova.css'));
-        Nova::script('news-hub-post-tools', public_path('assets/nova-post-tools/field.js'));
-        Nova::style('news-hub-post-tools', public_path('assets/nova-post-tools/field.css'));
+
+        Nova::serving(function (ServingNova $event) {
+            Nova::style('custom', public_path('assets/css/custom_nova.css'));
+            Nova::script('news-hub-post-tools-v2', public_path('assets/nova-post-tools/field.js'));
+            Nova::style('news-hub-post-tools-v2', public_path('assets/nova-post-tools/field.css'));
+        });
     }
 
     /**
