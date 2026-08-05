@@ -49,6 +49,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         ]);
 
         parent::boot();
+
+        if (App::environment('local')) {
+            Nova::remoteScript('https://cdn.jsdelivr.net/npm/tinymce@6.8.6/tinymce.min.js');
+        }
     }
 
     /**
