@@ -468,7 +468,11 @@ export default defineComponent({
             return this.isEvent(item) && this.$isDefaultEventImage(item?.image)
         },
         displayImage(item, path) {
-            return this.isEvent(item)? this.$eventImage(path): this.$storage(path)
+            if (!this.isEvent(item)) return this.$storage(path)
+
+            return this.isDefaultEventCover(item)
+                ? this.$eventImage(item.image)
+                : this.$eventImage(path)
         },
         fetchData() {
             // if (this.post.slug && this.post.slug === this.slug) {

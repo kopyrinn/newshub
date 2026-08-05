@@ -12,9 +12,9 @@
 
             <app-link v-if="item.image" :to="{name: 'post', params: {slug: item.slug}}" class="event-cover d-block position-relative overflow-hidden rounded-3" :class="{'event-cover--default': $isDefaultEventImage(item.image)}">
                 <picture class="event-cover__picture">
-                    <source media="(max-width: 500px)" :srcset="$eventImage(item.image_sm)" />
-                    <source media="(min-width: 501px)" :srcset="$eventImage(item.image_md)" />
-                    <img :src="$eventImage(item.image_md)" :alt="item.title" class="event-cover__image object-fit-contain z-index-1 position-relative mh-500px min-h-250px w-100" loading="lazy"/>
+                    <source media="(max-width: 500px)" :srcset="eventCoverImage(item.image_sm)" />
+                    <source media="(min-width: 501px)" :srcset="eventCoverImage(item.image_md)" />
+                    <img :src="eventCoverImage(item.image_md)" :alt="item.title" class="event-cover__image object-fit-contain z-index-1 position-relative mh-500px min-h-250px w-100" loading="lazy"/>
                 </picture>
                 <img v-if="!$isDefaultEventImage(item.image)" :src="$storage(item.image_blur)" class="blurry" loading="lazy"/>
             </app-link>
@@ -122,7 +122,11 @@ export default defineComponent({
         }
     },
     methods: {
-        
+        eventCoverImage(path) {
+            return this.$isDefaultEventImage(this.item.image)
+                ? this.$eventImage(this.item.image)
+                : this.$eventImage(path)
+        },
     }
 })
 </script>
