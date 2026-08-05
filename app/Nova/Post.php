@@ -180,10 +180,6 @@ class Post extends Resource
                             ),
                         );
                     }
-                })
-                ->canSee(function ($request) {
-                    return $request->user()
-                        && ($request->user()->isAdmin() || $request->user()->isModerator());
                 }),
             BooleanGroup::make(__('Categories'), 'selected_categories')
                 ->options(Category::all()->pluck('name', 'id')->toArray())
