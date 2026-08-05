@@ -124,7 +124,7 @@
                     <label for="post-schedule" class="form-label">{{ $t('Scheduled Post') }}</label>
                 </div>
 
-                <div v-if="canManageNewsHubSignature" class="border border-dashed border-primary rounded-3 bg-light-primary p-4 mb-7">
+                <div class="border border-dashed border-primary rounded-3 bg-light-primary p-4 mb-7">
                     <div class="d-flex align-items-start justify-content-between gap-3 mb-2">
                         <div class="form-check form-switch form-check-custom form-check-solid">
                             <input class="form-check-input" type="checkbox" v-model="post.append_newshub_signature" id="post-newshub-signature"/>
@@ -132,14 +132,14 @@
                                 {{ $t('Add NewsHub signature') }}
                             </label>
                         </div>
-                        <button type="button" class="btn btn-sm btn-light-primary text-nowrap py-2 px-3" @click="signatureEditorOpen = !signatureEditorOpen">
+                        <button v-if="canEditNewsHubSignature" type="button" class="btn btn-sm btn-light-primary text-nowrap py-2 px-3" @click="signatureEditorOpen = !signatureEditorOpen">
                             <i class="ki-duotone ki-pencil fs-4"><i class="path1"></i><i class="path2"></i></i>
                             {{ $t('Edit signature') }}
                         </button>
                     </div>
                     <div class="text-gray-700 fs-8">{{ $t('Adds links to Telegram, Instagram, Android and iOS at the end of the publication') }}</div>
 
-                    <div v-if="signatureEditorOpen" class="mt-4 pt-4 border-top border-primary border-opacity-25">
+                    <div v-if="canEditNewsHubSignature && signatureEditorOpen" class="mt-4 pt-4 border-top border-primary border-opacity-25">
                         <label for="post-newshub-signature-text" class="form-label text-gray-900 fw-bold">{{ $t('Signature template') }}</label>
                         <textarea id="post-newshub-signature-text" class="form-control bg-body mb-2" rows="5" maxlength="1000" v-model="post.newshub_signature"></textarea>
                         <div class="text-gray-600 fs-9 mb-3">{{ $t('Keep link placeholders') }}: {telegram}, {instagram}, {android}, {ios}</div>
@@ -421,7 +421,7 @@ export default defineComponent({
         ready() {
             return this.inited && !this.loading
         },
-        canManageNewsHubSignature() {
+        canEditNewsHubSignature() {
             return Boolean(this.$root.user?.is_admin || this.$root.user?.is_moderator)
         },
         signaturePreviewHtml() {
@@ -430,7 +430,7 @@ export default defineComponent({
         previewContent() {
             return applyNewsHubSignature(
                 this.post.content?.[this.locale] || '',
-                this.canManageNewsHubSignature && Boolean(this.post.append_newshub_signature),
+                Boolean(this.post.append_newshub_signature),
                 this.post.newshub_signature,
             )
         },

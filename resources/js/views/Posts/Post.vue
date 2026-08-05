@@ -9,9 +9,9 @@
                         @on-intersection-element="fetchNext(post.next)"
                     ></intersection-observer>
 
-                    <div class="card-body p-5 p-lg-10 pb-lg-0">
+                    <div class="card-body p-5 p-lg-10 pb-lg-5">
                         <ViewSkeleton v-if="loading"/>
-                        <div v-else class="mb-17">
+                        <div v-else class="mb-0">
                             <div class="mb-8">
                                 <h1 class="text-dark fs-1 fw-bold">
                                     {{ post.title }} <span v-if="post.article_type" class="badge badge-primary align-middle">{{ $t(`article_type_${post.article_type}`) }}</span>
@@ -145,9 +145,9 @@
                         @on-intersection-element="fetchNext(item.next)"
                     ></intersection-observer>
 
-                    <div class="card-body p-5 p-lg-10 pb-lg-0">
+                    <div class="card-body p-5 p-lg-10 pb-lg-5">
                         <ViewSkeleton v-if="loading"/>
-                        <div v-else class="mb-17">
+                        <div v-else class="mb-0">
                             <div class="mb-8">
                                 <h1 class="text-dark fs-1 fw-bold">
                                     {{ item.title }} <span v-if="item.article_type" class="badge badge-primary align-middle">{{ $t(`article_type_${item.article_type}`) }}</span>

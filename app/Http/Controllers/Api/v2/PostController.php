@@ -463,22 +463,21 @@ class PostController extends Controller
         }
 
         $canManageNewsHubSignature = $user->isAdmin() || $user->isModerator();
-        $appendNewsHubSignature = $canManageNewsHubSignature
-            && $request->boolean('append_newshub_signature');
+        $appendNewsHubSignature = $request->boolean('append_newshub_signature');
+        $newsHubSignature = $canManageNewsHubSignature
+            ? $request->input('newshub_signature')
+            : NewsHubEditorialSignature::DEFAULT_TEMPLATE;
         $post->newshub_signature = $appendNewsHubSignature
-            ? NewsHubEditorialSignature::normalizeTemplate($request->input('newshub_signature'))
+            ? NewsHubEditorialSignature::normalizeTemplate($newsHubSignature)
             : null;
 
         foreach ($request->content as $locale => $value) {
             $content = clean($value);
-
-            if ($canManageNewsHubSignature) {
-                $content = NewsHubEditorialSignature::apply(
-                    $content,
-                    $appendNewsHubSignature,
-                    $post->newshub_signature,
-                );
-            }
+            $content = NewsHubEditorialSignature::apply(
+                $content,
+                $appendNewsHubSignature,
+                $post->newshub_signature,
+            );
 
             $post->setTranslation('content', $locale, $content);
         }
@@ -664,22 +663,21 @@ class PostController extends Controller
         }
 
         $canManageNewsHubSignature = $user->isAdmin() || $user->isModerator();
-        $appendNewsHubSignature = $canManageNewsHubSignature
-            && $request->boolean('append_newshub_signature');
+        $appendNewsHubSignature = $request->boolean('append_newshub_signature');
+        $newsHubSignature = $canManageNewsHubSignature
+            ? $request->input('newshub_signature')
+            : NewsHubEditorialSignature::DEFAULT_TEMPLATE;
         $post->newshub_signature = $appendNewsHubSignature
-            ? NewsHubEditorialSignature::normalizeTemplate($request->input('newshub_signature'))
+            ? NewsHubEditorialSignature::normalizeTemplate($newsHubSignature)
             : null;
 
         foreach ($request->content as $locale => $value) {
             $content = clean($value);
-
-            if ($canManageNewsHubSignature) {
-                $content = NewsHubEditorialSignature::apply(
-                    $content,
-                    $appendNewsHubSignature,
-                    $post->newshub_signature,
-                );
-            }
+            $content = NewsHubEditorialSignature::apply(
+                $content,
+                $appendNewsHubSignature,
+                $post->newshub_signature,
+            );
 
             $post->setTranslation('content', $locale, $content);
         }
