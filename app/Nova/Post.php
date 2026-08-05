@@ -4,7 +4,6 @@ namespace App\Nova;
 
 use App\Models\Category;
 use App\Models\Rubric;
-use App\Nova\Fields\NewsHubPostTools;
 use App\Support\NewsHubEditorialSignature;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -154,19 +153,25 @@ class Post extends Resource
                 //     ])
                 //     ->headingLevels([2, 3, 4]),
             ]),
-            NewsHubPostTools::make('Подпись NewsHub и предпросмотр', 'newshub_signature')
+            Textarea::make('Текст подписи NewsHub', 'newshub_signature')
                 ->onlyOnForms()
+                ->alwaysShow()
                 ->resolveUsing(function ($value) {
                     return $value ?: NewsHubEditorialSignature::DEFAULT_TEMPLATE;
                 })
-                ->enabled(NewsHubEditorialSignature::containsTranslations(
-                    $this->resource->getTranslations('content'),
-                ))
-                ->defaultTemplate(NewsHubEditorialSignature::DEFAULT_TEMPLATE)
+                ->help('Для кликабельных ссылок используйте маркеры {telegram}, {instagram}, {android} и {ios}.'),
+            Boolean::make('Добавить фирменную подпись NewsHub', 'append_newshub_signature')
+                ->onlyOnForms()
+                ->default(false)
+                ->resolveUsing(function ($value, $model) {
+                    return NewsHubEditorialSignature::containsTranslations(
+                        $model->getTranslations('content'),
+                    );
+                })
                 ->fillUsing(function (Request $request, $model, $attribute, $requestAttribute) {
-                    $enabled = $request->boolean('append_newshub_signature');
+                    $enabled = $request->boolean($requestAttribute);
                     $model->newshub_signature = $enabled
-                        ? NewsHubEditorialSignature::normalizeTemplate($request->input($requestAttribute))
+                        ? NewsHubEditorialSignature::normalizeTemplate($model->newshub_signature)
                         : null;
 
                     foreach ($model->getTranslations('content') as $locale => $content) {
@@ -180,7 +185,8 @@ class Post extends Resource
                             ),
                         );
                     }
-                }),
+                })
+                ->help('Добавляет в конец материала ссылки на Telegram, Instagram, Android и iOS. Повторно подпись не дублируется.'),
             BooleanGroup::make(__('Categories'), 'selected_categories')
                 ->options(Category::all()->pluck('name', 'id')->toArray())
                 // ->columns(4)

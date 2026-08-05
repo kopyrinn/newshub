@@ -3,11 +3,7 @@
 return [
     'cloudChannel' => '6', // 5 or 6
 
-    /**
-     * TinyMCE is served locally by the NewsHub Nova bundle, so a Tiny Cloud
-     * API key is not required. The option remains for package compatibility.
-     */
-    'apiKey' => '',
+    'apiKey' => env('TINYMCE_API_KEY', ''),
 
     /**
      * The default skin to use.
