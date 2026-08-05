@@ -19,7 +19,7 @@ class CategoryController extends Controller
         ]);
 
         $query = Post::select(
-                'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.image_md', 'posts.image_sm', 'posts.image_blur', 'posts.pageviews', 'posts.summary', 'posts.created_at', 'posts.event_date', 'posts.article_type', 'users.name', 'users.avatar', 'users.avatar_sm',
+                'posts.id', 'posts.title', 'posts.slug', 'posts.user_id', 'posts.image', 'posts.image_md', 'posts.image_sm', 'posts.image_blur', 'posts.pageviews', 'posts.summary', 'posts.created_at', 'posts.event_date', 'posts.place', 'posts.article_type', 'users.name', 'users.avatar', 'users.avatar_sm', 'users.phone', 'users.email',
             )
             // ->join('category_post', 'category_post.post_id', 'posts.id')
             ->join('users', 'users.id', 'posts.user_id')

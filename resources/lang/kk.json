@@ -870,5 +870,7 @@
     "Role-desc": "«БАСПАСӨЗ ОРТАЛЫҒЫНА» ТЕК БАСПАСӨЗ ҚЫЗМЕТТЕРІ ТІРКЕЛЕ АЛА АЛАДЫ!",
     "Subscribe to the Press-center": "Баспасөз қызметіне жазылыңыз",
     "Account": "Қауіпсіздік",
-    "Your package has been successfully extended": "Тарифіңіз сәтті ұзартылды"
+    "Your package has been successfully extended": "Тарифіңіз сәтті ұзартылды",
+    "You cannot downgrade an active package": "Төмен тарифті ағымдағы тариф аяқталғаннан кейін таңдауға болады",
+    "Your package has been successfully upgraded": "Тариф сәтті жақсартылды, таңдалған кезең қосылды"
 }

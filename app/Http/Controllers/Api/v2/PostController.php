@@ -100,7 +100,7 @@ class PostController extends Controller
 
     public function post(Request $request, $slug)
     {
-        $query = Post::select('posts.*', 'users.avatar', 'users.avatar_sm', 'users.name', 'users.description')
+        $query = Post::select('posts.*', 'users.avatar', 'users.avatar_sm', 'users.name', 'users.description', 'users.phone', 'users.email')
             ->join('users', 'users.id', 'posts.user_id')
             ->where('posts.slug', $slug);
 
@@ -409,7 +409,8 @@ class PostController extends Controller
 
         if ($category->slug == 'sobitiya') {
             $request->validate([
-                'event_date' => 'required',
+                'event_date' => 'required|date',
+                'place' => 'nullable|string|max:255',
             ]);
         }
 
@@ -432,6 +433,7 @@ class PostController extends Controller
         $post->user_id = $user->id;
         $post->author_id = $user->id;
         $post->event_date = $request->event_date;
+        $post->place = $request->place;
         $post->created_at = $request->created_at?: date('Y-m-d H:i:s');
         $post->is_breaking = 0;
 
@@ -594,6 +596,13 @@ class PostController extends Controller
 
         $category = Category::find($request->category_id);
 
+        if ($category->slug == 'sobitiya') {
+            $request->validate([
+                'event_date' => 'required|date',
+                'place' => 'nullable|string|max:255',
+            ]);
+        }
+
         if (!$post->status && $user->is_auto_moderate) {
             $post->status = 1;
         }
@@ -617,6 +626,8 @@ class PostController extends Controller
 
         $post->keywords = $request->keywords;
         $post->image_caption = $request->image_caption;
+        $post->event_date = $request->event_date;
+        $post->place = $request->place;
         $post->created_at = $request->created_at?: date('Y-m-d H:i:s');
         $post->is_breaking = 0;
 

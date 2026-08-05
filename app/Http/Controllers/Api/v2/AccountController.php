@@ -51,6 +51,31 @@ class AccountController extends Controller
         return response()->json([
             'ok' => true,
             'notifications' => $notifications,
+            'unread_count' => $this->unreadNotificationsCount($user),
+        ]);
+    }
+
+    public function notificationRead(Request $request, string $id)
+    {
+        $user = auth('sanctum')->user();
+
+        if (!$user) {
+            return response()->json([
+                'ok' => false,
+            ]);
+        }
+
+        $notification = $user->notifications()
+            ->where('created_at', '<=', Carbon::now())
+            ->findOrFail($id);
+
+        if (!$notification->read()) {
+            $notification->markAsRead();
+        }
+
+        return response()->json([
+            'ok' => true,
+            'unread_count' => $this->unreadNotificationsCount($user),
         ]);
     }
 
@@ -64,13 +89,23 @@ class AccountController extends Controller
             ]);
         }
 
-        $user->unreadNotifications()->update([
-            'read_at' => Carbon::now(),
-        ]);
+        $user->unreadNotifications()
+            ->where('created_at', '<=', Carbon::now())
+            ->update([
+                'read_at' => Carbon::now(),
+            ]);
 
         return response()->json([
             'ok' => true,
+            'unread_count' => $this->unreadNotificationsCount($user),
         ]);
+    }
+
+    private function unreadNotificationsCount(User $user): int
+    {
+        return $user->unreadNotifications()
+            ->where('created_at', '<=', Carbon::now())
+            ->count();
     }
 
     public function favoriteToggle(Request $request)

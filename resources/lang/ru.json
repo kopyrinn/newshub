@@ -917,6 +917,8 @@
     "Role-desc": "КАБИНЕТЫ «ПРЕСС-ЦЕНТРА» МОГУТ РЕГИСТРИРОВАТЬ ИСКЛЮЧИТЕЛЬНО ПРЕСС-СЛУЖБЫ!",
     "Subscribe to the Press-center": "Подпишитесь на пресс службы",
     "Account": "Безопасность",
-    "If you do not want to receive such emails, click the": "Если вы не хотите получать подобных писем, перейдите по ссылке"
+    "If you do not want to receive such emails, click the": "Если вы не хотите получать подобных писем, перейдите по ссылке",
+    "You cannot downgrade an active package": "Более низкий тариф можно выбрать после окончания текущего тарифа",
+    "Your package has been successfully upgraded": "Тариф успешно улучшен, выбранный период добавлен"
     
 }

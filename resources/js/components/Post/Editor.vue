@@ -87,7 +87,7 @@
                 </div>
 
                 <div class="form-floating">
-                    <VImageUpload class="h-175px w-100" :image="post.image" @uploaded="setImages"/>
+                    <VImageUpload class="h-175px w-100" :image="post.image" :event-fallback="post.category_id == 8" @uploaded="setImages"/>
                     <label class="form-label">{{ $t('Photo') }}</label>
                 </div>
             </div>
@@ -102,6 +102,11 @@
                 <div v-if="post.category_id == 8" class="form-floating mb-7">
                     <input type="datetime-local" class="form-control" id="post-event" v-model="post.event_date" :placeholder="$t('Scheduled Post')"/>
                     <label for="post-event" class="form-label required">{{ $t('Event Date') }}</label>
+                </div>
+
+                <div v-if="post.category_id == 8" class="form-floating mb-7">
+                    <input type="text" class="form-control" id="post-event-location" v-model="post.place" :placeholder="$t('Event location')" maxlength="255"/>
+                    <label for="post-event-location" class="form-label">{{ $t('Event location') }}</label>
                 </div>
 
                 <div v-if="post.image" class="form-floating mb-5">
@@ -425,6 +430,9 @@ export default defineComponent({
                 let post = data.post
                 if (post.created_at) {
                     post.created_at = this.$dayjs(post.created_at).format('YYYY-MM-DDTHH:mm')
+                }
+                if (post.event_date) {
+                    post.event_date = this.$dayjs(post.event_date).format('YYYY-MM-DDTHH:mm')
                 }
                 this.post = post
                 this.editor.commands.setContent(this.post.content[this.locale])

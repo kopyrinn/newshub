@@ -21,6 +21,12 @@ use Illuminate\Support\Facades\DB;
 
 class SystemController extends Controller
 {
+    private const PACKAGE_LEVELS = [
+        'standart' => 1,
+        'standart-plus' => 2,
+        'standart-maximum' => 3,
+    ];
+
     public function feed(Request $request)
     {
         $posts = Post::query()
@@ -313,6 +319,21 @@ class SystemController extends Controller
                 $period = (int) $request->period;
                 $price = $package->{"price_{$period}"};
 
+                $hasActivePackage = $user->packageActive();
+                $currentPackage = $hasActivePackage
+                    ? Package::select('id', 'slug')->find($user->package_id)
+                    : null;
+                $isExtension = $currentPackage && (int) $currentPackage->id === (int) $package->id;
+                $isUpgrade = $currentPackage
+                    && (self::PACKAGE_LEVELS[$slug] ?? 0) > (self::PACKAGE_LEVELS[$currentPackage->slug] ?? 0);
+
+                if ($hasActivePackage && ! $isExtension && ! $isUpgrade) {
+                    return response()->json([
+                        'ok' => false,
+                        'message' => __("You cannot downgrade an active package"),
+                    ]);
+                }
+
                 if ($user->balance < $price) {
                     return response()->json([
                         'ok' => false,
@@ -320,7 +341,6 @@ class SystemController extends Controller
                     ]);
                 }
 
-                $isExtension = $user->packageActive() && (int) $user->package_id === (int) $package->id;
                 $limits = match ($slug) {
                     'standart' => [15, 0, 0, 0, 0, 0],
                     'standart-plus' => [25, 15, 10, 2, 0, 0],
@@ -339,24 +359,30 @@ class SystemController extends Controller
                 $user->package_id = $package->id;
 
                 foreach ($fields as $index => $field) {
-                    $remaining = $isExtension ? (int) $user->{$field} : 0;
+                    $remaining = ($isExtension || $isUpgrade) ? (int) $user->{$field} : 0;
                     $user->{$field} = $remaining + ($limits[$index] * $period);
                 }
 
-                $expiresFrom = $isExtension
+                $expiresFrom = ($isExtension || $isUpgrade)
                     ? $user->package_expired_at->copy()
                     : Carbon::now();
 
                 $user->package_expired_at = $expiresFrom->addMonthsNoOverflow($period);
-                $reason = $isExtension ? 'Продление' : 'Оплата';
+                $reason = match (true) {
+                    $isUpgrade => 'Повышение',
+                    $isExtension => 'Продление',
+                    default => 'Оплата',
+                };
                 $user->subBalance($price, "{$reason} тарифа {$package->name} на {$period} мес.");
                 $user->update();
 
                 return response()->json([
                     'ok' => true,
-                    'message' => __($isExtension
-                        ? "Your package has been successfully extended"
-                        : "Your package has been successfully activated"),
+                    'message' => __(match (true) {
+                        $isUpgrade => "Your package has been successfully upgraded",
+                        $isExtension => "Your package has been successfully extended",
+                        default => "Your package has been successfully activated",
+                    }),
                 ]);
             });
             // return redirect('profile')->with('success', );

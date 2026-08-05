@@ -6,6 +6,12 @@
                     <div class="card-title">
                         <h3 class="m-0 text-gray-800">{{ $t('Your latest notifications') }}</h3>
                     </div>
+                    <div v-if="$root.user && $root.user.notifications_count" class="card-toolbar">
+                        <button type="button" class="btn btn-sm btn-light-primary" @click="markAllAsRead" :disabled="$root.user.read_notifications_loading">
+                            <i class="ki-duotone ki-double-check fs-2"><i class="path1"></i><i class="path2"></i><i class="path3"></i></i>
+                            {{ $t('Mark all as read') }}
+                        </button>
+                    </div>
                 </div>
                 <div class="card-body p-0">
                     <VTable
@@ -18,13 +24,18 @@
                         @sort="onSort"
                     >
                         <template v-slot:cell-message="{ row: item }">
-                            <app-link :to="item.url? item.url: ''" class="">
-                                <span class="fs-6 text-gray-800 text-hover-primary fw-bold me-2">{{ item.title }}</span>
-                                <span v-if="item.message" class="text-gray-700 fs-7">{{ item.message }}</span>
+                            <app-link :to="item.url? item.url: ''" class="notification-entry d-flex align-items-start gap-3 rounded px-4 py-3" :class="{'notification-entry--unread': !item.is_read}" @click="markNotificationAsRead(item)">
+                                <span v-if="!item.is_read" class="notification-unread-dot flex-shrink-0 mt-2"></span>
+                                <span class="d-flex flex-column">
+                                    <span class="fs-6 text-hover-primary" :class="item.is_read? 'text-gray-700 fw-normal': 'text-gray-900 fw-bolder'">{{ item.title }}</span>
+                                    <span v-if="item.message" class="fs-7 mt-1" :class="item.is_read? 'text-gray-600 fw-normal': 'text-gray-800 fw-bold'">{{ item.message }}</span>
+                                </span>
                             </app-link>
                         </template>
                         <template v-slot:cell-created_at="{ row: item }">
-                            <VDate :datetime="new Date(item.created_at)" :key="item.created_at"/>
+                            <span :class="item.is_read? 'fw-normal': 'text-gray-900 fw-bolder'">
+                                <VDate :datetime="new Date(item.created_at)" :key="item.created_at"/>
+                            </span>
                         </template>
                     </VTable>
                 </div>
@@ -40,7 +51,6 @@ import { defineComponent } from "vue"
 import VTable from "@/components/VTable.vue"
 import Sidebar from "@/components/Sidebar.vue"
 import showErrors from "@/helpers/notify";
-import { ElNotification} from 'element-plus'
 
 export default defineComponent({
     name: "Notifications",
@@ -101,6 +111,7 @@ export default defineComponent({
                 if (!data.ok) return
 
                 this.table = Object.assign(this.table, data.notifications);
+                this.$root.setNotificationCount(data.unread_count);
             })
             .catch(({ response }) => {
                 this.loading = false;
@@ -125,6 +136,16 @@ export default defineComponent({
             this.table.order = sort.order
             this.fetchData();
         },
+        markNotificationAsRead(notification) {
+            return this.$root.markNotificationAsRead(notification)
+        },
+        async markAllAsRead() {
+            const markedAsRead = await this.$root.markAsRead()
+
+            if (markedAsRead) {
+                this.table.data.forEach(notification => notification.is_read = true)
+            }
+        },
         formatDate(dateString) {
             const date = new Date(dateString);
             return new Intl.DateTimeFormat('ru-RU', {dateStyle: 'long'}).format(date);
@@ -132,3 +153,23 @@ export default defineComponent({
     },
 });
 </script>
+
+<style scoped>
+.notification-entry {
+    min-width: 0;
+    border-left: 3px solid transparent;
+    transition: background-color .15s ease, border-color .15s ease;
+}
+
+.notification-entry--unread {
+    border-left-color: var(--bs-primary);
+    background-color: rgba(var(--bs-primary-rgb), .08);
+}
+
+.notification-unread-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--bs-primary);
+}
+</style>

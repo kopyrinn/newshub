@@ -48,6 +48,14 @@ dayjs.extend(isToday)
 dayjs.extend(isYesterday)
 dayjs.extend(isTomorrow)
 
+const isDefaultEventImage = (path) => {
+    if (!path) return true
+
+    return ['event.jpg', 'news.jpg'].includes(path.split('/').pop())
+}
+
+const defaultEventImage = import.meta.env.DEV? '/client/logo.png': '/logo.png'
+
 const app = createApp(App)
 app.config.globalProperties.$locale = getCurrentLocale
 app.config.globalProperties.$bus = emitter
@@ -62,6 +70,10 @@ app.config.globalProperties.$storage = (path) => {
     // return import.meta.env.VITE_APP_URL + '/storage/' + path
     return 'https://api.newshub.kz/storage/' + path
 }
+app.config.globalProperties.$isDefaultEventImage = isDefaultEventImage
+app.config.globalProperties.$eventImage = (path) => isDefaultEventImage(path)
+    ? defaultEventImage
+    : app.config.globalProperties.$storage(path)
 app.config.globalProperties.$media = (path) => {
     const mediaRoot = import.meta.env.DEV
         ? '/client/assets/media/'

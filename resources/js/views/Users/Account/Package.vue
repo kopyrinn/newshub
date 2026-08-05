@@ -19,7 +19,7 @@
                 </div>
                 <div class="card-body pt-0 pb-0 pb-4">
                     <div class="text-gray-800 fw-semibold fs-5 mb-4">{{ $t('We recommend extending the tariff in advance in order to get maximum efficiency from our services. Please note that unused services are not carried over to the next month.') }}</div>
-                    <app-link to="/packages" class="btn btn-sm btn-light-primary">{{ $root.user.is_package_active? $t('Prolong package'): $t('Select package') }}</app-link>
+                    <app-link to="/packages" class="btn btn-sm btn-light-primary">{{ $root.user.is_package_active? $t('Manage package'): $t('Select package') }}</app-link>
                 </div>
                 <div class="card-body p-0 pb-4">
                     <VTable

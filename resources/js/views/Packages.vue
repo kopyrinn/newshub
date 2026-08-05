@@ -83,8 +83,14 @@
                                 <div v-if="isCurrentPackage(item)" class="fw-semibold text-success mb-3">
                                     {{ $t('This package is already active') }}
                                 </div>
-                                <button type="button" class="btn btn-primary" @click="choosePackage(item)">
-                                    {{ isCurrentPackage(item) ? $t('Prolong package') : $t('Select') }}
+                                <div v-else-if="isUpgrade(item)" class="fw-semibold text-primary mb-3">
+                                    {{ $t('The current expiration date and remaining services will be preserved') }}
+                                </div>
+                                <div v-else-if="isDowngrade(item)" class="fw-semibold text-gray-500 mb-3">
+                                    {{ $t('A lower package can be selected after the current package expires') }}
+                                </div>
+                                <button type="button" class="btn btn-primary" @click="choosePackage(item)" :disabled="isDowngrade(item)">
+                                    {{ packageCardButtonText(item) }}
                                 </button>
                                 <!--end::Select-->
                             </div>
@@ -105,6 +111,17 @@
                     <div class="fw-semibold fs-5 text-success">
                         <div>{{ $t('This package is already active') }}</div>
                         <div class="fs-6 mt-1">{{ $t('The selected period will be added to the current expiration date') }}</div>
+                    </div>
+                </div>
+                <div v-else-if="isUpgrade(plan)" class="notice d-flex bg-light-primary rounded border-primary border border-dashed rounded-3 p-6 mb-7">
+                    <div class="fw-semibold fs-5 text-primary">
+                        <div>{{ $t('Upgrade package') }}: {{ $root.user.package_name }} → {{ plan.name }}</div>
+                        <div class="fs-6 mt-1">{{ $t('The current expiration date and remaining services will be preserved') }}. {{ $t('The selected period will be added to the current expiration date') }}.</div>
+                    </div>
+                </div>
+                <div v-else-if="isDowngrade(plan)" class="notice d-flex bg-light-warning rounded border-warning border border-dashed rounded-3 p-6 mb-7">
+                    <div class="fw-semibold fs-5 text-warning">
+                        {{ $t('A lower package can be selected after the current package expires') }}
                     </div>
                 </div>
 
@@ -143,8 +160,8 @@
                         </span>
                     </div>
                 </div>
-                <button type="button" @click="buy" class="btn btn-success w-100" :disabled="isSend">
-                    {{ isCurrentPackage(plan) ? $t('Prolong package') : $t('Buy') }}
+                <button type="button" @click="buy" class="btn btn-success w-100" :disabled="isSend || isDowngrade(plan)">
+                    {{ packagePurchaseButtonText(plan) }}
                 </button>
             </div>
             <SchemaOrgWebPage :name="$root.meta.title" />
@@ -253,6 +270,69 @@ export default defineComponent({
                 this.$root.user.is_package_active &&
                 this.$root.user.package_slug === item.slug
             )
+        },
+        packageLevel(slug) {
+            return {
+                'standart': 1,
+                'standart-plus': 2,
+                'standart-maximum': 3,
+            }[slug] || 0
+        },
+        isUpgrade(item) {
+            return Boolean(
+                item &&
+                this.$root.user &&
+                this.$root.user.is_package_active &&
+                item.slug !== this.$root.user.package_slug &&
+                this.packageLevel(item.slug) > this.packageLevel(this.$root.user.package_slug)
+            )
+        },
+        isDowngrade(item) {
+            return Boolean(
+                item &&
+                this.$root.user &&
+                this.$root.user.is_package_active &&
+                item.slug !== this.$root.user.package_slug &&
+                this.packageLevel(item.slug) <= this.packageLevel(this.$root.user.package_slug)
+            )
+        },
+        selectedPeriodLabel() {
+            return this.$t({
+                1: 'for 1 month',
+                3: 'for 3 months',
+                6: 'for 6 months',
+                12: 'for 12 months',
+            }[this.period])
+        },
+        packageCardButtonText(item) {
+            if (this.isCurrentPackage(item)) {
+                return `${this.$t('Prolong package')} ${this.selectedPeriodLabel()}`
+            }
+
+            if (this.isUpgrade(item)) {
+                return `${this.$t('Upgrade to')} ${item.name}`
+            }
+
+            if (this.isDowngrade(item)) {
+                return this.$t('Available after expiration')
+            }
+
+            return this.$t('Select')
+        },
+        packagePurchaseButtonText(item) {
+            if (this.isCurrentPackage(item)) {
+                return `${this.$t('Prolong package')} ${this.selectedPeriodLabel()}`
+            }
+
+            if (this.isUpgrade(item)) {
+                return `${this.$t('Upgrade package')} ${this.selectedPeriodLabel()}`
+            }
+
+            if (this.isDowngrade(item)) {
+                return this.$t('Available after expiration')
+            }
+
+            return this.$t('Buy')
         },
         reset() {
             this.loading = true

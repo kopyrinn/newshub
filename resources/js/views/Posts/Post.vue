@@ -16,7 +16,8 @@
                                 <h1 class="text-dark fs-1 fw-bold">
                                     {{ post.title }} <span v-if="post.article_type" class="badge badge-primary align-middle">{{ $t(`article_type_${post.article_type}`) }}</span>
                                 </h1>
-                                <div class="d-flex flex-wrap">
+                                <EventMeta v-if="isEvent(post)" :item="post" class="mt-6"/>
+                                <div v-else class="d-flex flex-wrap">
                                     <div class="me-5 my-1 d-flex align-items-center">
                                         <i class="ki-duotone ki-element-11 fs-2 me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
 
@@ -51,13 +52,13 @@
                                     @on-intersection-element="updatePage(post)"
                                 ></intersection-observer>
 
-                                <div v-if="post.image" class="d-block position-relative overflow-hidden rounded-3 mt-6 cursor-zoom-in" @click="$root.fullscreenImage = $storage(post.image), $root.fullscreen = true">
-                                    <picture>
-                                        <source media="(max-width: 500px)" :srcset="$storage(post.image_sm)" />
-                                        <source media="(min-width: 501px)" :srcset="$storage(post.image_md)" />
-                                        <img :src="$storage(post.image_md)" :alt="post.title" class="object-fit-contain z-index-1 position-relative mh-450px min-h-250px w-100" loading="lazy"/>
+                                <div v-if="post.image" class="post-image d-block position-relative overflow-hidden rounded-3 mt-6 cursor-zoom-in" :class="{'event-default-cover': isDefaultEventCover(post)}" @click="$root.fullscreenImage = displayImage(post, post.image), $root.fullscreen = true">
+                                    <picture class="post-image__picture">
+                                        <source media="(max-width: 500px)" :srcset="displayImage(post, post.image_sm)" />
+                                        <source media="(min-width: 501px)" :srcset="displayImage(post, post.image_md)" />
+                                        <img :src="displayImage(post, post.image_md)" :alt="post.title" class="post-image__image object-fit-contain z-index-1 position-relative mh-450px min-h-250px w-100" loading="lazy"/>
                                     </picture>
-                                    <img :src="$storage(post.image_blur)" class="blurry" loading="lazy"/>
+                                    <img v-if="!isDefaultEventCover(post)" :src="$storage(post.image_blur)" class="blurry" loading="lazy"/>
                                 </div>
                                 <div v-if="post.image_caption" class="fw-semibold mt-1 text-gray-700 fs-6">{{ post.image_caption }}</div>
                             </div>
@@ -71,7 +72,7 @@
                                 @on-intersection-element="updatePage(post)"
                             ></intersection-observer>
 
-                            <div class="card card-dashed border-hover-primary mb-6">
+                            <div v-if="!isEvent(post)" class="card card-dashed border-hover-primary mb-6">
                                 <div class="card-body p-5">
                                     <div class="d-flex overflow-hidden">
                                         <app-link :to="{name: 'user', params: {slug: post.user_id}}" class="me-6 d-flex flex-fill flex-nowrap">
@@ -149,7 +150,8 @@
                                 <h1 class="text-dark fs-1 fw-bold">
                                     {{ item.title }} <span v-if="item.article_type" class="badge badge-primary align-middle">{{ $t(`article_type_${item.article_type}`) }}</span>
                                 </h1>
-                                <div class="d-flex flex-wrap">
+                                <EventMeta v-if="isEvent(item)" :item="item" class="mt-6"/>
+                                <div v-else class="d-flex flex-wrap">
                                     <div class="me-5 my-1 d-flex align-items-center">
                                         <i class="ki-duotone ki-element-11 fs-2 me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
 
@@ -184,13 +186,13 @@
                                     @on-intersection-element="updatePage(item)"
                                 ></intersection-observer>
 
-                                <div v-if="item.image" class="d-block position-relative overflow-hidden rounded-3 mt-6 cursor-zoom-in" @click="$root.fullscreenImage = $storage(item.image), $root.fullscreen = true">
-                                    <picture>
-                                        <source media="(max-width: 500px)" :srcset="$storage(item.image_sm)" />
-                                        <source media="(min-width: 501px)" :srcset="$storage(item.image_md)" />
-                                        <img :src="$storage(item.image_md)" :alt="item.title" class="object-fit-contain z-index-1 position-relative mh-450px min-h-250px w-100" loading="lazy"/>
+                                <div v-if="item.image" class="post-image d-block position-relative overflow-hidden rounded-3 mt-6 cursor-zoom-in" :class="{'event-default-cover': isDefaultEventCover(item)}" @click="$root.fullscreenImage = displayImage(item, item.image), $root.fullscreen = true">
+                                    <picture class="post-image__picture">
+                                        <source media="(max-width: 500px)" :srcset="displayImage(item, item.image_sm)" />
+                                        <source media="(min-width: 501px)" :srcset="displayImage(item, item.image_md)" />
+                                        <img :src="displayImage(item, item.image_md)" :alt="item.title" class="post-image__image object-fit-contain z-index-1 position-relative mh-450px min-h-250px w-100" loading="lazy"/>
                                     </picture>
-                                    <img :src="$storage(item.image_blur)" class="blurry" loading="lazy"/>
+                                    <img v-if="!isDefaultEventCover(item)" :src="$storage(item.image_blur)" class="blurry" loading="lazy"/>
                                 </div>
                                 <div v-if="item.image_caption" class="fw-semibold mt-1 text-gray-700 fs-6">{{ item.image_caption }}</div>
                             </div>
@@ -204,7 +206,7 @@
                                 @on-intersection-element="updatePage(item)"
                             ></intersection-observer>
 
-                            <div class="card card-dashed border-hover-primary mb-6">
+                            <div v-if="!isEvent(item)" class="card card-dashed border-hover-primary mb-6">
                                 <div class="card-body p-5">
                                     <div class="d-flex overflow-hidden">
                                         <app-link :to="{name: 'user', params: {slug: item.user_id}}" class="me-6 d-flex flex-fill flex-nowrap">
@@ -305,8 +307,8 @@
             type="NewsArticle"
             :headline="post.title"
             :description="post.summary"
-            :thumbnailUrl="$storage(post.image_sm)"
-            :image="$storage(post.image_md)"
+            :thumbnailUrl="displayImage(post, post.image_sm)"
+            :image="displayImage(post, post.image_md)"
             :date-published="new Date(post.created_at).toISOString()"
             :date-modified="new Date(post.updated_at).toISOString()"
             :author="{name: post.name, url: $base($router.resolve({name: 'user', params: {slug: post.user_id, locale: $root.locale != 'ru'? $root.locale: ''}}).fullPath)}"
@@ -321,6 +323,7 @@ import Modal from "@/components/Modal.vue"
 import ViewSkeleton from "@/components/Post/ViewSkeleton.vue"
 import Banner from "@/components/Ad/Banner.vue"
 import IntersectionObserver from "@/components/IntersectionObserver.vue"
+import EventMeta from "@/components/Post/EventMeta.vue"
 import { ElNotification } from 'element-plus'
 
 export default defineComponent({
@@ -331,6 +334,7 @@ export default defineComponent({
         IntersectionObserver,
         Sidebar,
         Modal,
+        EventMeta,
     },
     data() {
         return {
@@ -457,6 +461,15 @@ export default defineComponent({
         }
     },
     methods: {
+        isEvent(item) {
+            return Boolean(item?.categories?.some(category => category.slug === 'sobitiya'))
+        },
+        isDefaultEventCover(item) {
+            return this.isEvent(item) && this.$isDefaultEventImage(item?.image)
+        },
+        displayImage(item, path) {
+            return this.isEvent(item)? this.$eventImage(path): this.$storage(path)
+        },
         fetchData() {
             // if (this.post.slug && this.post.slug === this.slug) {
             //     this.loading = false
@@ -620,3 +633,37 @@ export default defineComponent({
     },
 });
 </script>
+
+<style scoped>
+.event-default-cover {
+    min-height: 130px;
+    padding: 30px;
+    background: #fff;
+}
+
+.event-default-cover .post-image__picture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.event-default-cover .post-image__image {
+    width: 100%;
+    height: 72px;
+    min-height: 0 !important;
+    max-height: 72px;
+}
+
+@media (max-width: 575.98px) {
+    .event-default-cover {
+        min-height: 105px;
+        padding: 24px;
+    }
+
+    .event-default-cover .post-image__image {
+        height: 58px;
+        max-height: 58px;
+    }
+}
+</style>

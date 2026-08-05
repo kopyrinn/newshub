@@ -63,8 +63,9 @@
                             </div>
                             <div v-if="user" class="app-navbar-item align-items-stretch ms-1 ms-md-3">
                                 <Popper placement="bottom-end" class="d-block">
-                                    <button type="button" class="btn btn-icon btn-custom btn-active-light w-30px h-30px w-md-40px h-md-40px " @click="getNotifications" :class="{'btn-active-light-danger btn-icon-danger': user.notifications_count}">
+                                    <button type="button" class="btn btn-icon btn-custom btn-active-light position-relative w-30px h-30px w-md-40px h-md-40px" @click="getNotifications" :class="{'btn-active-light-danger btn-icon-danger': user.notifications_count}" :aria-label="$t('Notifications')">
                                         <i class="ki-duotone ki-notification-on fs-2 fs-lg-1" :class="{'fa-shake': user.notifications_count}"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i></i>
+                                        <span v-if="user.notifications_count" class="notification-count-badge badge badge-circle badge-danger">{{ notificationCountLabel }}</span>
                                     </button>
 
                                     <template #content="{ close }">
@@ -72,7 +73,7 @@
                                             <div class="d-flex flex-column bgi-no-repeat rounded-top" :style="{backgroundImage: 'url(' + $media('patterns/menu-header-bg.jpg') + ')'}">
                                                 <h3 class="text-white d-flex align-items-center justify-content-between fw-semibold px-9 mt-10 mb-9">
                                                     <div class="d-flex align-items-center">
-                                                        {{ $t('Notifications') }} <span v-if="user.notifications_count" class="fs-8 badge badge-danger  opacity-75 ms-3">{{ user.notifications_count }}</span>
+                                                        {{ $t('Notifications') }} <span v-if="user.notifications_count" class="fs-8 badge badge-danger opacity-75 ms-3">{{ notificationCountLabel }}</span>
                                                     </div>
                                                     <div v-if="user.notifications_count" class="fs-sm text-end fw-bold">
                                                         <button class="btn btn-sm px-3 btn-primary d-flex flex-center h-30px" @click="markAsRead" :disabled="user.read_notifications_loading">
@@ -92,16 +93,15 @@
                                                 <div class="tab-pane fade active show">
                                                     <!--begin::Items-->
                                                     <div class="scroll-y mh-325px my-5 px-8">
-                                                        <div v-for="notification in notifications" :key="notification.id" class="d-flex flex-stack py-4">
-                                                            <div class="d-flex align-items-center">
-                                                                <app-link :to="notification.url? notification.url: ''" class="mb-0 me-2" @click="close">
-                                                                    <div class="d-flex align-items-center">
-                                                                        <span class="fs-6 text-gray-800 text-hover-primary fw-bold me-3" :class="{'text-gray-900 fw-bolder': !notification.is_read}">{{ notification.title }}</span>
-                                                                        <span class="fw-medium text-muted fs-8"><VDate :datetime="new Date(notification.created_at)"/></span>
-                                                                    </div>
-                                                                    <div class="text-gray-700 fs-7" :class="{'fw-bolder': !notification.is_read}">{{ notification.message }}</div>
-                                                                </app-link>
-                                                            </div>
+                                                        <div v-for="notification in notifications" :key="notification.id" class="notification-dropdown-item rounded px-3" :class="{'notification-dropdown-item--unread': !notification.is_read}">
+                                                            <app-link :to="notification.url? notification.url: ''" class="d-block w-100 py-3" @click="openNotification(notification, close)">
+                                                                <div class="d-flex align-items-center flex-wrap gap-2">
+                                                                    <span v-if="!notification.is_read" class="notification-unread-dot flex-shrink-0"></span>
+                                                                    <span class="fs-6 text-gray-700 text-hover-primary me-1" :class="notification.is_read? 'fw-semibold': 'text-gray-900 fw-bolder'">{{ notification.title }}</span>
+                                                                    <span class="fw-medium text-muted fs-8 ms-auto"><VDate :datetime="new Date(notification.created_at)"/></span>
+                                                                </div>
+                                                                <div v-if="notification.message" class="text-gray-700 fs-7 mt-1" :class="notification.is_read? 'fw-normal': 'text-gray-900 fw-bold'">{{ notification.message }}</div>
+                                                            </app-link>
                                                         </div>
                                                     </div>
                                                     <!--end::Items-->
@@ -164,7 +164,7 @@
                                                 <app-link @click="close" :to="{name: 'user-actions', params: {slug: user.id}}" class="menu-link px-5">{{ $t('Actions') }}</app-link>
                                             </div>
                                             <div v-if="!user.is_journalist" class="menu-item px-5">
-                                                <app-link @click="close" :to="{name: 'user-package', params: {slug: user.id}}" class="menu-link px-5">{{ $t('Package') }}</app-link>
+                                                <app-link @click="close" :to="{name: 'user-package', params: {slug: user.id}}" class="menu-link px-5">{{ $t('My Package') }}</app-link>
                                             </div>
                                             <div class="menu-item px-5">
                                                 <app-link @click="close" :to="{name: 'user-settings', params: {slug: user.id}}" class="menu-link px-5">{{ $t('Settings') }}</app-link>
@@ -792,6 +792,11 @@ export default defineComponent({
         user() {
             return this.$store.getters.getUser
         },
+        notificationCountLabel() {
+            const count = Number(this.user?.notifications_count || 0)
+
+            return count > 99? '99+': count
+        },
         referral() {
             return this.$store.getters.getRef
         },
@@ -897,20 +902,60 @@ export default defineComponent({
                 if (!data.ok) return
 
                 this.notifications = data.notifications.data
+                this.setNotificationCount(data.unread_count)
                 this.$store.commit('updateCacheKey')
-                this.getUser()
             })
         },
-        markAsRead() {
+        setNotificationCount(count) {
+            if (!this.user) return
+
+            this.user.notifications_count = Math.max(0, Number(count) || 0)
+        },
+        openNotification(notification, close) {
+            close()
+            this.markNotificationAsRead(notification)
+        },
+        markNotificationAsRead(notification) {
+            if (!notification || notification.is_read || notification.read_loading) {
+                return Promise.resolve(true)
+            }
+
+            notification.read_loading = true
+
+            return this.$post(`account/notifications/${notification.id}/read`, {}, true)
+                .then(({data}) => {
+                    if (!data.ok) return false
+
+                    notification.is_read = true
+                    const dropdownNotification = this.notifications.find(item => item.id === notification.id)
+                    if (dropdownNotification) dropdownNotification.is_read = true
+                    this.setNotificationCount(data.unread_count)
+
+                    return true
+                })
+                .finally(() => {
+                    notification.read_loading = false
+                })
+        },
+        async markAsRead() {
+            if (!this.user || this.user.read_notifications_loading) return false
+
             this.user.read_notifications_loading = true
-            this.$post('account/notifications-read', {}, true).then(async ({data}) => {
+
+            try {
+                const {data} = await this.$post('account/notifications-read', {}, true)
+
                 if (data.ok) {
-                    await this.getNotifications()
-                    await this.getUser()
+                    this.notifications.forEach(notification => notification.is_read = true)
+                    this.setNotificationCount(data.unread_count)
+
+                    return true
                 }
 
+                return false
+            } finally {
                 this.user.read_notifications_loading = false
-            })
+            }
         },
         toggleFavorite(post) {
             post.is_favorite = !post.is_favorite
@@ -1191,3 +1236,35 @@ export default defineComponent({
     }
 });
 </script>
+
+<style scoped>
+.notification-count-badge {
+    position: absolute;
+    top: -4px;
+    right: -7px;
+    min-width: 19px;
+    height: 19px;
+    padding: 0 5px;
+    border: 2px solid var(--bs-body-bg);
+    font-size: 10px;
+    line-height: 15px;
+    pointer-events: none;
+}
+
+.notification-dropdown-item {
+    border-left: 3px solid transparent;
+    transition: background-color .15s ease, border-color .15s ease;
+}
+
+.notification-dropdown-item--unread {
+    border-left-color: var(--bs-primary);
+    background-color: rgba(var(--bs-primary-rgb), .08);
+}
+
+.notification-unread-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--bs-primary);
+}
+</style>

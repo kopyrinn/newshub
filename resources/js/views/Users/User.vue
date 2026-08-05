@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="overflow-x-invisible mt-2">
-                    <ul class="nav nav-stretch flex-nowrap nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold">
+                    <ul class="profile-nav-tabs nav nav-stretch flex-nowrap nav-line-tabs nav-line-tabs-2x border-transparent fs-6 fw-bold">
                         <li class="nav-item">
                             <app-link :to="{name: 'user', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user'}" href="">{{ $t('Overview') }}</app-link>
                         </li>
@@ -70,13 +70,13 @@
                             <app-link :to="{name: 'user-notifications', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-notifications'}" href="">{{ $t('Notifications') }}</app-link>
                         </li>
                         <li v-if="isOwner && !$root.user.is_journalist" class="nav-item">
-                            <app-link :to="{name: 'user-package', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-package'}" href="">{{ $t('Package') }}</app-link>
+                            <app-link :to="{name: 'user-package', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-package'}" href="">{{ $t('My Package') }}</app-link>
                         </li>
                         <li class="nav-item">
                             <app-link :to="{name: 'user-followers', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-followers'}" href="">{{ $t('Followers') }} <span class="badge badge-light ms-2">{{ user.followers_count }}</span></app-link>
                         </li>
                         <li class="nav-item">
-                            <app-link :to="{name: 'user-subscriptions', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-subscriptions'}" href="">{{ $t('Subscriptions') }} <span class="badge badge-light ms-2">{{ user.feeds_count }}</span></app-link>
+                            <app-link :to="{name: 'user-subscriptions', params: {slug}}" class="nav-link text-active-primary ms-0 me-10 py-5" :class="{'active': $route.name == 'user-subscriptions'}" href="">{{ $t('Press center subscriptions') }} <span class="badge badge-light ms-2">{{ user.feeds_count }}</span></app-link>
                         </li>
                     </ul>
                 </div>
@@ -201,3 +201,26 @@ export default defineComponent({
     },
 });
 </script>
+<style scoped>
+.profile-nav-tabs {
+    width: max-content;
+    min-width: 100%;
+    gap: clamp(1.25rem, 1.8vw, 2.5rem);
+}
+
+.profile-nav-tabs .nav-item {
+    flex: 0 0 auto;
+}
+
+.profile-nav-tabs .nav-link {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    white-space: nowrap;
+}
+
+@media (min-width: 1200px) {
+    .profile-nav-tabs {
+        justify-content: space-between;
+    }
+}
+</style>

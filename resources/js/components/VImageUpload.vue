@@ -73,6 +73,10 @@ export default defineComponent({
             type: String,
             default: 'original',
         },
+        eventFallback: {
+            type: Boolean,
+            default: false,
+        },
         class: {
             type: String,
             default: '',
@@ -85,7 +89,7 @@ export default defineComponent({
     },
     computed: {
       uploadedImage() {
-        return this.$storage(this.image)
+        return this.eventFallback? this.$eventImage(this.image): this.$storage(this.image)
       }
     },
     methods: {

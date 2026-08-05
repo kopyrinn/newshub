@@ -1,42 +1,23 @@
 <template>
-    <div v-if="$route.name === 'category' && item.categoriesSlugs?.length && item.categoriesSlugs.includes('sobitiya')" class="card card-flush overflow-hidden mb-6">
-        <div class="card-body px-0 py-0">
-            <div class="d-block d-xl-none pt-5">
-                <app-link :to="{name: 'post', params: {slug: item.slug}}" class="fs-1 fw-semibold text-gray-900 text-hover-primary d-block px-6 mb-3">{{ item.title }} <span v-if="item.article_type" class="badge badge-primary align-middle">{{ $t(`article_type_${item.article_type}`) }}</span></app-link>
+    <div v-if="$route.name === 'category' && item.categoriesSlugs?.length && item.categoriesSlugs.includes('sobitiya')" class="card card-flush overflow-hidden mb-6" data-testid="event-card">
+        <div class="card-body p-5 p-md-7">
+            <app-link :to="{name: 'post', params: {slug: item.slug}}" class="fs-2 fs-md-1 fw-bold text-gray-900 text-hover-primary d-block mb-5">
+                {{ item.title }}
+                <span v-if="item.article_type" class="badge badge-primary align-middle">{{ $t(`article_type_${item.article_type}`) }}</span>
+            </app-link>
 
-                <div class="alert bg-light-primary d-flex flex-row align-items-center mx-6 p-4 mb-4 rounded-3">
-                    <i class="ki-duotone ki-notification-bing fs-2hx text-primary me-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-                    <div class="fs-3 fw-bold text-primary">{{ $dayjs(item.event_date).format('DD MMMM YYYY') }}</div>
-                </div>
+            <EventMeta :item="item" class="mb-6"/>
 
-                <div v-if="item.summary" class="fs-6 fw-normal text-gray-800 px-6 mb-4" v-html="item.summary"></div>
-                <app-link v-if="item.image" :to="{name: 'post', params: {slug: item.slug}}" class="d-block position-relative overflow-hidden">
-                    <picture>
-                        <source media="(max-width: 500px)" :srcset="$storage(item.image_sm)" />
-                        <source media="(min-width: 501px)" :srcset="$storage(item.image_md)" />
-                        <img :src="$storage(item.image_md)" :alt="item.title" class="object-fit-contain z-index-1 position-relative mh-500px min-h-250px w-100" loading="lazy"/>
-                    </picture>
-                    <img :src="$storage(item.image_blur)" class="blurry" loading="lazy"/>
-                </app-link>
-            </div>
-            <div class="d-none d-xl-flex flex-row">
-                <app-link v-if="item.image" :to="{name: 'post', params: {slug: item.slug}}" class="d-block position-relative overflow-hidden max-w-175px w-175px flex-shrink-0">
-                    <picture>
-                        <img :src="$storage(item.image_sm)" :alt="item.title" class="object-fit-contain z-index-1 position-relative mh-175px min-h-175px h-175px max-h-175px w-100" loading="lazy"/>
-                    </picture>
-                    <img :src="$storage(item.image_blur)" class="blurry" loading="lazy"/>
-                </app-link>
-                
-                <div class="py-4">
-                    <app-link :to="{name: 'post', params: {slug: item.slug}}" class="fs-3 fw-semibold text-gray-900 text-hover-primary d-block px-4 mb-3">{{ item.title }} <span v-if="item.article_type" class="badge badge-primary align-middle">{{ $t(`article_type_${item.article_type}`) }}</span></app-link>
-                    <div v-if="item.summary" class="fs-6 fw-normal text-gray-800 px-4 mb-4" v-html="item.summary"></div>
-                </div>
-                <app-link :to="{name: 'post', params: {slug: item.slug}}" class="w-100px flex-shrink-0 d-flex flex-column justify-content-center align-items-center bg-light-primary text-primary fs-1 fw-bolder text-capitalize">
-                    <div>{{ $dayjs(item.event_date).format('DD') }}</div>
-                    <div>{{ $dayjs(item.event_date).format('MMM') }}</div>
-                    <div v-if="parseInt($dayjs(item.event_date).format('YYYY')) !== (new Date).getFullYear()">{{ $dayjs(item.event_date).format('YYYY') }}</div>
-                </app-link>
-            </div>
+            <div v-if="item.summary" class="fs-6 fw-normal text-gray-800 mb-5" v-html="item.summary"></div>
+
+            <app-link v-if="item.image" :to="{name: 'post', params: {slug: item.slug}}" class="event-cover d-block position-relative overflow-hidden rounded-3" :class="{'event-cover--default': $isDefaultEventImage(item.image)}">
+                <picture class="event-cover__picture">
+                    <source media="(max-width: 500px)" :srcset="$eventImage(item.image_sm)" />
+                    <source media="(min-width: 501px)" :srcset="$eventImage(item.image_md)" />
+                    <img :src="$eventImage(item.image_md)" :alt="item.title" class="event-cover__image object-fit-contain z-index-1 position-relative mh-500px min-h-250px w-100" loading="lazy"/>
+                </picture>
+                <img v-if="!$isDefaultEventImage(item.image)" :src="$storage(item.image_blur)" class="blurry" loading="lazy"/>
+            </app-link>
         </div>
     </div>
     <div v-else class="card card-flush overflow-hidden mb-6">
@@ -118,9 +99,13 @@
 </template>
 <script>
 import { defineComponent } from "vue"
+import EventMeta from "@/components/Post/EventMeta.vue"
 
 export default defineComponent({
     name: 'Card',
+    components: {
+        EventMeta,
+    },
     props: {
         item: {
             type: Object,
@@ -141,3 +126,37 @@ export default defineComponent({
     }
 })
 </script>
+
+<style scoped>
+.event-cover--default {
+    min-height: 120px;
+    padding: 26px;
+    background: #fff;
+}
+
+.event-cover--default .event-cover__picture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.event-cover--default .event-cover__image {
+    width: 100%;
+    height: 68px;
+    min-height: 0 !important;
+    max-height: 68px;
+}
+
+@media (max-width: 575.98px) {
+    .event-cover--default {
+        min-height: 100px;
+        padding: 22px;
+    }
+
+    .event-cover--default .event-cover__image {
+        height: 56px;
+        max-height: 56px;
+    }
+}
+</style>

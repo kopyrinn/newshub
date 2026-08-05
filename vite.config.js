@@ -67,6 +67,10 @@ export default defineConfig(({ command, mode }) => {
                         src: 'public/client',
                         dest: normalizePath(path.resolve(__dirname, './dist'))
                     },
+                    {
+                        src: 'public/docs/*.pdf',
+                        dest: 'docs'
+                    },
                 ]
             }),
         )

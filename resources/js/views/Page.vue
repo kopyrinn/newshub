@@ -40,6 +40,26 @@
                         <div class="fs-5 fw-semibold article">
                             <p class="mb-8" v-html="content"></p>
                         </div>
+                        <div v-if="$route.params.slug === 'ads'" class="mt-10">
+                            <h2 class="fs-3 fw-bold text-gray-900 mb-5">Прайс-листы</h2>
+                            <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-5 rounded border border-dashed border-gray-300 bg-light-primary p-6">
+                                <div>
+                                    <div class="fs-5 fw-bold text-gray-900">Прайс-лист NewsHub.kz на 2026 год</div>
+                                    <div class="fs-7 fw-semibold text-gray-600 mt-1">PDF · 938 КБ · 3 страницы</div>
+                                </div>
+                                <a
+                                    href="/docs/price-list-newshub-2026.pdf"
+                                    download="Прайс-лист NewsHub.kz 2026 г..pdf"
+                                    class="btn btn-primary flex-shrink-0"
+                                >
+                                    <svg class="me-2" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <path d="M12 3V15M12 15L8 11M12 15L16 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M5 20H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    Скачать PDF
+                                </a>
+                            </div>
+                        </div>
                         <!--end::Wrapper-->
                     </div>
                     <!--end::Post content-->
