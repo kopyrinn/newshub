@@ -123,6 +123,8 @@
                                 </a>
                             </div>
 
+                            <AppDownloadBadges/>
+
                             <div class="fs-6 fw-semibold text-center text-muted">
                                 {{ $t('Error in the text? Please let us know. Highlight the error and press Ctrl + Enter') }}
                             </div>
@@ -257,6 +259,8 @@
                                 </a>
                             </div>
 
+                            <AppDownloadBadges/>
+
                             <div class="fs-6 fw-semibold text-center text-muted">
                                 {{ $t('Error in the text? Please let us know. Highlight the error and press Ctrl + Enter') }}
                             </div>
@@ -324,6 +328,7 @@ import ViewSkeleton from "@/components/Post/ViewSkeleton.vue"
 import Banner from "@/components/Ad/Banner.vue"
 import IntersectionObserver from "@/components/IntersectionObserver.vue"
 import EventMeta from "@/components/Post/EventMeta.vue"
+import AppDownloadBadges from "@/components/AppDownloadBadges.vue"
 import { ElNotification } from 'element-plus'
 
 export default defineComponent({
@@ -335,6 +340,7 @@ export default defineComponent({
         Sidebar,
         Modal,
         EventMeta,
+        AppDownloadBadges,
     },
     data() {
         return {

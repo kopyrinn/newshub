@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Models\Category;
 use App\Models\Rubric;
+use App\Nova\Fields\NewsHubPostTools;
 use App\Support\NewsHubEditorialSignature;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -153,29 +154,19 @@ class Post extends Resource
                 //     ])
                 //     ->headingLevels([2, 3, 4]),
             ]),
-            Textarea::make('Текст подписи NewsHub', 'newshub_signature')
+            NewsHubPostTools::make('Подпись NewsHub и предпросмотр', 'newshub_signature')
                 ->onlyOnForms()
-                ->alwaysShow()
                 ->resolveUsing(function ($value) {
                     return $value ?: NewsHubEditorialSignature::DEFAULT_TEMPLATE;
                 })
-                ->help('Для кликабельных ссылок используйте маркеры {telegram}, {instagram}, {android} и {ios}.')
-                ->canSee(function ($request) {
-                    return $request->user()
-                        && ($request->user()->isAdmin() || $request->user()->isModerator());
-                }),
-            Boolean::make('Добавить фирменную подпись NewsHub', 'append_newshub_signature')
-                ->onlyOnForms()
-                ->default(false)
-                ->resolveUsing(function ($value, $model) {
-                    return NewsHubEditorialSignature::containsTranslations(
-                        $model->getTranslations('content'),
-                    );
-                })
+                ->enabled(NewsHubEditorialSignature::containsTranslations(
+                    $this->resource->getTranslations('content'),
+                ))
+                ->defaultTemplate(NewsHubEditorialSignature::DEFAULT_TEMPLATE)
                 ->fillUsing(function (Request $request, $model, $attribute, $requestAttribute) {
-                    $enabled = $request->boolean($requestAttribute);
+                    $enabled = $request->boolean('append_newshub_signature');
                     $model->newshub_signature = $enabled
-                        ? NewsHubEditorialSignature::normalizeTemplate($model->newshub_signature)
+                        ? NewsHubEditorialSignature::normalizeTemplate($request->input($requestAttribute))
                         : null;
 
                     foreach ($model->getTranslations('content') as $locale => $content) {
@@ -190,7 +181,6 @@ class Post extends Resource
                         );
                     }
                 })
-                ->help('Добавляет в конец материала ссылки на Telegram, Instagram, Android и iOS. Повторно подпись не дублируется.')
                 ->canSee(function ($request) {
                     return $request->user()
                         && ($request->user()->isAdmin() || $request->user()->isModerator());

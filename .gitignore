@@ -17,6 +17,7 @@ yarn-error.log
 /.vscode
 /local docs/
 /public/assets/rates_all.xml
+/public/assets/nova-post-tools
 /public/sitemap.xml
 /public/mobile
 /dist/client

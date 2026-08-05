@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "cross-env VITE_APP_ENV=local vite",
     "serve": "NODE_ENV=production node --experimental-modules ./resources/js/server.js",
-    "build": "vite build --ssrManifest --outDir dist/client",
+    "build": "vite build --ssrManifest --outDir dist/client && npm run build:nova-post-tools",
+    "build:nova-post-tools": "vite build --config resources/js/nova-post-tools/vite.config.js",
     "ssr": "cross-env VITE_SSR=1 vite build --ssr resources/js/main-server.js --outDir dist/server",
     "prod": "yarn build && yarn ssr"
   },
@@ -70,6 +71,7 @@
     "regenerator-runtime": "^0.14.1",
     "sweetalert2": "^11.14.0",
     "tiny-emitter": "^2.1.0",
+    "tinymce": "^6.8.6",
     "tippy.js": "^6.3.7",
     "v-calendar": "^3.1.2",
     "v-lazy-image": "^2.1.1",

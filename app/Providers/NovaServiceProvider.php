@@ -50,6 +50,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         parent::boot();
         Nova::style('custom', public_path('assets/css/custom_nova.css'));
+        Nova::script('news-hub-post-tools', public_path('assets/nova-post-tools/field.js'));
+        Nova::style('news-hub-post-tools', public_path('assets/nova-post-tools/field.css'));
     }
 
     /**
