@@ -155,6 +155,10 @@ if [[ "$octane_status" != "404" ]]; then
 fi
 
 curl --fail --silent --show-error --max-time 30 --output /dev/null \
+    --retry 12 \
+    --retry-all-errors \
+    --retry-delay 5 \
+    --retry-max-time 90 \
     https://newshub.kz/
 
 "$SUPERVISORCTL" -c "$SUPERVISOR_CONFIG" status "${SERVICES[@]}"
