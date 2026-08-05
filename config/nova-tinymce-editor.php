@@ -29,7 +29,7 @@ return [
         'browser_spellcheck' => true,
         'relative_urls' => false,
         'convert_urls' => false,
-        'contextmenu' => true,
+        'contextmenu' => 'link image table',
         'images_upload_url' => '/api/v2/upload', // Uncomment this line if you want to enable images upload
     ],
     'plugins' => [

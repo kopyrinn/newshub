@@ -53,8 +53,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         Nova::serving(function (ServingNova $event) {
             Nova::style('custom', public_path('assets/css/custom_nova.css'));
-            Nova::script('news-hub-post-tools-v2', public_path('assets/nova-post-tools/field.js'));
-            Nova::style('news-hub-post-tools-v2', public_path('assets/nova-post-tools/field.css'));
+            Nova::script('news-hub-post-tools-v3', public_path('assets/nova-post-tools/field.js'));
+            Nova::style('news-hub-post-tools-v3', public_path('assets/nova-post-tools/field.css'));
         });
     }
 
