@@ -38,11 +38,7 @@ export default defineConfig({
             fileName: () => 'field.js',
         },
         rollupOptions: {
-            external: ['vue'],
             output: {
-                globals: {
-                    vue: 'Vue',
-                },
                 assetFileNames: 'field.[ext]',
             },
         },
