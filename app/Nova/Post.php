@@ -15,6 +15,7 @@ use Kongulov\NovaTabTranslatable\NovaTabTranslatable;
 use Kongulov\NovaTabTranslatable\TranslatableTabToRowTrait;
 use Laravel\Nova\Fields\BooleanGroup;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Textarea;
 use Murdercode\TinymceEditor\TinymceEditor;
@@ -187,6 +188,19 @@ class Post extends Resource
                     }
                 })
                 ->help('Добавляет в конец материала ссылки на Telegram, Instagram, Android и iOS. Повторно подпись не дублируется.'),
+            Heading::make(<<<'HTML'
+                <div class="nh-post-preview-launcher">
+                    <button type="button" class="nh-post-preview-launcher__button" data-news-hub-post-preview>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M2.1 12s3.6-6 9.9-6 9.9 6 9.9 6-3.6 6-9.9 6-9.9-6-9.9-6Zm9.9 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" fill="currentColor"/>
+                        </svg>
+                        <span>Предпросмотр поста</span>
+                    </button>
+                    <span class="nh-post-preview-launcher__hint">Материал откроется без сохранения</span>
+                </div>
+                HTML, 'newshub_post_preview')
+                ->asHtml()
+                ->onlyOnForms(),
             BooleanGroup::make(__('Categories'), 'selected_categories')
                 ->options(Category::all()->pluck('name', 'id')->toArray())
                 // ->columns(4)

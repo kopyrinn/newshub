@@ -53,6 +53,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         if (App::environment('local')) {
             Nova::remoteScript('https://cdn.jsdelivr.net/npm/tinymce@6.8.6/tinymce.min.js');
         }
+
+        Nova::script('news-hub-post-preview-v1', resource_path('js/nova-post-preview.js'));
+        Nova::style('news-hub-post-preview-v1', resource_path('css/nova-post-preview.css'));
     }
 
     /**
