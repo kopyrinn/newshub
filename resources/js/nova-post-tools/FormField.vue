@@ -11,7 +11,7 @@
             </label>
 
             <div class="nh-post-tools__actions">
-                <button type="button" class="nh-post-tools__button" @click="editorOpen = !editorOpen">
+                <button type="button" class="nh-post-tools__button" @click="toggleEditor">
                     {{ editorOpen ? 'Скрыть редактор' : 'Редактировать подпись' }}
                 </button>
                 <button type="button" class="nh-post-tools__button nh-post-tools__button--primary" @click="openPreview">
@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <div v-if="editorOpen" class="nh-post-tools__editor">
+        <div ref="signatureEditor" class="nh-post-tools__editor" hidden>
             <label for="news-hub-signature-template">Текст подписи</label>
             <textarea id="news-hub-signature-template" v-model="template" rows="4" maxlength="1000"></textarea>
             <div class="nh-post-tools__hint">
@@ -133,6 +133,14 @@ export default {
 
         resetTemplate() {
             this.template = this.field.defaultTemplate || ''
+        },
+
+        toggleEditor() {
+            this.editorOpen = !this.editorOpen
+
+            if (this.$refs.signatureEditor) {
+                this.$refs.signatureEditor.hidden = !this.editorOpen
+            }
         },
 
         visibleElement(selector) {
