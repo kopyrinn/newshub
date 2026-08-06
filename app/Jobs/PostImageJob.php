@@ -26,6 +26,7 @@ class PostImageJob implements ShouldQueue
     public function __construct(Post $post)
     {
         $this->post = $post;
+        $this->onConnection('redis');
     }
 
     /**
