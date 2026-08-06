@@ -139,6 +139,9 @@ php artisan migrate --path=database/migrations/2026_08_01_120100_force_remove_ob
 log "Adding storage for the optional NewsHub editorial signature."
 php artisan migrate --path=database/migrations/2026_08_05_180000_add_newshub_signature_to_posts_table.php --force
 
+log "Running the transactional Nova signature smoke test."
+php ops/smoke-production-nova-post-save.php
+
 log "Starting managed application processes."
 "$SUPERVISORCTL" -c "$SUPERVISOR_CONFIG" start "${SERVICES[@]}"
 services_stopped=0
