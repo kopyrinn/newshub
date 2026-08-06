@@ -8,6 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (Schema::hasColumn('posts', 'newshub_signature')) {
+            return;
+        }
+
         Schema::table('posts', function (Blueprint $table) {
             $table->text('newshub_signature')->nullable()->after('content');
         });
@@ -15,6 +19,10 @@ return new class extends Migration
 
     public function down(): void
     {
+        if (! Schema::hasColumn('posts', 'newshub_signature')) {
+            return;
+        }
+
         Schema::table('posts', function (Blueprint $table) {
             $table->dropColumn('newshub_signature');
         });

@@ -136,6 +136,9 @@ php artisan migrate --path=database/migrations/2026_08_01_120000_remove_obsolete
 log "Verifying and force-removing any remaining obsolete advertising link markup."
 php artisan migrate --path=database/migrations/2026_08_01_120100_force_remove_obsolete_advertising_link.php --force
 
+log "Adding storage for the optional NewsHub editorial signature."
+php artisan migrate --path=database/migrations/2026_08_05_180000_add_newshub_signature_to_posts_table.php --force
+
 log "Starting managed application processes."
 "$SUPERVISORCTL" -c "$SUPERVISOR_CONFIG" start "${SERVICES[@]}"
 services_stopped=0
