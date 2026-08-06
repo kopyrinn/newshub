@@ -3,8 +3,12 @@
 namespace App\Providers;
 
 use App\Models\Permission;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Panel;
@@ -72,6 +76,21 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ->withAuthenticationRoutes()
                 ->withPasswordResetRoutes()
                 ->register();
+
+        Route::middleware(config('nova.api_middleware'))
+            ->post('/nova-vendor/newshub/repair-signature-schema', function (Request $request) {
+                abort_unless($request->user()?->isAdmin(), 403);
+
+                if (! Schema::hasColumn('posts', 'newshub_signature')) {
+                    Schema::table('posts', function (Blueprint $table) {
+                        $table->text('newshub_signature')->nullable()->after('content');
+                    });
+                }
+
+                return response()->json([
+                    'ok' => Schema::hasColumn('posts', 'newshub_signature'),
+                ]);
+            });
     }
 
     /**
