@@ -29,14 +29,12 @@ class CategoryController extends Controller
         $category = Category::select('id')->where('slug', $request->slug)->first();
         abort_if(!$category, 404);
     
-        if ($request->from != 'index' || $request->slug != 'news') {
-            $query->whereExists((function($query) use ($category) {
-                $query->select(\DB::raw(1))
-                    ->from('category_post')
-                    ->whereColumn('category_post.post_id', 'posts.id')
-                    ->where('category_post.category_id', $category->id);
-            }));
-        }
+        $query->whereExists((function($query) use ($category) {
+            $query->select(\DB::raw(1))
+                ->from('category_post')
+                ->whereColumn('category_post.post_id', 'posts.id')
+                ->where('category_post.category_id', $category->id);
+        }));
 
         if ($request->rubric) {
             $rubric = Rubric::select('id')->where('slug', $request->rubric)->first();

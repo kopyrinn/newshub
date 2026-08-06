@@ -12,7 +12,7 @@
                         @on-intersection-element="fetchData"
                     ></intersection-observer>
 
-                    <Card :item="item" :is="item.uuid"/>
+                    <Card :item="item" :is="item.uuid" :event-layout="slug === 'sobitiya'"/>
 
                     <RecommendedVacancies v-if="index === 1"/>
                     <RecommendedPosts v-if="index === 3 && $root.config.lastEvents.length" :items="$root.config.lastEvents" :title="$t('Events')"  :isEvent="true"/>

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="$route.name === 'category' && item.categoriesSlugs?.length && item.categoriesSlugs.includes('sobitiya')" class="card card-flush overflow-hidden mb-6" data-testid="event-card">
+    <div v-if="eventLayout" class="card card-flush overflow-hidden mb-6" data-testid="event-card">
         <div class="card-body p-5 p-md-7">
             <app-link :to="{name: 'post', params: {slug: item.slug}}" class="fs-2 fs-md-1 fw-bold text-gray-900 text-hover-primary d-block mb-5">
                 {{ item.title }}
@@ -110,7 +110,11 @@ export default defineComponent({
         item: {
             type: Object,
             required: true,
-        }
+        },
+        eventLayout: {
+            type: Boolean,
+            default: false,
+        },
     },
     created() {
         // console.log(this.$route.name)

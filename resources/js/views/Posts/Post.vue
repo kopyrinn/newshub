@@ -124,10 +124,6 @@
                             </div>
 
                             <AppDownloadBadges/>
-
-                            <div class="fs-6 fw-semibold text-center text-muted">
-                                {{ $t('Error in the text? Please let us know. Highlight the error and press Ctrl + Enter') }}
-                            </div>
                         </div>
                     </div>
 
@@ -260,10 +256,6 @@
                             </div>
 
                             <AppDownloadBadges/>
-
-                            <div class="fs-6 fw-semibold text-center text-muted">
-                                {{ $t('Error in the text? Please let us know. Highlight the error and press Ctrl + Enter') }}
-                            </div>
                         </div>
                     </div>
 
