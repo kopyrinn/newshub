@@ -36,6 +36,16 @@ class CategoryController extends Controller
                 ->where('category_post.category_id', $category->id);
         }));
 
+        if ($request->slug === 'news') {
+            $query->whereNotExists(function($query) {
+                $query->select(\DB::raw(1))
+                    ->from('category_post as event_category_post')
+                    ->join('categories as event_categories', 'event_categories.id', '=', 'event_category_post.category_id')
+                    ->whereColumn('event_category_post.post_id', 'posts.id')
+                    ->where('event_categories.slug', 'sobitiya');
+            });
+        }
+
         if ($request->rubric) {
             $rubric = Rubric::select('id')->where('slug', $request->rubric)->first();
             abort_if(!$rubric, 404);
