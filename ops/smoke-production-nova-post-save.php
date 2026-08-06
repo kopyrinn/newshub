@@ -8,6 +8,7 @@ use Illuminate\Routing\Route;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Artisan;
 use Laravel\Nova\Http\Controllers\ResourceStoreController;
 use Laravel\Nova\Http\Requests\CreateResourceRequest;
 use Laravel\Nova\Nova;
@@ -16,6 +17,12 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $app = require __DIR__ . '/../bootstrap/app.php';
 $app->make(Kernel::class)->bootstrap();
+
+Artisan::call('migrate', [
+    '--path' => 'database/migrations/2026_08_06_083000_ensure_newshub_signature_on_posts_table.php',
+    '--force' => true,
+    '--no-interaction' => true,
+]);
 
 if (function_exists('pcntl_async_signals')) {
     pcntl_async_signals(true);
