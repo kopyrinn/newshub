@@ -33,6 +33,12 @@ class PostImageJob implements ShouldQueue
      */
     public function handle(): void
     {
+        $disk = Storage::disk('public');
+
+        if (! $this->post->image || ! $disk->exists($this->post->image)) {
+            return;
+        }
+
         $hasPreviews = $this->post->getRawOriginal('image_md') && $this->post->getRawOriginal('image_sm') && $this->post->getRawOriginal('image_blur');
 
         if (
@@ -58,9 +64,6 @@ class PostImageJob implements ShouldQueue
             return;
         }
 
-        if (!Storage::disk('public')->exists($this->post->image)) return;
-
-
         // if (\Str::endsWith($this->post->image, '.webp')) {
         //     ImageOptimizer::optimize(Storage::disk('public')->path($this->post->image));
         // }
@@ -81,7 +84,9 @@ class PostImageJob implements ShouldQueue
         $images = [];
 
         foreach ($sizes as $group => $dimension) {
-            $path = Storage::disk('public')->path("img/{$group}");
+            $directory = "img/{$group}";
+            $disk->makeDirectory($directory);
+            $path = $disk->path($directory);
 
             if ($w <= $dimension) {
                 $images[$group] = $this->post->image;
@@ -108,7 +113,8 @@ class PostImageJob implements ShouldQueue
 
         $resize = $manager->make(Storage::disk('public')->path($this->post->image));
         $resize->orientate();
-        $path = Storage::disk('public')->path("img/fit");
+        $disk->makeDirectory('img/fit');
+        $path = $disk->path('img/fit');
         $resize->fit($dimension);
         $resize->save("{$path}/{$name}", 95);
         // ImageOptimizer::optimize("{$path}/{$name}");

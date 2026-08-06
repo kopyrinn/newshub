@@ -46,7 +46,9 @@ class AdminNotice extends Notification implements ShouldQueue
      */
     public function shouldSend($notifiable, $channel)
     {
-        return $this->post->status == 0 && !in_array($this->post->user->roles()->pluck('slug'), ['moderator', 'admin']);
+        return $this->post->status == 0
+            && $this->post->user
+            && ! $this->post->user->roles()->whereIn('slug', ['moderator', 'admin'])->exists();
     }
 
     public function toTelegram($notifiable)

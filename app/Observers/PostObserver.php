@@ -59,7 +59,11 @@ class PostObserver
                 $post->image !== $post->getRawOriginal('image_sm') ||
                 $post->image !== $post->getRawOriginal('image_blur')
             ) {
-                PostImageJob::dispatch($post);
+                try {
+                    PostImageJob::dispatch($post);
+                } catch (\Throwable $exception) {
+                    report($exception);
+                }
             }
         }
     }
@@ -113,9 +117,17 @@ class PostObserver
             $post->update();
         }
 
-        $post->notify(new AdminNotice($post));
+        try {
+            $post->notify(new AdminNotice($post));
+        } catch (\Throwable $exception) {
+            report($exception);
+        }
 
-        PostImageJob::dispatch($post);
+        try {
+            PostImageJob::dispatch($post);
+        } catch (\Throwable $exception) {
+            report($exception);
+        }
 
         // if ($post->created_at <= Carbon::now() && $post->status == 1) {
         //     $post->notify(new ChannelNotification($post));
