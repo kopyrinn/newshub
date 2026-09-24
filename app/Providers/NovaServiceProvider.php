@@ -10,6 +10,7 @@ use Laravel\Nova\Nova;
 use Laravel\Nova\Panel;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Image;
 use Oneduo\NovaFileManager\NovaFileManager;
@@ -27,6 +28,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             Panel::make('Основные', [
                 Text::make('Заголовок', 'title'),
                 Text::make('Описание', 'description'),
+                Boolean::make('Траурный режим (чёрно-белый сайт)', 'mourning_mode')
+                    ->default(false)
+                    ->help('Включает чёрно-белое отображение сайта для всех посетителей. После сохранения открытые страницы обновятся автоматически примерно за минуту.'),
             ]),
             Panel::make('Цены', [
                 Number::make('Стоимость публикации вакансии', 'vacancy_price')->step(0.01),

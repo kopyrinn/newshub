@@ -19,6 +19,7 @@ export const store = createStore({
       platform: false,
       ref: '',
       config: {
+        mourning_mode: false,
         categories: [],
         users: [],
         postSlides: [],

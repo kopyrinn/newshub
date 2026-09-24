@@ -620,6 +620,12 @@ export default defineComponent({
     head() {
         return {
             title: this.$root.meta.title,
+            // Filter the document root so fixed menus and teleported dialogs
+            // keep their positioning. Unhead also includes this in SSR output.
+            style: this.config?.mourning_mode ? [{
+                key: 'mourning-mode',
+                innerHTML: 'html { -webkit-filter: grayscale(1); filter: grayscale(1); }',
+            }] : [],
             meta: [
                 {name: 'og:type', content: 'website'},
                 {name: 'og:title', content: this.$root.meta.title},

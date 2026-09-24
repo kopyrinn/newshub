@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Laravel\Octane\Facades\Octane;
+use Outl1ne\NovaSettings\NovaSettings;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -173,10 +174,18 @@ class AppServiceProvider extends ServiceProvider
                 ];
             }
 
+            // Read the current value directly: Nova's in-process settings cache
+            // can remain stale in long-running Octane workers.
+            $mourningMode = filter_var(
+                NovaSettings::getSettingsModel()::getValueForKey('mourning_mode'),
+                FILTER_VALIDATE_BOOLEAN
+            );
+
             foreach (['ru', 'kk', 'en'] as $locale) {
                 App::setLocale($locale);
 
                 Cache::set("hubconfig:{$locale}", [
+                    'mourning_mode' => $mourningMode,
                     'rubrics' => $rubrics->toArray(),
                     'categories' => $categories->toArray(),
                     'users' => $userCategories->toArray(),
