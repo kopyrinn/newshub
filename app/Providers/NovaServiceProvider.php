@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Permission;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Nova;
@@ -55,11 +54,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         parent::boot();
 
-        if (App::environment('local')) {
-            Nova::remoteScript('https://cdn.jsdelivr.net/npm/tinymce@6.8.6/tinymce.min.js');
-        }
-
         Nova::serving(function (ServingNova $event) {
+            // Load the bundled community editor before Nova mounts its fields.
+            // Otherwise the Vue integration falls back to metered Tiny Cloud.
+            Nova::script('news-hub-tinymce-6-v1', public_path('assets/nova-post-tools/field.js'));
             Nova::script('news-hub-post-preview-v1', resource_path('js/nova-post-preview.js'));
             Nova::style('news-hub-post-preview-v1', resource_path('css/nova-post-preview.css'));
         });

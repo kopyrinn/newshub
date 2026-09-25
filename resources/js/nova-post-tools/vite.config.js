@@ -12,6 +12,10 @@ export default defineConfig({
         viteStaticCopy({
             targets: [
                 {
+                    src: 'node_modules/tinymce/license.txt',
+                    dest: '.',
+                },
+                {
                     src: 'node_modules/tinymce/skins/ui/oxide',
                     dest: 'skins/ui',
                 },
