@@ -120,7 +120,7 @@
                                     </template>
                                 </Popper>
                             </div>
-                            <div class="app-navbar-item align-items-stretch ms-1 ms-md-3">
+                            <div v-if="!isMourning" class="app-navbar-item align-items-stretch ms-1 ms-md-3">
                                 <button @click="toggleDarkMode" type="button" class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px">
                                     <i class="ki-duotone ki-night-day theme-light-show fs-2 fs-lg-1"><i class="path1"></i><i class="path2"></i><i class="path3"></i><i class="path4"></i><i class="path5"></i><i class="path6"></i><i class="path7"></i><i class="path8"></i><i class="path9"></i><i class="path10"></i></i>
                                     <i class="ki-duotone ki-moon theme-dark-show fs-2 fs-lg-1"><i class="path1"></i><i class="path2"></i></i>
@@ -620,9 +620,12 @@ export default defineComponent({
     head() {
         return {
             title: this.$root.meta.title,
+            htmlAttrs: {
+                'data-bs-theme': this.isDark ? 'dark' : 'light',
+            },
             // Filter the document root so fixed menus and teleported dialogs
             // keep their positioning. Unhead also includes this in SSR output.
-            style: this.config?.mourning_mode ? [{
+            style: this.isMourning ? [{
                 key: 'mourning-mode',
                 innerHTML: 'html { -webkit-filter: grayscale(1); filter: grayscale(1); }',
             }] : [],
@@ -787,7 +790,12 @@ export default defineComponent({
         feeds() {
             return this.$store.getters.getFeeds
         },
+        isMourning() {
+            return this.config?.mourning_mode === true
+        },
         isDark() {
+            if (this.isMourning) return true
+
             if (!import.meta.env.SSR) {
                 if (this.theme == 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                     return true
@@ -1063,6 +1071,8 @@ export default defineComponent({
             }
         },
         setTheme(theme) {
+            if (this.isMourning) return
+
             if (!import.meta.env.SSR) {
                 this.$store.commit('setTheme', theme)
 
@@ -1075,6 +1085,8 @@ export default defineComponent({
             }
         },
         toggleDarkMode() {
+            if (this.isMourning) return
+
             if (!import.meta.env.SSR) {
                 let theme = this.theme
 

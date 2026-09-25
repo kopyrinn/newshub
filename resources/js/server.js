@@ -8,6 +8,7 @@ import { createServer } from 'vite'
 
 // Express
 import express from 'express'
+import axios from 'axios'
 
 // eslint-disable-next-line no-undef
 const isProd = process.env.NODE_ENV === 'production'
@@ -84,7 +85,20 @@ async function start() {
             let route = locale == 'ru'? url.slice(1): url.slice(4)
 
             if (route.startsWith('feed') || route.startsWith('user/') || route.endsWith('journalists') || route.endsWith('login') || route.startsWith('verify')) {
-                const html = template.replace(`{LOCALE}`, locale)
+                // Client-rendered pages need the same initial setting as SSR
+                // pages, before the saved personal theme is applied.
+                const { data: config } = await axios.get('http://127.0.0.1:8002/api/v2/config', {
+                    headers: { Locale: locale },
+                    timeout: 5000,
+                }).catch(() => ({ data: null }))
+
+                const stateHtml = config
+                    ? `<script>window.INITIAL_DATA = ${JSON.stringify({ config }).replace(/</g, '\\u003c')}</script>`
+                    : ''
+                const html = template
+                    .replace(`{LOCALE}`, locale)
+                    .replace('<!--store-state-->', stateHtml)
+                    .replace('<html ', config?.mourning_mode === true ? '<html data-bs-theme="dark" ' : '<html ')
                 return res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
             }
 
@@ -93,6 +107,10 @@ async function start() {
             Object.entries(headPayload).forEach(([key, value]) => {
                 template = template.replace(`<!--${key}-->`, value)
             })
+
+            if (headPayload.htmlAttrs) {
+                template = template.replace('<html ', `<html ${headPayload.htmlAttrs} `)
+            }
 
             const html = template
                 .replace(`<!--preload-links-->`, preloadLinks)

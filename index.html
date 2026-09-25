@@ -51,7 +51,9 @@
                 var defaultThemeMode = "system";
                 var themeMode;
                 if (document.documentElement) {
-                    if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+                    if (window.INITIAL_DATA && window.INITIAL_DATA.config && window.INITIAL_DATA.config.mourning_mode === true) {
+                        themeMode = "dark";
+                    } else if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
                         themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
                     } else {
                         if (localStorage.getItem("data-bs-theme") !== null) {
